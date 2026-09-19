@@ -42,7 +42,7 @@ const GROWTH_PRESETS = new Set([
 ]);
 
 const DOMAIN_LABELS: Record<string, string> = {
-  growth: "获客增长", content: "内容与视频", hotel: "酒店运营", geo: "GEO 与数据", other: "其他",
+  growth: "获客增长", content: "内容与视频", hotel: "酒店运营", geo: "GEO 与数据", other: "系统与人工",
 };
 
 function domainOf(presetKey: string | null | undefined, bundle: string | null | undefined): string {
@@ -55,21 +55,19 @@ function domainOf(presetKey: string | null | undefined, bundle: string | null | 
 
 /** 对象读模型：某对象最新一条事件（当前状态 + 版本号 + 最后修改人） */
 export async function objectState(workspaceId: string, objectType: string, objectId: string): Promise<ObjectState | null> {
-  const rows = await svcQuery<EventRow>(workspaceId,
-    `SELECT event_id, created_at, payload FROM biz_events
+  const rows = await svcQuery<EventRow & { version?: unknown }>(workspaceId,
+    `SELECT event_id, created_at, payload,
+            count(*) OVER (PARTITION BY payload->'object'->>'type', payload->'object'->>'id') AS version
+       FROM biz_events
       WHERE workspace_id=$1 AND payload->'object'->>'type'=$2 AND payload->'object'->>'id'=$3
       ORDER BY seq DESC LIMIT 1`,
     [workspaceId, objectType, objectId]);
   const row = rows[0];
   if (!row) return null;
-  const versionRows = await svcQuery<Record<string, unknown>>(workspaceId,
-    `SELECT count(*)::text AS n FROM biz_events
-      WHERE workspace_id=$1 AND payload->'object'->>'type'=$2 AND payload->'object'->>'id'=$3`,
-    [workspaceId, objectType, objectId]);
   return {
     objectType,
     objectId,
-    version: Number(versionRows[0]?.n ?? 1),
+    version: Number(row.version ?? 1),
     state: (row.payload?.decision?.after ?? {}) as Record<string, unknown>,
     owner: row.payload?.who?.id ?? null,
     updatedAt: iso(row.created_at),
@@ -77,21 +75,23 @@ export async function objectState(workspaceId: string, objectType: string, objec
   };
 }
 
-/** 最近变更流：每个对象最新一条事件，按时间倒序 */
+/** 最近变更流：每个对象最新一条事件，按时间倒序（近 30 天窗口，防全表扫描） */
 export async function objectChanges(workspaceId: string, limit = 20): Promise<ObjectState[]> {
-  const rows = await svcQuery<EventRow>(workspaceId,
-    `SELECT event_id, created_at, payload FROM (
+  const rows = await svcQuery<EventRow & { version?: unknown }>(workspaceId,
+    `SELECT event_id, created_at, payload, version FROM (
        SELECT DISTINCT ON (payload->'object'->>'type', payload->'object'->>'id')
          event_id, created_at, payload, seq
+         , count(*) OVER (PARTITION BY payload->'object'->>'type', payload->'object'->>'id') AS version
        FROM biz_events
        WHERE workspace_id=$1 AND payload->'object'->>'id' IS NOT NULL
+         AND created_at > now() - interval '30 days'
        ORDER BY payload->'object'->>'type', payload->'object'->>'id', seq DESC
      ) latest ORDER BY created_at DESC LIMIT $2`,
     [workspaceId, limit]);
   return rows.map((row) => ({
     objectType: str(row.payload?.object?.type),
     objectId: str(row.payload?.object?.id),
-    version: 1,
+    version: Number(row.version ?? 1),
     state: (row.payload?.decision?.after ?? {}) as Record<string, unknown>,
     owner: row.payload?.who?.id ?? null,
     updatedAt: iso(row.created_at),
@@ -108,7 +108,7 @@ async function contractEvents(workspaceId: string, contractId?: string): Promise
     where += ` AND payload->'object'->>'id'=$2`;
   }
   return svcQuery<EventRow>(workspaceId,
-    `SELECT event_id, created_at, payload FROM biz_events WHERE ${where} ORDER BY seq ASC`, params);
+    `SELECT event_id, created_at, payload FROM biz_events WHERE ${where} ORDER BY seq ASC LIMIT 5000`, params);
 }
 
 function toContract(events: EventRow[]): TaskContract | null {
@@ -138,7 +138,10 @@ export async function listContracts(workspaceId: string): Promise<TaskContract[]
     list.push(row);
     byId.set(id, list);
   }
-  return [...byId.values()].map((events) => toContract(events)).filter((c): c is TaskContract => c !== null);
+  return [...byId.values()]
+    .map((events) => toContract(events))
+    .filter((c): c is TaskContract => c !== null)
+    .sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt));
 }
 
 export async function getContract(workspaceId: string, contractId: string): Promise<TaskContract | null> {
@@ -148,7 +151,8 @@ export async function getContract(workspaceId: string, contractId: string): Prom
 export interface CreateContractInput {
   title: string;
   goal: string;
-  requester: string;
+  /** 兼容字段：契约发起人一律以 actor.id 落账，客户端传入值不采信（防冒名） */
+  requester?: string;
   assigneePreset: string;
   verifierPreset: string;
   successCriteria: string[];
@@ -162,7 +166,7 @@ export async function createContract(workspaceId: string, actor: Actor, input: C
   const id = newId("CT");
   const at = new Date().toISOString();
   const contract = TaskContractSchema.parse({
-    id, ...input, budgetAmount: input.budgetAmount ?? 0, currency: input.currency ?? "CNY",
+    id, ...input, requester: actor.id, budgetAmount: input.budgetAmount ?? 0, currency: input.currency ?? "CNY",
     deadline: input.deadline ?? null, status: "draft", createdAt: at, updatedAt: at,
   });
   await serviceTx(workspaceId, async (client, scope) => {
@@ -214,14 +218,19 @@ export async function recordReceipt(workspaceId: string, actor: Actor, input: Re
 }
 
 export async function listReceipts(workspaceId: string, contractId?: string): Promise<HandoffReceipt[]> {
+  const params: unknown[] = [workspaceId];
+  let where = `workspace_id=$1 AND payload->'decision'->>'action'='receipt.record'`;
+  if (contractId) {
+    params.push(contractId);
+    where += ` AND payload->'decision'->'after'->>'contractId'=$2`;
+  }
   const rows = await svcQuery<EventRow>(workspaceId,
     `SELECT event_id, created_at, payload FROM biz_events
-      WHERE workspace_id=$1 AND payload->'decision'->>'action'='receipt.record'
+      WHERE ${where}
       ORDER BY seq DESC LIMIT 200`,
-    [workspaceId]);
+    params);
   return rows
-    .map((row) => HandoffReceiptSchema.parse({ ...(row.payload?.decision?.after ?? {}), createdAt: iso(row.created_at) }))
-    .filter((r) => !contractId || r.contractId === contractId);
+    .map((row) => HandoffReceiptSchema.parse({ ...(row.payload?.decision?.after ?? {}), createdAt: iso(row.created_at) }));
 }
 
 /** 决策信箱批次化：待批审批按 tier/截止/风险排序，默认 ≤7 件，超出进 overflow */
@@ -231,8 +240,11 @@ export async function decisionPacket(workspaceId: string, quota = 7): Promise<De
             e.payload->'decision'->>'action' AS action,
             e.payload->'object'->>'type' AS object_type,
             e.payload->'object'->>'id' AS object_id
-       FROM approvals a LEFT JOIN biz_events e ON e.event_id=a.event_id
+      FROM approvals a LEFT JOIN biz_events e ON e.event_id=a.event_id
       WHERE a.workspace_id=$1 AND a.status='pending'
+        AND a.approval_id NOT LIKE 'apr-suite-%'
+        AND COALESCE(e.payload->'decision'->>'action','') NOT LIKE 'suite.%'
+        AND COALESCE(e.payload->'decision'->>'action','') NOT LIKE 'test.%'
       ORDER BY a.created_at ASC`,
     [workspaceId]);
   const rank: Record<DecisionTier, number> = { l4_chairman: 3, l3_fleet: 2, l2_captain: 1 };
@@ -276,6 +288,7 @@ export async function portfolioSummary(workspaceId: string): Promise<PortfolioSu
                    WHERE r->>'result'='blocked') AS red
        FROM biz_events
       WHERE workspace_id=$1 AND created_at > now() - interval '7 days'
+      ORDER BY seq DESC
       LIMIT 5000`,
     [workspaceId]);
   const actions = new Map<string, number>();

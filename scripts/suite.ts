@@ -2771,6 +2771,24 @@ h2("协作·任务契约全链路 create→settle + 交接回执", async () => {
   );
   assert((list.data.result?.data?.length ?? 0) >= 1, "回执可回读");
 });
+h2("协作·readonly 写契约/推进/回执 → 403（API 层强制，审计回归）", async () => {
+  const created = await api<{ error?: { data?: { httpStatus?: number } } }>("/trpc/collaboration.contracts.create", {
+    method: "POST", token: tokenReadonly,
+    body: {
+      title: `RO 契约 ${SFX}`, goal: "只读越权测试", assigneePreset: "growth-experimenter",
+      verifierPreset: "review-analyst", successCriteria: ["x"], mode: "m4_contract",
+    },
+  });
+  eq(created.data.error?.data?.httpStatus, 403, "readonly 建契约 403");
+  const adv = await api<{ error?: { data?: { httpStatus?: number } } }>("/trpc/collaboration.contracts.advance", {
+    method: "POST", token: tokenReadonly, body: { id: "CT-ro-probe", action: "offer" },
+  });
+  eq(adv.data.error?.data?.httpStatus, 403, "readonly 推进契约 403");
+  const rc = await api<{ error?: { data?: { httpStatus?: number } } }>("/trpc/collaboration.receipts.record", {
+    method: "POST", token: tokenReadonly, body: { contractId: "CT-ro-probe", from: "a", to: "b", summary: "x" },
+  });
+  eq(rc.data.error?.data?.httpStatus, 403, "readonly 记回执 403");
+});
 
 
 /* ================= R 域 · 数字CEO（D21） ================= */

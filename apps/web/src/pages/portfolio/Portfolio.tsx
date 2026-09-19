@@ -27,6 +27,14 @@ const STATUS_TEXT: Record<string, string> = {
   delivered: "已交付", verified: "已验收", settled: "已结清", cancelled: "已取消",
 };
 
+/** 截止时间展示：本地可读格式；空值/非法值不渲染（不出现裸 ISO 串） */
+function formatDeadline(value: string | null): string {
+  if (!value) return "";
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return "";
+  return ` · 截止 ${d.toLocaleString("zh-CN", { hour12: false, month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })}`;
+}
+
 export default function Portfolio() {
   const [data, setData] = useState<NarrativeData | null>(null);
   const [contracts, setContracts] = useState<ContractRow[]>([]);
@@ -62,7 +70,7 @@ export default function Portfolio() {
   const totals = data?.portfolio.totals;
   return (
     <div className="mx-auto max-w-5xl space-y-4 px-4 py-6">
-      <header className="flex items-center justify-between gap-3">
+      <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-h1 font-black text-ink">组合看板</h1>
           <p className="mt-1 text-body text-ink3">按结果组合看整支舰队：域健康、待董事长拍板（≤{data?.packet.quota ?? 7} 件/日）、任务契约。</p>
@@ -110,7 +118,7 @@ export default function Portfolio() {
               <li key={item.id} className="flex items-center justify-between gap-3 py-2">
                 <div className="min-w-0">
                   <div className="truncate text-body text-ink">{item.title}</div>
-                  <div className="text-body text-ink3">{TIER_TEXT[item.tier]}{item.deadline ? ` · 截止 ${item.deadline}` : ""}</div>
+                  <div className="text-body text-ink3">{TIER_TEXT[item.tier]}{formatDeadline(item.deadline)}</div>
                 </div>
                 <span className="shrink-0 rounded border border-gline px-2 py-0.5 text-body text-ink2">风险 {item.risk}</span>
               </li>

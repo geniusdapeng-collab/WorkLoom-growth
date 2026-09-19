@@ -35,6 +35,17 @@ describe("任务契约状态机", () => {
     expect(s).toBe("accepted");
     expect(reduceContractStatus([])).toBeNull();
   });
+
+  it("审计加固：伪造的 after.status 不能跳过状态机（offer 声明 settled 仍为 offered；draft 直接 settle 无效）", () => {
+    expect(reduceContractStatus([
+      { action: "contract.create" },
+      { action: "contract.offer", after: { status: "settled" } },
+    ])).toBe("offered");
+    expect(reduceContractStatus([
+      { action: "contract.create" },
+      { action: "contract.settle" },
+    ])).toBe("draft");
+  });
 });
 
 describe("决策信箱 ≤7 配额", () => {
@@ -66,6 +77,16 @@ describe("决策信箱 ≤7 配额", () => {
   it("配额必须为正整数", () => {
     expect(() => buildDecisionPacket([], 0)).toThrow(/配额/);
     expect(() => buildDecisionPacket([], 1.5)).toThrow(/配额/);
+  });
+
+  it("非法截止时间不破坏排序稳定性（排到最后，且其余顺序不变）", () => {
+    const items = [
+      item("bad", "l4_chairman", 5, "not-a-date", "2026-09-19T00:00:00Z"),
+      item("ok1", "l4_chairman", 5, "2026-09-19T09:00:00Z", "2026-09-19T00:00:01Z"),
+      item("ok2", "l4_chairman", 5, "2026-09-19T10:00:00Z", "2026-09-19T00:00:02Z"),
+    ];
+    const p = buildDecisionPacket(items, 7);
+    expect(p.items.map((x) => x.id)).toEqual(["ok1", "ok2", "bad"]);
   });
 });
 

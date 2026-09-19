@@ -107,7 +107,18 @@ export function LoomMate() {
     try { const v = localStorage.getItem("loommate.pos"); return v ? JSON.parse(v) as { x: number; y: number } : null; } catch { return null; }
   });
   const [hidden, setHidden] = useState(() => { try { return localStorage.getItem("loommate.hidden") === "1"; } catch { return false; } });
-  const [mini, setMini] = useState(() => { try { return localStorage.getItem("loommate.mini") === "1"; } catch { return false; } });
+  /**
+   * 浮层响应式（真机审计修复）：无本机偏好时，窄屏（≤820px，与 AI 助手同断点）默认收起为小球，
+   * 避免大尺寸形象压住页面内容；用户显式展开/收起后按本机偏好持久化。
+   */
+  const [mini, setMini] = useState(() => {
+    try {
+      const stored = localStorage.getItem("loommate.mini");
+      if (stored === "1") return true;
+      if (stored === "0") return false;
+    } catch { /* 本机偏好不可写时按视口判断 */ }
+    return window.matchMedia("(max-width: 820px)").matches;
+  });
   const dragRef = useRef<{ startX: number; startY: number; baseX: number; baseY: number; moved: boolean } | null>(null);
   const persistLocal = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch { /* ignore */ } };
   const availableWidth = Math.max(96, viewport.width - railW - navW - 32);
@@ -195,6 +206,14 @@ export function LoomMate() {
   }, [personaName]);
 
   useEffect(() => { void load(); }, [load]);
+
+  /** 视口跨入窄屏断点时自动收起为小球（跨出时不自动展开，尊重用户当前选择） */
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 820px)");
+    const onChange = (event: MediaQueryListEvent) => { if (event.matches) setMini(true); };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   useEffect(() => {
     const keepVisible = () => {

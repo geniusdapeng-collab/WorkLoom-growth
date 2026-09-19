@@ -33,6 +33,10 @@ export interface ContractEventLike {
 /**
  * 由事件流归约契约当前状态（事件溯源读模型）。
  * 只认 contract.* 动作；无事件返回 null（契约不存在）。
+ *
+ * 审计加固：**不信任事件里声明的 after.status**。状态只能由合法迁移推进；
+ * 声明值与迁移结果一致时才采纳（兼容历史写法），不一致时以迁移结果为准——
+ * 防止伪造/错写的事件把契约直接"跳"到 settled。
  */
 export function reduceContractStatus(events: readonly ContractEventLike[]): ContractStatus | null {
   let status: ContractStatus | null = null;
@@ -44,13 +48,13 @@ export function reduceContractStatus(events: readonly ContractEventLike[]): Cont
     }
     if (!(CONTRACT_ACTIONS as readonly string[]).includes(action)) continue;
     const declared = ev.after?.status;
-    if (declared && (CONTRACT_STATUSES as readonly string[]).includes(declared)) {
-      status = declared as ContractStatus;
-      continue;
-    }
     if (status) {
       const next = advanceContractStatus(status, action as ContractAction);
-      if (next.ok) status = next.status;
+      if (next.ok) {
+        status = declared === next.status && (CONTRACT_STATUSES as readonly string[]).includes(declared)
+          ? declared as ContractStatus
+          : next.status;
+      }
     }
   }
   return status;

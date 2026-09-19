@@ -3,7 +3,7 @@
  * 纪律：全部走 RLS 上下文（service 层）；写动作落五元事件（contract.* / receipt.record）。
  */
 import { z } from "zod";
-import { protectedProcedure, router, scopeOf } from "./context.js";
+import { protectedProcedure, router, scopeOf, writeProcedure } from "./context.js";
 import {
   advanceContract, createContract, decisionPacket, fleetNarrative, getContract,
   listContracts, listReceipts, objectChanges, objectState, portfolioSummary, recordReceipt,
@@ -27,11 +27,10 @@ export const collaborationRouter = router({
     get: protectedProcedure
       .input(z.object({ id: z.string().trim().min(1).max(120) }))
       .query(async ({ ctx, input }) => getContract(scopeOf(ctx.identity).workspaceId, input.id)),
-    create: protectedProcedure
+    create: writeProcedure
       .input(z.object({
         title: z.string().trim().min(1).max(200),
         goal: z.string().trim().min(1).max(2000),
-        requester: z.string().trim().min(1).max(120),
         assigneePreset: z.string().trim().min(1).max(120),
         verifierPreset: z.string().trim().min(1).max(120),
         successCriteria: z.array(z.string().trim().min(1).max(300)).min(1).max(20),
@@ -41,7 +40,7 @@ export const collaborationRouter = router({
         mode: z.enum(["m1_single", "m2_pipeline", "m3_blackboard", "m4_contract", "m5_campaign"]),
       }))
       .mutation(async ({ ctx, input }) => createContract(scopeOf(ctx.identity).workspaceId, actorOf(ctx), input)),
-    advance: protectedProcedure
+    advance: writeProcedure
       .input(z.object({
         id: z.string().trim().min(1).max(120),
         action: z.enum(["offer", "accept", "start", "deliver", "verify", "settle", "cancel"]),
@@ -49,7 +48,7 @@ export const collaborationRouter = router({
       .mutation(async ({ ctx, input }) => advanceContract(scopeOf(ctx.identity).workspaceId, actorOf(ctx), input.id, input.action)),
   }),
   receipts: router({
-    record: protectedProcedure
+    record: writeProcedure
       .input(z.object({
         contractId: z.string().trim().min(1).max(120),
         from: z.string().trim().min(1).max(120),
