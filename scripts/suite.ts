@@ -3795,6 +3795,19 @@ h2("协作·readonly 写契约/推进/回执 → 403（API 层强制，审计回
 
 /* ================= 主流程 ================= */
 
+/**
+ * 开跑前先清并发位：L3.1 单工作区 queued/running ≤10，套件自己每跑一次都会留下
+ * 「manager 派遣探测 / E2E 对账任务 / T-suite-*」等夹具线程。不清的话，跑过几轮后
+ * 队列被自己塞满 → dispatch 直接 429 → O-02/O-03/O-04/O-08/R-10 这些"派单跑到 completed"
+ * 的用例成片假失败（实测 2026-09-19：461/467，6 条全部由此而来）。
+ * 口径与 E2E 段前的清理一致，只保留种子演示剧本线程 T-101/102/103 的状态。
+ */
+await qApp(
+  `UPDATE threads SET status='completed', closed_at=now(), updated_at=now()
+   WHERE workspace_id=$1 AND status IN ('queued','running') AND id NOT IN ('T-101','T-102','T-103')`,
+  [scope.workspaceId],
+);
+
 const svcPassed = await runCases(cases, "服务层用例");
 
 console.log("▸ 启动 HTTP E2E 段（spawn server）……");

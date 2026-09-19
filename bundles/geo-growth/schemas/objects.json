@@ -3,6 +3,16 @@
   "description": "社媒×GEO 双域融合经营事件 Object 类型枚举 v1（融合方案 §2.2 双域对象模型；社媒域对象沿用 ai-video 口径，GEO 域与双域交叉对象为新增）",
   "objects": [
     {
+      "type": "ads",
+      "label": "投放数据视图",
+      "note": "通用任务规划器按工具名前缀派生的投放对象视图（ads.watch 盯盘 / ads.boost 加投）；预算治理以 ads_campaign 为准，G12 同时覆盖两种命名（真机验收发现）"
+    },
+    {
+      "type": "creative",
+      "label": "投放素材",
+      "note": "通用任务规划器按工具名前缀派生的素材对象（creative.reedit 低效素材二剪迭代）；素材版本与合规由 content 域同源管理"
+    },
+    {
       "type": "intel_card",
       "label": "统一情报卡",
       "note": "情报站每日产物：来源域（热榜/评论/AI问答）/问题原文/热度/置信度三级/适配人设/建议形式（短视频/GEO图文/双用）；双用选题优先排产"

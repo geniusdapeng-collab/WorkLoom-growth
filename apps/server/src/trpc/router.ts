@@ -2328,7 +2328,7 @@ const rosterRouter = router({
           /**
            * 来源行业包：组合编制下每个岗位由不同包提供（hotel / ai-video / geo-growth），
            * 事实源是装配器写入的 meta.sourceBundleId；旧单包数据回落工作区已装配行业。
-           * 禁止再写死单一 Bundle（曾固定为 hyperreality-ai-video，对 61 岗全部错误）。
+           * 禁止再写死单一 Bundle（曾固定为 hyperreality-ai-video，对当时组合编制的全部岗位都错）。
            */
           bundle: (agent.meta as { sourceBundleId?: string } | undefined)?.sourceBundleId
             ?? ws.rows[0]?.bundle_id

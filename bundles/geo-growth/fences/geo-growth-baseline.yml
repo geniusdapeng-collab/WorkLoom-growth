@@ -83,7 +83,10 @@ rules:
     level: review
     is_baseline: true
     match:
-      object_types: [ads_campaign]
+      # ads_campaign = 行业对象模型里的投放计划主档；ads = 通用任务规划器按工具名前缀
+      # （ads.watch/ads.boost）派生的投放对象视图。两种命名都要覆盖，否则规划器跑出的
+      # ads.boost 事件对象类型匹配不上本规则，加投就绕过 G12 的对象维度（真机验收发现）。
+      object_types: [ads_campaign, ads]
       actions: [ads.boost]
     when: "true"
     note: 任何追加投流预算动作必审（涉预算纪律，不可降级为 auto）

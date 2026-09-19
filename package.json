@@ -37,6 +37,7 @@
     "preview:all": "bash scripts/preview-all.sh",
     "capabilities": "node scripts/generate-capabilities.mjs",
     "capabilities:check": "node scripts/generate-capabilities.mjs --check",
+    "acceptance:matrix": "tsx --env-file=.env scripts/acceptance-matrix.mts",
     "capabilities:pptx": "python3 scripts/build-capability-pptx.py",
     "postinstall": "pnpm -C packages/industry-contract build && (node scripts/postinstall-note.js || true)",
     "overview:pptx": "python3 scripts/build-overview-pptx.py",

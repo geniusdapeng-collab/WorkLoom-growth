@@ -408,21 +408,44 @@ d("月度回测节拍存在（每月 1 日）", async () => {
 
 /* ================= E · 事件留痕合规 ================= */
 const e = C("E");
+/**
+ * 平台系统对象（不属于行业对象模型，事件合规检查统一豁免）：
+ *   thread/task/approval/conversation = 门禁活火事件（dispatch/quest/审批流）
+ *   company_ceo = CEO 节拍（晨报/裁决留痕）  client = 客户档案动作
+ *   workspace = 工作区级动作   member = 身份流程（欢迎仪式进度/重播）
+ *   store = 平台运行态（model.degraded 模型路由降级通告的落点）
+ */
+const SYSTEM_TYPES = new Set([
+  "thread", "task", "approval", "conversation", "company_ceo", "client", "workspace", "member", "store",
+]);
 e("ws-geo 事件 ≥60 条且五元字段完整（容忍门禁活火写入）", async () => {
   const r = await q(`SELECT count(*) n FROM biz_events WHERE workspace_id=$1`, [WS]);
   assert(Number(r.rows[0].n) >= 60, `events=${r.rows[0].n}`);
-  // 门禁活火事件（thread/task 对象：dispatch/quest/审批流）属系统面事件，receipt/model_trace 豁免（D31）
-  const bad = await q(`SELECT count(*) n FROM biz_events WHERE workspace_id=$1 AND COALESCE(payload->'object'->>'type','') NOT IN ('thread','task','approval','conversation','company_ceo','client')
-    AND (payload->>'who' IS NULL OR payload->>'object' IS NULL OR payload->>'decision' IS NULL OR payload->>'receipt' IS NULL OR payload->>'model_trace' IS NULL)`, [WS]);
+  // 门禁活火事件（thread/task 对象：dispatch/quest/审批流）与身份流程事件（member：欢迎仪式
+  // 进度/重播，由 onboarding-continuity 直接落账，不是模型工具调用）属系统面事件，
+  // receipt/model_trace 豁免（D31）——2026-09-19 真机复盘：/onboarding 走过一次即写入
+  // onboarding.welcome.progress(member)，旧白名单没有 member，geo 套件因此假失败。
+  /**
+   * 回执位口径（2026-09-19 真机复盘修订）：receipt 只对**已执行事件**（decision.after 非空）强制——
+   *   · 越围栏挂起（review/block）事件按设计没有回执：动作尚未发生，写回执反而是伪造回执；
+   *   · 已执行但无真实外部回执的步骤，运行时写 receipt.synced=false 标「未核实」（E3.7），
+   *     字段仍必须在位，好让下游区分「未核实」与「缺字段」；
+   *   · 只读步骤/模型降级通告（model.degraded）没有 after，天然落在本检查之外。
+   * 因此收敛为「已执行 → 五元必须齐」，不放宽已执行事件的回执纪律，也不把挂起当数据缺陷。
+   */
+  const bad = await q(`SELECT count(*) n FROM biz_events WHERE workspace_id=$1
+    AND payload->'decision'->'after' IS NOT NULL
+    AND COALESCE(payload->'object'->>'type','') <> ALL($2::text[])
+    AND (payload->>'who' IS NULL OR payload->>'object' IS NULL OR payload->>'decision' IS NULL OR payload->>'receipt' IS NULL OR payload->>'model_trace' IS NULL)`, [WS, [...SYSTEM_TYPES]]);
   assert(Number(bad.rows[0].n) === 0, `五元缺失 ${bad.rows[0].n} 条`);
 });
 e("事件 GEO 对象类型全部在对象模型内（系统对象豁免）", async () => {
-  const SYSTEM_TYPES = new Set(["thread", "task", "approval", "workspace", "conversation", "company_ceo", "client"]);
   const r = await q(`SELECT DISTINCT payload->'object'->>'type' t FROM biz_events WHERE workspace_id=$1`, [WS]);
   for (const row of r.rows) assert(objectTypes.has(row.t) || SYSTEM_TYPES.has(row.t), `事件对象 ${row.t} 未在对象模型`);
 });
 e("事件 who 全部在编制内（系统/人类豁免）", async () => {
-  const SYSTEM_ACTORS = new Set(["morning-briefing", "captain", "fleet", "im-channels"]);
+  // model-router = 平台模型路由组件（缺省/降级时写 model.degraded 留痕），与 captain/fleet 同属系统身份
+  const SYSTEM_ACTORS = new Set(["morning-briefing", "captain", "fleet", "im-channels", "model-router"]);
   const r = await q(`SELECT DISTINCT payload->'who'->>'id' id FROM biz_events WHERE workspace_id=$1`, [WS]);
   for (const row of r.rows) assert(presetKeys.has(row.id) || SYSTEM_ACTORS.has(row.id) || String(row.id).startsWith("MEM-"), `who=${row.id} 不在编制`);
 });

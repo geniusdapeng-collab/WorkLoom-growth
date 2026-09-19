@@ -205,9 +205,9 @@
   },
   "integrity": {
     "algorithm": "sha256",
-    "digest": "b424d68e40db94cd87c2c5a83b81612910a8497f37b48c3349ff34d9ce7c8e01",
+    "digest": "01b33fef2c578c3e039859b000a7bb659bb24149e54f3b4ecd95868e3ce18d22",
     "assets": {
-      "fences/geo-growth-baseline.yml": "51320224970a418a84e1aa7c170e1f3a5dbdef79da9da2d5267d9a907c5d320d",
+      "fences/geo-growth-baseline.yml": "1cb22c07d5bf96c2ca6bd24792267bc2b7160911a6e4add9dc1b8246f3b0f1b5",
       "model-policy.yml": "c2350007cf1a112c9de24231b6270e39d69344e2a9a3c05b8f17d246e571b84e",
       "pipelines/dual-content-factory.yml": "1a8001d651765cc36deccc1a71659b270a9301d3b2f20509fc7d7d22ab3d713f",
       "pipelines/intel-fusion.yml": "17a1b4c6dc70e47da0dffa1d91b96da2eb84925435009b9dd4b6e72eae22d092",
@@ -239,7 +239,7 @@
       "presets/source-distributor.yml": "8cbe329b6786775def27ce43f2095feb1128567c70898e11b9a5e12dacfbaa1e",
       "presets/visibility-watcher.yml": "05e59d7d7bfd329011cb18245938c4d37633838ce194487da69b5c4438b0b501",
       "schemas/archive.schema.json": "ad08672042078f5d8a2376f855e0fe936454048fb0e4cc421d5b8082ad4e2200",
-      "schemas/objects.json": "13b4ad60234dd8ad566e5bdfb103cb078a382c8189dc2a6ead0cd593848d3179",
+      "schemas/objects.json": "964cc6c65f847334536dd2704bc5b6b070168212ca3793d3021108fab28b2d82",
       "schemas/stages.json": "dbb994a399bcfe9ea34fbeacda92a13bfdebb8caeef4f74960faf4461a447c93",
       "service-front/client.json": "2c4c67ea42de2a4039135008daabb269342b1e96c82c5c6e67c8203a5c69ff6f",
       "skills/ai-answer-rewrite/SKILL.md": "25d1597948d560a13262a91c360abd130f5e6debe2e9faff7d4de2bc9640833d",

@@ -124,6 +124,24 @@ export function LoomMate() {
   const availableWidth = Math.max(96, viewport.width - railW - navW - 32);
   const widgetW = size === "large" ? Math.min(480, availableWidth) : Math.min(120, availableWidth);
   const widgetH = size === "large" ? Math.min(560, Math.round(widgetW * 1.17)) : 170;
+
+  /**
+   * 大尺寸浮层「吞点击」修复（真机验收实测）：
+   * 大形态的容器是 480×560 的矩形，角色本体只占其中一部分，空出来的矩形区域却照样吃指针事件——
+   * 真机上审批三杆（推进/校准/制动）滚到右下区域时，点击被小织的空盒子接走，鼠标怎么点都点不动。
+   * 两条纪律：① 容器本身 pointer-events:none，只有气泡/面板/角色本体/控制条这几个真实可点区域接收事件；
+   * ② 内容区窄（与 Bridge 侧栏降级同一条 880px 口径）时默认收成 64px 小球，别用大形象压住主工作区
+   *   （用户显式展开/收起后仍按其本机偏好持久化，不反复弹回）。
+   */
+  const contentNarrow = viewport.width - railW - navW <= 880;
+  useEffect(() => {
+    if (!contentNarrow) return;
+    try {
+      if (localStorage.getItem("loommate.mini") !== null) return; // 用户已表态 → 尊重
+    } catch { /* 本机偏好不可读时按窄内容区处理 */ }
+    setMini(true);
+  }, [contentNarrow]);
+
   const clampPos = (x: number, y: number) => ({
     x: Math.min(Math.max(navW, x), Math.max(navW, viewport.width - railW - widgetW)),
     y: Math.min(Math.max(0, y), Math.max(0, viewport.height - widgetH)),
@@ -442,10 +460,14 @@ export function LoomMate() {
     : { position: "fixed", right: railW + 16, bottom: 16, zIndex: "var(--wl-z-assistant)" };
 
   return (
-    <div {...mateSurface} className={`flex flex-col gap-2 ${docked === "left" ? "items-start" : "items-end"}`} style={{ fontFamily: "inherit", ...rootStyle }}>
+    <div
+      {...mateSurface}
+      className={`pointer-events-none flex flex-col gap-2 ${docked === "left" ? "items-start" : "items-end"}`}
+      style={{ fontFamily: "inherit", ...rootStyle }}
+    >
       {/* 气泡提醒（最多叠 3 条） */}
       {open === "none" && items.slice(0, 3).map((it) => (
-        <div key={it.id} className={`w-[min(19rem,calc(100vw-2rem))] max-w-full rounded-2xl border p-3 shadow-xl backdrop-blur ${LEVEL_STYLE[it.level]}`}>
+        <div key={it.id} className={`pointer-events-auto w-[min(19rem,calc(100vw-2rem))] max-w-full rounded-2xl border p-3 shadow-xl backdrop-blur ${LEVEL_STYLE[it.level]}`}>
           <div className="flex items-start justify-between gap-2">
             <div className="flex items-center gap-1.5 text-body font-semibold text-ink">{it.level === "red" && <Icon name="warning" size={14} />}{clientValueText(it.title)}</div>
             <button onClick={() => void later(it)} className="shrink-0 text-body text-ink3 hover:text-ink">稍后</button>
@@ -461,12 +483,14 @@ export function LoomMate() {
       ))}
 
       {open !== "none" && (
-        <MatePanel
-          open={open} setOpen={setOpen} openPanel={openPanel}
-          chat={chat} busy={busy} input={input} setInput={setInput} send={send}
-          personaName={personaName} settings={settings} setSettings={setSettings}
-          memory={memory} setMemory={setMemory}
-        />
+        <div className="pointer-events-auto">
+          <MatePanel
+            open={open} setOpen={setOpen} openPanel={openPanel}
+            chat={chat} busy={busy} input={input} setInput={setInput} send={send}
+            personaName={personaName} settings={settings} setSettings={setSettings}
+            memory={memory} setMemory={setMemory}
+          />
+        </div>
       )}
 
       {/* 本体：形象（可拖拽·松手边缘吸附）+ 名字 + 控制条 */}
@@ -475,7 +499,7 @@ export function LoomMate() {
         <button
           onClick={() => { setMini(false); persistLocal("loommate.mini", "0"); }}
           title="展开小织"
-          className="relative block h-16 w-16 overflow-hidden rounded-full border-2 border-gold/60 bg-bg900 shadow-xl transition-transform hover:scale-110"
+          className="pointer-events-auto relative block h-16 w-16 overflow-hidden rounded-full border-2 border-gold/60 bg-bg900 shadow-xl transition-transform hover:scale-110"
         >
           <img src="/live2d/mao/poster.png" alt={personaName} draggable={false} className="h-full w-full object-cover" />
           {unread > 0 && (
@@ -485,7 +509,7 @@ export function LoomMate() {
           )}
         </button>
       ) : (
-      <div className="flex flex-col items-center">
+      <div className="pointer-events-none flex flex-col items-center">
         <div
           role="button" tabIndex={0}
           aria-label={`${personaName}助手；回车打开对话，方向键移动，按住 Shift 可加速移动`}
@@ -498,7 +522,7 @@ export function LoomMate() {
               void openPanel("chat");
             }
           }}
-          className="relative block cursor-grab touch-none select-none transition-transform hover:scale-105 active:cursor-grabbing"
+          className="pointer-events-auto relative block cursor-grab touch-none select-none transition-transform hover:scale-105 active:cursor-grabbing"
           title={`${personaName}（拖拽挪位置 · 点击聊聊）`}
         >
           {webglOk
@@ -510,7 +534,7 @@ export function LoomMate() {
             </span>
           )}
         </div>
-        <div className="mt-0.5 flex items-center gap-1.5">
+        <div className="pointer-events-auto mt-0.5 flex items-center gap-1.5">
             <span className="rounded-full bg-bg900/90 px-2.5 py-0.5 text-body text-ink shadow">
             {personaName}
           </span>

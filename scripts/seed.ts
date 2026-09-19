@@ -3,8 +3,9 @@
  * 用法：pnpm db:seed（读取 .env；幂等，可重复执行）
  *
  * 内容：demo 租户 / 云栖酒店工作区 / 3 人类成员 / 16 个基础 Agent preset 实例 +
- *      组合编制 61 岗（hotel 16 + ai-video 30 + geo-growth 15，见 provisionComposedWorkforce）/
- *      一店一档（含 forbidden 硬约束 + 布草/断点/FAQ 字段组）/ 基线围栏 R1–R26（hotel-baseline/v4）装载 / 30 个酒店官方技能 /
+ *      组合编制 70 岗（hotel 16 + ai-video 30 + geo-growth 24，同名遮蔽 4 处按主包裁决，
+ *      见 provisionComposedWorkforce；口径事实源为装配器运行结果，不在此手工维护）/
+ *      一店一档（含 forbidden 硬约束 + 布草/断点/FAQ 字段组）/ 基线围栏 R1–R26（hotel-baseline/v4）装载 / 53 个组合官方技能 /
  *      2 触发器 / 昨夜夜班班次 / 100 条五元事件（哈希链）/ 审批样例 / 组织记忆
  *
  * 纪律：
@@ -28,6 +29,8 @@ import YAML from "yaml";
 // 种子 100 条事件用生产验证器重算全部不符（链上两种算法混杂）
 // P0-3 续：种子 ID 走 E-SEED- 前缀，zod 经 safeParseReplayAwareEvent 占位缝校验
 import { eventHash, safeParseReplayAwareEvent } from "@workloom/base/workdata";
+import { composeWorkforce } from "@workloom/base/bundles";
+import { loadOfficialSkills } from "@workloom/base/skills";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(__dirname, "..");
@@ -153,7 +156,8 @@ function loadFences(): FenceRule[] {
 }
 
 interface SkillDoc {
-  bundle: string;
+  /** 行业包技能记包名；底座官方技能（skills/official，不依附行业包）记 null */
+  bundle: string | null;
   name: string;
   description: string;
   body: string;
@@ -248,13 +252,45 @@ const COMPOSED_SKILL_BINDINGS: Record<"ai-video" | "geo-growth", Record<string, 
   },
 };
 
-/** 组合技能并集：酒店 30 + ai-video 8 + geo-growth 6（三包技能无同名冲突，本轮已核） */
+/**
+ * 包外官方技能（`skills/official/`，bundle=null）的围栏绑定表。
+ * 口径同行业包：只登记 SKILL.md 里**显式写明**的围栏，未写明就保持空绑定（不臆造）。
+ */
+const BASE_OFFICIAL_SKILL_BINDINGS: Record<string, string[]> = {
+  // deal-flow：报价/合同/结案报告等对外文件必过 G15 审批后外发
+  "deal-flow": ["G15"],
+};
+
+/**
+ * 组合编制里被岗位引用、但不在任何行业包技能目录中的官方技能（当前为 deal-flow：
+ * 商单经理/达人合作专员引用）。行业包 preset 允许引用底座官方技能资产，但资产必须在
+ * 工作区**真的登记并安装**，否则岗位档案里这颗技能会静默消失（F8.2 安装即绑定）。
+ */
+function loadReferencedBaseOfficialSkills(bundleSkills: SkillDoc[]): SkillDoc[] {
+  const referenced = new Set<string>();
+  for (const entry of composeWorkforce(PRODUCT_PRIMARY_BUNDLE).presets.values()) {
+    for (const skill of entry.preset.skills ?? []) referenced.add(skill);
+  }
+  const local = new Set(bundleSkills.map((s) => s.name));
+  return loadOfficialSkills(REPO_ROOT)
+    .filter((asset) => referenced.has(asset.name) && !local.has(asset.name))
+    .map((asset) => ({
+      bundle: null,
+      name: asset.name,
+      description: asset.description,
+      body: asset.body,
+      fenceBindings: BASE_OFFICIAL_SKILL_BINDINGS[asset.name] ?? [],
+    }));
+}
+
+/** 组合技能并集：酒店 30 + ai-video 8 + geo-growth 15（三包技能无同名冲突）+ 编制引用的包外官方技能 */
 function loadComposedSkills(): SkillDoc[] {
-  return [
+  const bundleSkills = [
     ...loadSkills(),
     ...loadBundleSkills("ai-video", join(REPO_ROOT, "bundles/ai-video/skills"), COMPOSED_SKILL_BINDINGS["ai-video"]),
     ...loadBundleSkills("geo-growth", join(REPO_ROOT, "bundles/geo-growth/skills"), COMPOSED_SKILL_BINDINGS["geo-growth"]),
   ];
+  return [...bundleSkills, ...loadReferencedBaseOfficialSkills(bundleSkills)];
 }
 
 /**
@@ -924,7 +960,8 @@ async function main(): Promise<void> {
     );
   }
   const skillCounts = skillsDocs.reduce<Record<string, number>>((acc, s) => {
-    acc[s.bundle] = (acc[s.bundle] ?? 0) + 1;
+    const key = s.bundle ?? "包外官方（skills/official）";
+    acc[key] = (acc[key] ?? 0) + 1;
     return acc;
   }, {});
   console.log(`✓ 组合官方技能 ×${skillsDocs.length} 已安装（${Object.entries(skillCounts).map(([b, n]) => `${b} ${n}`).join(" + ")}；围栏绑定随安装生效，安装快照已落）`);
@@ -935,11 +972,12 @@ async function main(): Promise<void> {
   const installId = `bi-${WS_ID}-${PRODUCT_PRIMARY_BUNDLE}`;
   const agentRows = await q(`SELECT id FROM agents WHERE workspace_id=$1 ORDER BY preset_key`, [WS_ID]);
   const fenceRows = await q(`SELECT id FROM fence_rules WHERE workspace_id=$1 AND status='active' ORDER BY rule_id`, [WS_ID]);
-  // 只登记三包 official 技能：team（工作区自建）/industry（脱敏共享）技能不随行业包卸载。
+  // 只登记三包 official 技能与编制引用的包外官方技能（bundle=null）：
+  // team（工作区自建）/industry（脱敏共享）技能不随行业包卸载。
   const skillRows = await q(
     `SELECT si.skill_id FROM skill_installs si
        JOIN skills s ON s.id = si.skill_id
-      WHERE si.workspace_id=$1 AND s.level='official' AND s.bundle = ANY($2::text[])
+      WHERE si.workspace_id=$1 AND s.level='official' AND (s.bundle = ANY($2::text[]) OR s.bundle IS NULL)
       ORDER BY si.skill_id`,
     [WS_ID, ["hotel", "ai-video", "geo-growth"]],
   );
