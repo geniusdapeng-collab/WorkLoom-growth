@@ -809,22 +809,13 @@ async function main(): Promise<void> {
     [TENANT_ID, TENANT_NAME],
   );
   await q(
-    `INSERT INTO workspaces (id, tenant_id, name, slug, industry, stage, night_config, bundle_id, is_example)
-     VALUES ($1,$2,$3,$4,$5,'stable',$6,$5,true)
-     ON CONFLICT (id) DO UPDATE
-       SET industry = EXCLUDED.industry, bundle_id = EXCLUDED.bundle_id, is_example = true`,
+    `INSERT INTO workspaces (id, tenant_id, name, slug, industry, stage, night_config)
+     VALUES ($1,$2,$3,$4,'hotel','stable',$5) ON CONFLICT (id) DO NOTHING`,
     [
       WS_ID,
       TENANT_ID,
       WS_NAME,
       WS_SLUG,
-      /**
-       * 组合主包指针：与 product.manifest.json#defaultBundle 一致。
-       * 游客首启（accounts.guestEnter）按「is_example=true + 该主包有唯一 active 安装」发现示例工作区；
-       * 缺指针或缺安装行时，前端只会看到「示例工作区未就绪（首启种子未完成）」。
-       * 行业语义留在 profiles.industry（一店一档=hotel），workspaces.industry 表达已装配的主包。
-       */
-      PRODUCT_PRIMARY_BUNDLE,
       JSON.stringify({
         enabled: true,
         candidateTime: "18:00",
@@ -967,9 +958,12 @@ async function main(): Promise<void> {
   console.log(`✓ 组合官方技能 ×${skillsDocs.length} 已安装（${Object.entries(skillCounts).map(([b, n]) => `${b} ${n}`).join(" + ")}；围栏绑定随安装生效，安装快照已落）`);
 
   // —— bundle_installs 装配台账登记（V5：组合编制口径，一键清空的精确卸载依据；幂等） ——
-  // 必须登记「主包 + 实际装配资产」：旧口径只记酒店单包（16 岗 + 不存在的围栏 ID），
-  // 会让 45 个组合岗位与 54 条组合围栏成为无主资产——一键清空清不掉、游客入口发现不到、投影挂不对。
-  const installId = `bi-${WS_ID}-${PRODUCT_PRIMARY_BUNDLE}`;
+  // 业务口径（获客用增主题）：
+  //  - ws-yunqi 是「酒店获客」的试点业务前台：C 端行业适配器契约要求唯一 active 安装为 hotel；
+  //  - 资产台账仍覆盖组合编制全部岗位/围栏/技能（hotel + ai-video + geo-growth），否则一键清空留无主资产；
+  //  - 获客用增的「产品演示工作区」是 ws-geo（bundles/geo-growth 单包示例，is_example=true）：
+  //    游客首启（guestEnter）与默认演示登录（MEM-G01）都落在那里。
+  const installId = `bi-${WS_ID}-hotel`;
   const agentRows = await q(`SELECT id FROM agents WHERE workspace_id=$1 ORDER BY preset_key`, [WS_ID]);
   const fenceRows = await q(`SELECT id FROM fence_rules WHERE workspace_id=$1 AND status='active' ORDER BY rule_id`, [WS_ID]);
   // 只登记三包 official 技能与编制引用的包外官方技能（bundle=null）：
@@ -997,7 +991,7 @@ async function main(): Promise<void> {
      VALUES ($1,$2,$3,$4,'active')
      ON CONFLICT (id) DO UPDATE SET bundle_id = EXCLUDED.bundle_id, assets = EXCLUDED.assets,
                                     status='active', uninstalled_at=NULL`,
-    [installId, WS_ID, PRODUCT_PRIMARY_BUNDLE, JSON.stringify(ledgerAssets)],
+    [installId, WS_ID, "hotel", JSON.stringify(ledgerAssets)],
   );
   console.log(`✓ 组合装配台账（${PRODUCT_PRIMARY_BUNDLE} · ${ledgerAssets.preset_ids.length} 岗 / ${ledgerAssets.fence_rule_ids.length} 围栏 / ${ledgerAssets.skill_ids.length} 技能）`);
 
