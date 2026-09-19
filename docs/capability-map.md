@@ -104,7 +104,7 @@
 | Bundle | 内容 | 入口 |
 |---|---|---|
 | `hotel/`（v3.3.0） | 酒店获客垂直包：围栏 R1–R26、29 技能、16 员工、28 对象类、获客闭环管线、三客群默认配置 | `bundles/hotel/` |
-| `geo-growth/` | GEO 双域包：16 preset、17 围栏、31 对象类、4 管线、6 GEO 技能 | `bundles/geo-growth/` |
+| `geo-growth/` | GEO 双域包 + 获客用增班组：23 preset（双域 16 + 增长 7）、23 围栏（双域 17 + 增长 6）、39 对象类、4 管线、13 技能（双域 6 + 增长 7） | `bundles/geo-growth/` |
 | `ai-video/` | 短视频创作域 | `bundles/ai-video/` |
 
 ## L5 技能资产层 · skills/official/

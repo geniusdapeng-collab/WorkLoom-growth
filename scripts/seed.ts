@@ -234,6 +234,14 @@ const COMPOSED_SKILL_BINDINGS: Record<"ai-video" | "geo-growth", Record<string, 
   "geo-growth": {
     "ai-answer-rewrite": ["G-GEO1", "G-GEO2"],
     "entity-consistency-check": ["G-GEO2"],
+    // 获客用增班组技能（v1.2）：预算带/实验登记与停止/价格承诺/转介与数据边界
+    "experiment-design": ["G-GROW3", "G-GROW4"],
+    "budget-portfolio": ["G-GROW1"],
+    "lead-scoring": ["G-GROW6"],
+    "cro-playbook": ["G-GROW2"],
+    "live-commerce": ["G-GROW2", "G-GROW4"],
+    "growth-review": [],
+    "incrementality-measurement": ["G-GROW6"],
   },
 };
 
@@ -912,7 +920,11 @@ async function main(): Promise<void> {
       [skillId, WS_ID],
     );
   }
-  console.log(`✓ 组合官方技能 ×${skillsDocs.length} 已安装（hotel 30 + ai-video 8 + geo-growth 6；围栏绑定随安装生效，安装快照已落）`);
+  const skillCounts = skillsDocs.reduce<Record<string, number>>((acc, s) => {
+    acc[s.bundle] = (acc[s.bundle] ?? 0) + 1;
+    return acc;
+  }, {});
+  console.log(`✓ 组合官方技能 ×${skillsDocs.length} 已安装（${Object.entries(skillCounts).map(([b, n]) => `${b} ${n}`).join(" + ")}；围栏绑定随安装生效，安装快照已落）`);
 
   // —— bundle_installs 装配台账登记（V5：组合编制口径，一键清空的精确卸载依据；幂等） ——
   // 必须登记「主包 + 实际装配资产」：旧口径只记酒店单包（16 岗 + 不存在的围栏 ID），

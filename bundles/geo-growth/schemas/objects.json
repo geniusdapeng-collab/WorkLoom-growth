@@ -156,6 +156,46 @@
       "type": "workspace",
       "label": "工作区",
       "note": "系统级对象：CEO 晨报/经营简报等以工作区为对象的留痕载体"
+    },
+    {
+      "type": "offer",
+      "label": "对外 offer",
+      "note": "增长 offer 载体（权益/价格表述/有效期）；价格与绑定承诺受 G-GROW2 必审，非绑定框架走实验卡（G-GROW3）"
+    },
+    {
+      "type": "price_change",
+      "label": "价格变更",
+      "note": "价格调整主档；G-GROW2 强制 L4 人审（与 R21-R26 价格红线并集取严）"
+    },
+    {
+      "type": "commitment",
+      "label": "对外承诺",
+      "note": "对客户/平台的绑定承诺（赔付/保价/时效）；G-GROW2 强制 L4，AI 不得自行承诺"
+    },
+    {
+      "type": "coupon_sku",
+      "label": "券 SKU",
+      "note": "团购/预售券 SKU：库存、核销、有效期；上架/改价受 G-GROW2，售罄熔断联动 G-GROW4"
+    },
+    {
+      "type": "referral",
+      "label": "转介",
+      "note": "老带新转介记录：推荐人/被推荐人/奖励；自荐、设备撞库等高风险受 G-GROW5 熔断"
+    },
+    {
+      "type": "experiment",
+      "label": "增长实验",
+      "note": "实验卡与执行主档：假设/判据/样本/预算/停止条件；未登记禁跑（G-GROW3），停止条件触发自动停（G-GROW4）"
+    },
+    {
+      "type": "experiment_data",
+      "label": "实验数据",
+      "note": "实验过程数据视图（脱敏聚合）；导出/共享受 G-GROW6 数据边界约束"
+    },
+    {
+      "type": "growth_dataset",
+      "label": "增长数据产品",
+      "note": "增长班组对外的数据产品（意图雷达/线索池/预算账/实验账聚合视图）；导出/上传受 G-GROW6 约束"
     }
   ]
 }
