@@ -57,6 +57,9 @@ const pipelines = readdirSync(join(BUNDLE, "pipelines")).filter(f => f.endsWith(
   .map(f => ({ file: f, doc: YAML.parse(readFileSync(join(BUNDLE, "pipelines", f), "utf-8")) }));
 const presetKeys = new Set<string>(presets.map(p => p.preset_key));
 const fenceIds = new Set<string>(fenceRules.map(r => r.rule_id));
+// 视觉栈围栏（G-VIS*，独立基线包）：presets 的 fence_bindings 校验必须并集，否则视觉岗被判"绑了不存在的围栏"
+const visualFenceDoc = YAML.parse(readFileSync(join(BUNDLE, "fences/geo-growth-visual.yml"), "utf-8"));
+for (const r of (visualFenceDoc.rules ?? []) as Array<{ rule_id: string }>) fenceIds.add(r.rule_id);
 
 /* ================= A · Bundle 完整性 ================= */
 const a = C("A");
@@ -68,9 +71,9 @@ a("bundle.json 声明的全部资产路径存在", () => {
     for (const p of paths) assert(existsSync(join(BUNDLE, p)), `缺失资产 ${p}`);
   }
 });
-a("25 个 preset（双域 16 + 获客用增 9，含 2 个 P2 条件岗）且 preset_key 唯一", () => {
-  assert(presets.length === 25, `期望 25，实际 ${presets.length}`);
-  assert(presetKeys.size === 25, "preset_key 重复");
+a("27 个 preset（双域 16 + 视觉栈 2 + 获客用增 9，含 2 个 P2 条件岗）且 preset_key 唯一", () => {
+  assert(presets.length === 27, `期望 27，实际 ${presets.length}`);
+  assert(presetKeys.size === 27, "preset_key 重复");
 });
 a("preset 必填字段完整（含 prompt 三要素）", () => {
   for (const p of presets) {
@@ -112,7 +115,7 @@ a("围栏 match 引用的对象类型均在对象模型内", () => {
 });
 a("技能 frontmatter 完整且与 bundle.json 对齐", () => {
   const dirs = readdirSync(join(BUNDLE, "skills"));
-  assert(dirs.length === 15, `技能数 ${dirs.length}`);
+  assert(dirs.length === 29, `技能数 ${dirs.length}`);
   for (const d of dirs) {
     const raw = readFileSync(join(BUNDLE, "skills", d, "SKILL.md"), "utf-8");
     const m = raw.match(/^---\n([\s\S]*?)\n---\n/);
@@ -285,9 +288,9 @@ c("工作区存在且行业为 geo-growth", async () => {
   const r = await q(`SELECT industry, stage FROM workspaces WHERE id=$1`, [WS]);
   assert(r.rows[0]?.industry === "geo-growth", `industry=${r.rows[0]?.industry}`);
 });
-c("25 员工全部 ready 落库", async () => {
+c("27 员工全部 ready 落库", async () => {
   const r = await q(`SELECT count(*) n, count(distinct preset_key) d FROM agents WHERE workspace_id=$1 AND status='ready'`, [WS]);
-  assert(Number(r.rows[0].n) === 25 && Number(r.rows[0].d) === 25, `agents=${r.rows[0].n}`);
+  assert(Number(r.rows[0].n) === 27 && Number(r.rows[0].d) === 27, `agents=${r.rows[0].n}`);
 });
 c("员工 fence_bindings 原样落库（F2.10）", async () => {
   const r = await q(`SELECT preset_key, fence_bindings FROM agents WHERE workspace_id=$1 AND preset_key='geo-content-planner'`, [WS]);
@@ -298,9 +301,9 @@ c("25 条围栏 active 装载", async () => {
   const r = await q(`SELECT count(*) n FROM fence_rules WHERE workspace_id=$1 AND status='active' AND version='geo-growth-baseline/v1'`, [WS]);
   assert(Number(r.rows[0].n) === 25, `fences=${r.rows[0].n}`);
 });
-c("15 个 GEO 技能已安装（双域 6 + 获客用增 9）", async () => {
+c("29 个 GEO 技能已安装（双域 6 + 视觉 14 + 获客用增 9）", async () => {
   const r = await q(`SELECT count(*) n FROM skill_installs si JOIN skills s ON s.id=si.skill_id WHERE si.workspace_id=$1 AND s.bundle='geo-growth'`, [WS]);
-  assert(Number(r.rows[0].n) === 15, `skills=${r.rows[0].n}`);
+  assert(Number(r.rows[0].n) === 29, `skills=${r.rows[0].n}`);
 });
 c("14 个触发器 enable", async () => {
   const r = await q(`SELECT count(*) n FROM triggers WHERE workspace_id=$1 AND enabled=true`, [WS]);
