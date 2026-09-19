@@ -328,4 +328,3 @@
 - `pnpm` 10.14.0 → **12.4.2**（门禁 standard）
 - `npm（桌面载荷安装器）` 11.17.0 → **12.0.2**（门禁 standard）
 - `Playwright（Python · computer-use 工具链）` >=1.40.0 → **1.46.0**（门禁 standard）
-
