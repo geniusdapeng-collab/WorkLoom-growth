@@ -240,3 +240,23 @@ rules:
       actions: [data.export, data.share, audience.upload]
     when: "context.data_boundary_ok != true"
     note: 实验与客资数据不出客户边界；导出/共享/人群上传未经数据边界确认即阻断（与 D19 上行红线同口径）
+
+  - rule_id: G-GROW7
+    name: 生命周期岗条件激活门禁
+    level: block
+    is_baseline: true
+    match:
+      object_types: [lifecycle_program, referral]
+      actions: [lifecycle.program.write, lifecycle.touch.write, referral.program.write]
+    when: "context.p2_activated != true"
+    note: P2 条件岗默认不出场；触发条件（非酒店包 / 多店多品牌 / guest-success 超限）经 L4 激活后放行；酒店单店住客生命周期归 guest-success，避免重复触达
+
+  - rule_id: G-GROW8
+    name: 渠道增长岗条件激活门禁
+    level: block
+    is_baseline: true
+    match:
+      object_types: [partnership]
+      actions: [partnership.plan.write, partner.outreach.write, matrix.plan.write]
+    when: "context.p2_activated != true"
+    note: 渠道增长岗按客户规模启用；多账号矩阵/多区域投放规模未达且未激活时写动作一律阻断，激活走 L4

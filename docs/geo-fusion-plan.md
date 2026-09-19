@@ -41,7 +41,7 @@
 
 ### 2.2 员工编制（GEO 双域包自身 14 员 + 2 指挥官）
 
-> **口径说明（2026-09-19 修订）**：本节描述的是 `bundles/geo-growth` 双域包自身的编制（双域 16 岗；本包现共 23 岗，另含获客用增班组 7 岗：增长负责人 / 增长策略师 / 增长实验官 / 线索转化官 / 投放组合经理 / 承接转化设计师 / 直播操盘手）。本产品（获客用增系统）的完整组合编制为三包合并 **68 岗**（hotel 16 + ai-video 30 + geo-growth 22，4 处同名遮蔽按主包裁决；三包基线围栏并集 60 条），事实源为 `bundles/geo-growth/bundle.json#composition.presetOwners` 与 `packages/base/bundles/assembly.ts`；详见 README「数字 CEO：68 岗组合编制的总经理」一节。
+> **口径说明（2026-09-19 修订）**：本节描述的是 `bundles/geo-growth` 双域包自身的编制（双域 16 岗；本包现共 25 岗，另含获客用增班组 9 岗：核心 7 岗——增长负责人 / 增长策略师 / 增长实验官 / 线索转化官 / 投放组合经理 / 承接转化设计师 / 直播操盘手；P2 条件 2 岗——生命周期增长官 / 渠道增长官，未激活受 G-GROW7/8 硬门禁）。本产品（获客用增系统）的完整组合编制为三包合并 **70 岗**（hotel 16 + ai-video 30 + geo-growth 24，4 处同名遮蔽按主包裁决；三包基线围栏并集 62 条），事实源为 `bundles/geo-growth/bundle.json#composition.presetOwners` 与 `packages/base/bundles/assembly.ts`；详见 README「数字 CEO：70 岗组合编制的总经理」一节。
 
 | 班组 | 员工 | 职责 | 复用/新增 |
 |---|---|---|---|

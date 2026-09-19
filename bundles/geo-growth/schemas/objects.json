@@ -196,6 +196,16 @@
       "type": "growth_dataset",
       "label": "增长数据产品",
       "note": "增长班组对外的数据产品（意图雷达/线索池/预算账/实验账聚合视图）；导出/上传受 G-GROW6 约束"
+    },
+    {
+      "type": "lifecycle_program",
+      "label": "生命周期计划",
+      "note": "跨渠道生命周期与 LTV 计划（P2 条件岗）；未激活受 G-GROW7 阻断，酒店住客生命周期归 guest-success"
+    },
+    {
+      "type": "partnership",
+      "label": "渠道合作",
+      "note": "异业/联盟/平台与达人矩阵增长合作（P2 按客户规模启用）；未激活受 G-GROW8 阻断，内容商单归 creator-partner"
     }
   ]
 }

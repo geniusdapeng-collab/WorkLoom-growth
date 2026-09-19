@@ -242,6 +242,9 @@ const COMPOSED_SKILL_BINDINGS: Record<"ai-video" | "geo-growth", Record<string, 
     "live-commerce": ["G-GROW2", "G-GROW4"],
     "growth-review": [],
     "incrementality-measurement": ["G-GROW6"],
+    // P2 条件岗技能（默认未激活，硬门禁 G-GROW7/8）
+    "lifecycle-growth": ["G-GROW7", "G-GROW2"],
+    "growth-partnership": ["G-GROW8", "G-GROW2"],
   },
 };
 

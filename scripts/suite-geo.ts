@@ -68,9 +68,9 @@ a("bundle.json 声明的全部资产路径存在", () => {
     for (const p of paths) assert(existsSync(join(BUNDLE, p)), `缺失资产 ${p}`);
   }
 });
-a("23 个 preset（双域 16 + 获客用增 7）且 preset_key 唯一", () => {
-  assert(presets.length === 23, `期望 23，实际 ${presets.length}`);
-  assert(presetKeys.size === 23, "preset_key 重复");
+a("25 个 preset（双域 16 + 获客用增 9，含 2 个 P2 条件岗）且 preset_key 唯一", () => {
+  assert(presets.length === 25, `期望 25，实际 ${presets.length}`);
+  assert(presetKeys.size === 25, "preset_key 重复");
 });
 a("preset 必填字段完整（含 prompt 三要素）", () => {
   for (const p of presets) {
@@ -89,8 +89,8 @@ a("夜班编制覆盖跨时区值守（≥5 员 night_shift）", () => {
   for (const k of ["visibility-watcher", "entity-inspector", "data-board-officer", "company-ceo"])
     assert(n.includes(k), `${k} 应为夜班（跨时区/凌晨巡检纪律）`);
 });
-a("围栏 23 条（双域 17 + 获客用增 6）全部 is_baseline（只可加严）", () => {
-  assert(fenceRules.length === 23, `期望 23，实际 ${fenceRules.length}`);
+a("围栏 25 条（双域 17 + 获客用增 8）全部 is_baseline（只可加严）", () => {
+  assert(fenceRules.length === 25, `期望 25，实际 ${fenceRules.length}`);
   assert(fenceRules.every(r => r.is_baseline), "存在非基线规则");
 });
 a("GEO 三闸到位：G-GEO1 review / G-GEO2 block / G-GEO3 block", () => {
@@ -112,7 +112,7 @@ a("围栏 match 引用的对象类型均在对象模型内", () => {
 });
 a("技能 frontmatter 完整且与 bundle.json 对齐", () => {
   const dirs = readdirSync(join(BUNDLE, "skills"));
-  assert(dirs.length === 13, `技能数 ${dirs.length}`);
+  assert(dirs.length === 15, `技能数 ${dirs.length}`);
   for (const d of dirs) {
     const raw = readFileSync(join(BUNDLE, "skills", d, "SKILL.md"), "utf-8");
     const m = raw.match(/^---\n([\s\S]*?)\n---\n/);
@@ -262,6 +262,22 @@ b("DSL 求值异常 → block（宁可错杀）", () => {
   const v = judge({ object: { type: "geo_content" }, action: "geo.publish" }, bad, "review");
   assert(v.level === "block" && v.evalErrors.length > 0, "异常未按 block 处理");
 });
+b("G-GROW7 生命周期岗未激活 → block", () => {
+  const v = J({ object: { type: "lifecycle_program" }, action: "lifecycle.touch.write", context: { p2_activated: false } });
+  assert(v.level === "block", `${v.level}`);
+});
+b("G-GROW7 生命周期岗激活后放行（未命中其他规则 → 写类 default review）", () => {
+  const v = J({ object: { type: "lifecycle_program" }, action: "lifecycle.touch.write", context: { p2_activated: true } });
+  assert(v.level === "review", `${v.level}`);
+});
+b("G-GROW8 渠道增长岗未激活 → block", () => {
+  const v = J({ object: { type: "partnership" }, action: "partnership.plan.write", context: { p2_activated: false } });
+  assert(v.level === "block", `${v.level}`);
+});
+b("G-GROW8 渠道增长岗激活后放行（未命中其他规则 → 写类 default review）", () => {
+  const v = J({ object: { type: "partnership" }, action: "partnership.plan.write", context: { p2_activated: true } });
+  assert(v.level === "review", `${v.level}`);
+});
 
 /* ================= C · 种子与运行态 ================= */
 const c = C("C");
@@ -269,22 +285,22 @@ c("工作区存在且行业为 geo-growth", async () => {
   const r = await q(`SELECT industry, stage FROM workspaces WHERE id=$1`, [WS]);
   assert(r.rows[0]?.industry === "geo-growth", `industry=${r.rows[0]?.industry}`);
 });
-c("23 员工全部 ready 落库", async () => {
+c("25 员工全部 ready 落库", async () => {
   const r = await q(`SELECT count(*) n, count(distinct preset_key) d FROM agents WHERE workspace_id=$1 AND status='ready'`, [WS]);
-  assert(Number(r.rows[0].n) === 23 && Number(r.rows[0].d) === 23, `agents=${r.rows[0].n}`);
+  assert(Number(r.rows[0].n) === 25 && Number(r.rows[0].d) === 25, `agents=${r.rows[0].n}`);
 });
 c("员工 fence_bindings 原样落库（F2.10）", async () => {
   const r = await q(`SELECT preset_key, fence_bindings FROM agents WHERE workspace_id=$1 AND preset_key='geo-content-planner'`, [WS]);
   const fb = r.rows[0]?.fence_bindings as string[];
   assert(Array.isArray(fb) && fb.includes("G-GEO1") && fb.includes("G-GEO2"), "绑定丢失");
 });
-c("23 条围栏 active 装载", async () => {
+c("25 条围栏 active 装载", async () => {
   const r = await q(`SELECT count(*) n FROM fence_rules WHERE workspace_id=$1 AND status='active' AND version='geo-growth-baseline/v1'`, [WS]);
-  assert(Number(r.rows[0].n) === 23, `fences=${r.rows[0].n}`);
+  assert(Number(r.rows[0].n) === 25, `fences=${r.rows[0].n}`);
 });
-c("13 个 GEO 技能已安装（双域 6 + 获客用增 7）", async () => {
+c("15 个 GEO 技能已安装（双域 6 + 获客用增 9）", async () => {
   const r = await q(`SELECT count(*) n FROM skill_installs si JOIN skills s ON s.id=si.skill_id WHERE si.workspace_id=$1 AND s.bundle='geo-growth'`, [WS]);
-  assert(Number(r.rows[0].n) === 13, `skills=${r.rows[0].n}`);
+  assert(Number(r.rows[0].n) === 15, `skills=${r.rows[0].n}`);
 });
 c("14 个触发器 enable", async () => {
   const r = await q(`SELECT count(*) n FROM triggers WHERE workspace_id=$1 AND enabled=true`, [WS]);
