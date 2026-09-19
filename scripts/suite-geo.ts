@@ -61,7 +61,10 @@ const fenceIds = new Set<string>(fenceRules.map(r => r.rule_id));
 /* ================= A · Bundle 完整性 ================= */
 const a = C("A");
 a("bundle.json 声明的全部资产路径存在", () => {
-  for (const paths of Object.values(bundleJson.workloom.provides) as string[][]) {
+  // provides 既有数组资产（presets/skills/…），也有单值字符串（modelPolicy）——只校验数组项，
+  // 否则字符串会被逐字符遍历，产生「缺失资产 m」这类假失败。
+  for (const paths of Object.values(bundleJson.workloom.provides) as Array<string[] | string>) {
+    if (!Array.isArray(paths)) continue;
     for (const p of paths) assert(existsSync(join(BUNDLE, p)), `缺失资产 ${p}`);
   }
 });
@@ -245,7 +248,9 @@ b("G18 熔断触发 → auto 放行但留痕", () => {
   assert(v.level === "auto", `${v.level}`);
 });
 b("未命中读类动作 → 恒 auto（不进 default）", () => {
-  const v = J({ object: { type: "intel_card" }, action: "intel_card.emit" });
+  // HP-02 口径：只读动词仅认 list/read/get/fetch/query/search/describe；emit 未知按写处理。
+  // 本用例验证「读类未命中恒 auto」，样例必须用真正的只读动作（intel_card.list）。
+  const v = J({ object: { type: "intel_card" }, action: "intel_card.list" });
   assert(v.level === "auto", `${v.level}`);
 });
 b("未命中写类动作 → default_level review", () => {

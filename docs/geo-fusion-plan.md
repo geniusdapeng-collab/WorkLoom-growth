@@ -39,7 +39,9 @@
 - **通道可替换**：模型 API、发布渠道、AI 平台监测通道全部走五级分层（L1 官方 API → L3 RPA 剧本 → L5 人工），任一通道失效不塌架构；
 - **数据归属红线**：客户业务数据（客资、WhatsApp 聊天、线索）留在客户系统；WorkLoom 事件链只记录经营动作留痕，不碰内容数据。
 
-### 2.2 员工编制（双域班组，合计 14 员 + 2 指挥官）
+### 2.2 员工编制（GEO 双域包自身 14 员 + 2 指挥官）
+
+> **口径说明（2026-09-19 修订）**：本节描述的是 `bundles/geo-growth` 双域包自身的编制（16 岗）。本产品（获客用增系统）的完整组合编制为三包合并 **61 岗**（hotel 16 + ai-video 30 + geo-growth 15，4 处同名遮蔽按主包裁决），事实源为 `bundles/geo-growth/bundle.json#composition.presetOwners` 与 `packages/base/bundles/assembly.ts`；详见 README「数字 CEO：61 岗组合编制的总经理」一节。
 
 | 班组 | 员工 | 职责 | 复用/新增 |
 |---|---|---|---|

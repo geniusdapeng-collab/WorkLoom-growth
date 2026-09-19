@@ -186,6 +186,19 @@ export function capabilityText(value: string): string {
   return CAPABILITY_TEXT[value] ?? "受限能力";
 }
 
+/**
+ * 技能展示名（Bundles 技能口径）：优先从技能说明首段解析中文名
+ * （如「入住退房全流程套件。…」「GEO 六段式改写官方套件（随 bundles/geo-growth 分发）：…」），
+ * 未命中时回落 @workloom/ui 词典与原始 id。
+ * 行业词表仍由各 Bundle 的技能正文提供，客户端不新增行业词汇（display.ts 顶部扩展纪律）。
+ */
+export function skillDisplayName(name: string, description?: string | null): string {
+  const text = (description ?? "").trim();
+  const m = /^([^（(。：:]{2,24})[（(。：:]/.exec(text);
+  if (m?.[1]) return clientChineseText(m[1].trim(), name);
+  return clientChineseText(name, name);
+}
+
 // —— 线程模式 ——
 export const THREAD_MODE_TEXT: Record<string, string> = {
   quest: "主线任务",

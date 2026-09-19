@@ -2,8 +2,9 @@
  * A5 · 演示种子数据（PRD V2.5 P 章示例场景：云栖酒店）
  * 用法：pnpm db:seed（读取 .env；幂等，可重复执行）
  *
- * 内容：demo 租户 / 云栖酒店工作区 / 3 人类成员 / 11 Agent preset 实例 /
- *      一店一档（含 forbidden 硬约束 + 布草/断点/FAQ 字段组）/ 基线围栏 R1–R20（hotel-baseline/v3）装载 / 25 官方技能 /
+ * 内容：demo 租户 / 云栖酒店工作区 / 3 人类成员 / 16 个基础 Agent preset 实例 +
+ *      组合编制 61 岗（hotel 16 + ai-video 30 + geo-growth 15，见 provisionComposedWorkforce）/
+ *      一店一档（含 forbidden 硬约束 + 布草/断点/FAQ 字段组）/ 基线围栏 R1–R26（hotel-baseline/v4）装载 / 30 个酒店官方技能 /
  *      2 触发器 / 昨夜夜班班次 / 100 条五元事件（哈希链）/ 审批样例 / 组织记忆
  *
  * 纪律：
@@ -152,60 +153,97 @@ function loadFences(): FenceRule[] {
 }
 
 interface SkillDoc {
+  bundle: string;
   name: string;
   description: string;
   body: string;
   fenceBindings: string[];
 }
 
-function loadSkills(): SkillDoc[] {
-  const dir = join(BUNDLE_DIR, "skills");
+/** 单包技能装载：SKILL.md front-matter + 显式围栏绑定表（未声明即空，不猜绑定） */
+function loadBundleSkills(bundleId: string, dir: string, bindMap: Record<string, string[]>): SkillDoc[] {
   return readdirSync(dir)
     .sort()
     .map((d) => {
       const raw = readFileSync(join(dir, d, "SKILL.md"), "utf-8");
       const m = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
       const fm = YAML.parse(m?.[1] ?? "{}");
-      // v3 全量绑定表（25 技能；与 workloom-hotel v2.3.1 同口径）
-      const bindMap: Record<string, string[]> = {
-        "revenue-manager": ["R1", "R2", "R7", "R8"],
-        "review-crisis": ["R6"],
-        "channel-reconciler": ["R4", "R5"],
-        "inspection-suite": [],
-        "night-audit-suite": ["R5"],
-        "checkin-checkout": ["R4", "R14"],
-        "customer-service": ["R13"],
-        "content-marketing": ["R3", "R15"],
-        "retention-manager": ["R9"],
-        "inventory-procurement": ["R11"],
-        "staff-scheduler": ["R12"],
-        "safety-compliance": ["R10"],
-        "finance-reporting": [],
-        "morning-briefing": [],
-        "handover-manager": [],
-        "pricing-matrix": ["R1", "R2"],
-        "review-asset-mining": [],
-        "room-service-dispatch": ["R14"],
-        "maintenance-dispatch": [],
-        "ai-live-assistant": ["R15", "R2"],
-        "ota-operations": [],
-        "guest-profile-crm": [],
-        "phone-concierge": ["R9", "R13"],
-        "overbooking-parity-guard": ["R17", "R18", "R2"],
-        "incident-postmortem": ["R10"],
-        // v3.3 获客域技能绑定
-        "lead-concierge": ["R21", "R23", "R24", "R25"],
-        "coupon-ops": ["R22", "R26"],
-        "hotel-geo-content": ["R25"],
-        "intent-radar": [],
-      };
+      const name = String(fm.name ?? d);
       return {
-        name: String(fm.name ?? d),
+        bundle: bundleId,
+        name,
         description: String(fm.description ?? ""),
         body: (m?.[2] ?? "").trim(),
-        fenceBindings: bindMap[String(fm.name ?? d)] ?? [],
+        fenceBindings: bindMap[name] ?? [],
       };
     });
+}
+
+function loadSkills(): SkillDoc[] {
+  // v3 全量绑定表（30 技能；与 workloom-hotel v3.4.0 同口径）
+  const bindMap: Record<string, string[]> = {
+    "revenue-manager": ["R1", "R2", "R7", "R8"],
+    "review-crisis": ["R6"],
+    "channel-reconciler": ["R4", "R5"],
+    "inspection-suite": [],
+    "night-audit-suite": ["R5"],
+    "checkin-checkout": ["R4", "R14"],
+    "customer-service": ["R13"],
+    "content-marketing": ["R3", "R15"],
+    "retention-manager": ["R9"],
+    "inventory-procurement": ["R11"],
+    "staff-scheduler": ["R12"],
+    "safety-compliance": ["R10"],
+    "finance-reporting": [],
+    "morning-briefing": [],
+    "handover-manager": [],
+    "pricing-matrix": ["R1", "R2"],
+    "review-asset-mining": [],
+    "room-service-dispatch": ["R14"],
+    "maintenance-dispatch": [],
+    "ai-live-assistant": ["R15", "R2"],
+    "ota-operations": [],
+    "guest-profile-crm": [],
+    "phone-concierge": ["R9", "R13"],
+    "overbooking-parity-guard": ["R17", "R18", "R2"],
+    "incident-postmortem": ["R10"],
+    // v3.3 获客域技能绑定
+    "lead-concierge": ["R21", "R23", "R24", "R25"],
+    "coupon-ops": ["R22", "R26"],
+    "hotel-geo-content": ["R25"],
+    "intent-radar": [],
+  };
+  return loadBundleSkills("hotel", join(BUNDLE_DIR, "skills"), bindMap);
+}
+
+/**
+ * 组合并入包（ai-video / geo-growth）的技能绑定表。
+ * 口径：只收录 SKILL.md 描述中显式声明的围栏（未声明即空列表，不臆造绑定）。
+ */
+const COMPOSED_SKILL_BINDINGS: Record<"ai-video" | "geo-growth", Record<string, string[]>> = {
+  "ai-video": {
+    "comment-ops": ["G10a", "G10b", "G10c", "G10d"],
+    "director-review": ["G6"],
+    "jenny-loom-research": ["G1"],
+    "marketing-brief-parser": ["G2"],
+    "portrait-studio": ["G5"],
+    "publish-ops": ["G9", "G9a"],
+    "render-ops": ["G8"],
+    "shot-prompt-craft": ["G6"],
+  },
+  "geo-growth": {
+    "ai-answer-rewrite": ["G-GEO1", "G-GEO2"],
+    "entity-consistency-check": ["G-GEO2"],
+  },
+};
+
+/** 组合技能并集：酒店 30 + ai-video 8 + geo-growth 6（三包技能无同名冲突，本轮已核） */
+function loadComposedSkills(): SkillDoc[] {
+  return [
+    ...loadSkills(),
+    ...loadBundleSkills("ai-video", join(REPO_ROOT, "bundles/ai-video/skills"), COMPOSED_SKILL_BINDINGS["ai-video"]),
+    ...loadBundleSkills("geo-growth", join(REPO_ROOT, "bundles/geo-growth/skills"), COMPOSED_SKILL_BINDINGS["geo-growth"]),
+  ];
 }
 
 /**
@@ -709,8 +747,8 @@ function makeEvent(i: number, time: Date, presets: Preset[]): SeedEvent {
 async function main(): Promise<void> {
   const presets = loadPresets();
   const fences = loadFences();
-  const skillsDocs = loadSkills();
-  console.log(`✓ Bundle 资产读取：${presets.length} preset / ${fences.length} 围栏 / ${skillsDocs.length} 技能`);
+  const skillsDocs = loadComposedSkills();
+  console.log(`✓ Bundle 资产读取：${presets.length} preset / ${fences.length} 围栏 / ${skillsDocs.length} 组合技能`);
 
   // —— 组织模型走 owner 连接（种子/迁移账号，RLS 对其不生效；见 0001_init.sql 注记）
   const owner = new pg.Client({ connectionString: DATABASE_URL });
@@ -724,13 +762,22 @@ async function main(): Promise<void> {
     [TENANT_ID, TENANT_NAME],
   );
   await q(
-    `INSERT INTO workspaces (id, tenant_id, name, slug, industry, stage, night_config)
-     VALUES ($1,$2,$3,$4,'hotel','stable',$5) ON CONFLICT (id) DO NOTHING`,
+    `INSERT INTO workspaces (id, tenant_id, name, slug, industry, stage, night_config, bundle_id, is_example)
+     VALUES ($1,$2,$3,$4,$5,'stable',$6,$5,true)
+     ON CONFLICT (id) DO UPDATE
+       SET industry = EXCLUDED.industry, bundle_id = EXCLUDED.bundle_id, is_example = true`,
     [
       WS_ID,
       TENANT_ID,
       WS_NAME,
       WS_SLUG,
+      /**
+       * 组合主包指针：与 product.manifest.json#defaultBundle 一致。
+       * 游客首启（accounts.guestEnter）按「is_example=true + 该主包有唯一 active 安装」发现示例工作区；
+       * 缺指针或缺安装行时，前端只会看到「示例工作区未就绪（首启种子未完成）」。
+       * 行业语义留在 profiles.industry（一店一档=hotel），workspaces.industry 表达已装配的主包。
+       */
+      PRODUCT_PRIMARY_BUNDLE,
       JSON.stringify({
         enabled: true,
         candidateTime: "18:00",
@@ -740,7 +787,7 @@ async function main(): Promise<void> {
       }),
     ],
   );
-  console.log("✓ 租户与工作区：demo / 云栖酒店");
+  console.log(`✓ 租户与工作区：demo / 云栖酒店（主包 ${PRODUCT_PRIMARY_BUNDLE} · is_example=true）`);
 
   // 人类成员（王店长 owner / 陈经理 manager / 李前台 readonly，F5.6）
   for (const m of MEMBERS) {
@@ -850,11 +897,11 @@ async function main(): Promise<void> {
     // 同版本重跑不覆盖（避免无谓行 churn；#17 纪律下运行时读安装快照，此更新不影响已装并集）
     await q(
       `INSERT INTO skills (id, level, bundle, name, version, description, fence_bindings, body, desensitized)
-       VALUES ($1,'official','hotel',$2,'1.0.0',$3,$4,$5,false)
-       ON CONFLICT (id) DO UPDATE SET body = EXCLUDED.body, version = EXCLUDED.version,
+       VALUES ($1,'official',$2,$3,'1.0.0',$4,$5,$6,false)
+       ON CONFLICT (id) DO UPDATE SET bundle = EXCLUDED.bundle, body = EXCLUDED.body, version = EXCLUDED.version,
                                       fence_bindings = EXCLUDED.fence_bindings
        WHERE skills.version IS DISTINCT FROM EXCLUDED.version`,
-      [skillId, s.name, s.description, JSON.stringify(s.fenceBindings), s.body],
+      [skillId, s.bundle, s.name, s.description, JSON.stringify(s.fenceBindings), s.body],
     );
     // 安装行与运行时 installSkill 同口径（#17 安装时快照 + D15-⑤ installed_version）：
     // 快照/版本从 skills 表取，保证 seed 与运行时两条路径的围栏并集计算一致
@@ -865,25 +912,41 @@ async function main(): Promise<void> {
       [skillId, WS_ID],
     );
   }
-  console.log(`✓ 官方技能 ×${skillsDocs.length} 已安装（围栏绑定随安装生效，安装快照已落）`);
+  console.log(`✓ 组合官方技能 ×${skillsDocs.length} 已安装（hotel 30 + ai-video 8 + geo-growth 6；围栏绑定随安装生效，安装快照已落）`);
 
-  // —— bundle_installs 装配台账登记（V4：一键清空的精确卸载依据；幂等） ——
+  // —— bundle_installs 装配台账登记（V5：组合编制口径，一键清空的精确卸载依据；幂等） ——
+  // 必须登记「主包 + 实际装配资产」：旧口径只记酒店单包（16 岗 + 不存在的围栏 ID），
+  // 会让 45 个组合岗位与 54 条组合围栏成为无主资产——一键清空清不掉、游客入口发现不到、投影挂不对。
+  const installId = `bi-${WS_ID}-${PRODUCT_PRIMARY_BUNDLE}`;
+  const agentRows = await q(`SELECT id FROM agents WHERE workspace_id=$1 ORDER BY preset_key`, [WS_ID]);
+  const fenceRows = await q(`SELECT id FROM fence_rules WHERE workspace_id=$1 AND status='active' ORDER BY rule_id`, [WS_ID]);
+  // 只登记三包 official 技能：team（工作区自建）/industry（脱敏共享）技能不随行业包卸载。
+  const skillRows = await q(
+    `SELECT si.skill_id FROM skill_installs si
+       JOIN skills s ON s.id = si.skill_id
+      WHERE si.workspace_id=$1 AND s.level='official' AND s.bundle = ANY($2::text[])
+      ORDER BY si.skill_id`,
+    [WS_ID, ["hotel", "ai-video", "geo-growth"]],
+  );
+  const ledgerAssets = {
+    preset_ids: agentRows.rows.map((r) => String(r.id)),
+    fence_rule_ids: fenceRows.rows.map((r) => String(r.id)),
+    skill_ids: skillRows.rows.map((r) => String(r.skill_id)),
+  };
+  // 单活跃安装不变式：先退役旧口径安装行，再落组合主包安装行。
+  await q(
+    `UPDATE bundle_installs SET status='uninstalled', uninstalled_at=now()
+     WHERE workspace_id=$1 AND status='active' AND id<>$2`,
+    [WS_ID, installId],
+  );
   await q(
     `INSERT INTO bundle_installs (id, workspace_id, bundle_id, assets, status)
      VALUES ($1,$2,$3,$4,'active')
-     ON CONFLICT (id) DO NOTHING`,
-    [
-      `bi-${WS_ID}-${BUNDLE_DIR.split("/").pop()}`,
-      WS_ID,
-      BUNDLE_DIR.split("/").pop(),
-      JSON.stringify({
-        preset_ids: presets.map((p) => `agt-${p.preset_key}`),
-        fence_rule_ids: fences.map((r) => `fr-${r.rule_id.toLowerCase()}-v1-${WS_ID}`),
-        skill_ids: skillsDocs.map((s) => `skill-${s.name}`),
-      }),
-    ],
+     ON CONFLICT (id) DO UPDATE SET bundle_id = EXCLUDED.bundle_id, assets = EXCLUDED.assets,
+                                    status='active', uninstalled_at=NULL`,
+    [installId, WS_ID, PRODUCT_PRIMARY_BUNDLE, JSON.stringify(ledgerAssets)],
   );
-  console.log("✓ 装配台账登记（bundle_installs）");
+  console.log(`✓ 组合装配台账（${PRODUCT_PRIMARY_BUNDLE} · ${ledgerAssets.preset_ids.length} 岗 / ${ledgerAssets.fence_rule_ids.length} 围栏 / ${ledgerAssets.skill_ids.length} 技能）`);
 
   // 团队技能 + 行业共享技能（P6 装备库三区演示数据；F8.1 三级体系；幂等 ON CONFLICT）
   await q(
