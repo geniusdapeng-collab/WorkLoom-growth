@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "workloom.luts/v1",
+  "generatedBy": "bundles/ai-video/library/luts/generate-luts.mjs",
+  "license": "self-generated（本仓自有产物，无第三方 LUT 再分发）",
+  "source": {
+    "slog3": "Sony S-Log3 公开传输函数（码值→线性反射率）",
+    "rec709": "ITU-R BT.709 OETF",
+    "note": "仅做色调曲线转换，未做 S-Gamut3.Cine→BT.709 色域矩阵；极端色域素材请先确认色域或补矩阵"
+  },
+  "luts": [
+    {
+      "file": "slog3-to-rec709.cube",
+      "kind": "conversion",
+      "size": 33,
+      "use": "log 素材先转换（禁止在 log 上直接叠创意 LUT）"
+    },
+    {
+      "file": "look-clean-bright.cube",
+      "kind": "creative",
+      "size": 17,
+      "use": "科普/教学/产品说明：干净、提亮、少风格",
+      "params": {
+        "lift": 0.012,
+        "gain": 1,
+        "shadow": [
+          0,
+          0,
+          0.004
+        ],
+        "high": [
+          0.004,
+          0.002,
+          0
+        ],
+        "saturation": 1.08,
+        "contrast": 1,
+        "gamma": 1.02
+      }
+    },
+    {
+      "file": "look-warm-film.cube",
+      "kind": "creative",
+      "size": 17,
+      "use": "叙事片/情感向：暖调、轻提黑位、肤色友好",
+      "params": {
+        "lift": 0.016,
+        "gain": 0.995,
+        "shadow": [
+          0.004,
+          0.001,
+          -0.002
+        ],
+        "high": [
+          0.012,
+          0.004,
+          -0.008
+        ],
+        "saturation": 1.04,
+        "contrast": 1.04,
+        "gamma": 1
+      }
+    },
+    {
+      "file": "look-teal-orange.cube",
+      "kind": "creative",
+      "size": 17,
+      "use": "商业片/品牌统一：青影橙高光",
+      "params": {
+        "lift": 0.004,
+        "gain": 1,
+        "shadow": [
+          -0.012,
+          0,
+          0.016
+        ],
+        "high": [
+          0.016,
+          0.003,
+          -0.012
+        ],
+        "saturation": 1.06,
+        "contrast": 1.08,
+        "gamma": 1
+      }
+    },
+    {
+      "file": "look-moody-dark.cube",
+      "kind": "creative",
+      "size": 17,
+      "use": "严肃/悬疑：压黑、去饱和（力度别满档）",
+      "params": {
+        "lift": -0.004,
+        "gain": 0.985,
+        "shadow": [
+          -0.004,
+          -0.002,
+          0.006
+        ],
+        "high": [
+          0,
+          -0.002,
+          0.002
+        ],
+        "saturation": 0.86,
+        "contrast": 1.1,
+        "gamma": 0.98
+      }
+    }
+  ]
+}

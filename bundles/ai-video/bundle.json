@@ -48,10 +48,12 @@
         "presets/distribution-operator.yml",
         "presets/ip-curator.yml",
         "presets/review-analyst.yml",
-        "presets/settlement-clerk.yml"
+        "presets/settlement-clerk.yml",
+        "presets/colorist.yml"
       ],
       "fences": [
-        "fences/ai-video-baseline.yml"
+        "fences/ai-video-baseline.yml",
+        "fences/ai-video-color.yml"
       ],
       "skills": [
         "skills/jenny-loom-research/SKILL.md",
@@ -61,7 +63,8 @@
         "skills/portrait-studio/SKILL.md",
         "skills/render-ops/SKILL.md",
         "skills/publish-ops/SKILL.md",
-        "skills/comment-ops/SKILL.md"
+        "skills/comment-ops/SKILL.md",
+        "skills/color-grade/SKILL.md"
       ],
       "schemas": [
         "schemas/objects.json",
@@ -448,9 +451,10 @@
   },
   "integrity": {
     "algorithm": "sha256",
-    "digest": "7b383b1afc32d1bcc578ff17d0a109a39fce0f3445249327ed00dce1f48eae79",
+    "digest": "ef769bfb92de8b107d38efc7bebc90e80a481501c81b6d2b990c4f693683d24e",
     "assets": {
       "fences/ai-video-baseline.yml": "d0c8f2f8f7bf59dd3b9b74b2d880d3e1d405ddf849b64adca703b8c071b2eed7",
+      "fences/ai-video-color.yml": "709cb9fc3cba47a4ee2b4ee233d714277223cb23f9ca210ed3712de54c597ed6",
       "library/hollywood-factory/技能系列/镜头级专项/剧情_卡梅隆_情感手持.md": "823392d5017ce604099c67a5e18da812923d3f6e3bf8949f7ec8615e84eba7ba",
       "library/hollywood-factory/技能系列/镜头级专项/剧情_卡梅隆_紧张手持.md": "6beefc37e904e113eb127a856aab05d81e97e92ef27614fcd90387b0bb61f833",
       "library/hollywood-factory/技能系列/镜头级专项/剧情_卢卡斯_告别斯坦尼康.md": "4dbe34cb520f9b66e10cc6b615b74221722a9ac8bd1aa491efb70bd4b2a1777a",
@@ -690,10 +694,11 @@
       "pipelines/account-ops.yml": "455383c019ac1d0523db48c6088c7bfce4aa9e8e1eef8d7d71399aa69e107264",
       "pipelines/ads-creative-factory.yml": "90e475e5482ecf15541aa2d6eca5499aa1c9bea8d9928e2122975ae77df869c5",
       "pipelines/marketing-film.yml": "4ba95c0e83538de605126072ce26a462211e4cea3a82c5fcaee8227a71b485b1",
-      "pipelines/narrative-film.yml": "fe26f73d260de9c05365d120c38c41f9a3386ed85724047deef5e84d11891913",
+      "pipelines/narrative-film.yml": "e909d2bd470a0a1da6e87705741c4e59750cb816b5db322879c7839d7e4da391",
       "pipelines/settlement-recon.yml": "c4af96be653224e31ec8882ae19da37026dbbe1f2d5fb28435deee92b37db1d0",
       "presets/ads-optimizer.yml": "4969554944f4e2586aef8ab29da819d76611a6ba537b5964db6e9e7db9cc5bf2",
       "presets/audio-designer.yml": "e0122309c8a94d7b8e73109c3b88f92b900917bdc04c5535836e7f1f3c66dc0b",
+      "presets/colorist.yml": "76f7d25ffff20933f70db42b4e3eff3986096006ee9472c3f283dee5e56af7de",
       "presets/comment-operator.yml": "6b96a0ef1e62d6f98bc82872578bec3afd590e4f51f3b1076b974fa7b2fe7b93",
       "presets/compliance-officer.yml": "0fe8477702798a61fa32366318d4cdda6f0f85ceecfc50f3ef6a51a775bc8e68",
       "presets/continuity-reviewer.yml": "b4eee93a32e3cf5efdf53eacd428e3ab628798c59aa7d7abcb1bb6155458b6e3",
@@ -725,8 +730,9 @@
       "presets/settlement-clerk.yml": "6b6f1cdcc3e71d5d2a88dc9aba1e9013e250e924b4bd95eda393a710dcd99f5c",
       "presets/trend-researcher.yml": "802b157911cf35216d5122784d8ba0d89ac1da2187748413243f957c002307b3",
       "presets/visual-director.yml": "74683eed31a08c7ffce74ffeb02a4349051c4ec9164ba995470455cf35f6fa61",
-      "schemas/objects.json": "c4092fff25e72c5a55baf0fef2a2020e4f99ab20e05400c260cf0c8cdaf0d97e",
+      "schemas/objects.json": "101a40b7b3cc89468c3126a27a4599968025dec5cec6a7e416ece30f726e0f64",
       "schemas/stages.json": "418332ca5a5522083592da40773265d8f09b1ab9276d566275e075ef56118831",
+      "skills/color-grade/SKILL.md": "6dba3dacb5a2f9ed7d817e0ba23d59757870751dab14816ad3650c9ceef7b247",
       "skills/comment-ops/SKILL.md": "33e3ec30ca314e91f1113fdedb8d6c515fa181a9d4d0391db99b4f42ebd4b9ba",
       "skills/director-review/SKILL.md": "7ca415f0a42877c92f9393ceb93b4866f0b2debca5fb979fabef6033389760c1",
       "skills/jenny-loom-research/SKILL.md": "d7eab8f47705713a9127fe6c108d7eeb4f8d15ed137feee09f4172a42900c922",
