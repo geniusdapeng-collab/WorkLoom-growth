@@ -63,7 +63,7 @@
 | 40 | electron-builder | [github.com/electron-userland/electron-builder](https://github.com/electron-userland/electron-builder) · MIT | 26.15.3 | 26.15.3 | 开发/构建 | apps/desktop（打包/签名） | 安装包与签名链路；升级后过 app:pack / app:dist 与发布资产校验 |
 | 41 | Playwright | [github.com/microsoft/playwright](https://github.com/microsoft/playwright) · Apache-2.0 | 1.63.0 | 1.63.0 | 开发/构建 | 三端 E2E（apps/*）、packages/base/computer-use/toolkit（Python 版，随工具链安装） | E2E 与 computer-use 浏览器驱动共用；升级必须重建 Linux 视觉基线（CNB ui-gate 在同一镜像内跑）；Python 侧版本由 toolkit/requirements.txt 约束 |
 | 42 | @axe-core/playwright | [github.com/dequelabs/axe-core-npm](https://github.com/dequelabs/axe-core-npm) · MPL-2.0 | 未引入 | 4.13.0 | 开发/构建 | 三端无障碍门禁 | 与 @playwright/test 版本矩阵敏感，同批升级 |
-| 43 | Vitest | [github.com/vitest-dev/vitest](https://github.com/vitest-dev/vitest) · MIT | 3.2.0 / 4.1.11 | **5.0.1** ⬆ | 开发/构建 | packages/*、apps/server | 各 workspace 版本需对齐（历史存在 v3/v4 混用）；升级后全量跑 pnpm test |
+| 43 | Vitest | [github.com/vitest-dev/vitest](https://github.com/vitest-dev/vitest) · MIT | 3.2.0 / 4.1.11 / 5.0.1 | **5.0.1** ⬆ | 开发/构建 | packages/*、apps/server | 各 workspace 版本需对齐（历史存在 v3/v4 混用）；升级后全量跑 pnpm test |
 | 44 | tsx | [github.com/privatenumber/tsx](https://github.com/privatenumber/tsx) · MIT | 4.23.12 / 4.23.13 | **4.23.13** ⬆ | 开发/构建 | 根脚本、apps/server | TS 直跑器；升级后过 db:migrate/db:seed 与 server 启动 |
 | 45 | TypeScript | [github.com/microsoft/TypeScript](https://github.com/microsoft/TypeScript) · Apache-2.0 | 5.9.0 / 7.0.2 | **7.0.2** ⬆ | 开发/构建 | 全仓 typecheck | 7.0 原生化工具链；部分包仍锁 5.9（治理/UI 消费校验），升级按包分批，避免一次全仓 |
 | 46 | typescript-governance（别名固定解析器） | [github.com/microsoft/TypeScript](https://github.com/microsoft/TypeScript) · Apache-2.0 | 5.9.3 | —（未扫描） | CI/流水线 | UI 治理/消费校验固定解析器（npm:typescript@5.9.3） | 治理脚本的固定解析器，不随主 TypeScript 升级；改动需与 sync/install-ui-governance.mjs 的 dependency 声明同步 |
@@ -276,7 +276,7 @@
 | `typescript` | 5.9.0 / 7.0.2 | ^5.9.0 / ^7.0.2 | 开发 | apps/server/package.json、apps/web/package.json、apps/webb/package.json 等 12 处 | 7.0.2 |
 | `typescript-governance → npm:typescript` | 5.9.3 | npm:typescript@5.9.3 | 开发 | package.json | **7.0.2** ⬆ |
 | `vite` | 8.2.2（声明） | 8.2.2 | 开发/生产 | .workloom-runtime-deps/package.json、apps/web/package.json、apps/webb/package.json 等 4 处 | **8.3.0** ⬆ |
-| `vitest` | 3.2.0 / 4.1.11 | 4.1.11 / ^3.2.0 / ^4.1.11 | 开发 | apps/webb/package.json、package.json、packages/audit-engine/package.json 等 8 处 | **5.0.1** ⬆ |
+| `vitest` | 3.2.0 / 4.1.11 / 5.0.1 | 4.1.11 / ^3.2.0 / ^4.1.11 / ^5.0.1 | 开发 | apps/webb/package.json、package.json、packages/audit-engine/package.json 等 8 处 | 5.0.1 |
 | `ws` | 8.21.0（声明） | 8.21.0 | 开发 | vendor/dsh/package.json | **8.21.3** ⬆ |
 | `yaml` | 2.9.0 | 2.9.0 | 开发/生产 | .workloom-runtime-deps/package.json、apps/server/package.json、package.json 等 4 处 | **2.9.1** ⬆ |
 | `yaml-governance → npm:yaml` | 2.9.0 | npm:yaml@2.9.0 | 开发 | package.json | **2.9.1** ⬆ |
@@ -306,7 +306,7 @@
 
 ## 3. 有可用更新
 
-登记组件滞后 23 个，直接依赖滞后 22 个 —— 逐项执行单见 `docs/oss-update-plan.md`。
+登记组件滞后 23 个，直接依赖滞后 21 个 —— 逐项执行单见 `docs/oss-update-plan.md`。
 - `dsh-im 多平台 IM 接入插件` 0.2.2 → **4.21.2**（门禁 standard）
 - `yaml` 2.9.0 → **2.9.1**（门禁 standard）
 - `js-yaml` 4.2.0 → **5.4.2**（门禁 standard）
@@ -322,7 +322,7 @@
 - `three.js` 0.185.1 → **0.186.0**（门禁 full）
 - `pixi.js` 6.5.10 → **8.21.0**（门禁 full）
 - `Electron` 44.1.1 → **44.4.2**（门禁 full）
-- `Vitest` 3.2.0 / 4.1.11 → **5.0.1**（门禁 standard）
+- `Vitest` 3.2.0 / 4.1.11 / 5.0.1 → **5.0.1**（门禁 standard）
 - `tsx` 4.23.12 / 4.23.13 → **4.23.13**（门禁 standard）
 - `TypeScript` 5.9.0 / 7.0.2 → **7.0.2**（门禁 smoke）
 - `concurrently` 9.2.4 → **10.0.5**（门禁 smoke）
