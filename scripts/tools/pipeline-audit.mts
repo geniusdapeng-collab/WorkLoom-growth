@@ -143,9 +143,17 @@ const jobRows = (renderJobs?.shots ?? []) as Array<Record<string, unknown>>;
 const postReport = existsSync(join(runDir, "post/post-report.json"))
   ? (JSON.parse(readFileSync(join(runDir, "post/post-report.json"), "utf8")) as Record<string, unknown>)
   : null;
-const colorReportPath = readdirSync(runDir).find((name) => name.endsWith("-color-report.json")) ?? null;
-const colorReport = colorReportPath
-  ? (JSON.parse(readFileSync(join(runDir, colorReportPath), "utf8")) as Record<string, unknown>)
+/** 调色报告可能落在 run 根或 film/ 子目录（compose-film 输出位置） */
+const colorReportFile = (() => {
+  for (const dir of [runDir, join(runDir, "film"), join(runDir, "post")]) {
+    if (!existsSync(dir)) continue;
+    const hit = readdirSync(dir).find((name) => name.endsWith("-color-report.json"));
+    if (hit) return join(dir, hit);
+  }
+  return null;
+})();
+const colorReport = colorReportFile
+  ? (JSON.parse(readFileSync(colorReportFile, "utf8")) as Record<string, unknown>)
   : null;
 
 const steps: StepCheck[] = [
