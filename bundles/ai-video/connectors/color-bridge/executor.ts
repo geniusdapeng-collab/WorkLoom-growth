@@ -61,6 +61,7 @@ export const COLOR_BRIDGE_TOOLS = [
   "colorread.probe",
   "colorread.analyze",
   "colorread.scope",
+  "colorread.recipes",
   "colorwrite.grade",
   "colorwrite.match",
 ] as const;
@@ -238,4 +239,3 @@ export function createColorBridgeExecutor(options: ColorBridgeOptions): ToolExec
     };
   };
 }
-

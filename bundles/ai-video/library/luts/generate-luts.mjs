@@ -46,26 +46,32 @@ export const LOOKS = {
   "clean-bright": {
     title: "WorkLoom look · clean-bright",
     use: "科普/教学/产品说明：干净、提亮、少风格",
-    lift: 0.012, gain: 1.0, shadow: [0, 0, 0.004], high: [0.004, 0.002, 0],
-    saturation: 1.08, contrast: 1.0, gamma: 1.02,
+    lift: 0.02, gain: 1.0, shadow: [0.004, 0.002, 0.012], high: [0.008, 0.004, 0],
+    saturation: 1.14, contrast: 1.03, gamma: 1.05,
   },
   "warm-film": {
     title: "WorkLoom look · warm-film",
     use: "叙事片/情感向：暖调、轻提黑位、肤色友好",
-    lift: 0.016, gain: 0.995, shadow: [0.004, 0.001, -0.002], high: [0.012, 0.004, -0.008],
-    saturation: 1.04, contrast: 1.04, gamma: 1.0,
+    lift: 0.032, gain: 0.99, shadow: [0.02, 0.006, -0.016], high: [0.032, 0.008, -0.024],
+    saturation: 1.08, contrast: 1.07, gamma: 1.03,
   },
   "teal-orange": {
     title: "WorkLoom look · teal-orange",
     use: "商业片/品牌统一：青影橙高光",
-    lift: 0.004, gain: 1.0, shadow: [-0.012, 0, 0.016], high: [0.016, 0.003, -0.012],
-    saturation: 1.06, contrast: 1.08, gamma: 1.0,
+    lift: 0.006, gain: 1.0, shadow: [-0.055, -0.005, 0.075], high: [0.062, 0.01, -0.062],
+    saturation: 1.02, contrast: 1.15, gamma: 0.97,
   },
   "moody-dark": {
     title: "WorkLoom look · moody-dark",
     use: "严肃/悬疑：压黑、去饱和（力度别满档）",
-    lift: -0.004, gain: 0.985, shadow: [-0.004, -0.002, 0.006], high: [0, -0.002, 0.002],
-    saturation: 0.86, contrast: 1.1, gamma: 0.98,
+    lift: -0.012, gain: 0.97, shadow: [-0.022, -0.008, 0.042], high: [0, -0.01, 0.022],
+    saturation: 0.76, contrast: 1.17, gamma: 0.93,
+  },
+  "cool-technical": {
+    title: "WorkLoom look · cool-technical",
+    use: "科技/SaaS/数码：冷调、精密（屏幕白必须仍读作白）",
+    lift: 0.004, gain: 0.995, shadow: [-0.02, -0.004, 0.045], high: [-0.014, 0.004, 0.03],
+    saturation: 0.93, contrast: 1.09, gamma: 0.98,
   },
 };
 
@@ -126,6 +132,7 @@ const manifest = () => ({
     ...Object.entries(LOOKS).map(([name, spec]) => ({
       file: `look-${name}.cube`, kind: "creative", size: LOOK_SIZE, use: spec.use,
       params: { lift: spec.lift, gain: spec.gain, shadow: spec.shadow, high: spec.high, saturation: spec.saturation, contrast: spec.contrast, gamma: spec.gamma },
+      note: "满档参数（intensity=1.0 的画面语言）；低于 0.6 强度基本看不出变化，交付前必须过可见性校验",
     })),
   ],
 });

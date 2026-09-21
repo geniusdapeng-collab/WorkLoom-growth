@@ -20,8 +20,9 @@ function okResponse(result: Record<string, unknown>, receipt: Record<string, unk
 }
 
 describe("工具白名单", () => {
-  it("只声明 6 个调色工具，且不提供他人工具", () => {
-    expect(COLOR_BRIDGE_TOOLS).toHaveLength(6);
+  it("只声明 7 个调色工具，且不提供他人工具", () => {
+    expect(COLOR_BRIDGE_TOOLS).toHaveLength(7);
+    expect(isColorBridgeTool("colorread.recipes")).toBe(true);
     expect(isColorBridgeTool("colorwrite.grade")).toBe(true);
     expect(isColorBridgeTool("visualwrite.compose")).toBe(false);
     expect(isColorBridgeTool("render.submit")).toBe(false);
@@ -148,4 +149,3 @@ describe("失败与故障转移", () => {
     expect(onRetry).toHaveBeenCalled();
   });
 });
-

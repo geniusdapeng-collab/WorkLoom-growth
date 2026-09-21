@@ -9,7 +9,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import {
   COLOR_TOOLS, ColorError, SCOPE_KINDS, allowedRoots, assertPathAllowed, autoCorrections,
-  buildChain, grade, probeMedia, renderScopes, resolveBinaries, summarize,
+  buildChain, frameDifference, grade, probeMedia, PROFILES, renderScopes, resolveBinaries, summarize,
 } from "./core.mjs";
 
 const bins = resolveBinaries();
@@ -24,8 +24,9 @@ const hasFfmpeg = (() => {
 })();
 
 describe("工具面与滤镜链（纯函数）", () => {
-  it("工具面固定为 6 个，scope 三种", () => {
-    expect(COLOR_TOOLS).toHaveLength(6);
+  it("工具面固定为 7 个（含配方库检索），scope 三种", () => {
+    expect(COLOR_TOOLS).toHaveLength(7);
+    expect(COLOR_TOOLS).toContain("colorread.recipes");
     expect(SCOPE_KINDS).toEqual(["waveform", "vectorscope", "histogram"]);
   });
 
@@ -52,7 +53,33 @@ describe("工具面与滤镜链（纯函数）", () => {
   it("强度 <1 时用 split/blend 混合，且不出现二阶滤镜", () => {
     const chain = buildChain({ profile: "natural", intensity: 0.8 });
     expect(chain).toContain("split=2[__orig][__tograde]");
-    expect(chain).toContain("blend=all_mode=normal:all_opacity=0.8");
+    // 顺序必须是 [已调色][原片]，opacity 才等价于"look 强度"（写反=强度失效）
+    expect(chain).toContain("[__graded][__orig]blend=all_mode=normal:all_opacity=0.8");
+  });
+
+  it("校正恒为 100%：只做校正时根本不该出现混合（避免欠曝只修 80%）", () => {
+    const chain = buildChain({ corrections: { normalize: true, eq: { brightness: 0.08 } }, intensity: 0.5 });
+    expect(chain).not.toContain("split=2");
+    expect(chain).not.toContain("blend=");
+    expect(chain).toContain("normalize=");
+    expect(chain).toContain("eq=brightness=0.08");
+  });
+
+  it("校正 + look：校正在混合之外（先校正，再按强度叠 look）", () => {
+    const chain = buildChain({ corrections: { eq: { brightness: 0.08 } }, profile: "teal-orange", intensity: 0.8 });
+    const eqAt = chain.indexOf("eq=brightness=0.08");
+    const splitAt = chain.indexOf("split=2");
+    expect(eqAt).toBeGreaterThanOrEqual(0);
+    expect(splitAt).toBeGreaterThan(eqAt);
+    expect(chain).toContain("[__graded][__orig]blend=all_mode=normal:all_opacity=0.8");
+  });
+
+  it("内置 look 的量级足够（满档参数必须真的能推得动画面）", () => {
+    // 回归防线：早期版本 colorbalance 只有 ±0.04，成品像素差 ≈1.5%，用户看不出变化
+    expect(PROFILES["teal-orange"]).toMatch(/rs=-0\.1[5-9]/);
+    expect(PROFILES["teal-orange"]).toMatch(/bs=0\.2/);
+    expect(PROFILES["warm-film"]).toMatch(/rs=0\.1/);
+    expect(PROFILES["moody-dark"]).toMatch(/saturation=0\.7/);
   });
 
   it("非法 profile / 非法强度 / 空指令被拒绝", () => {
@@ -148,7 +175,35 @@ describe.runIf(hasFfmpeg)("真实 ffmpeg 端到端", () => {
     expect(result.sha256).toHaveLength(64);
     expect(result.after.YAVG).toBeGreaterThan(result.before.YAVG);
     expect(result.chain).toContain("eq=");
+    // 可见性：这是"调了跟没调一样"事故的回归防线
+    expect(result.visibility.verdict).not.toBe("negligible");
+    expect(result.visibility.meanAbsDiff).toBeGreaterThanOrEqual(2);
     await expect(grade({ input: source, output: source, bins })).rejects.toThrow(/禁止覆盖原片/);
+  }, 120_000);
+
+  it("look 参数可辨：teal-orange 满档必须产生肉眼可见差异（visible）", async () => {
+    const out = path.join(dir, "graded-teal.mp4");
+    const result = await grade({ input: source, output: out, profile: "teal-orange", intensity: 1, bins });
+    expect(result.visibility.verdict).toBe("visible");
+    expect(result.visibility.meanAbsDiff).toBeGreaterThanOrEqual(4);
+    const diff = await frameDifference({ before: source, after: out, at: [1], bins });
+    expect(diff.frames[0]?.pctOver5).toBeGreaterThan(20);
+  }, 120_000);
+
+  it("强度必须单调生效：0.25 的改动量显著小于 1.0（回归：曾因混合顺序写反而失效）", async () => {
+    const weak = path.join(dir, "graded-i025.mp4");
+    const full = path.join(dir, "graded-i100.mp4");
+    const a = await grade({ input: source, output: weak, profile: "teal-orange", intensity: 0.25, bins });
+    const b = await grade({ input: source, output: full, profile: "teal-orange", intensity: 1, bins });
+    expect(a.visibility.meanAbsDiff).toBeLessThan(b.visibility.meanAbsDiff * 0.6);
+    expect(a.visibility.meanAbsDiff).toBeLessThan(6);
+  }, 180_000);
+
+  it("看不出变化就拒绝交付（verify_failed，且不留产物）", async () => {
+    const out = path.join(dir, "graded-invisible.mp4");
+    await expect(grade({ input: source, output: out, profile: "natural", intensity: 0.02, bins }))
+      .rejects.toThrow(/未产生可见变化/);
+    expect(fs.existsSync(out)).toBe(false);
   }, 120_000);
 
   it("scope 渲染三种图并各自带哈希", async () => {
@@ -165,4 +220,3 @@ describe.runIf(hasFfmpeg)("真实 ffmpeg 端到端", () => {
       .rejects.toThrow(/LUT 不存在/);
   }, 60_000);
 });
-

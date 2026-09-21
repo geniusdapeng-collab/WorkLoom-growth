@@ -43,12 +43,24 @@ describe("生成器数学", () => {
     expect(linearToRec709(-1)).toBe(0);
   });
 
-  it("look 保持中性灰不偏色（r=g=b 输入仍映射为中性）", () => {
-    for (const spec of Object.values(LOOKS)) {
+  it("转换 LUT 中性保真；创意 look 允许有意偏色但幅度受限、方向与命名一致", () => {
+    // 转换（S-Log3→Rec.709）必须中性保真：灰还是灰
+    const neutral = [slog3ToLinear(0.5), slog3ToLinear(0.5), slog3ToLinear(0.5)].map(linearToRec709);
+    expect(Math.abs(neutral[0]! - neutral[1]!)).toBeLessThan(0.001);
+    expect(Math.abs(neutral[1]! - neutral[2]!)).toBeLessThan(0.001);
+
+    // 创意 look：中灰允许被有意调色，但不能染成彩色（≤0.06）
+    for (const [name, spec] of Object.entries(LOOKS)) {
       const [r, g, b] = applyLook([0.5, 0.5, 0.5], spec as never);
-      expect(Math.abs(r - g)).toBeLessThan(0.01);
-      expect(Math.abs(g - b)).toBeLessThan(0.01);
+      const spread = Math.max(r!, g!, b!) - Math.min(r!, g!, b!);
+      expect(spread, `${name} 中灰染色过强`).toBeLessThan(0.06);
     }
+
+    // 方向性：暖调 look 必须 R>B，冷调 look 必须 B>R（防参数写反）
+    const warm = applyLook([0.5, 0.5, 0.5], LOOKS["warm-film"] as never);
+    expect(warm[0]).toBeGreaterThan(warm[2]!);
+    const cool = applyLook([0.5, 0.5, 0.5], LOOKS["cool-technical"] as never);
+    expect(cool[2]).toBeGreaterThan(cool[0]!);
   });
 
   it(".cube 结构合法：尺寸、行数、取值区间、红通道单调", () => {

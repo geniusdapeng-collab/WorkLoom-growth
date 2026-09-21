@@ -29,6 +29,7 @@ export const COLOR_TOOLS = [
   "colorread.probe",
   "colorread.analyze",
   "colorread.scope",
+  "colorread.recipes",
   "colorwrite.grade",
   "colorwrite.match",
 ];
@@ -302,6 +303,90 @@ export async function regionAverageRgb({ input, at = 0, patch, bins = resolveBin
 
 /* ============================ 诊断 ============================ */
 
+/* ---------- 题材×场景调色配方库（调色师的专业知识底座） ---------- */
+
+const RECIPE_FILE = path.resolve(
+  path.dirname(new URL(import.meta.url).pathname),
+  "../../library/color-recipes/recipes.json",
+);
+const LUT_DIR = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../library/luts");
+
+let recipeCache = null;
+
+/** 读配方库（带缓存；文件缺失=显式失败，不静默返回空）。 */
+export function loadRecipes(file = RECIPE_FILE) {
+  if (recipeCache && recipeCache.file === file) return recipeCache.doc;
+  if (!fs.existsSync(file)) {
+    throw new ColorError(`调色配方库缺失：${file}（随 bundles/ai-video/library/color-recipes 分发）`, "bad_request");
+  }
+  let doc;
+  try {
+    doc = JSON.parse(fs.readFileSync(file, "utf8"));
+  } catch (error) {
+    throw new ColorError(`调色配方库解析失败：${error instanceof Error ? error.message : String(error)}`, "bad_request");
+  }
+  if (!Array.isArray(doc?.recipes) || doc.recipes.length === 0) {
+    throw new ColorError("调色配方库为空", "bad_request");
+  }
+  recipeCache = { file, doc };
+  return doc;
+}
+
+/**
+ * 按题材/场景/平台检索配方，并把 profile/LUT/强度解析成可直接执行的形式。
+ * @param {{recipeId?:string, genre?:string, platform?:string, keyword?:string, list?:boolean}} query
+ */
+export function findRecipes(query = {}) {
+  const doc = loadRecipes();
+  const norm = (v) => String(v ?? "").trim().toLowerCase();
+  const genre = norm(query.genre);
+  const platform = norm(query.platform);
+  const keyword = norm(query.keyword);
+
+  const matched = doc.recipes.filter((r) => {
+    if (query.recipeId && r.id !== query.recipeId) return false;
+    if (genre && !norm(r.genre).includes(genre) && !genre.includes(norm(r.genre))) return false;
+    if (platform && !(r.platforms ?? []).some((p) => norm(p) === platform || norm(p).includes(platform))) return false;
+    if (keyword) {
+      const haystack = norm([r.id, r.genre, r.scene, r.mood, ...(r.avoid ?? [])].join(" "));
+      if (!haystack.includes(keyword)) return false;
+    }
+    return true;
+  });
+  if (query.recipeId && matched.length === 0) {
+    throw new ColorError(`配方不存在：${query.recipeId}（可用：${doc.recipes.map((r) => r.id).join(", ")}）`, "not_found");
+  }
+
+  const resolve = (r) => {
+    const lutRel = r.lut ?? null;
+    const lutAbs = lutRel ? path.join(LUT_DIR, lutRel) : null;
+    return {
+      id: r.id,
+      genre: r.genre,
+      scene: r.scene,
+      mood: r.mood,
+      profile: r.profile,
+      lut: lutAbs,
+      lutExists: lutAbs ? fs.existsSync(lutAbs) : false,
+      intensity: r.intensity,
+      targets: { ...doc.targets, ...(r.overrides ?? {}) },
+      platforms: r.platforms ?? [],
+      avoid: r.avoid ?? [],
+      notes: r.notes ?? null,
+    };
+  };
+
+  if (query.list) {
+    return {
+      total: doc.recipes.length,
+      principle: doc.principle,
+      items: matched.map((r) => ({ id: r.id, genre: r.genre, scene: r.scene, mood: r.mood, profile: r.profile, lut: r.lut, intensity: r.intensity, platforms: r.platforms ?? [] })),
+    };
+  }
+  const selected = matched[0];
+  return { total: doc.recipes.length, matched: matched.length, recipe: selected ? resolve(selected) : null, alternatives: matched.slice(1, 4).map((r) => r.id) };
+}
+
 const TARGET = {
   yMin: [0, 16],
   yAvg: [80, 140],
@@ -489,14 +574,34 @@ export async function analyze({ input, at = null, patch = null, skinPatch = null
  * 顺序纪律：normalize → colortemperature → colorbalance → curves → eq → lut3d（最后）。
  */
 export const PROFILES = {
-  natural: "eq=contrast=1.02:saturation=1.02",
-  "clean-bright": "curves=all='0/0.02 0.25/0.27 0.5/0.53 0.75/0.79 1/1',eq=contrast=1.0:saturation=1.1:brightness=0.01",
-  "warm-film": "colorbalance=rs=0.05:gs=0.01:bs=-0.04:rh=0.04:gh=0.01:bh=-0.03,curves=all='0/0.03 0.5/0.51 1/0.98',eq=contrast=1.04:saturation=1.05",
-  "cool-technical": "colorbalance=rs=-0.02:gs=-0.01:bs=0.05:rh=-0.02:gh=0.01:bh=0.04,eq=contrast=1.06:saturation=0.96",
-  "teal-orange": "colorbalance=rs=-0.06:gs=-0.01:bs=0.07:rh=0.06:gh=0.01:bh=-0.05,eq=contrast=1.1:saturation=1.06",
-  "moody-dark": "curves=all='0/0.04 0.2/0.17 0.5/0.47 0.85/0.84 1/0.97',eq=contrast=1.1:saturation=0.84:brightness=-0.02",
-  "high-contrast-social": "curves=all='0/0 0.2/0.13 0.5/0.51 0.8/0.87 1/1',eq=contrast=1.18:saturation=1.08",
-  "vintage-fade": "curves=all='0/0.05 0.25/0.24 0.75/0.76 1/0.94',eq=contrast=0.97:saturation=0.9",
+  // 强度口径：这里的参数是"满档"（intensity=1.0）的画面语言，量级对齐行业通行 look；
+  // 早期版本参数过弱（Δ≈1.5% 像素差）导致"调了跟没调一样"，已按可见性校验重标定。
+  natural: "eq=contrast=1.03:saturation=1.04",
+  "clean-bright":
+    "curves=all='0/0.03 0.25/0.29 0.5/0.55 0.75/0.80 1/1',"
+    + "eq=contrast=1.03:saturation=1.14:brightness=0.02:gamma=1.05",
+  "warm-film":
+    "colorbalance=rs=0.11:gs=0.03:bs=-0.10:rm=0.06:gm=0.01:bm=-0.06:rh=0.09:gh=0.02:bh=-0.08,"
+    + "curves=all='0/0.045 0.25/0.27 0.5/0.53 0.75/0.78 1/0.97',"
+    + "eq=contrast=1.07:saturation=1.08:gamma=1.03",
+  "cool-technical":
+    "colorbalance=rs=-0.07:gs=-0.02:bs=0.13:rm=-0.04:gm=0:bm=0.08:rh=-0.03:gh=0.01:bh=0.07,"
+    + "eq=contrast=1.09:saturation=0.93:gamma=0.98",
+  "teal-orange":
+    "colorbalance=rs=-0.17:gs=-0.05:bs=0.22:rm=0:gm=-0.02:bm=0.04:rh=0.17:gh=0.02:bh=-0.18,"
+    + "curves=r='0/0 0.25/0.22 0.5/0.56 0.75/0.81 1/1':b='0/0.07 0.25/0.28 0.5/0.45 0.75/0.69 1/0.88',"
+    + "eq=contrast=1.15:saturation=1.02:gamma=0.97",
+  "moody-dark":
+    "curves=all='0/0.025 0.2/0.14 0.5/0.44 0.85/0.82 1/0.95',"
+    + "colorbalance=rs=-0.06:gs=-0.02:bs=0.11:rm=-0.02:gm=-0.01:bm=0.04:rh=0:gh=-0.02:bh=0.06,"
+    + "eq=contrast=1.17:saturation=0.76:brightness=-0.035:gamma=0.93",
+  "high-contrast-social":
+    "curves=all='0/0 0.18/0.10 0.5/0.51 0.82/0.89 1/1',"
+    + "eq=contrast=1.22:saturation=1.18:gamma=0.96",
+  "vintage-fade":
+    "curves=all='0/0.075 0.25/0.25 0.75/0.76 1/0.92':r='0/0.06 0.5/0.52 1/0.96':b='0/0.09 0.5/0.44 1/0.87',"
+    + "colorbalance=rs=0.05:gs=0.02:bs=-0.04:rh=0.05:gh=0.03:bh=-0.03,"
+    + "eq=contrast=0.97:saturation=0.84:gamma=1.04",
 };
 
 function escapeFilterPath(p) {
@@ -541,14 +646,25 @@ export function buildChain(spec = {}) {
     throw new ColorError(`未知 profile：${profile}（可用：${Object.keys(PROFILES).join(", ")}）`, "bad_profile");
   }
 
-  const parts = buildCorrections(corrections ?? {});
-  if (profile) parts.push(PROFILES[profile]);
-  if (lutPath) parts.push(`lut3d='${escapeFilterPath(lutPath)}'`);
-  if (parts.length === 0) throw new ColorError("未指定任何 profile / lut / corrections", "bad_request");
+  // 两段式：校正（白平衡/曝光/裁切）恒为 100% 生效；只有"创作 look"（profile/LUT）按 intensity 混合。
+  // 理由：把校正也一起按 0.8 稀释，会让"欠曝修一半"，画面几乎看不出变化（早期 bug）。
+  const correctionParts = buildCorrections(corrections ?? {});
+  const lookParts = [];
+  if (profile) lookParts.push(PROFILES[profile]);
+  if (lutPath) lookParts.push(`lut3d='${escapeFilterPath(lutPath)}'`);
+  if (correctionParts.length === 0 && lookParts.length === 0) {
+    throw new ColorError("未指定任何 profile / lut / corrections", "bad_request");
+  }
 
-  const chain = parts.join(",");
-  if (intensity >= 1) return chain;
-  return `split=2[__orig][__tograde];[__tograde]${chain}[__graded];[__orig][__graded]blend=all_mode=normal:all_opacity=${intensity}`;
+  const correctionChain = correctionParts.join(",");
+  const lookChain = lookParts.join(",");
+  if (!lookChain) return correctionChain;                       // 只做校正
+  if (intensity >= 1) return [correctionChain, lookChain].filter(Boolean).join(",");
+  const head = correctionChain ? `${correctionChain},` : "";
+  // 强度混合：`blend` 的 all_opacity 权重作用在**第一个输入**上（ffmpeg 语义，已实测校准）。
+  // 因此把「已调色」放前面、opacity=intensity，才是"按 intensity 叠加 look"。
+  // 反着写（原片在前 + opacity=intensity）会让 look 恒接近满档——2026-09-21 的"强度参数失效"事故根因。
+  return `${head}split=2[__orig][__tograde];[__tograde]${lookChain}[__graded];[__graded][__orig]blend=all_mode=normal:all_opacity=${intensity}`;
 }
 
 /* ============================ 调色 / 匹配 ============================ */
@@ -645,6 +761,19 @@ export async function grade({
     }
   }
 
+  // 可见性校验（fail-closed）：调用方要了创作 look（profile/LUT），画面却几乎没变 → 拒绝交付。
+  // 这条是"调了跟没调一样"事故的直接防线：宁可报失败，也不产出看不出差别的"成片"。
+  const visibility = await frameDifference({ before: input, after: output, at, bins });
+  const lookRequested = Boolean(profile || lutPath);
+  if (lookRequested && visibility.verdict === "negligible") {
+    await fsp.rm(output, { force: true });
+    throw new ColorError(
+      `调色未产生可见变化（平均像素差 ${visibility.meanAbsDiff}/255 < ${visibility.thresholds.subtle}）：`
+      + "look 参数过弱或滤镜未生效，拒绝作为成片交付（可显式提高参数后重试）",
+      "verify_failed",
+    );
+  }
+
   return {
     input,
     output,
@@ -658,8 +787,12 @@ export async function grade({
     before: beforeSummary,
     after: afterSummary,
     delta,
+    visibility,
     sha256: await sha256File(output),
-    verifyWarnings: collectVerifyWarnings(afterSummary),
+    verifyWarnings: [
+      ...collectVerifyWarnings(afterSummary),
+      ...(visibility.verdict === "subtle" ? [`调色幅度偏弱（平均像素差 ${visibility.meanAbsDiff}/255）：如需明显观感请提高 intensity 或换更强的 look`] : []),
+    ],
   };
 }
 
@@ -829,6 +962,57 @@ export async function compareFrames({ before, after, at = 0, output, bins = reso
   return { path: output, sha256: await sha256File(output) };
 }
 
+/* ============================ 可见性度量 ============================ */
+
+async function rawFrame(input, at, bins) {
+  // 统一缩到 640 宽再比较：与分辨率/编码无关，只回答"画面变了吗、变了多少"。
+  const { stdout } = await runBin(bins.ffmpeg, [
+    "-hide_banner", "-v", "error",
+    "-ss", String(at), "-i", input,
+    "-frames:v", "1",
+    "-vf", "scale=640:-2,format=rgb24",
+    "-f", "rawvideo", "-pix_fmt", "rgb24", "-",
+  ], { label: "ffmpeg(rgb-frame)", timeoutMs: 60_000 });
+  return stdout;
+}
+
+/**
+ * 逐帧像素差（可见性度量）。回答"这次调色到底改了多少画面"：
+ *   verdict: visible（平均差 ≥4/255，肉眼可辨）/ subtle（2–4）/ negligible（<2，等于没调）
+ */
+export async function frameDifference({ before, after, at = [0], bins = resolveBinaries() }) {
+  const frames = [];
+  for (const t of at) {
+    const a = await rawFrame(before, t, bins);
+    const b = await rawFrame(after, t, bins);
+    const n = Math.min(a.length, b.length);
+    if (!n) continue;
+    let sum = 0;
+    let max = 0;
+    let over = 0;
+    for (let i = 0; i < n; i += 1) {
+      const d = Math.abs(a[i] - b[i]);
+      sum += d;
+      if (d > max) max = d;
+      if (d > 5) over += 1;
+    }
+    frames.push({
+      at: t,
+      meanAbsDiff: Math.round((sum / n) * 100) / 100,
+      maxDiff: max,
+      pctOver5: Math.round((over / n) * 10000) / 100,
+    });
+  }
+  const mean = frames.length ? frames.reduce((acc, f) => acc + f.meanAbsDiff, 0) / frames.length : 0;
+  const meanAbsDiff = Math.round(mean * 100) / 100;
+  return {
+    frames,
+    meanAbsDiff,
+    verdict: meanAbsDiff >= 4 ? "visible" : meanAbsDiff >= 2 ? "subtle" : "negligible",
+    thresholds: { visible: 4, subtle: 2 },
+  };
+}
+
 /* ============================ 作业留痕 ============================ */
 
 export async function jobAppend(dir, record) {
@@ -886,6 +1070,21 @@ export async function callTool(name, params = {}, { bins = resolveBinaries(), en
         bins,
       });
       return { result: report, receipt: { synced: true, sha256: await sha256File(input) } };
+    }
+
+    case "colorread.recipes": {
+      // 配方库随 Bundle 分发，不涉及租户素材，故不受路径监狱约束（只读仓内资产）。
+      const result = findRecipes({
+        recipeId: params.recipe_id ?? null,
+        genre: params.genre ?? null,
+        platform: params.platform ?? null,
+        keyword: params.keyword ?? null,
+        list: params.list === true,
+      });
+      return {
+        result,
+        receipt: { synced: true, snapshot_uri: `color://recipes/${params.recipe_id ?? "list"}`, verified_at: new Date().toISOString() },
+      };
     }
 
     case "colorread.scope": {

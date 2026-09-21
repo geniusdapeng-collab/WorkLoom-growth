@@ -20,7 +20,7 @@ import process from "node:process";
 
 import {
   ColorError, assertPathAllowed, allowedRoots,
-  callTool, compareFrames, grade, match, resolveBinaries, SCOPE_KINDS, PROFILES,
+  callTool, compareFrames, findRecipes, grade, match, resolveBinaries, SCOPE_KINDS, PROFILES,
 } from "./core.mjs";
 
 function parseArgs(argv) {
@@ -125,6 +125,25 @@ function printHuman(command, result) {
     }
     return;
   }
+  if (command === "recipes") {
+    if (result.items) {
+      line(`共 ${result.total} 个配方 · ${result.principle}`);
+      for (const item of result.items) {
+        line(`  ${item.id.padEnd(22)} ${item.genre} · ${item.scene}`);
+        line(`  ${" ".repeat(22)} profile=${item.profile} lut=${item.lut ?? "(无)"} 强度=${item.intensity} 平台=${(item.platforms ?? []).join("/")}`);
+      }
+      return;
+    }
+    const r = result.recipe;
+    if (!r) { line("未匹配到配方"); return; }
+    line(`配方：${r.id} · ${r.genre} · ${r.scene}`);
+    line(`情绪：${r.mood}`);
+    line(`执行：profile=${r.profile} · lut=${r.lut ?? "(无)"}${r.lutExists ? "" : " ⚠ LUT 缺失"} · 强度=${r.intensity}`);
+    line(`目标：${JSON.stringify(r.targets)}`);
+    line(`避免：${r.avoid.join("；")}`);
+    if (r.notes) line(`备注：${r.notes}`);
+    return;
+  }
   line(JSON.stringify(result, null, 2));
 }
 
@@ -163,6 +182,12 @@ async function main() {
         kinds: flags.kinds ? String(flags.kinds).split(",") : SCOPE_KINDS,
         out_dir: needPath(flags.out ?? "./color-scopes", "--out"),
       }, { bins })).result;
+      break;
+
+    case "recipes":
+      result = flags.list === true || !flags.id
+        ? findRecipes({ list: true, genre: flags.genre ?? null, platform: flags.platform ?? null, keyword: flags.keyword ?? null })
+        : findRecipes({ recipeId: String(flags.id) });
       break;
 
     case "grade": {
@@ -217,6 +242,8 @@ async function main() {
         "  probe   --in <file>             读素材规格",
         "  analyze --in <file> [--at a,b] [--neutral x,y,w,h] [--skin x,y,w,h]",
         "  scope   --in <file> [--at s] [--kinds waveform,vectorscope,histogram] [--out dir]",
+        "  recipes [--list] [--genre <题材>] [--platform <平台>] [--keyword <词>] [--id <配方 id>]",
+        "                                  题材×场景调色配方（含 profile/LUT/强度/目标区间/避免事项）",
         "  grade   --in <file> --out <file> [--profile <p>] [--lut <cube>] [--intensity 0..1] [--corrections-json <json>]",
         "                                        [--auto]  自动校正（曝光/饱和/偏色，先校正后创作）",
         "  match   --ref <file> --in <file> [--in <file>...] --out-dir <dir> [--profile <p>]",
