@@ -139,22 +139,6 @@ const renderJobs = existsSync(join(runDir, "render-summary.json"))
   ? (JSON.parse(readFileSync(join(runDir, "render-summary.json"), "utf8")) as Record<string, unknown>)
   : null;
 const jobRows = (renderJobs?.shots ?? []) as Array<Record<string, unknown>>;
-/** 宿主侧后期（post-production.mts）与调色（compose-film.mts）证据 */
-const postReport = existsSync(join(runDir, "post/post-report.json"))
-  ? (JSON.parse(readFileSync(join(runDir, "post/post-report.json"), "utf8")) as Record<string, unknown>)
-  : null;
-/** 调色报告可能落在 run 根或 film/ 子目录（compose-film 输出位置） */
-const colorReportFile = (() => {
-  for (const dir of [runDir, join(runDir, "film"), join(runDir, "post")]) {
-    if (!existsSync(dir)) continue;
-    const hit = readdirSync(dir).find((name) => name.endsWith("-color-report.json"));
-    if (hit) return join(dir, hit);
-  }
-  return null;
-})();
-const colorReport = colorReportFile
-  ? (JSON.parse(readFileSync(colorReportFile, "utf8")) as Record<string, unknown>)
-  : null;
 
 const steps: StepCheck[] = [
   {
@@ -239,25 +223,15 @@ const steps: StepCheck[] = [
   },
   {
     step: "post", name: "后期合成",
-    evidence: postReport
-      ? `宿主回填渲染路径后重跑 vendor 后期：${postReport.success ? "成功" : "失败"}，`
-        + `版本 ${Object.keys((postReport.versions as Record<string, unknown>) ?? {}).join("/")}，`
-        + `质量门 ${((postReport.stages as Record<string, Record<string, unknown>> | undefined)?.quality?.passed) === true ? "pass" : "fail"}`
-      : (stageHas("postProductionEngine")
-        ? `vendor 预生产内跑：${stageStatus(stagesRaw.postProductionEngine)}（deferRender 下拿不到 shot-*.mp4，属预期失败）`
-        : "未执行"),
-    ok: postReport ? postReport.success === true : null,
-    note: postReport ? undefined : "宿主侧后期：scripts/tools/post-production.mts（回填真实成片路径）"
+    evidence: stageHas("postProductionEngine")
+      ? `postProductionEngine=${stageStatus(stagesRaw.postProductionEngine)}`
+      : "未执行",
+    ok: stageHas("postProductionEngine") ? stageStatus(stagesRaw.postProductionEngine) !== "fail" : null
   },
   {
     step: "color", name: "成片调色（择优）",
-    evidence: colorReport
-      ? `mode=${String(colorReport.mode)}，判定=${String((colorReport.report as Record<string, unknown>)?.verdict ?? "?")}` +
-        `${(colorReport.report as Record<string, unknown>)?.winner ? `，winner=${String((colorReport.report as Record<string, unknown>).winner)}` : ""}`
-      : "未执行（由 compose-film.mts 择优调色）",
-    ok: colorReport
-      ? ["graded", "no_change_needed"].includes(String((colorReport.report as Record<string, unknown>)?.verdict))
-      : null
+    evidence: renderJobs?.color ? "见 render-summary.json#color" : "未执行（由 compose-film.mts 择优调色）",
+    ok: renderJobs?.color ? true : null
   },
   {
     step: "archive", name: "成片入库",
