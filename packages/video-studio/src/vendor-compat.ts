@@ -911,3 +911,171 @@ export function installVendorPhaseInternalsDiagnostics(options: { log?: (line: s
     return () => restores.forEach((restore) => restore());
   }
 }
+
+/**
+ * 镜头内音频纪律桥（2026-09-23）
+ *
+ * 产品口径：生成的镜头只允许台词人声/旁白/音效，**禁止 BGM**（配乐统一在后期加）。
+ * vendor 的 `PromptFusionAgent._assembleStandardPrompt` 会照抄 `AudioDesignAgent` 写进 audio 的
+ * 「音乐风格/配乐」描述 —— 本桥在组装器出口统一追加【音频纪律】子句 + 英文音乐负面词，
+ * 并清洗音频段落里的音乐指令（与宿主 shot-spec 同一口径，vendor 直跑也生效）。
+ */
+export function installVendorAudioDisciplineBridge(options: {
+  clause: string;
+  negativeTerms: string;
+  log?: (line: string) => void;
+}): () => void {
+  const log = options.log ?? (() => undefined);
+  try {
+    const repoRoot = resolvePath(dirname(fileURLToPath(import.meta.url)), "../../..");
+    const vendorRequire = createRequire(resolvePath(repoRoot, "package.json"));
+    const file = resolvePath(
+      repoRoot,
+      "vendor/supermickey/hyperreality-system/engines/production-engine/agents/prompt-fusion-agent.js"
+    );
+    if (!existsSync(file)) return () => undefined;
+    const mod = vendorRequire(file) as { PromptFusionAgent?: { prototype?: Record<string, unknown> } };
+    const prototype = mod?.PromptFusionAgent?.prototype;
+    if (!prototype || typeof prototype._assembleStandardPrompt !== "function") return () => undefined;
+    const original = prototype._assembleStandardPrompt as (
+      shot: Record<string, unknown>,
+      fields: Record<string, unknown>,
+      ratio: string
+    ) => string;
+    let patchedCount = 0;
+    prototype._assembleStandardPrompt = function patchedAssemble(
+      this: unknown,
+      shot: Record<string, unknown>,
+      fields: Record<string, unknown>,
+      ratio: string
+    ) {
+      const musicPattern = /(背景音乐|配乐|音乐风格|音乐节拍|旋律|歌曲|background\s*music|\bbgm\b|soundtrack)/gi;
+      // 1) 清洗入参里 audio / fields.audio 的音乐指令
+      for (const holder of [shot, fields]) {
+        const value = holder?.audio;
+        if (typeof value === "string" && musicPattern.test(value)) {
+          musicPattern.lastIndex = 0;
+          const kept = value
+            .split(/[。；;\n]/)
+            .map((s) => s.trim())
+            .filter(Boolean)
+            .filter((seg) => {
+              musicPattern.lastIndex = 0;
+              return !musicPattern.test(seg);
+            });
+          holder.audio = kept.length > 0 ? `${kept.join("；")}；${options.clause}` : options.clause;
+          log("[vendor-compat] 已清洗镜头 audio 字段中的音乐指令（镜头内禁止 BGM）");
+        }
+      }
+      const prompt = original.call(this, shot, fields, ratio);
+      if (typeof prompt !== "string") return prompt;
+      let out = prompt;
+      if (!out.includes("【音频纪律】")) out += ` | ${options.clause}`;
+      if (!/no background music/i.test(out)) out += ` | ${options.negativeTerms}`;
+      patchedCount += 1;
+      if (patchedCount === 1) log("[vendor-compat] 音频纪律桥已生效（每镜追加【音频纪律】+ 音乐负面词）");
+      return out;
+    };
+    return () => {
+      prototype._assembleStandardPrompt = original;
+    };
+  } catch (err) {
+    log(`[vendor-compat] 音频纪律桥注入失败（不影响其它桥）：${err instanceof Error ? err.message : String(err)}`);
+    return () => undefined;
+  }
+}
+
+/**
+ * 时长策略桥（2026-09-23）：把 vendor 的三处"单镜 15s"口径统一到模型能力（实测 4–30s）。
+ *
+ * 覆盖：
+ *   ① `ThemeConfig.types[*].maxShotDuration`（题材级规划上限）
+ *   ② `DurationConstraintManager.prototype` 的默认值（新实例默认 15 → 30）
+ *   ③ 运行期实例的 `rhythmProfiles.*.shotRange` 上限（standard 12 / slow 15 / fast 8 → 统一 30）
+ * 不改 vendor 文件；返回摘除函数。实例级放宽请再调用 `applyDurationPolicyToManager(manager, max)`。
+ */
+export function installVendorDurationPolicyBridge(options: {
+  maxSingleShotSeconds: number;
+  minSingleShotSeconds?: number;
+  log?: (line: string) => void;
+}): () => void {
+  const log = options.log ?? (() => undefined);
+  const max = options.maxSingleShotSeconds;
+  const min = options.minSingleShotSeconds ?? 4;
+  const restores: Array<() => void> = [];
+  try {
+    const repoRoot = resolvePath(dirname(fileURLToPath(import.meta.url)), "../../..");
+    const vendorRequire = createRequire(resolvePath(repoRoot, "package.json"));
+
+    const themePath = resolvePath(repoRoot, "vendor/supermickey/hyperreality-system/config/theme-config.js");
+    if (existsSync(themePath)) {
+      const theme = vendorRequire(themePath) as { types?: Record<string, { maxShotDuration?: number }> };
+      const previous = new Map<string, number | undefined>();
+      for (const [key, value] of Object.entries(theme?.types ?? {})) {
+        if (!value || typeof value !== "object") continue;
+        previous.set(key, value.maxShotDuration);
+        value.maxShotDuration = max;
+      }
+      restores.push(() => {
+        for (const [key, value] of previous) {
+          const target = theme?.types?.[key];
+          if (target) target.maxShotDuration = value;
+        }
+      });
+      log(`[vendor-compat] 时长策略桥：ThemeConfig.maxShotDuration → ${max}s（${previous.size} 个题材）`);
+    }
+
+    const managerPath = resolvePath(
+      repoRoot,
+      "vendor/supermickey/hyperreality-system/engines/duration-constraint/duration-constraint-manager.js"
+    );
+    if (existsSync(managerPath)) {
+      const mod = vendorRequire(managerPath) as {
+        DurationConstraintManager?: new (o?: Record<string, unknown>) => Record<string, unknown>;
+      };
+      const ctor = mod?.DurationConstraintManager;
+      const prototype = ctor?.prototype as Record<string, unknown> | undefined;
+      const originalCtor = ctor as unknown as new (o?: Record<string, unknown>) => Record<string, unknown>;
+      if (prototype) {
+        // ② 默认值：包一层构造函数，未显式传参时用模型上限
+        const Wrapped = function durationManagerWithPolicy(this: unknown, opts: Record<string, unknown> = {}) {
+          return new originalCtor({
+            maxSingleShot: max,
+            minSingleShot: min,
+            ...opts
+          });
+        } as unknown as new (o?: Record<string, unknown>) => Record<string, unknown>;
+        Wrapped.prototype = originalCtor.prototype;
+        mod.DurationConstraintManager = Wrapped;
+        restores.push(() => {
+          mod.DurationConstraintManager = originalCtor;
+        });
+        log(`[vendor-compat] 时长策略桥：DurationConstraintManager 默认 maxSingleShot=${max}s/min=${min}s`);
+      }
+    }
+    return () => restores.forEach((restore) => restore());
+  } catch (err) {
+    log(`[vendor-compat] 时长策略桥注入失败（不影响其它桥）：${err instanceof Error ? err.message : String(err)}`);
+    return () => restores.forEach((restore) => restore());
+  }
+}
+
+/** 把已构造好的 DurationConstraintManager 实例放宽到模型上限（studio 在 new 之后调用） */
+export function applyDurationPolicyToManager(
+  manager: unknown,
+  maxSingleShotSeconds: number,
+  minSingleShotSeconds = 4
+): void {
+  if (!manager || typeof manager !== "object") return;
+  const record = manager as Record<string, unknown> & {
+    rhythmProfiles?: Record<string, { shotRange?: number[] }>;
+  };
+  record.maxSingleShot = maxSingleShotSeconds;
+  record.minSingleShot = minSingleShotSeconds;
+  for (const profile of Object.values(record.rhythmProfiles ?? {})) {
+    if (!profile || !Array.isArray(profile.shotRange)) continue;
+    const lower = Number(profile.shotRange[0] ?? minSingleShotSeconds);
+    const upper = Number(profile.shotRange[1] ?? maxSingleShotSeconds);
+    profile.shotRange = [Math.max(minSingleShotSeconds, lower), Math.max(upper, maxSingleShotSeconds)];
+  }
+}

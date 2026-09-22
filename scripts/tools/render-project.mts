@@ -25,9 +25,12 @@
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { basename, dirname, extname, isAbsolute, resolve } from "node:path";
 import {
+  allocateShotDurations,
+  durationValidationMarkdown,
   fieldSpec,
   prepareShotPrompt,
   shotSpecMarkdown,
+  validateShotDurations,
   type ShotSpecReport
 } from "../../packages/video-studio/src/index.js";
 
@@ -271,6 +274,8 @@ const resolution = arg("--resolution", "1080p");
 const modelId = arg("--model", "doubao-seedance-2-5");
 const only = arg("--only").split(",").map((s) => s.trim()).filter(Boolean);
 const dryRun = flag("--dry-run");
+/** 单镜时长上限覆盖（缺省=媒体目录里该模型的能力上限，Seedance 2.5 实测 4–30s） */
+const maxShotSeconds = arg("--max-shot-seconds");
 /** 交付闸未过的镜头默认拒绝提交（避免把不合规提示词烧成额度）；显式放行需带此开关 */
 const allowSpecFail = flag("--allow-spec-fail");
 /** 复现种子（同一 seed + 同 prompt 便于 A/B；写入 render_jobs 便于复盘） */
@@ -312,9 +317,25 @@ const refFiles = loadRefFiles(arg("--refs", "var/media/references/suzhou-nanyuan
 const portraitIndex = loadPortraitIndex(projectId, workDir);
 
 const shots = loadShots(resolve(shotsFile)).filter((s) => only.length === 0 || only.includes(s.shotId));
-const durations = allocateDurations(shots, totalSeconds);
+/**
+ * 时长分配走共享 `duration-rules`（媒体目录 = 唯一真源）：
+ * 上限不再是硬编码 15s，而是模型能力（Seedance 2.5 = 30s，真机实测 31s 被拒）。
+ */
+const durationPlan = allocateShotDurations(shots, {
+  totalSeconds,
+  modelId,
+  ...(maxShotSeconds ? { maxSeconds: Number(maxShotSeconds) } : {})
+});
+const durations = durationPlan.map;
+const durationValidation = validateShotDurations(
+  shots.map((s) => ({ shotId: s.shotId, duration: durations.get(s.shotId), sceneType: s.sceneType })),
+  { targetTotalSeconds: totalSeconds, modelId }
+);
 console.log(`项目 ${projectId} | 镜头 ${shots.length} 个 | 目标总时长 ${totalSeconds}s | 参考图 ${refFiles.length} 张 | 定妆照索引 ${portraitIndex ? "有" : "无"}`);
 console.log(`时长分配：${shots.map((s) => `${s.shotId}=${durations.get(s.shotId)}s`).join(" ")}`);
+console.log(`时长规则校验：${durationValidation.pass ? "通过" : "不通过"}（合计 ${durationValidation.actualTotalSeconds}s / 目标 ${totalSeconds}s）`);
+for (const warning of durationValidation.warnings) console.warn(`   ⚠️ ${warning}`);
+for (const issue of durationValidation.issues) console.error(`   ❌ ${issue}`);
 
 interface ShotResult {
   shotId: string;
