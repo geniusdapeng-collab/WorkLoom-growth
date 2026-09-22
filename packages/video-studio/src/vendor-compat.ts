@@ -328,3 +328,196 @@ export function installVendorPhaseDiagnosticsBridge(options: PhaseDiagnosticsBri
     return () => restores.forEach((restore) => restore());
   }
 }
+
+/**
+ * 字段质检桥（Phase 3.5，2026-09-22 真机修复）
+ *
+ * 现象（VID-1021 日志）：
+ *   `[SafePromise.mapBatch] 索引 0..5 失败: tl.match is not a function`
+ *   `[FIELD-QUALITY-FAIL] result.reports is not iterable` →
+ *   `[PHASE-3.5] ⚠️ 字段质量检查失败，运行 FieldGuard 兜底修复` →
+ *   6 个镜头被 FieldGuard 默认模板覆盖并标记降级。
+ *
+ * 根因（读码）：
+ *   ① `FieldCheckAgent._checkStructure` 对 `shot.timeline` 直接 `.match(/T\d{2}:\d{2}/g)`，
+ *      而 Phase 2 产出的 timeline 是数组/对象（`[CONTRACT]` 也报了"期望 string，实际 array"）；
+ *   ② `FieldQualityPipeline.runAll` 直接展开 `result.reports`，单镜异常时该字段缺失。
+ *
+ * 处理：入参把结构化字段（timeline/cameraMovement/lighting/backgroundSound）归一为可读字符串
+ * （原始值保留在 `_raw*`），并保证 per-shot 结果始终带 `reports/logs` 数组。
+ */
+export function installVendorFieldQualityBridge(options: { log?: (line: string) => void } = {}): () => void {
+  const log = options.log ?? (() => undefined);
+  try {
+    const repoRoot = resolvePath(dirname(fileURLToPath(import.meta.url)), "../../..");
+    const vendorRequire = createRequire(resolvePath(repoRoot, "package.json"));
+    const checkPath = resolvePath(
+      repoRoot,
+      "vendor/supermickey/hyperreality-system/engines/field-quality/field-check-agent.js"
+    );
+    const pipelinePath = resolvePath(
+      repoRoot,
+      "vendor/supermickey/hyperreality-system/engines/field-quality/field-quality-pipeline.js"
+    );
+    if (!existsSync(checkPath) || !existsSync(pipelinePath)) return () => undefined;
+
+    const toText = (value: unknown): string => {
+      if (value === null || value === undefined) return "";
+      if (typeof value === "string") return value;
+      if (Array.isArray(value)) return value.map((v) => toText(v)).filter(Boolean).join("；");
+      if (typeof value === "object") {
+        const record = value as Record<string, unknown>;
+        if (typeof record.string === "string" && record.string.trim()) return record.string.trim();
+        return Object.entries(record)
+          .filter(([k]) => !k.startsWith("_"))
+          .map(([k, v]) => {
+            const text = toText(v);
+            return text ? `${k === "timeline" ? "时间轴" : k}：${text}` : "";
+          })
+          .filter(Boolean)
+          .join("；");
+      }
+      return String(value);
+    };
+    const normalizeShot = (shot: unknown): unknown => {
+      if (!shot || typeof shot !== "object" || Array.isArray(shot)) return shot;
+      const clone: Record<string, unknown> = { ...(shot as Record<string, unknown>) };
+      for (const key of ["timeline", "cameraMovement", "camera_movement", "lighting", "backgroundSound"]) {
+        const value = clone[key];
+        if (value === null || value === undefined || typeof value === "string") continue;
+        clone[`_raw${key.charAt(0).toUpperCase()}${key.slice(1)}`] = value;
+        clone[key] = toText(value);
+      }
+      return clone;
+    };
+
+    const restores: Array<() => void> = [];
+    const checkMod = vendorRequire(checkPath) as {
+      FieldCheckAgent?: { prototype?: Record<string, unknown> };
+      RuleChecker?: { prototype?: Record<string, unknown> };
+    };
+    /** `_checkStructure` 定义在 RuleChecker 上（FieldCheckAgent 内部实例化它）——真机即此路径崩 `tl.match` */
+    for (const holder of [checkMod?.RuleChecker, checkMod?.FieldCheckAgent]) {
+      const proto = holder?.prototype;
+      if (!proto || typeof proto._checkStructure !== "function") continue;
+      const original = proto._checkStructure as (shot: unknown) => unknown;
+      proto._checkStructure = function patchedCheckStructure(this: unknown, shot: unknown) {
+        return original.call(this, normalizeShot(shot));
+      };
+      restores.push(() => { proto._checkStructure = original; });
+    }
+
+    const pipelineMod = vendorRequire(pipelinePath) as { FieldQualityPipeline?: { prototype?: Record<string, unknown> } };
+    const pipelineProto = pipelineMod?.FieldQualityPipeline?.prototype;
+    if (pipelineProto && typeof pipelineProto.run === "function") {
+      const originalRun = pipelineProto.run as (shot: unknown, shotId?: string) => Promise<Record<string, unknown>>;
+      pipelineProto.run = async function patchedRun(this: unknown, shot: unknown, shotId?: string) {
+        try {
+          const result = await originalRun.call(this, normalizeShot(shot), shotId);
+          return {
+            finalShot: (result?.finalShot ?? shot),
+            reports: Array.isArray(result?.reports) ? result.reports : [],
+            logs: Array.isArray(result?.logs) ? result.logs : []
+          };
+        } catch (err) {
+          log(`[vendor-compat] FieldQualityPipeline.run 失败（已按空报告回填）：${err instanceof Error ? err.message : String(err)}`);
+          return { finalShot: shot, reports: [], logs: [] };
+        }
+      };
+      restores.push(() => { pipelineProto.run = originalRun; });
+    }
+    if (pipelineProto && typeof pipelineProto.runAll === "function") {
+      const originalRunAll = pipelineProto.runAll as (shots: unknown[]) => Promise<unknown>;
+      pipelineProto.runAll = async function patchedRunAll(this: unknown, shots: unknown[]) {
+        return originalRunAll.call(this, (shots ?? []).map((shot) => normalizeShot(shot)));
+      };
+      restores.push(() => { pipelineProto.runAll = originalRunAll; });
+    }
+    return () => restores.forEach((restore) => restore());
+  } catch (err) {
+    log(`[vendor-compat] 字段质检桥注入失败（不影响其它桥）：${err instanceof Error ? err.message : String(err)}`);
+    return () => undefined;
+  }
+}
+
+/**
+ * 微动作桥（2026-09-22 真机修复）
+ *
+ * 现象：两次 run 都是 `✅ 微动作增强完成: 0/6 个镜头`（等于该环节空转）。
+ * 根因（读码）：
+ *   ① `_extractCameraDistance` 只读 `promptObj.camera`，而镜头卡字段是
+ *      `camera_movement` / `cameraMovement` → 距离永远靠兜底（medium_shot）；
+ *   ② `_extractEmotion` 默认返回 'neutral'，但 `microMotionTemplates` 只有
+ *      joy/sadness/anger/fear/surprise/nostalgia/tension/relief **没有 neutral**
+ *      → `_generateMicroMotion` 直接返回 null。
+ * 处理：补 neutral 模板 + 让距离推断读标准字段（含结构化值）。
+ */
+export function installVendorMicroMotionBridge(options: { log?: (line: string) => void } = {}): () => void {
+  const log = options.log ?? (() => undefined);
+  const NEUTRAL_TEMPLATE = {
+    facial: ["眼神平稳注视", "面部放松", "嘴角自然"],
+    gesture: ["肩颈放松", "手势自然收拢", "身体重心微移"],
+    breathing: ["呼吸平稳"]
+  };
+  try {
+    const repoRoot = resolvePath(dirname(fileURLToPath(import.meta.url)), "../../..");
+    const vendorRequire = createRequire(resolvePath(repoRoot, "package.json"));
+    const adapterPath = resolvePath(
+      repoRoot,
+      "vendor/supermickey/hyperreality-system/engines/enhancers/micro-motion-adapter.js"
+    );
+    if (!existsSync(adapterPath)) return () => undefined;
+    const mod = vendorRequire(adapterPath) as { MicroMotionAdapter?: { prototype?: Record<string, unknown> } };
+    const prototype = mod?.MicroMotionAdapter?.prototype;
+    if (!prototype) return () => undefined;
+
+    const restores: Array<() => void> = [];
+    if (typeof prototype._extractCameraDistance === "function") {
+      const original = prototype._extractCameraDistance as (promptObj: Record<string, unknown>) => string;
+      prototype._extractCameraDistance = function patchedDistance(this: unknown, promptObj: Record<string, unknown>) {
+        const candidates = [
+          promptObj?.camera,
+          promptObj?.camera_movement,
+          promptObj?.cameraMovement,
+          promptObj?.composition
+        ];
+        const text = candidates
+          .map((value) => {
+            if (!value) return "";
+            if (typeof value === "string") return value;
+            if (typeof value === "object") {
+              const record = value as Record<string, unknown>;
+              if (typeof record.string === "string") return record.string;
+              return Object.values(record).map((v) => (typeof v === "string" ? v : "")).join(" ");
+            }
+            return "";
+          })
+          .join(" ");
+        if (text) {
+          return original.call(this, { ...promptObj, camera: text });
+        }
+        return original.call(this, promptObj);
+      };
+      restores.push(() => { prototype._extractCameraDistance = original; });
+    }
+    if (typeof prototype._generateMicroMotion === "function") {
+      const original = prototype._generateMicroMotion as (emotion: string, granularity: number) => string | null;
+      prototype._generateMicroMotion = function patchedGenerate(this: unknown, emotion: string, granularity: number) {
+        const templates = (this as { microMotionTemplates?: Record<string, unknown> }).microMotionTemplates;
+        if (templates && !templates.neutral) templates.neutral = NEUTRAL_TEMPLATE;
+        const result = original.call(this, emotion, granularity);
+        if (result) return result;
+        if (granularity <= 0) return null;
+        const fallback = NEUTRAL_TEMPLATE;
+        if (granularity >= 3) return `面部细节：${fallback.facial.slice(0, 2).join("，")}；微动作：${fallback.gesture[0]}；呼吸：${fallback.breathing[0]}`;
+        if (granularity === 2) return `表情：${fallback.facial[0]}；姿态：${fallback.gesture[0]}`;
+        return `身体语言：${fallback.gesture[0]}`;
+      };
+      restores.push(() => { prototype._generateMicroMotion = original; });
+    }
+    return () => restores.forEach((restore) => restore());
+  } catch (err) {
+    log(`[vendor-compat] 微动作桥注入失败（不影响其它桥）：${err instanceof Error ? err.message : String(err)}`);
+    return () => undefined;
+  }
+}

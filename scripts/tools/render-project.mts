@@ -327,13 +327,34 @@ for (const shot of shots) {
    */
   const cardWithPortraits: ShotCard = { ...shot };
   if (!Array.isArray(cardWithPortraits.portraits) || (cardWithPortraits.portraits as unknown[]).length === 0) {
+    /**
+     * 定妆照绑定优先级（2026-09-22 真人出镜场景）：
+     *   ① 角色定妆照（镜头文本命中角色 id/name）→ ② 商品/场所定妆照 → ③ 实拍参考图。
+     * 角色 4 角度齐备时按 front/threeQuarter/closeup/side 全绑（作为【定妆照】锚点）。
+     */
+    const characterEntry = portraitIndex?.characters
+      ? Object.values(portraitIndex.characters).find((entry) =>
+          [entry.id, entry.name]
+            .filter((t): t is string => Boolean(t))
+            .some((token) => `${shot.character ?? ""} ${shot.characters ?? ""} ${shot.prompt ?? ""}`.includes(token))
+        ) ?? Object.values(portraitIndex.characters)[0]
+      : undefined;
+    const characterPortraits = characterEntry?.files
+      ? ["front", "threeQuarter", "closeup", "side"]
+          .map((angle) => characterEntry.files?.[angle])
+          .filter((file): file is string => Boolean(file))
+      : [];
     const productPortraits = portraitIndex?.products
       ? Object.values(portraitIndex.products)
           .map((entry) => entry.files?.front ?? Object.values(entry.files ?? {})[0])
           .filter((file): file is string => Boolean(file))
           .slice(0, 2)
       : [];
-    const fallback = productPortraits.length > 0 ? productPortraits : venue;
+    const fallback = characterPortraits.length > 0
+      ? characterPortraits
+      : productPortraits.length > 0
+        ? productPortraits
+        : venue;
     if (fallback.length > 0) cardWithPortraits.portraits = fallback;
   }
 

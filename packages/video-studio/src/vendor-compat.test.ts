@@ -166,4 +166,72 @@ console.log("RESULT " + JSON.stringify({
     expect(result.nestedValue).toBe(1);
     expect(result.listIsArray).toBe(true);
   }, 60_000);
+
+  /**
+   * 真机回归（2026-09-22）：Phase 3.5 字段质检因结构化 timeline 崩 `tl.match`，
+   * 且单镜异常导致 `result.reports` 缺失 → 整套质检失败 → FieldGuard 默认模板覆盖 6 镜。
+   */
+  it("字段质检桥：结构化 timeline 不再崩，单镜异常也有 reports 数组", () => {
+    const script = `
+import { createRequire } from "node:module";
+import { installVendorFieldQualityBridge } from ${JSON.stringify(resolve(here, "vendor-compat.ts"))};
+const require = createRequire(${JSON.stringify(join(repoRoot, "package.json"))});
+const { RuleChecker } = require(${JSON.stringify(join(repoRoot, "vendor/supermickey/hyperreality-system/engines/field-quality/field-check-agent.js"))});
+
+const agent = new RuleChecker();
+const shot = {
+  shotId: "S1", sceneType: "opening", duration: 5,
+  timeline: [
+    { object: { start: "T00:00", end: "T00:02" }, string: "T00:00-T00:02 / 建立空间" },
+    { object: { start: "T00:02", end: "T00:04" }, string: "T00:02-T00:04 / 推进" },
+    { object: { start: "T00:04", end: "T00:05" }, string: "T00:04-T00:05 / 收束" }
+  ],
+  lighting: { key_light: "主光" }, camera_movement: { timeline: [] }
+};
+let beforeError = null;
+try { agent._checkStructure(shot); } catch (e) { beforeError = e.message; }
+
+const uninstall = installVendorFieldQualityBridge({ log: () => undefined });
+let afterError = null;
+let afterIssues = null;
+try { afterIssues = agent._checkStructure(shot).length; } catch (e) { afterError = e.message; }
+uninstall();
+console.log("RESULT " + JSON.stringify({ beforeError, afterError, afterIssues, timelineIsArray: Array.isArray(shot.timeline) }));
+`;
+    const result = runInChild(script);
+    expect(result.beforeError).toContain("match is not a function");
+    expect(result.afterError).toBeNull();
+    expect(result.timelineIsArray).toBe(true);
+  }, 60_000);
+
+  /**
+   * 真机回归（2026-09-22）：微动作环节两次 run 都是 0/6——
+   * 字段名不匹配（camera vs camera_movement）+ 模板缺 neutral。
+   */
+  it("微动作桥：camera_movement 参与距离推断，neutral 模板补齐（不再 0/6）", () => {
+    const script = `
+import { createRequire } from "node:module";
+import { installVendorMicroMotionBridge } from ${JSON.stringify(resolve(here, "vendor-compat.ts"))};
+const require = createRequire(${JSON.stringify(join(repoRoot, "package.json"))});
+const { MicroMotionAdapter } = require(${JSON.stringify(join(repoRoot, "vendor/supermickey/hyperreality-system/engines/enhancers/micro-motion-adapter.js"))});
+
+const prompts = [
+  { shotId: "S1", prompt: "园林晨雾空镜", camera_movement: "近景推进", mood: "calm" },
+  { shotId: "S2", prompt: "人物回廊缓步", camera_movement: "中景横移", mood: "calm" }
+];
+const before = new MicroMotionAdapter().enhance(prompts, {});
+const uninstall = installVendorMicroMotionBridge({ log: () => undefined });
+const after = new MicroMotionAdapter().enhance(prompts, {});
+uninstall();
+console.log("RESULT " + JSON.stringify({
+  beforeCount: before.enhancedCount,
+  afterCount: after.enhancedCount,
+  afterHasMicro: Boolean(after.prompts?.[0]?._microMotion)
+}));
+`;
+    const result = runInChild(script);
+    expect(Number(result.beforeCount)).toBe(0);
+    expect(Number(result.afterCount)).toBeGreaterThan(0);
+    expect(result.afterHasMicro).toBe(true);
+  }, 60_000);
 });

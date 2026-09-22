@@ -262,6 +262,34 @@ export class WorkloomLLMEngine {
   ): Promise<LLMReasonResult> {
     return this.reason(prompt, { ...options, forceJson: true });
   }
+
+  /**
+   * vendor 内部助手方法（2026-09-22 真机修复）
+   *
+   * `engines/requirement-discovery-engine.js:260` 直接调 `llmEngine._extractJsonObject(content)`；
+   * 注入的是本适配器时该方法不存在 → `SceneArchitect` 连续两次失败 →
+   * 日志出现「❌ 全部失败，使用兜底规则」→ 场景设计整段退化为规则模板（下游再补齐）。
+   * 这里补上与 vendor `systems/llm-reasoning-engine.js:106` 同语义的实现（失败返回 null，不抛）。
+   */
+  _extractJsonObject(text: unknown): unknown | null {
+    const raw = typeof text === "string" ? text : String(text ?? "");
+    if (!raw.trim()) return null;
+    try {
+      return WorkloomLLMEngine.extractJson(raw);
+    } catch {
+      return null;
+    }
+  }
+
+  /** vendor 调用点清理钩子（无持久连接，空实现保持接口一致） */
+  async close(): Promise<void> {
+    return undefined;
+  }
+
+  /** vendor 调用点统计钩子（返回本适配器的真实统计） */
+  getStats(): { totalCalls: number; totalFailures: number; model: string } {
+    return { ...this.stats, model: this.cfg.model };
+  }
 }
 
 /**

@@ -45,6 +45,23 @@ describe("LLM 适配器", () => {
     expect(extract('```json\n{"a":1}\n```')).toEqual({ a: 1 });
     expect(extract('前言{"b":2}')).toEqual({ b: 2 });
   });
+
+  /** 真机 2026-09-22：requirement-discovery 直接调 llmEngine._extractJsonObject → 我们缺该方法 → SceneArchitect 全失败兜底 */
+  it("vendor 期望的引擎助手：_extractJsonObject / getStats / close 齐备", async () => {
+    const engine = WorkloomLLMEngine.fromEnv({
+      LLM_BASE_URL: "https://example.invalid/v1",
+      LLM_API_KEY: "k",
+      LLM_MODEL: "m"
+    })!;
+    const extract = (engine as unknown as { _extractJsonObject(text: unknown): unknown })._extractJsonObject;
+    expect(extract('```json\n{"scenes":[1,2]}\n```')).toEqual({ scenes: [1, 2] });
+    expect(extract("没有 JSON 的文本")).toBeNull();
+    expect(extract("")).toBeNull();
+    const stats = (engine as unknown as { getStats(): { totalCalls: number; model: string } }).getStats();
+    expect(stats.model).toBe("m");
+    expect(stats.totalCalls).toBe(0);
+    await expect((engine as unknown as { close(): Promise<void> }).close()).resolves.toBeUndefined();
+  });
 });
 
 describe("渲染脚本", () => {
