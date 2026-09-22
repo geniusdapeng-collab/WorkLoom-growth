@@ -33,6 +33,7 @@ import { accountingRouter } from "./accounting.js";
 import { pollRenderJobs } from "./render-poller.js";
 import { defaultVideoModelId, getModel, listModels } from "./gen/catalog.js";
 import { checkCostCaps, costCaps, estimateCost, renderSpendCny, usdCnyRate } from "./gen/cost.js";
+import { serviceTierRejectionReason } from "./gen/params.js";
 import { submitGenJob } from "./gen/submit.js";
 import { createPublishTask, executePublishTask, fenceOverrideEnabled } from "./gen/publish.js";
 import { mediaUrl } from "./gen/ingest.js";
@@ -380,15 +381,12 @@ const renderRouter = router({
       }
       const requestedSeconds = input.durationSec ?? input.estimatedSeconds;
       /**
-       * 真机 2026-09-23：`service_tier: flex` 不支持视频生成
-       * （400 `the specified service_tier flex does not support content generation`），
-       * 这里前置拒绝，避免把额度浪费在一次必然失败的提交上。
+       * 真机 2026-09-23：`service_tier: flex` 不支持视频生成（400），前置拒绝。
+       * 判定收在 gen/params.ts（纯函数，带单测），避免各入口各写一遍口径。
        */
-      if (input.serviceTier === "flex") {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "服务档位 flex 不支持视频生成（Ark 实测 400）；请使用 default，或改用草稿模型档位",
-        });
+      const tierRejection = serviceTierRejectionReason(input.serviceTier);
+      if (tierRejection) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: tierRejection });
       }
       const maxSeconds = chosen.limits?.durationSec?.max ?? 15;
       const minSeconds = chosen.limits?.durationSec?.min ?? 4;

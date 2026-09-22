@@ -950,6 +950,9 @@ export function installVendorAudioDisciplineBridge(options: {
       ratio: string
     ) {
       const musicPattern = /(背景音乐|配乐|音乐风格|音乐节拍|旋律|歌曲|background\s*music|\bbgm\b|soundtrack)/gi;
+      /** 否定式（"无配乐/不加配乐/no bgm"）与音频纪律同向，保留不删 */
+      const negatedPattern =
+        /(无|没有|不含|不加|不出现|不加入|禁止|避免|无需|不要)\s*(任何)?\s*(背景音乐|配乐|音乐|BGM|旋律|歌曲|soundtrack)|no\s+(background\s+)?music|no\s+bgm|without\s+(background\s+)?music/i;
       // 1) 清洗入参里 audio / fields.audio 的音乐指令
       for (const holder of [shot, fields]) {
         const value = holder?.audio;
@@ -960,6 +963,7 @@ export function installVendorAudioDisciplineBridge(options: {
             .map((s) => s.trim())
             .filter(Boolean)
             .filter((seg) => {
+              if (negatedPattern.test(seg)) return true;
               musicPattern.lastIndex = 0;
               return !musicPattern.test(seg);
             });
@@ -986,13 +990,21 @@ export function installVendorAudioDisciplineBridge(options: {
 }
 
 /**
- * 时长策略桥（2026-09-23）：把 vendor 的三处"单镜 15s"口径统一到模型能力（实测 4–30s）。
+ * 时长策略桥（2026-09-23 修订二版）：把 vendor 里**所有在用**的单镜时长口径统一到模型能力
+ * （Seedance 2.5 真机实测 4–30s）。第一版只覆盖 2 处、且 ThemeConfig 打错层级，本版按
+ * `duration-rules.ts` 的口径清单逐个对齐：
  *
- * 覆盖：
- *   ① `ThemeConfig.types[*].maxShotDuration`（题材级规划上限）
- *   ② `DurationConstraintManager.prototype` 的默认值（新实例默认 15 → 30）
- *   ③ 运行期实例的 `rhythmProfiles.*.shotRange` 上限（standard 12 / slow 15 / fast 8 → 统一 30）
- * 不改 vendor 文件；返回摘除函数。实例级放宽请再调用 `applyDurationPolicyToManager(manager, max)`。
+ *   ① `DurationConstraintManager` 构造函数默认值（15 → 模型上限）——运行期真夹紧
+ *   ② 运行期实例的 `rhythmProfiles.*.shotRange` 上界（8/12/15 → 模型上限）
+ *   ③ `ThemeConfig.types[*].resourceQuota.maxShotDuration`（真实层级；第一版打在不存在的
+ *      `types[*].maxShotDuration` 上）
+ *   ④ `platform-profiles.PROFILES[*].shotDuration.max`（cinematic 12 / tiktok·douyin 5）
+ *      ——被 `PromptDeliveryGuard.verifyPackage` 的作品级时长带消费
+ *   ⑤ `ShotDurationAllocator`：实例 `config.maxDuration`（15）+ `roleConfig[*].max`（6–12）
+ *   ⑥ `requirement-list-builder`：`ParserRules.constraints.maxShotDuration` + 返回体字面量
+ *
+ * 不改 vendor 文件（只做运行期覆写）；返回摘除函数（逐项精确还原）。
+ * 实例级放宽请再调用 `applyDurationPolicyToManager(manager, max)`。
  */
 export function installVendorDurationPolicyBridge(options: {
   maxSingleShotSeconds: number;
@@ -1003,61 +1015,174 @@ export function installVendorDurationPolicyBridge(options: {
   const max = options.maxSingleShotSeconds;
   const min = options.minSingleShotSeconds ?? 4;
   const restores: Array<() => void> = [];
+  const repoRoot = resolvePath(dirname(fileURLToPath(import.meta.url)), "../../..");
+  let vendorRequire: NodeJS.Require;
   try {
-    const repoRoot = resolvePath(dirname(fileURLToPath(import.meta.url)), "../../..");
-    const vendorRequire = createRequire(resolvePath(repoRoot, "package.json"));
-
-    const themePath = resolvePath(repoRoot, "vendor/supermickey/hyperreality-system/config/theme-config.js");
-    if (existsSync(themePath)) {
-      const theme = vendorRequire(themePath) as { types?: Record<string, { maxShotDuration?: number }> };
-      const previous = new Map<string, number | undefined>();
-      for (const [key, value] of Object.entries(theme?.types ?? {})) {
-        if (!value || typeof value !== "object") continue;
-        previous.set(key, value.maxShotDuration);
-        value.maxShotDuration = max;
-      }
-      restores.push(() => {
-        for (const [key, value] of previous) {
-          const target = theme?.types?.[key];
-          if (target) target.maxShotDuration = value;
-        }
-      });
-      log(`[vendor-compat] 时长策略桥：ThemeConfig.maxShotDuration → ${max}s（${previous.size} 个题材）`);
+    vendorRequire = createRequire(resolvePath(repoRoot, "package.json"));
+  } catch (err) {
+    log(`[vendor-compat] 时长策略桥无法建立 vendor require：${err instanceof Error ? err.message : String(err)}`);
+    return () => undefined;
+  }
+  /** 单个目标失败不影响其它目标：逐个 try/catch 并如实记日志 */
+  const step = (label: string, run: () => void): void => {
+    try {
+      run();
+    } catch (err) {
+      log(`[vendor-compat] 时长策略桥·${label} 注入失败（其余目标继续）：${err instanceof Error ? err.message : String(err)}`);
     }
+  };
 
-    const managerPath = resolvePath(
+  // ① + ② DurationConstraintManager（类默认值 + 实例 rhythmProfiles）
+  step("DurationConstraintManager", () => {
+    const file = resolvePath(
       repoRoot,
       "vendor/supermickey/hyperreality-system/engines/duration-constraint/duration-constraint-manager.js"
     );
-    if (existsSync(managerPath)) {
-      const mod = vendorRequire(managerPath) as {
-        DurationConstraintManager?: new (o?: Record<string, unknown>) => Record<string, unknown>;
-      };
-      const ctor = mod?.DurationConstraintManager;
-      const prototype = ctor?.prototype as Record<string, unknown> | undefined;
-      const originalCtor = ctor as unknown as new (o?: Record<string, unknown>) => Record<string, unknown>;
-      if (prototype) {
-        // ② 默认值：包一层构造函数，未显式传参时用模型上限
-        const Wrapped = function durationManagerWithPolicy(this: unknown, opts: Record<string, unknown> = {}) {
-          return new originalCtor({
-            maxSingleShot: max,
-            minSingleShot: min,
-            ...opts
-          });
-        } as unknown as new (o?: Record<string, unknown>) => Record<string, unknown>;
-        Wrapped.prototype = originalCtor.prototype;
-        mod.DurationConstraintManager = Wrapped;
-        restores.push(() => {
-          mod.DurationConstraintManager = originalCtor;
-        });
-        log(`[vendor-compat] 时长策略桥：DurationConstraintManager 默认 maxSingleShot=${max}s/min=${min}s`);
+    if (!existsSync(file)) return;
+    const mod = vendorRequire(file) as {
+      DurationConstraintManager?: new (o?: Record<string, unknown>) => Record<string, unknown>;
+    };
+    const originalCtor = mod?.DurationConstraintManager;
+    if (!originalCtor?.prototype) return;
+    const Wrapped = function durationManagerWithPolicy(this: unknown, opts: Record<string, unknown> = {}) {
+      return new originalCtor({ maxSingleShot: max, minSingleShot: min, ...opts });
+    } as unknown as new (o?: Record<string, unknown>) => Record<string, unknown>;
+    Wrapped.prototype = originalCtor.prototype;
+    mod.DurationConstraintManager = Wrapped;
+    restores.push(() => {
+      mod.DurationConstraintManager = originalCtor;
+    });
+    log(`[vendor-compat] 时长策略桥：DurationConstraintManager 默认 maxSingleShot=${max}s/min=${min}s`);
+  });
+
+  // ③ ThemeConfig 题材级资源配额（真实层级 resourceQuota 下）
+  step("ThemeConfig.resourceQuota", () => {
+    const file = resolvePath(repoRoot, "vendor/supermickey/hyperreality-system/config/theme-config.js");
+    if (!existsSync(file)) return;
+    type Quota = { maxShotDuration?: number };
+    const theme = vendorRequire(file) as {
+      types?: Record<string, { maxShotDuration?: number; resourceQuota?: Quota }>;
+    };
+    const previous = new Map<string, { top?: number; quota?: number }>();
+    let touched = 0;
+    for (const [key, value] of Object.entries(theme?.types ?? {})) {
+      if (!value || typeof value !== "object") continue;
+      previous.set(key, { top: value.maxShotDuration, quota: value.resourceQuota?.maxShotDuration });
+      if (value.resourceQuota && typeof value.resourceQuota.maxShotDuration === "number") {
+        value.resourceQuota.maxShotDuration = Math.max(value.resourceQuota.maxShotDuration, max);
       }
+      // 防御：顶层同名键在第一版桥里被写过（本版保留对历史数据的纠正，不新增语义）
+      if (typeof value.maxShotDuration === "number") value.maxShotDuration = Math.max(value.maxShotDuration, max);
+      touched += 1;
     }
-    return () => restores.forEach((restore) => restore());
-  } catch (err) {
-    log(`[vendor-compat] 时长策略桥注入失败（不影响其它桥）：${err instanceof Error ? err.message : String(err)}`);
-    return () => restores.forEach((restore) => restore());
-  }
+    restores.push(() => {
+      for (const [key, prev] of previous) {
+        const target = theme?.types?.[key];
+        if (!target) continue;
+        if (prev.top !== undefined) target.maxShotDuration = prev.top;
+        if (prev.quota !== undefined && target.resourceQuota) target.resourceQuota.maxShotDuration = prev.quota;
+      }
+    });
+    log(`[vendor-compat] 时长策略桥：ThemeConfig.resourceQuota.maxShotDuration → ${max}s（${touched} 个题材）`);
+  });
+
+  // ④ 平台蓝图时长带（PromptDeliveryGuard.verifyPackage 消费）
+  step("platform-profiles", () => {
+    const file = resolvePath(repoRoot, "vendor/supermickey/hyperreality-system/config/platform-profiles.js");
+    if (!existsSync(file)) return;
+    const mod = vendorRequire(file) as {
+      PROFILES?: Record<string, { shotDuration?: { min?: number; max?: number } }>;
+    };
+    const previous = new Map<string, number | undefined>();
+    for (const [key, profile] of Object.entries(mod?.PROFILES ?? {})) {
+      const band = profile?.shotDuration;
+      if (!band || typeof band.max !== "number") continue;
+      previous.set(key, band.max);
+      band.max = Math.max(band.max, max);
+      if (typeof band.min === "number") band.min = Math.min(band.min, min);
+    }
+    restores.push(() => {
+      for (const [key, prev] of previous) {
+        const band = mod?.PROFILES?.[key]?.shotDuration;
+        if (band && prev !== undefined) band.max = prev;
+      }
+    });
+    log(`[vendor-compat] 时长策略桥：平台蓝图 shotDuration.max → ${max}s（${previous.size} 个平台档）`);
+  });
+
+  // ⑤ 镜头时长分配器（config.maxDuration + 各角色 max）
+  step("ShotDurationAllocator", () => {
+    const file = resolvePath(repoRoot, "vendor/supermickey/systems/shot-duration-allocator.js");
+    if (!existsSync(file)) return;
+    const mod = vendorRequire(file) as {
+      ShotDurationAllocator?: new (o?: Record<string, unknown>) => {
+        config?: { maxDuration?: number };
+        roleConfig?: Record<string, { max?: number }>;
+      };
+    };
+    const originalCtor = mod?.ShotDurationAllocator;
+    if (!originalCtor?.prototype) return;
+    const Wrapped = function shotAllocatorWithPolicy(this: unknown, cfg: Record<string, unknown> = {}) {
+      const instance = new originalCtor(cfg);
+      if (instance.config && typeof instance.config.maxDuration === "number") {
+        instance.config.maxDuration = Math.max(instance.config.maxDuration, max);
+      }
+      for (const role of Object.values(instance.roleConfig ?? {})) {
+        if (role && typeof role.max === "number") role.max = Math.max(role.max, max);
+      }
+      return instance;
+    } as unknown as new (o?: Record<string, unknown>) => Record<string, unknown>;
+    Wrapped.prototype = originalCtor.prototype;
+    mod.ShotDurationAllocator = Wrapped;
+    restores.push(() => {
+      mod.ShotDurationAllocator = originalCtor;
+    });
+    log(`[vendor-compat] 时长策略桥：ShotDurationAllocator.maxDuration/roleConfig.max → ${max}s`);
+  });
+
+  // ⑥ 需求清单建议口径（ParserRules 常量 + 返回体字面量）
+  step("requirement-list-builder", () => {
+    const file = resolvePath(
+      repoRoot,
+      "vendor/supermickey/hyperreality-system/engines/script-engine/core/requirement-list-builder.js"
+    );
+    if (!existsSync(file)) return;
+    const mod = vendorRequire(file) as {
+      ParserRules?: { constraints?: { maxShotDuration?: number } };
+      RequirementListBuilder?: { prototype?: Record<string, unknown> };
+    };
+    const constraints = mod?.ParserRules?.constraints;
+    if (constraints && typeof constraints.maxShotDuration === "number") {
+      const previous = constraints.maxShotDuration;
+      constraints.maxShotDuration = Math.max(previous, max);
+      restores.push(() => {
+        constraints.maxShotDuration = previous;
+      });
+    }
+    const prototype = mod?.RequirementListBuilder?.prototype;
+    const original = prototype?._buildRequirementList as
+      | ((this: unknown, ...args: unknown[]) => unknown)
+      | undefined;
+    if (prototype && typeof original === "function") {
+      const patched = function patchedBuildRequirementList(this: unknown, ...args: unknown[]) {
+        const out = original.apply(this, args);
+        if (out && typeof out === "object") {
+          const list = out as { constraints?: { maxShotDuration?: number } };
+          if (list.constraints && typeof list.constraints.maxShotDuration === "number") {
+            list.constraints.maxShotDuration = Math.max(list.constraints.maxShotDuration, max);
+          }
+        }
+        return out;
+      };
+      prototype._buildRequirementList = patched;
+      restores.push(() => {
+        prototype._buildRequirementList = original;
+      });
+    }
+    log(`[vendor-compat] 时长策略桥：需求清单建议上限 → ${max}s`);
+  });
+
+  return () => restores.forEach((restore) => restore());
 }
 
 /** 把已构造好的 DurationConstraintManager 实例放宽到模型上限（studio 在 new 之后调用） */

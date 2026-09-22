@@ -247,6 +247,14 @@ const POSITIVE_MUSIC_PATTERN =
   /(背景音乐|配乐|音乐风格|音乐节拍|旋律|歌曲|music\s*style|background\s*music|\bbgm\b|\bmusic\b|soundtrack)/gi;
 
 /**
+ * 否定式音乐表述（"无配乐/不加配乐/no bgm"）：与音频纪律**同向**，必须保留——
+ * 真机出片（2026-09-23 平江路 30s dry-run）里 vendor 音频设计会写「人声清晰，无配乐」，
+ * 若按正向词一刀切，会把这些合规表述一起删掉。
+ */
+const NEGATED_MUSIC_PATTERN =
+  /(无|没有|不含|不加|不出现|不加入|禁止|避免|无需|不要)\s*(任何)?\s*(背景音乐|配乐|音乐|BGM|旋律|歌曲|soundtrack)|no\s+(background\s+)?music|no\s+bgm|without\s+(background\s+)?music/i;
+
+/**
  * 清洗镜头卡的 `audio` 字段：vendor 的 `AudioDesignAgent` 会把「音乐风格/配乐」写进该字段，
  * 与"镜头内禁止 BGM"冲突。这里把含音乐词的分句整句剔除（保留环境音/音效描述），并记录日志。
  */
@@ -261,6 +269,8 @@ export function sanitizeAudioField(
     .map((seg) => seg.trim())
     .filter(Boolean)
     .filter((seg) => {
+      /** 否定式（"无配乐"）与纪律同向：保留，避免误删合规表述 */
+      if (NEGATED_MUSIC_PATTERN.test(seg)) return true;
       POSITIVE_MUSIC_PATTERN.lastIndex = 0;
       if (POSITIVE_MUSIC_PATTERN.test(seg)) {
         stripped.push(seg.slice(0, 60));

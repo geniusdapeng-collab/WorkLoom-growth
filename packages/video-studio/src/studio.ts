@@ -235,7 +235,14 @@ export class VideoStudio {
     });
     log(
       `[studio] 时长策略：单镜 ${minSingleShot}–${maxSingleShot}s（模型目录口径，Seedance 2.5 实测上限 30s）`
+      + `；口径清单 ${durationRules.sources.length} 条（在用 ${durationRules.sources.filter((s) => s.live).length} / 未接线 ${durationRules.nonLive.length}）`
     );
+    if (!durationRules.aligned) {
+      log(
+        `[studio] ⚠️ 仍有在用口径低于模型上限：`
+        + durationRules.blockers.map((b) => `${b.id}=${b.value}s`).join("；")
+      );
+    }
 
     // 与 vendor CLI（app/commands/preproduction.js）保持同一装配口径
     process.env.STORMAXE_TOTAL_DEADLINE_MS =

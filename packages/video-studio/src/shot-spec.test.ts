@@ -152,6 +152,16 @@ describe("字段规范真源", () => {
     expect(positive).not.toContain("配乐在1.5s进点");
     expect(report.prompt).toContain("环境声：水声与鸟鸣");
   });
+
+  /** 真机 2026-09-23 平江路 dry-run：vendor 音频设计写「人声清晰，无配乐」，误删会丢合规表述 */
+  it("音频纪律：否定式表述（「无配乐」）与纪律同向，不被误删", () => {
+    const shot = contentCard();
+    shot.audio = "环境声：水声与船桨声；人声清晰，无配乐喧宾";
+    const logs: string[] = [];
+    const report = prepareShotPrompt(shot, { ratio: "9:16", log: (line) => logs.push(line) });
+    expect(report.prompt).toContain("无配乐喧宾");
+    expect(logs.join()).not.toContain("剔除");
+  });
 });
 
 describe("镜头卡交付闸（vendor PromptDeliveryGuard 为准）", () => {

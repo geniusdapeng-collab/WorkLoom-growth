@@ -26,6 +26,7 @@ import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "
 import { basename, dirname, extname, isAbsolute, resolve } from "node:path";
 import {
   allocateShotDurations,
+  durationRulesMarkdown,
   durationValidationMarkdown,
   fieldSpec,
   prepareShotPrompt,
@@ -336,6 +337,9 @@ console.log(`时长分配：${shots.map((s) => `${s.shotId}=${durations.get(s.sh
 console.log(`时长规则校验：${durationValidation.pass ? "通过" : "不通过"}（合计 ${durationValidation.actualTotalSeconds}s / 目标 ${totalSeconds}s）`);
 for (const warning of durationValidation.warnings) console.warn(`   ⚠️ ${warning}`);
 for (const issue of durationValidation.issues) console.error(`   ❌ ${issue}`);
+/** 逐镜时长报告（计划/采用/夹紧 + 口径清单）：dry-run 也打印，便于出片前复核 */
+console.log(durationValidationMarkdown(durationValidation));
+console.log(durationRulesMarkdown(modelId));
 
 interface ShotResult {
   shotId: string;
@@ -613,7 +617,13 @@ if (specReports.length > 0) {
     `- 交付闸：${specReports.filter((r) => r.delivery.pass).length}/${specReports.length} 通过`
     + `（未过：${specReports.filter((r) => !r.delivery.pass).map((r) => r.shotId).join("、") || "无"}）`,
     "",
-    shotSpecMarkdown(specReports)
+    shotSpecMarkdown(specReports),
+    "",
+    "## 时长校验（逐镜计划 / 采用 / 夹紧）",
+    "",
+    durationValidationMarkdown(durationValidation),
+    "",
+    durationRulesMarkdown(modelId)
   ].join("\n");
   const outDir = dirname(resolve(REPO_ROOT, shotsFile));
   const specPath = resolve(REPO_ROOT, arg("--spec-report", `${outDir}/render-spec-report.md`));
