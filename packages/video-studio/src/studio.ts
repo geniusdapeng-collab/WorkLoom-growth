@@ -19,9 +19,11 @@ import { WorkloomLLMEngine } from "./llm-adapter.js";
 import { createPortraitRuntime, type PortraitRuntimeOptions } from "./portrait-runtime.js";
 import {
   installVendorConfigIsolatorBridge,
+  installVendorContractBridge,
   installVendorFieldQualityBridge,
   installVendorMicroMotionBridge,
-  installVendorPhaseDiagnosticsBridge
+  installVendorPhaseDiagnosticsBridge,
+  installVendorPromptRebuildBridge
 } from "./vendor-compat.js";
 
 /** vendor 引擎暴露的最小结构（HyperrealitySystem 实例方法） */
@@ -190,6 +192,17 @@ export class VideoStudio {
      * → 真机两次 run 均 0/6 增强（环节空转）。补齐字段映射与 neutral 模板。
      */
     const uninstallMicroMotion = installVendorMicroMotionBridge({ log });
+    /**
+     * 契约桥：Phase1→2/2→3/3→Output 的类型不匹配此前只告警（且 autoFix 对逐镜头字段不生效），
+     * 导致对象字段以 `[object Object]` 进入提示词。这里做入参归一 + 契约账本留痕。
+     */
+    const uninstallContract = installVendorContractBridge({ log });
+    /**
+     * 提示词重建桥：Phase 3 失败（真机 `Assignment to constant variable.`）时 6 镜 prompt 为空，
+     * 最终被 PipelineGuard 严格模式拦下、整条 run 无产物。用 vendor 自己的组装器按字段重建，
+     * 并标记 promptRebuilt（非静默兜底）。
+     */
+    const uninstallPromptRebuild = installVendorPromptRebuildBridge({ log });
 
     // 与 vendor CLI（app/commands/preproduction.js）保持同一装配口径
     process.env.STORMAXE_TOTAL_DEADLINE_MS =
@@ -280,6 +293,8 @@ export class VideoStudio {
       });
       throw err;
     } finally {
+      uninstallPromptRebuild();
+      uninstallContract();
       uninstallMicroMotion();
       uninstallFieldQuality();
       uninstallPhaseDiagnostics();

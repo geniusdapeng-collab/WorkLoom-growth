@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { promptFieldText, rebuildPromptsFromFields } from "./vendor-compat.js";
 
 /**
  * 定妆照绑定桥的端到端断言必须在**真实 node 进程**里跑：
@@ -233,5 +234,79 @@ console.log("RESULT " + JSON.stringify({
     expect(Number(result.beforeCount)).toBe(0);
     expect(Number(result.afterCount)).toBeGreaterThan(0);
     expect(result.afterHasMicro).toBe(true);
+  }, 60_000);
+
+  /**
+   * 真机回归（VID-1022）：Phase 3 失败后 prompt 全空 → PipelineGuard 严格模式拦下、run 无产物。
+   * 重建桥用 vendor 组装器把字段复原成 prompt（非静默兜底，带 promptRebuilt 标记）。
+   */
+  it("prompt 重建：空 prompt 镜头按字段复原，并保留结构化原值", () => {
+    const shots: Array<Record<string, unknown>> = [
+      {
+        shotId: "SC-01",
+        duration: 5,
+        prompt: "",
+        lighting: { key_light: "主光5600K", fill_light: "反光板" },
+        timeline: [{ object: { start: "T00:00" }, string: "T00:00 / 建立空间" }],
+        camera_movement: { composition: "竖版居中" },
+        scene: "园林清晨薄雾",
+        action: "讲述人抬手示意"
+      },
+      { shotId: "SC-02", prompt: "已有足够长度的提示词".repeat(30) }
+    ];
+    const rebuilt = rebuildPromptsFromFields(shots, "9:16", (shot, fields) => {
+      expect(Object.keys(fields).length).toBeGreaterThan(0);
+      return `ASSEMBLED(${String(shot.shotId)}):${Object.keys(fields).length}`;
+    });
+    expect(rebuilt).toEqual(["SC-01"]);
+    expect(String(shots[0]!.prompt)).toContain("ASSEMBLED(SC-01)");
+    expect(shots[0]!.promptRebuilt).toBe(true);
+    expect(typeof shots[0]!.lighting).toBe("string");
+    expect(shots[0]!._rawLighting).toBeDefined();
+    expect(String(shots[1]!.prompt)).toContain("已有足够长度的提示词");
+    expect(shots[1]!.promptRebuilt).toBeUndefined();
+  });
+
+  it("promptFieldText：对象与数组转可读文本，不产生 [object Object]", () => {
+    expect(promptFieldText(["A", "B"])).toBe("A；B");
+    expect(promptFieldText({ key_light: "主光", fill_light: "补光" })).toContain("主光");
+    expect(promptFieldText({ string: "原样" })).toBe("原样");
+    expect(promptFieldText(null)).toBe("");
+  });
+
+  /** 契约桥：autoFix 的 `String(value)` 会把对象变成 [object Object]；validate 前先用可读文本归一 */
+  it("契约桥：对象型字段不再产生 [object Object]，并输出契约账本行", () => {
+    const script = `
+import { createRequire } from "node:module";
+import { installVendorContractBridge } from ${JSON.stringify(resolve(here, "vendor-compat.ts"))};
+const require = createRequire(${JSON.stringify(join(repoRoot, "package.json"))});
+const { AgentContractValidator } = require(${JSON.stringify(join(repoRoot, "vendor/supermickey/hyperreality-system/engines/production-engine/utils/agent-contract-validator.js"))});
+
+const lines = [];
+const uninstall = installVendorContractBridge({ log: (line) => lines.push(line) });
+const validator = new AgentContractValidator({ strict: false, autoFix: true });
+const shots = [{
+  shotId: "S-01", scene: "园林清晨薄雾中的明轩与水面倒影", action: "讲述人抬手示意",
+  lighting: { key_light: "主光5600K", fill_light: "反光板" },
+  timeline: [{ object: { start: "T00:00" }, string: "T00:00 / 建立空间" }],
+  cameraMovement: { composition: "竖版居中" }
+}];
+const result = validator.validate("phase2-phase3", { shots });
+uninstall();
+const typeErrors = (result.errors || []).filter(e => /类型不匹配/.test(e));
+const structuralErrors = (result.errors || []).filter(e => /lighting|timeline|cameraMovement/.test(e));
+console.log("RESULT " + JSON.stringify({
+  valid: result.valid,
+  typeErrors,
+  structuralErrors,
+  lightingIsString: typeof result.fixed?.shots?.[0]?.lighting === "string",
+  reportLines: lines.filter(l => l.includes("CONTRACT-REPORT")).length
+}));
+`;
+    const result = runInChild(script);
+    expect(result.typeErrors).toEqual([]);
+    expect(result.structuralErrors).toEqual([]);
+    expect(result.valid).toBe(true);
+    expect(Number(result.reportLines)).toBeGreaterThan(0);
   }, 60_000);
 });

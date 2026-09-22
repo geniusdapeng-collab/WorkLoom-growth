@@ -521,3 +521,242 @@ export function installVendorMicroMotionBridge(options: { log?: (line: string) =
     return () => undefined;
   }
 }
+
+/** 25/30 字段键（与 vendor 字段规范一致；用于从镜头卡复原组装入参） */
+const PROMPT_FIELD_KEYS = [
+  "director_instruction", "constraint", "baseline", "scene", "sceneDescription", "lighting",
+  "camera_movement", "composition", "color_palette", "depth_of_field", "character", "costume",
+  "makeup", "action", "props", "portraits", "dialogue", "timeline", "mood", "pacing",
+  "transition", "audio", "negative", "bright_constraint", "character_constraint", "consistency",
+  "title", "subtitle", "title_content", "subtitle_content", "title_animation",
+  "title_font_design", "opening_audio_design"
+];
+
+/** 任意结构化值 → 可读文本（数组拼接 / 对象按键值拼接 / 优先 .string） */
+export function promptFieldText(value: unknown): string {
+  if (value === null || value === undefined) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (Array.isArray(value)) return value.map(promptFieldText).filter(Boolean).join("；");
+  if (typeof value === "object") {
+    const record = value as Record<string, unknown>;
+    if (typeof record.string === "string" && record.string.trim()) return record.string.trim();
+    return Object.entries(record)
+      .filter(([k]) => !k.startsWith("_"))
+      .map(([, v]) => promptFieldText(v))
+      .filter(Boolean)
+      .join("；");
+  }
+  return "";
+}
+
+/**
+ * 从镜头字段重建 prompt（Phase 3 失败止血的核心逻辑，独立导出便于单测）。
+ * @returns 被重建的 shotId 列表（空数组表示无需重建）
+ */
+export function rebuildPromptsFromFields(
+  shots: Array<Record<string, unknown>>,
+  ratio: string,
+  assemble: (shot: Record<string, unknown>, fields: Record<string, unknown>, ratio: string) => string,
+  minLength = 120
+): string[] {
+  const rebuilt: string[] = [];
+  for (const shot of shots) {
+    if (typeof shot.prompt === "string" && shot.prompt.trim().length >= minLength) continue;
+    const existing = (shot.fields && typeof shot.fields === "object" ? shot.fields : {}) as Record<string, unknown>;
+    const fields: Record<string, unknown> = {};
+    for (const key of PROMPT_FIELD_KEYS) {
+      const raw = existing[key] ?? shot[key];
+      const text = promptFieldText(raw);
+      if (!text) continue;
+      fields[key] = text;
+      if (typeof raw !== "string") shot[`_raw${key.charAt(0).toUpperCase()}${key.slice(1)}`] = raw;
+      shot[key] = text;
+    }
+    const prompt = assemble(shot, fields, ratio);
+    if (!prompt || typeof prompt !== "string") continue;
+    shot.prompt = prompt;
+    shot.promptCharCount = prompt.length;
+    shot.promptRebuilt = true;
+    rebuilt.push(String(shot.shotId ?? "?"));
+  }
+  return rebuilt;
+}
+
+/**
+ * 提示词重建桥（2026-09-22 真机修复，Phase 3 失败的止血方案）
+ *
+ * 现象链（VID-1021/1022）：
+ *   `PROMPT-FUSION-FAIL: Assignment to constant variable.` → 6 镜退回**未融合镜头**（`prompt` 为空，
+ *   且 `lighting/timeline/camera_movement` 仍是对象）→ 后续 `[INTEGRITY] prompt 缺失` 仅告警 →
+ *   PipelineGuard `严格模式已启用,渲染被阻止`（run 直接失败，连产物目录都没写出）。
+ *
+ * 处理：在 `ProductionEngine.produce` 返回后，对**每个 prompt 为空的镜头**用 vendor 自己的组装器
+ * （`PromptFusionAgent._assembleStandardPrompt`）+ 镜头字段重建提示词，并保留结构化原值。
+ * 这不是静默兜底：会写 `promptRebuilt` 标记与日志（`[vendor-compat] 重建 N 镜 prompt`），
+ * 上游一旦真修好，重建自然不再触发。
+ */
+export function installVendorPromptRebuildBridge(options: { log?: (line: string) => void; ratio?: string } = {}): () => void {
+  const log = options.log ?? (() => undefined);
+  try {
+    const repoRoot = resolvePath(dirname(fileURLToPath(import.meta.url)), "../../..");
+    const vendorRequire = createRequire(resolvePath(repoRoot, "package.json"));
+    const enginePath = resolvePath(
+      repoRoot,
+      "vendor/supermickey/hyperreality-system/engines/production-engine/production-engine.js"
+    );
+    const fusionPath = resolvePath(
+      repoRoot,
+      "vendor/supermickey/hyperreality-system/engines/production-engine/agents/prompt-fusion-agent.js"
+    );
+    if (!existsSync(enginePath) || !existsSync(fusionPath)) return () => undefined;
+    const engineMod = vendorRequire(enginePath) as { ProductionEngine?: { prototype?: Record<string, unknown> } };
+    const prototype = engineMod?.ProductionEngine?.prototype;
+    if (!prototype || typeof prototype.produce !== "function") return () => undefined;
+    const fusionMod = vendorRequire(fusionPath) as {
+      PromptFusionAgent: new (options?: Record<string, unknown>) => {
+        _assembleStandardPrompt(shot: Record<string, unknown>, fields: Record<string, unknown>, ratio: string): string;
+      };
+    };
+
+    const original = prototype.produce as (blueprint?: unknown, options?: unknown) => Promise<Record<string, unknown>>;
+    prototype.produce = async function patchedProduce(this: unknown, blueprint?: unknown, options?: unknown) {
+      const result = await original.call(this, blueprint, options);
+      try {
+        const shots = (result?.shots as Array<Record<string, unknown>> | undefined) ?? [];
+        const optionsRecord = (options ?? {}) as Record<string, unknown>;
+        const blueprintRecord = (blueprint ?? {}) as Record<string, unknown>;
+        const blueprintConfig = (blueprintRecord.config ?? {}) as Record<string, unknown>;
+        const ratio = optionsRecord.ratio ?? blueprintConfig.aspectRatio ?? optionsRecord.aspectRatio ?? "9:16";
+        const fusion = new fusionMod.PromptFusionAgent({ semanticRefinement: false });
+        const rebuilt = rebuildPromptsFromFields(
+          shots,
+          String(ratio),
+          (shot, fields, r) => fusion._assembleStandardPrompt(shot, fields, r)
+        );
+        if (rebuilt.length > 0) {
+          log(
+            `[vendor-compat] Phase 3 未产出 prompt，已按 25/30 字段重建 ${rebuilt.length} 镜`
+            + `（${rebuilt.join("、")}）；标记 promptRebuilt=true`
+          );
+        }
+      } catch (err) {
+        log(`[vendor-compat] prompt 重建失败（保持原样）：${err instanceof Error ? err.message : String(err)}`);
+      }
+      return result;
+    };
+    return () => {
+      prototype.produce = original;
+    };
+  } catch (err) {
+    log(`[vendor-compat] prompt 重建桥注入失败（不影响其它桥）：${err instanceof Error ? err.message : String(err)}`);
+    return () => undefined;
+  }
+}
+
+/**
+ * 契约桥（2026-09-22）：把「契约校验」从纯告警升级为"可修复即修复 + 账本留痕"。
+ *
+ * 两点修复：
+ *  1. `_autoFix` 对 `type: 'string'` 的非法值用 `String(value)` → 对象变 `[object Object]`
+ *     （这正是提示词里 `[object Object]` 的源头之一）。这里改为可读序列化。
+ *  2. `validate` 前先对**逐镜头字段**（itemSchema 声明为 string 的
+ *     `cameraMovement/lighting/timeline/backgroundSound`）做归一，并输出
+ *     `[CONTRACT-REPORT] {...}` 账本行，供审计工具与出片交付闸消费。
+ */
+export function installVendorContractBridge(options: { log?: (line: string) => void } = {}): () => void {
+  const log = options.log ?? (() => undefined);
+  const STRING_ITEM_FIELDS = ["cameraMovement", "camera_movement", "lighting", "timeline", "backgroundSound", "background_sound"];
+  try {
+    const repoRoot = resolvePath(dirname(fileURLToPath(import.meta.url)), "../../..");
+    const vendorRequire = createRequire(resolvePath(repoRoot, "package.json"));
+    const validatorPath = resolvePath(
+      repoRoot,
+      "vendor/supermickey/hyperreality-system/engines/production-engine/utils/agent-contract-validator.js"
+    );
+    if (!existsSync(validatorPath)) return () => undefined;
+    const mod = vendorRequire(validatorPath) as { AgentContractValidator?: { prototype?: Record<string, unknown> } };
+    const prototype = mod?.AgentContractValidator?.prototype;
+    if (!prototype) return () => undefined;
+
+    const toText = (value: unknown): string => {
+      if (value === null || value === undefined) return "";
+      if (typeof value === "string") return value;
+      if (Array.isArray(value)) return value.map(toText).filter(Boolean).join("；");
+      if (typeof value === "object") {
+        const record = value as Record<string, unknown>;
+        if (typeof record.string === "string") return record.string;
+        return Object.entries(record)
+          .filter(([k]) => !k.startsWith("_"))
+          .map(([k, v]) => {
+            const text = toText(v);
+            return text ? `${k}：${text}` : "";
+          })
+          .filter(Boolean)
+          .join("；");
+      }
+      return String(value);
+    };
+    const normalizeShots = (data: unknown): unknown => {
+      if (!data || typeof data !== "object") return data;
+      const record = data as Record<string, unknown>;
+      if (!Array.isArray(record.shots)) return data;
+      const shots = record.shots.map((shot) => {
+        if (!shot || typeof shot !== "object") return shot;
+        const clone: Record<string, unknown> = { ...(shot as Record<string, unknown>) };
+        for (const key of STRING_ITEM_FIELDS) {
+          const value = clone[key];
+          if (value === null || value === undefined || typeof value === "string") continue;
+          clone[`_raw${key.charAt(0).toUpperCase()}${key.slice(1)}`] = value;
+          clone[key] = toText(value);
+        }
+        return clone;
+      });
+      return { ...record, shots };
+    };
+
+    const restores: Array<() => void> = [];
+    if (typeof prototype.validate === "function") {
+      const originalValidate = prototype.validate as (name: string, data: unknown) => Record<string, unknown>;
+      prototype.validate = function patchedValidate(this: unknown, name: string, data: unknown) {
+        const normalized = normalizeShots(data);
+        const result = originalValidate.call(this, name, normalized);
+        try {
+          log(`[CONTRACT-REPORT] ${JSON.stringify({
+            contract: name,
+            valid: result?.valid,
+            errorCount: Array.isArray(result?.errors) ? (result.errors as unknown[]).length : 0,
+            fixCount: result?.fixCount ?? 0,
+            sample: Array.isArray(result?.errors) ? (result.errors as string[]).slice(0, 3) : []
+          })}`);
+        } catch {
+          /* 账本失败不影响主流程 */
+        }
+        return result;
+      };
+      restores.push(() => { prototype.validate = originalValidate; });
+    }
+    if (typeof prototype._autoFix === "function") {
+      const originalFix = prototype._autoFix as (data: unknown, schema: unknown, contractName: string) => Record<string, unknown>;
+      prototype._autoFix = function patchedAutoFix(this: unknown, data: unknown, schema: unknown, contractName: string) {
+        const result = originalFix.call(this, data, schema, contractName);
+        // 二次兜底：把对象型的字符串字段换成可读文本（原实现是 String(value) → "[object Object]"）
+        const walk = (node: unknown): void => {
+          if (!node || typeof node !== "object") return;
+          const record = node as Record<string, unknown>;
+          for (const [key, value] of Object.entries(record)) {
+            if (value === "[object Object]") record[key] = toText(value === "[object Object]" ? "" : value) || "";
+            else if (value && typeof value === "object") walk(value);
+          }
+        };
+        walk(result?.data);
+        return result;
+      };
+      restores.push(() => { prototype._autoFix = originalFix; });
+    }
+    return () => restores.forEach((restore) => restore());
+  } catch (err) {
+    log(`[vendor-compat] 契约桥注入失败（不影响其它桥）：${err instanceof Error ? err.message : String(err)}`);
+    return () => undefined;
+  }
+}
