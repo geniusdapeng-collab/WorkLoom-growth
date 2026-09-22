@@ -285,6 +285,11 @@ const cameraFixed = flag("--camera-fixed");
  * 代价：必须顺序提交（每镜等出片），总时长变长。
  */
 const chainLastFrame = flag("--chain-last-frame");
+/**
+ * 超套餐额度时显式确认按量实扣（G8 预算闸口径：`allowOverage`）。
+ * 默认关闭（平台额度用尽即停）；产品所有者明确要求产出完整成片时才开。
+ */
+const allowOverage = flag("--allow-overage");
 const ARK_BASE = (process.env.ARK_BASE_URL ?? "https://ark.cn-beijing.volces.com/api/v3").replace(/\/$/, "");
 const ARK_KEY = process.env.VOLCENGINE_ARK_API_KEY ?? process.env.ARK_API_KEY ?? "";
 /** 查询 Ark 任务详情（取 content.last_frame_url） */
@@ -501,15 +506,28 @@ for (const shot of shots) {
       mode: "auto",
       modelId,
       durationSec: seconds,
-      aspectRatio: aspect,
+      /**
+       * 首帧模式（i2v）**不能传 ratio**（真机 2026-09-22 实测 400：
+       * `For first-frame or first-last-frame generation, the output ratio follows the first-frame image`）。
+       * 接力镜沿用上一镜尾帧的画幅，因此这里只在非接力镜上传 ratio。
+       */
+      ...(chainFirstFrame ? {} : { aspectRatio: aspect }),
       resolution,
       generateAudio: true,
-      referenceImageUrls: references.map(dataUrl),
-      ...(chainFirstFrame ? { firstFrameUrl: chainFirstFrame } : {}),
+      /**
+       * 首尾帧与参考图**互斥**（真机 2026-09-22 实测 400：
+       * `first/last frame content cannot be mixed with reference media content`）。
+       * 接力镜只用上一镜尾帧作为 first_frame（尾帧本身已携带人物与场景，天然保持一致性），
+       * 非接力镜继续用 ≤4 张定妆照/实拍参考图。
+       */
+      ...(chainFirstFrame
+        ? { firstFrameUrl: chainFirstFrame }
+        : { referenceImageUrls: references.map(dataUrl) }),
       ...(seedArg ? { seed: Number(seedArg) } : {}),
       ...(serviceTier ? { serviceTier } : {}),
       ...(cameraFixed ? { cameraFixed: true } : {}),
       ...(chainLastFrame ? { returnLastFrame: true } : {}),
+      ...(allowOverage ? { allowOverage: true } : {}),
       estimatedSeconds: seconds,
       idempotencyKey: `render-project:${projectId}:${shot.shotId}:${modelId}:${seconds}`,
     });
