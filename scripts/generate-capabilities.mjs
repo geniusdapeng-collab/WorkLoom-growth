@@ -29,11 +29,6 @@ const bundles = ls("bundles", (d) => !d.includes("."));
 const skills = ls("skills/official", (d) => !d.includes("."));
 const demoPages = ls("docs/demo", (f) => f.endsWith(".html") && !["index.html", "shell.html"].includes(f));
 const shots = ls("docs/demo/preview-shots", (f) => f.endsWith(".png"));
-// 行业 bundle 的数字员工岗位数/技能数（事实源：product.manifest.json 的 defaultBundle）
-const productManifest = existsSync(join(ROOT, "product.manifest.json")) ? J("product.manifest.json") : {};
-const defaultBundle = bundles.includes(productManifest.defaultBundle) ? productManifest.defaultBundle : null;
-const presets = defaultBundle ? ls(`bundles/${defaultBundle}/presets`, (f) => f.endsWith(".yml")) : [];
-const bundleSkills = defaultBundle ? ls(`bundles/${defaultBundle}/skills`, (d) => !d.includes(".")) : [];
 const repoName = pkg.name?.split("/").pop() || "workloom";
 const desc = pkg.description || "AI 经营系统";
 
@@ -51,11 +46,7 @@ groups.push({
 
 if (bundles.length) groups.push({
   icon: "🏨", title: "行业 Bundle（垂直能力包）",
-  items: bundles.map((b) => ({
-    name: `bundles/${b}/`,
-    how: `见 bundles/${b}/ 目录`,
-    desc: `围栏/技能/员工/对象/管线一键装配${b === defaultBundle && presets.length ? `（${presets.length} 个数字员工岗位 · ${bundleSkills.length} 个技能）` : ""}`,
-  })),
+  items: bundles.map((b) => ({ name: `bundles/${b}/`, how: `见 bundles/${b}/ 目录`, desc: "围栏/技能/员工/对象/管线一键装配" })),
 });
 
 // 数字员工与数字人（事实探测：页面/组件/资产/语音引擎存在才列出）
@@ -63,7 +54,7 @@ const digitalWorkforce = [
   existsSync(join(ROOT, "apps/web/src/pages/p8/P8.tsx")) && {
     name: "数字员工中心（`/agents`）",
     how: "`pnpm preview:all` → http://localhost:3000/agents",
-    desc: `人机混编通讯录：员工档案 / 围栏对账 / 30 天战绩 / 派遣 / 夜班自动上线${presets.length ? `（本包 ${presets.length} 个岗位）` : ""}`,
+    desc: "人机混编通讯录：员工档案 / 围栏绑定 / 30 天战绩 / 段位 / 派遣 / 夜班 22:00-08:00 自动上线",
   },
   existsSync(join(ROOT, "apps/web/src/components/loommate/LoomMate.tsx")) && {
     name: "织伴数字人（Live2D 常驻浮层）",
@@ -74,6 +65,11 @@ const digitalWorkforce = [
     name: "语音与口型引擎",
     how: "docs/voice-and-avatar-delivery-contract.md",
     desc: "TTS 音色映射 + 中文逐字开口度时间线 + 音频振幅驱动口型；人设/音色可切换",
+  },
+  existsSync(join(ROOT, "apps/web/public/live2d")) && {
+    name: "Live2D 渲染后端与资产",
+    how: "apps/web/public/live2d/",
+    desc: "pixi-live2d-display + Cubism core（MIT/官方 SDK）；换形象=换模型文件，驱动链路零改动",
   },
 ].filter(Boolean);
 if (digitalWorkforce.length) groups.push({
@@ -155,7 +151,7 @@ pnpm install && pnpm preview:all
 |---|---|---|
 | 🖥 PC · B 端工作台 | http://localhost:3000 | 经营主页全员就位、晨报、待审批、一句话目标输入 |
 | 📱 B 端移动 | http://localhost:3001 | 演示导航页 → 任选高保真页「手机壳」预览 |
-| 📱 C 端 AI 服务前台 | http://localhost:3002 | 免登对话：咨询增长服务 / 提交合作需求 / 查询跟进进度 |
+| 📱 C 端 AI 服务前台 | http://localhost:3002 | 免登对话：查订单/售后/物流/常见问题 |
 
 无需任何真实后端或密钥：Mock 数据（种子 + 离线确定性模型 + 演示直登）已固化，详见 mock/README.md。
 ${shotBlock}

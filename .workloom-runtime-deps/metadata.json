@@ -40,7 +40,7 @@
     },
     {
       "path": "packages/base/package.json",
-      "sha256": "d6b309b67a0a23b7465b758210e3647194c44489ad2b9a3e19d68af8ebfe6e2a"
+      "sha256": "2106bbe054445b4ebf0756f331c172984bccc35a56fb07d14cc056bdc55b8d54"
     },
     {
       "path": "packages/db/package.json",
@@ -48,15 +48,15 @@
     },
     {
       "path": "packages/industry-contract/package.json",
-      "sha256": "bd21ee1c58e618051105a46fe08c772eb736f28658d184f26f105564a4862d2c"
+      "sha256": "02b574622c2cd26aa5f1fff3a94c4d45fe4900240943ec38f0c94de6a9c699d5"
     },
     {
       "path": "packages/runtime/package.json",
-      "sha256": "9ec1a6bbfded34938f35b57ea94d9cfdd98ed6b29c93836a86e3df92b123ec81"
+      "sha256": "9baceab0f88d9fd75de5690e2474dcbe1c9a6b56af74e80794a8ac2daebd349a"
     },
     {
       "path": "packages/shared/package.json",
-      "sha256": "26ed5c3a560c35730fe8f84343a83f5e7c3d7d2c488468584acfc524699b4cb2"
+      "sha256": "c9f5275a1929d3c576e5f484c15303c90824ad0e42ea3bfdb3432053c9ba668b"
     },
     {
       "path": "packages/video-studio/package.json",
@@ -64,7 +64,7 @@
     },
     {
       "path": "pnpm-lock.yaml",
-      "sha256": "4867ff054e9f52a1a213881daee8a93b23d002ed326e61e96b58a9276cfc089f"
+      "sha256": "562d99dcad70c276647557878d9f4cc3897435cd0d21f33c9ff12aae37711b1e"
     },
     {
       "path": "product.manifest.json",
