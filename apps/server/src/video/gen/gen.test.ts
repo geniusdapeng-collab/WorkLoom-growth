@@ -13,6 +13,7 @@ import { estimateCost, checkCostCaps, costCaps, usdCnyRate } from "./cost.js";
 import { ArkVideoProvider, HiggsfieldProvider, buildVideoGenPool } from "./providers.js";
 import { serviceTierRejectionReason } from "./params.js";
 import { signMediaPath, verifyMediaToken, resolveMediaPath, downloadToMediaStore } from "./ingest.js";
+import type { ProviderError } from "./types.js";
 import { createDryRunDriver, buildPublishAdapters, fenceOverrideEnabled } from "./publish.js";
 
 const ARK_ONLY_ENV = { VOLCENGINE_ARK_API_KEY: "test-key" } as NodeJS.ProcessEnv;
@@ -210,6 +211,46 @@ describe("供应商适配器", () => {
       expect(serviceTierRejectionReason(undefined)).toBeNull();
       expect(serviceTierRejectionReason(null)).toBeNull();
     });
+  });
+
+  /**
+   * 真人隐私闸（真机 2026-09-23）：seedance 对"可能包含真人"的输入图一律 400
+   * （`InputImageSensitiveContentDetected.PrivacyInformation`）。平台政策类失败必须**明确报错**，
+   * 且不得被当成可切换供应商的错误（否则会静默换档重试）。
+   */
+  it("Ark Seedance：真人图像被隐私闸拒绝时归为 MODERATION，并给出可行动指引", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({
+      error: {
+        code: "InputImageSensitiveContentDetected.PrivacyInformation",
+        message: "The request failed because the input image 'content[1]' may contain real person.",
+      },
+    }), { status: 400, headers: { "content-type": "application/json" } })));
+    const provider = new ArkVideoProvider({ apiKey: "k" });
+    await expect(provider.submit({
+      prompt: "真人出镜口播镜头",
+      estimatedUnits: 5,
+      params: {
+        providerModel: "doubao-seedance-2-5-260628",
+        durationSec: 5,
+        aspectRatio: "9:16",
+        referenceImageUrls: ["data:image/jpeg;base64,AAAA"],
+      },
+    })).rejects.toMatchObject({
+      name: "ProviderError",
+      kind: "MODERATION",
+      status: 400,
+    });
+    const message = await provider.submit({
+      prompt: "真人出镜口播镜头",
+      estimatedUnits: 5,
+      params: {
+        providerModel: "doubao-seedance-2-5-260628",
+        durationSec: 5,
+        referenceImageUrls: ["data:image/jpeg;base64,AAAA"],
+      },
+    }).catch((err: ProviderError) => err.message);
+    expect(String(message)).toMatch(/含肖像|授权通道/);
+    expect(String(message)).toMatch(/真人/);
   });
 
   it("Ark Seedance：视频/音频参考以 video_url / audio_url content 提交（含 role）", async () => {
