@@ -12,6 +12,23 @@
  */
 import { existsSync } from "node:fs";
 
+/**
+ * 方舟「已授权真人素材」引用形态：`asset://asset-20260401123823-6d4x2`。
+ * 真人素材必须走官方人像库授权后拿到 asset ID（直传真人照片会被平台审核拦截：
+ * `InputImageSensitiveContentDetected.PrivacyInformation`），因此这类引用不需要本地文件存在。
+ */
+export const ASSET_REF_PREFIX = "asset://";
+
+export function isAssetRef(value: unknown): value is string {
+  return typeof value === "string" && value.startsWith(ASSET_REF_PREFIX) && value.length > ASSET_REF_PREFIX.length;
+}
+
+/** 可用的定妆照引用：本地存在的文件，或方舟 asset:// 引用 */
+function usablePortraitRef(file: string | undefined): string | null {
+  if (!file) return null;
+  return isAssetRef(file) || existsSync(file) ? file : null;
+}
+
 export interface PortraitIndexEntryLike {
   id?: string;
   name?: string;
@@ -74,10 +91,10 @@ export function shotCharacterText(shot: ShotLike): string {
 function frontOf(entry: PortraitIndexEntryLike): string | null {
   const files = entry.files ?? {};
   for (const angle of ["front", "threeQuarter", "closeup", "side", "actionPose", "emotionCloseup"]) {
-    const file = files[angle];
-    if (file && existsSync(file)) return file;
+    const file = usablePortraitRef(files[angle]);
+    if (file) return file;
   }
-  const any = Object.values(files).find((file) => file && existsSync(file));
+  const any = Object.values(files).map((file) => usablePortraitRef(file)).find((file) => Boolean(file));
   return any ?? null;
 }
 
@@ -87,7 +104,7 @@ function frontOf(entry: PortraitIndexEntryLike): string | null {
  */
 export function pickCharacterPortrait(index: PortraitIndexLike | null, shot: ShotLike): PortraitPick {
   if (!index?.characters) return { file: null, matchedBy: "none" };
-  const explicit = toArray(shot.portraits).find((file) => existsSync(file));
+  const explicit = toArray(shot.portraits).map((file) => usablePortraitRef(file)).find((file) => Boolean(file));
   if (explicit) return { file: explicit, matchedBy: "explicit" };
 
   const entries = Object.entries(index.characters);

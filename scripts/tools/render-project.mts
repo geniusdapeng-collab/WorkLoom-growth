@@ -232,6 +232,12 @@ export function composePromptBySpec(
 }
 
 function dataUrl(file: string): string {
+  /**
+   * 已授权真人素材（方舟人像库 asset ID）与远端 URL 直接透传：
+   * 真人肖像不能直传图片（平台隐私闸 400），必须用 `asset://<asset ID>`；
+   * 透传可避免把 asset 引用误读成本地文件。
+   */
+  if (file.startsWith("asset://") || /^https?:\/\//i.test(file)) return file;
   const ext = extname(file).toLowerCase();
   const mime = ext === ".png" ? "image/png" : ext === ".webp" ? "image/webp" : "image/jpeg";
   return `data:${mime};base64,${readFileSync(file).toString("base64")}`;

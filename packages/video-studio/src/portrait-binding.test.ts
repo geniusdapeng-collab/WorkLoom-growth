@@ -67,6 +67,23 @@ describe("镜头卡 → 定妆照绑定", () => {
     const text = shotCharacterText({ character: "甲", characters: ["乙"], prompt: "丙", scene: "丁" });
     for (const token of ["甲", "乙", "丙", "丁"]) expect(text).toContain(token);
   });
+
+  /**
+   * 真人肖像必须走方舟「已授权真人素材」（asset://<asset ID>）——直传真人图会被平台隐私闸拦。
+   * 这类引用没有本地文件，不能被 existsSync 过滤掉。
+   */
+  it("支持方舟 asset:// 授权素材引用（人像库 asset ID）", () => {
+    const assetIndex = {
+      characters: { 讲述人: { id: "讲述人", name: "讲述人", files: { front: "asset://asset-20260923120000-ab12c" } } }
+    };
+    const byToken = pickCharacterPortrait(assetIndex, { character: "讲述人" });
+    expect(byToken.file).toBe("asset://asset-20260923120000-ab12c");
+    expect(byToken.matchedBy).toBe("token");
+
+    const byExplicit = pickCharacterPortrait(index, { portraits: ["asset://asset-20260923120000-zz999"] });
+    expect(byExplicit.file).toBe("asset://asset-20260923120000-zz999");
+    expect(byExplicit.matchedBy).toBe("explicit");
+  });
 });
 
 describe("参考图编排：人物优先", () => {

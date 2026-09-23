@@ -166,6 +166,33 @@ describe("供应商适配器", () => {
     for (const image of images) expect(image.role).toBe("reference_image");
   });
 
+  /**
+   * 真人肖像官方通道：已授权真人素材以 `asset://<asset ID>` 传入参考图/首帧，
+   * provider 必须原样透传（不要改写、不要当成本地路径）。
+   */
+  it("Ark Seedance：asset:// 授权真人素材原样透传（参考图与首帧）", async () => {
+    const calls: Array<{ body: Record<string, unknown> }> = [];
+    vi.stubGlobal("fetch", vi.fn(async (_url: string, init?: RequestInit) => {
+      calls.push({ body: JSON.parse(String(init?.body ?? "{}")) as Record<string, unknown> });
+      return new Response(JSON.stringify({ id: "cgt-asset" }), { status: 200, headers: { "content-type": "application/json" } });
+    }));
+    const provider = new ArkVideoProvider({ apiKey: "k" });
+    await provider.submit({
+      prompt: "授权真人素材出镜口播",
+      estimatedUnits: 5,
+      params: {
+        providerModel: "doubao-seedance-2-5-260628",
+        durationSec: 5,
+        aspectRatio: "9:16",
+        referenceImageUrls: ["asset://asset-20260923120000-ab12c"],
+      },
+    });
+    const content = calls[0]!.body.content as Array<Record<string, unknown>>;
+    const image = content.find((c) => c.type === "image_url") as { image_url?: { url?: string }; role?: string };
+    expect(image?.image_url?.url).toBe("asset://asset-20260923120000-ab12c");
+    expect(image?.role).toBe("reference_image");
+  });
+
   /** 官方 SDK（5.0.50）新增/既有未用参数：watermark 默认关闭、seed/service_tier/return_last_frame 透传 */
   it("Ark Seedance：watermark 默认 false，新参数（seed/service_tier/return_last_frame/camera_fixed）透传", async () => {
     const calls: Array<{ body: Record<string, unknown> }> = [];

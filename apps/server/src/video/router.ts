@@ -302,10 +302,16 @@ const renderRouter = router({
       aspectRatio: z.string().max(16).optional(),
       resolution: z.string().max(16).optional(),
       generateAudio: z.boolean().optional(),
-      /** 图生视频首帧（URL；后续接资产库时由 assetId 解析） */
-      firstFrameUrl: z.string().url().optional(),
-      /** 参考图（定妆照等，最多 4 张） */
-      referenceImageUrls: z.array(z.string().url()).max(4).optional(),
+      /**
+       * 图生视频首帧（URL）。
+       * 真人肖像不接受直传图片（平台审核拦截 `InputImageSensitiveContentDetected.PrivacyInformation`），
+       * 必须走方舟「已授权真人素材」：`asset://asset-2026...`（见《录入真人形象素材》）。
+       */
+      firstFrameUrl: z.union([z.string().url(), z.string().regex(/^asset:\/\/[A-Za-z0-9._-]{6,}$/, "asset://<asset ID>")]).optional(),
+      /** 参考图（定妆照等，最多 4 张；支持 https URL 或方舟 asset:// 授权素材） */
+      referenceImageUrls: z.array(
+        z.union([z.string().url(), z.string().regex(/^asset:\/\/[A-Za-z0-9._-]{6,}$/, "asset://<asset ID>")])
+      ).max(4).optional(),
       /** 视频参考（官方 SDK 的 video_url content；最多 2 条） */
       referenceVideoUrls: z.array(z.string().url()).max(2).optional(),
       /** 音频参考（音频驱动口播；最多 1 条） */
