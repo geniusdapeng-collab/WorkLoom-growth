@@ -51,18 +51,18 @@ const when = (ruleId: string): string => fencePack.rules.find((rule) => rule.rul
 const evaluate = (ruleId: string, params: Record<string, unknown> = {}, context: Record<string, unknown> = {}): boolean =>
   evalCondition(when(ruleId), { params, context } as never);
 
-describe("配乐围栏（G-BGM0..G-BGM5）语义", () => {
-  it("六条规则齐备，级别与基线口径正确", () => {
+describe("配乐围栏（G-BGM0..G-BGM9）语义", () => {
+  it("十条规则齐备，级别与基线口径正确", () => {
     expect(fencePack.version).toBe("ai-video-bgm/v1");
     expect(fencePack.rules.map((rule) => rule.rule_id)).toEqual([
-      "G-BGM0", "G-BGM1", "G-BGM2", "G-BGM3", "G-BGM4", "G-BGM5", "G-BGM6", "G-BGM7",
+      "G-BGM0", "G-BGM1", "G-BGM2", "G-BGM3", "G-BGM4", "G-BGM5", "G-BGM6", "G-BGM7", "G-BGM8", "G-BGM9",
     ]);
     expect(fencePack.rules.every((rule) => rule.is_baseline === true)).toBe(true);
     const levels = Object.fromEntries(fencePack.rules.map((rule) => [rule.rule_id, rule.level]));
     expect(levels).toEqual({
       "G-BGM0": "auto", "G-BGM1": "review", "G-BGM2": "block",
       "G-BGM3": "block", "G-BGM4": "block", "G-BGM5": "block",
-      "G-BGM6": "review", "G-BGM7": "block",
+      "G-BGM6": "review", "G-BGM7": "block", "G-BGM8": "block", "G-BGM9": "review",
     });
   });
 
@@ -118,6 +118,19 @@ describe("配乐围栏（G-BGM0..G-BGM5）语义", () => {
     expect(evaluate("G-BGM7", { allow_unlicensed_source: true })).toBe(true);
     expect(evaluate("G-BGM7", { url_scheme_ok: false })).toBe(true);
     expect(evaluate("G-BGM7", { url_scheme_ok: true, unregistered_source: false })).toBe(false);
+
+    // G-BGM8：曲库打标必须声明许可 / 不许覆盖既有曲库 / 不许把索引写进素材目录 → block
+    expect(evaluate("G-BGM8", { license_declared: false })).toBe(true);
+    expect(evaluate("G-BGM8", { license_ok: false })).toBe(true);
+    expect(evaluate("G-BGM8", { overwrite_existing: true })).toBe(true);
+    expect(evaluate("G-BGM8", { out_dir_inside_source: true })).toBe(true);
+    expect(evaluate("G-BGM8", {})).toBe(false);
+    expect(evaluate("G-BGM8", { license_declared: true, license_ok: true, overwrite_existing: false })).toBe(false);
+
+    // G-BGM9：低置信标签入册 → review（允许入册，但交付前人耳复核）
+    expect(evaluate("G-BGM9", { low_confidence_count: 1 })).toBe(true);
+    expect(evaluate("G-BGM9", { low_confidence_count: 0 })).toBe(false);
+    expect(evaluate("G-BGM9")).toBe(false);
   });
 });
 

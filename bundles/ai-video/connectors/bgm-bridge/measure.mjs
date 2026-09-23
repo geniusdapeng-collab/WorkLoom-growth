@@ -237,13 +237,23 @@ function num(value) {
  * EBU R128 测量（不改变音频）：integrated LUFS / true peak / LRA / 阈值。
  * @returns {Promise<{integratedLufs:number|null,truePeakDbtp:number|null,lra:number|null,thresholdLufs:number|null,targetOffset:number|null,raw:object|null}>}
  */
-export async function measureLoudness(input, { bins = resolveBinaries(), targetLufs = -14, truePeak = -1.0 } = {}) {
-  const { stderr } = await runBin(bins.ffmpeg, [
-    "-hide_banner", "-nostats", "-v", "info",
+/**
+ * EBU R128 响度实测。
+ *
+ * `maxSeconds`（可选）：只测前 N 秒。曲库打标面对的是几百上千首 3-5 分钟的长曲，
+ * 逐首全解码会慢到不可用；前 3 分钟对整曲响度有代表性，且窗口会写进返回值（`windowNote`），
+ * 不做"测了一段却声称整曲"的含糊表述。
+ */
+export async function measureLoudness(input, { bins = resolveBinaries(), targetLufs = -14, truePeak = -1.0, maxSeconds = null, startSec = null } = {}) {
+  const args = ["-hide_banner", "-nostats", "-v", "info"];
+  if (startSec) args.push("-ss", String(startSec));
+  if (maxSeconds) args.push("-t", String(maxSeconds));
+  args.push(
     "-i", input,
     "-af", `loudnorm=I=${targetLufs}:TP=${truePeak}:LRA=11:print_format=json`,
     "-f", "null", "-",
-  ], { label: "ffmpeg(loudnorm-measure)", timeoutMs: 600_000 });
+  );
+  const { stderr } = await runBin(bins.ffmpeg, args, { label: "ffmpeg(loudnorm-measure)", timeoutMs: 600_000 });
   const json = parseLoudnormJson(stderr);
   if (!json) throw new MeasureError("loudnorm 未返回测量 JSON（无法核验响度）", "engine_failed", true);
   return {
@@ -252,6 +262,11 @@ export async function measureLoudness(input, { bins = resolveBinaries(), targetL
     lra: num(json.input_lra),
     thresholdLufs: num(json.input_thresh),
     targetOffset: num(json.target_offset),
+    fromSec: startSec ?? 0,
+    windowSec: maxSeconds ?? null,
+    windowNote: maxSeconds
+      ? `${startSec ? `从 ${startSec}s 起 ` : ""}只测 ${maxSeconds}s（代表段）`
+      : "整曲实测",
     raw: json,
   };
 }
