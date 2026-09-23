@@ -50,12 +50,16 @@
         "presets/review-analyst.yml",
         "presets/settlement-clerk.yml",
         "presets/colorist.yml",
-        "presets/bgm-composer.yml"
+        "presets/bgm-composer.yml",
+        "presets/subtitle-stylist.yml",
+        "presets/voice-artist.yml"
       ],
       "fences": [
         "fences/ai-video-baseline.yml",
         "fences/ai-video-color.yml",
-        "fences/ai-video-bgm.yml"
+        "fences/ai-video-bgm.yml",
+        "fences/ai-video-subtitle.yml",
+        "fences/ai-video-voice.yml"
       ],
       "skills": [
         "skills/jenny-loom-research/SKILL.md",
@@ -74,7 +78,12 @@
         "skills/bgm-audio-layering/SKILL.md",
         "skills/bgm-vocal-separation/SKILL.md",
         "skills/bgm-library-license/SKILL.md",
-        "skills/bgm-delivery-spec/SKILL.md"
+        "skills/bgm-delivery-spec/SKILL.md",
+        "skills/voice-clone-consent/SKILL.md",
+        "skills/voice-delivery-spec/SKILL.md",
+        "skills/voice-dubbing-sync/SKILL.md",
+        "skills/voice-profile-craft/SKILL.md",
+        "skills/voice-reference-craft/SKILL.md"
       ],
       "schemas": [
         "schemas/objects.json",
@@ -485,7 +494,7 @@
   },
   "integrity": {
     "algorithm": "sha256",
-    "digest": "b2616ac12c8206afae5f042c65d874f977ea9d7520ea0d103897fc1bc348f03b",
+    "digest": "2b55f35b07ccc47121b103a7e15975a71f9bf2e4cf279abb4ac7ec298a179b12",
     "assets": {
       "connectors/bgm-bridge/cli.mjs": "4a750118f5bbc7a6c6238be241ee1f3a4cbb695fd3b40066e4c71072179993ed",
       "connectors/bgm-bridge/core.mjs": "9f043eca940ee4082fcaf617c9d94596610f772d5470db98e7c2354ae0435c05",
@@ -501,6 +510,8 @@
       "fences/ai-video-baseline.yml": "d0c8f2f8f7bf59dd3b9b74b2d880d3e1d405ddf849b64adca703b8c071b2eed7",
       "fences/ai-video-bgm.yml": "ba75904e9846a51fd211a207d99f04cec7ffad8c929c7971a08d5453c9e307f8",
       "fences/ai-video-color.yml": "709cb9fc3cba47a4ee2b4ee233d714277223cb23f9ca210ed3712de54c597ed6",
+      "fences/ai-video-subtitle.yml": "2e250b4470189a04a57aac68cee367c32457133dcd0154bf512cad15a03bdaf8",
+      "fences/ai-video-voice.yml": "52ab044fbfa8c4b1f83c91c8e469e97ae82d1c5d31b15dc420b705858694d295",
       "library/bgm-library/README.md": "d63373a49054372ac1607ef675f06add6822e97cbdb9b0b63b696cd76972c215",
       "library/bgm-library/tracks.example.json": "38a110e7efef8082422cfb11cf30e5bac88657c6e23c2ebe2200ae2700446203",
       "library/bgm-recipes/recipes.json": "47d4ee6b74cbd48d2ddf489ce7e6be49dc380b96fd07055ee3eaa1cea930a09d",
@@ -787,8 +798,10 @@
       "presets/scene-designer.yml": "4970864e41c4fd0181db824ac8cdd75d9f95ae6ae1a1c22237dd9f9dcc05523a",
       "presets/scriptwriter.yml": "01874917ac0e38aa3baf1edda5d82e6002f22c69dafccb010a1ab7cbddbb0a2d",
       "presets/settlement-clerk.yml": "6b6f1cdcc3e71d5d2a88dc9aba1e9013e250e924b4bd95eda393a710dcd99f5c",
+      "presets/subtitle-stylist.yml": "c01b94cd5d96bb06237841491d688b93577a0d66657db6344cd0514a2921ef28",
       "presets/trend-researcher.yml": "802b157911cf35216d5122784d8ba0d89ac1da2187748413243f957c002307b3",
       "presets/visual-director.yml": "74683eed31a08c7ffce74ffeb02a4349051c4ec9164ba995470455cf35f6fa61",
+      "presets/voice-artist.yml": "ea8d3efaab6de0659fc39e52f37568595c2f8c0caa5c2220d7cb71203beebdb7",
       "schemas/objects.json": "23f9f34c8b96c7cb0700ba4f80f8e94f2471642cf7e12b520ab67c83dd19b9c5",
       "schemas/stages.json": "418332ca5a5522083592da40773265d8f09b1ab9276d566275e075ef56118831",
       "skills/bgm-audio-layering/SKILL.md": "118d6edfcb27ff21c349f4a9bbd4e9dc95551a499a6dc45313f8c7c53cde7e3e",
@@ -808,6 +821,11 @@
       "skills/publish-ops/SKILL.md": "dd929d5ea42af3672a773dda05c13a26027780f6d682e532ef8c83fe9fe2a36c",
       "skills/render-ops/SKILL.md": "069e98c12983808a88731802de29e7260721d9144606b2a97e22ad59b76a83d8",
       "skills/shot-prompt-craft/SKILL.md": "4d152daca2135f313f887c4ec4c150495d27d55dbebe312fa2e9ae810c67d3ec",
+      "skills/voice-clone-consent/SKILL.md": "16faabf06b8a3cff80c32e1795cf25b9511fa637a8cf6c96cb7a06f9e4d446c4",
+      "skills/voice-delivery-spec/SKILL.md": "cd07ea2f1134d514dc88b8b0a6be74e55017e30e5e034e3f65b54177feedc177",
+      "skills/voice-dubbing-sync/SKILL.md": "649ba8ddc09347c4169f10ff6ae86930ef2df3bd46297c9e6af7dadd2542caff",
+      "skills/voice-profile-craft/SKILL.md": "992f357c393ab217dd874e8d31c9107223da418fb575a41c69238bcec4820db9",
+      "skills/voice-reference-craft/SKILL.md": "7b572de1953955f4e7b163805e6885fab23cd6d20b07058644d42850229ca3b1",
       "ui/cases.json": "2105dbbca42ca0f2f84a5b6d9af50659ec83fa9b310c509c729c0ac0c4ce569c"
     }
   }
