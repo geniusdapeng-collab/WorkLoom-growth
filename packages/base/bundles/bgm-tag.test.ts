@@ -21,7 +21,7 @@ import {
   DEFAULT_FILTERS, FOLDER_HINTS, STYLE_FAMILIES, applyHardFilters, bpmBucketOf, buildIndexEntry,
   canonicalBpm, classifyStyle, classifyTrack, clipRiskOf, computeExcerptGain, energyScoreOf, folderHintFor,
   instrumentationOf, listAudioFiles, loopFriendlyOf, parseAstatsOverall, planExcerpt, scoreForCurated,
-  selectCuratedTracks, silenceStatsOf, tagLibrary, titleArtistFromFile, writeLibrary,
+  selectCuratedTracks, silenceStatsOf, tagLibrary, titleArtistFromFile, titleArtistOf, writeLibrary,
 } from "../../../bundles/ai-video/connectors/bgm-bridge/tag.mjs";
 
 /** ffmpeg 可用性（CI 的 test-gate 镜像里可能没有 ffmpeg；缺件时跳过真机量测，不假红）。 */
@@ -130,14 +130,32 @@ describe("曲库打标 · 拍速与标签", () => {
   });
 
   it("风格裁决：目录先验是人工分类，特征要推翻它必须领先 12 分以上", () => {
-    // 特征更像电子脉冲（快节奏+高能量），但目录先验说旅拍（原声温暖）→ 保留先验并降档标注
+    // 特征略偏电子脉冲（快节奏+高能量），但目录先验说旅拍（原声温暖）→ 保留先验，候选里留痕
     const hinted = classifyStyle({
       bpm: 120, tempoConfidence: "medium", energyScore: 0.88, dynamicsDb: 11.8,
       folderHint: { style: "acoustic-warm", match: "Vlog-旅拍" },
     });
     expect(hinted.style).toBe("acoustic-warm");
-    expect(hinted.confidence).toBe("medium");
-    expect(hinted.conflict).toContain("acoustic-warm");
+    expect(hinted.confidence).toBe("high");
+    expect(hinted.candidates.map((candidate) => candidate.style)).toContain("electronic-pulse");
+
+    // 特征与先验彻底冲突（160 BPM + 0.99 能量 + 10 dB 动态，领先先验 >12 分）：先验被推翻
+    const overridden = classifyStyle({
+      bpm: 160, tempoConfidence: "high", energyScore: 0.99, dynamicsDb: 10,
+      folderHint: { style: "ambient-calm", match: "安静-舒缓" },
+    });
+    expect(overridden.style).toBe("sports-hype");
+    expect(["medium", "high"]).toContain(overridden.confidence);
+
+    // 先验小胜（领先 <12 分）：风格保留先验，margin 与候选都写进返回值，供人工复核
+    const closeCall = classifyStyle({
+      bpm: 120, tempoConfidence: "medium", energyScore: 0.88, dynamicsDb: 11.8,
+      folderHint: { style: "acoustic-warm", match: "Vlog-旅拍" },
+    });
+    expect(closeCall.style).toBe("acoustic-warm");
+    expect(closeCall.margin).toBeLessThan(12);
+    expect(closeCall.candidates.map((candidate) => candidate.style)).toContain("electronic-pulse");
+    expect(closeCall.candidates[0]!.reasons.join()).toContain("目录先验");
 
     // 没有先验、特征极端（150 BPM + 0.95 能量）→ 运动燃点
     const noHint = classifyStyle({ bpm: 150, tempoConfidence: "high", energyScore: 0.95, dynamicsDb: 9 });
@@ -163,6 +181,27 @@ describe("曲库打标 · 拍速与标签", () => {
     expect(folderHintFor("随机目录/x.mp3")).toBeNull();
     expect(titleArtistFromFile("/music/Vlog-旅拍/Roa-Tiny Love.mp3")).toEqual({ artist: "Roa", title: "Tiny Love" });
     expect(titleArtistFromFile("/music/无作者曲.mp3")).toEqual({ artist: null, title: "无作者曲" });
+  });
+
+  it("标题/作者归属：内嵌 ID3 元数据优先于文件名，并标注来源（缺就如实留空）", () => {
+    const embedded = titleArtistOf({
+      relativePath: "Vlog-旅拍/Roa-Tiny Love.mp3",
+      tags: { title: "Tiny Love (Radio Edit)", artist: "Roa Music", album: "Free Pack Vol.3", copyright: "CC BY 4.0", date: "2024" },
+    });
+    expect(embedded.title).toBe("Tiny Love (Radio Edit)");
+    expect(embedded.artist).toBe("Roa Music");
+    expect(embedded.album).toBe("Free Pack Vol.3");
+    expect(embedded.copyright).toBe("CC BY 4.0");
+    expect(embedded.titleSource).toBe("embedded-tag");
+
+    const fromName = titleArtistOf({ relativePath: "Vlog-旅拍/Roa-Tiny Love.mp3", tags: { title: null, artist: null } });
+    expect(fromName.title).toBe("Tiny Love");
+    expect(fromName.artist).toBe("Roa");
+    expect(fromName.titleSource).toBe("file-name");
+
+    const missing = titleArtistOf({ relativePath: "无作者曲.mp3", tags: null });
+    expect(missing.artist).toBeNull();
+    expect(missing.artistSource).toBe("missing");
   });
 
   it("风格表与目录先验自洽：每个先验风格都在风格族表里，标签不重复", () => {
@@ -278,7 +317,8 @@ describe("曲库打标 · 精选口径（质量分 / 多样性 / 选段 / 增益
     expect(normal.gainDb).toBe(-2);
     expect(normal.peakProtected).toBe(false);
 
-    const hot = computeExcerptGain({ integratedLufs: -12, truePeakDbtp: -0.2 }, { targetLufs: -14, truePeakDbtp: -1 });
+    // 需要"加增益才能到目标响度，但真峰值已经贴顶"才算峰值保护生效
+    const hot = computeExcerptGain({ integratedLufs: -18, truePeakDbtp: -0.2 }, { targetLufs: -14, truePeakDbtp: -1 });
     expect(hot.gainDb).toBe(-0.8);
     expect(hot.peakProtected).toBe(true);
     expect(hot.reason).toContain("峰值保护");
@@ -346,12 +386,16 @@ describe("曲库打标 · 索引契约（与运行时加载器同构）", () => 
     expect(doc.library.tracks).toBe(1);
     expect(doc.library.fileMode).toBe("absolute");
 
+    // 注意：加载器会合并"客户曲库 + 随仓精选 + 工位本地"三级，工位本地可能有真实曲库，
+    // 因此这里按 id/来源断言本曲库，而不是断言全局总数（避免被真实环境带偏）。
     const loaded = loadAllLocalTracks({ WORKLOOM_BGM_LIBRARY_DIR: outDir });
-    expect(loaded.total).toBe(1);
-    expect(loaded.tracks[0]!.id).toBe(entry.id);
-    expect(loaded.tracks[0]!.license).toBe("royalty-free");
-    expect(loaded.tracks[0]!.localPath).toBe(entry.file);
-    expect(loaded.sources.find((source) => source.kind === "local-custom")?.present).toBe(true);
+    const custom = loaded.sources.find((source) => source.kind === "local-custom");
+    expect(custom?.present).toBe(true);
+    expect(custom?.tracks).toBe(1);
+    const mine = loaded.tracks.find((track) => track.id === entry.id);
+    expect(mine).toBeDefined();
+    expect(mine!.license).toBe("royalty-free");
+    expect(mine!.localPath).toBe("/music/旅拍/温暖.mp3"); // fileMode=absolute：索引记绝对路径，加载器原样采用
   });
 
   it("常量口径：过滤阈值与风格族表是可审计的显式取值（不藏在代码里）", () => {
@@ -406,7 +450,9 @@ describe.runIf(HAS_FFMPEG)("曲库打标 · 真机量测（需要 ffmpeg）", ()
 
     writeLibrary({ outDir, result, libraryName: "真机测试曲库", fileMode: "relative" });
     const loaded = loadAllLocalTracks({ WORKLOOM_BGM_LIBRARY_DIR: outDir });
-    expect(loaded.total).toBe(1);
+    const custom = loaded.sources.find((source) => source.kind === "local-custom");
+    expect(custom?.tracks).toBe(1);
+    expect(loaded.tracks.some((track) => track.id === track.id && track.libraryKind === "local-custom")).toBe(true);
     const report = JSON.parse(readFileSync(join(outDir, "tag-report.json"), "utf8")) as {
       counts: { scanned: number }; lowConfidenceTracks: unknown[];
     };

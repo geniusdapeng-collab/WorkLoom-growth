@@ -256,7 +256,17 @@ export function classifyStyle({ bpm, tempoConfidence, energyScore, dynamicsDb, f
     }
   }
   const tempoOk = Number.isFinite(bpm) && tempoConfidence !== "low";
-  const confidence = hintAgrees && tempoOk ? "high" : margin >= 10 || (hintAgrees && margin >= 4) || (tempoOk && margin >= 14) ? "medium" : "low";
+  /**
+   * 置信度看**证据强度**，不是只看"有没有目录先验"：
+   * - high：先验与特征一致且拍速可信，或特征领先幅度 ≥14 分且拍速可信；
+   * - medium：领先 ≥10 分，或先验小胜（≥4 分），或拍速可信且领先 ≥5 分；
+   * - low：其余（拿不准就如实标 low，进人审队列）。
+   */
+  const confidence = (hintAgrees && tempoOk) || (margin >= 14 && tempoOk)
+    ? "high"
+    : margin >= 7 || (hintAgrees && margin >= 4) || (tempoOk && margin >= 5)
+      ? "medium"
+      : "low";
   return { style: best.style, styleLabel: STYLE_FAMILIES[best.style].label, confidence, margin: round(margin, 2), candidates: scored.slice(0, 3) };
 }
 
@@ -355,7 +365,7 @@ export async function measureTrack({
 
   const astatsArgs = ["-hide_banner", "-nostats", "-v", "info"];
   if (analyzedSec > 0) astatsArgs.push("-t", String(analyzedSec));
-  astatsArgs.push("-i", input, "-af", "astats=metadata=1:reset=0", "-f", "null", "-");
+  astatsArgs.push("-i", input, "-vn", "-sn", "-dn", "-map", "0:a:0", "-af", "astats=metadata=1:reset=0", "-f", "null", "-");
   const astats = parseAstatsOverall((await runBin(bins.ffmpeg, astatsArgs, { label: "ffmpeg(astats)", timeoutMs: 600_000 })).stderr);
 
   const spectral = await segmentSpectralStats({
@@ -463,9 +473,67 @@ export function titleArtistFromFile(file) {
 }
 
 /**
+ * 读内嵌元数据（ID3/MP4 tags）：作者、标题、专辑、版权、注释、年份。
+ *
+ * 为什么值得单独读一遍：素材包的**文件名常常是简写**（`Roa-Tiny Love.mp3`），
+ * 而 ID3 里往往有更完整的 title/artist/album，甚至版权与来源线索——
+ * 这对"许可可追溯"和"署名"都有价值，所以不能只靠文件名。
+ *
+ * 解析失败一律返回空对象（不抛）：元数据缺失不该让整首曲子打不了标。
+ */
+export async function readMediaTags(input, { bins = resolveBinaries() } = {}) {
+  try {
+    const { stdout } = await runBin(bins.ffprobe, [
+      "-v", "error",
+      "-show_entries", "format_tags",
+      "-of", "json",
+      input,
+    ], { label: "ffprobe(tags)", timeoutMs: 60_000 });
+    const parsed = JSON.parse(stdout.toString("utf8"));
+    const raw = parsed?.format?.tags ?? {};
+    const pick = (...names) => {
+      for (const name of names) {
+        for (const [key, value] of Object.entries(raw)) {
+          if (key.toLowerCase() === name && String(value ?? "").trim()) return String(value).trim();
+        }
+      }
+      return null;
+    };
+    return {
+      title: pick("title"),
+      artist: pick("artist", "album_artist", "albumartist"),
+      album: pick("album"),
+      comment: pick("comment", "description"),
+      copyright: pick("copyright", "license", "rights"),
+      date: pick("date", "year"),
+      raw,
+    };
+  } catch {
+    return { title: null, artist: null, album: null, comment: null, copyright: null, date: null, raw: {} };
+  }
+}
+
+/**
+ * 标题/作者归属：**内嵌元数据优先于文件名**（文件名常常是简写），
+ * 两者都缺时如实留空（由 `buildIndexEntry` 填 `(未标注作者)`），不编造。
+ */
+export function titleArtistOf({ tags = null, relativePath }) {
+  const fromFile = titleArtistFromFile(relativePath);
+  return {
+    title: tags?.title ?? fromFile.title ?? null,
+    artist: tags?.artist ?? fromFile.artist ?? null,
+    titleSource: tags?.title ? "embedded-tag" : "file-name",
+    artistSource: tags?.artist ? "embedded-tag" : fromFile.artist ? "file-name" : "missing",
+    album: tags?.album ?? null,
+    copyright: tags?.copyright ?? null,
+    date: tags?.date ?? null,
+  };
+}
+
+/**
  * 分类：把实测 + 目录先验折算成多维标签（每个维度都带置信度）。
  */
-export function classifyTrack({ measurement, relativePath }) {
+export function classifyTrack({ measurement, relativePath, mediaTags = null }) {
   const hint = folderHintFor(relativePath);
   const tempo = canonicalBpm(measurement.tempo?.bpm ?? null);
   const style = classifyStyle({
@@ -479,7 +547,7 @@ export function classifyTrack({ measurement, relativePath }) {
     envelopeDb: measurement.envelope?.outlineDb ?? null,
     trailingSilenceSec: measurement.silence?.trailingSec ?? 0,
   });
-  const { artist, title } = titleArtistFromFile(relativePath ?? measurement.input);
+  const identity = titleArtistOf({ tags: mediaTags, relativePath: relativePath ?? measurement.input });
   return {
     style: style.style,
     styleLabel: style.styleLabel,
@@ -508,8 +576,13 @@ export function classifyTrack({ measurement, relativePath }) {
       note: "人声频段活动是**代理指标**：弦乐/主音吉他同样落在这个频段，如需确认请人耳复核",
     },
     hint: hint ? { match: hint.match, style: hint.style, genre: hint.genre, mood: hint.mood } : null,
-    title,
-    artist,
+    title: identity.title,
+    artist: identity.artist,
+    album: identity.album,
+    titleSource: identity.titleSource,
+    artistSource: identity.artistSource,
+    sourceCopyright: identity.copyright,
+    sourceDate: identity.date,
   };
 }
 
@@ -520,6 +593,11 @@ export function buildIndexEntry({ measurement, tags, root, relativePath, license
     id,
     title: tags.title || id,
     artist: tags.artist ?? "(未标注作者)",
+    ...(tags.album ? { album: tags.album } : {}),
+    titleSource: tags.titleSource ?? null,
+    artistSource: tags.artistSource ?? null,
+    ...(tags.sourceCopyright ? { sourceCopyright: tags.sourceCopyright } : {}),
+    ...(tags.sourceDate ? { sourceDate: tags.sourceDate } : {}),
     genre: tags.genre,
     mood: tags.mood,
     style: tags.style,
@@ -634,6 +712,7 @@ export async function tagLibrary({
       continue;
     }
     const { measurement, relativePath } = item;
+    const mediaTags = await readMediaTags(measurement.input, { bins });
     const duplicateOf = seenHashes.get(measurement.sha256);
     const verdict = duplicateOf
       ? { keep: false, rejections: [`内容与 ${duplicateOf} 完全相同（sha256 去重）`] }
@@ -647,12 +726,16 @@ export async function tagLibrary({
     }
     seenHashes.set(measurement.sha256, relativePath);
     index += 1;
-    const tags = classifyTrack({ measurement, relativePath });
+    const tags = classifyTrack({ measurement, relativePath, mediaTags });
     tracks.push(buildIndexEntry({ measurement, tags, root, relativePath, license, licenseNote, licenseSource, index }));
     evidence.push({
       id: tracks[tracks.length - 1].id,
       file: relativePath,
       sha256: measurement.sha256,
+      sourceTags: {
+        title: mediaTags.title, artist: mediaTags.artist, album: mediaTags.album,
+        copyright: mediaTags.copyright, date: mediaTags.date, comment: mediaTags.comment,
+      },
       durationSec: measurement.durationSec,
       analyzedSec: measurement.analyzedSec,
       analyzedNote: measurement.analyzedNote,

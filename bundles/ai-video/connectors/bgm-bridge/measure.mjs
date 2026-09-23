@@ -250,6 +250,11 @@ export async function measureLoudness(input, { bins = resolveBinaries(), targetL
   if (maxSeconds) args.push("-t", String(maxSeconds));
   args.push(
     "-i", input,
+    /**
+     * 只处理音轨：素材包里的 MP3 常带内嵌封面图（实测有 4 首的 PNG 封面已损坏，
+     * 不隔离视频流会让 ffmpeg 在收尾阶段直接 "Conversion failed!"，整首曲子的响度就测不出来）。
+     */
+    "-vn", "-sn", "-dn", "-map", "0:a:0",
     "-af", `loudnorm=I=${targetLufs}:TP=${truePeak}:LRA=11:print_format=json`,
     "-f", "null", "-",
   );
@@ -328,7 +333,7 @@ export async function segmentSpectralStats({ input, start = 0, duration = null, 
   const args = ["-hide_banner", "-nostats", "-v", "info"];
   if (start > 0) args.push("-ss", String(start));
   if (duration !== null) args.push("-t", String(duration));
-  args.push("-i", input, "-af", "aspectralstats=measure=centroid+flatness:win_size=2048,ametadata=print", "-f", "null", "-");
+  args.push("-i", input, "-vn", "-sn", "-dn", "-map", "0:a:0", "-af", "aspectralstats=measure=centroid+flatness:win_size=2048,ametadata=print", "-f", "null", "-");
   const { stderr } = await runBin(bins.ffmpeg, args, { label: "ffmpeg(aspectralstats)", timeoutMs: 300_000 });
   return parseSpectralStats(stderr);
 }
@@ -360,6 +365,7 @@ export async function detectVoiceBandSegments({
   const args = ["-hide_banner", "-nostats", "-v", "info", "-i", input];
   if (duration) args.push("-t", String(duration));
   args.push(
+    "-vn", "-sn", "-dn", "-map", "0:a:0",
     "-af", `highpass=f=200,lowpass=f=4000,silencedetect=noise=${noiseDb}dB:d=${minSilenceSec}`,
     "-f", "null", "-",
   );
