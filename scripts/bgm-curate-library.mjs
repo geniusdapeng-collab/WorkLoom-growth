@@ -89,6 +89,10 @@ for (const pick of selection.picks) {
       sourceDurationSec: track.durationSec,
       reason: excerpt.reason,
       gainAppliedDb: encoded.gainAppliedDb,
+      gainMode: encoded.gainMode,
+      peakProtected: encoded.peakProtected,
+      peakOverrunDb: encoded.peakOverrunDb,
+      loudnessDeltaDb: encoded.loudnessDeltaDb,
     },
     loudness: encoded.loudness,
     licenseNote,
@@ -104,7 +108,12 @@ for (const pick of selection.picks) {
     score: pick.score,
     reasons: pick.reasons,
     excerpt,
-    encoded: { bytes: encoded.bytes, sha256: encoded.sha256, loudness: encoded.loudness, gainAppliedDb: encoded.gainAppliedDb },
+    encoded: {
+      bytes: encoded.bytes, sha256: encoded.sha256, loudness: encoded.loudness,
+      gainAppliedDb: encoded.gainAppliedDb, gainMode: encoded.gainMode,
+      peakProtected: encoded.peakProtected, peakOverrunDb: encoded.peakOverrunDb,
+      loudnessDeltaDb: encoded.loudnessDeltaDb, retried: encoded.retried,
+    },
     sourceFile: track.file,
   });
   process.stderr.write(`[${report.length}/${selection.count}] ${track.id} ← ${path.basename(sourcePath)}（${excerpt.reason}）\n`);
@@ -129,7 +138,7 @@ const doc = {
       byEnergyBucket: selection.byEnergyBucket,
       note: "打分只用实测证据；选段用结构/包络证据——没有任何'听了觉得好听'式的主观声明",
     },
-    excerptPolicy: `每首取 ${targetSec}s 最合适选段（优先 drop 中心，其次能量最高滑窗），线性增益到 -14 LUFS / -1 dBTP，AAC ${bitrate} 44.1kHz 立体声`,
+    excerptPolicy: `每首取 ${targetSec}s 最合适选段（优先 drop 中心，其次能量最高滑窗），线性增益到 -14 LUFS（峰值贴顶的选段按峰值保护优先、结果低于 -14，逐首实测值见 excerpt.loudnessDeltaDb），AAC ${bitrate} 44.1kHz 立体声`,
     note: "随仓兜底曲库：客户/工位没有自建曲库、在线曲源又不可用时，用这批曲目保证配乐链路不断档",
   },
   tracks: curated,

@@ -102,4 +102,4 @@ rules:
       object_types: [bgm_track, bgm_report]
       actions: [bgmwrite.tag]
     when: "params.low_confidence_count >= 1"
-    note: 风格族/拍速把握不足（confidence=low）的曲目**允许**入册并照常用作兜底，但用于客户交付前须人耳复核——索引里逐条标注了 low 与候选排名，复核结论随配乐报告归档（不许把机器标签当已核验事实）。
+    note: 风格族/拍速把握不足（confidence=low）的曲目**允许**入册并照常用作兜底，但用于客户交付前须人耳复核——索引里逐条标注了 low 与候选排名，复核结论随配乐报告归档（不许把机器标签当已核验事实）。求值语义：`low_confidence_count` 缺失会抛异常，运行时按 block 处理（fail-closed），因此调用方打标后必须带上该计数（与 G-BGM4 同一纪律）。

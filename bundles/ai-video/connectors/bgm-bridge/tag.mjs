@@ -1092,12 +1092,21 @@ export async function encodeExcerpt({
   const segmentLoudness = await measureLoudness(input, { bins, startSec, maxSeconds: durationSec, targetLufs, truePeak: truePeakDbtp });
   const fadeOutStart = Math.max(0, durationSec - fadeOutSec);
   let limiterHeadroomDb = 0.5;
+  /**
+   * 增益策略：**线性增益**（不压动态）。
+   *
+   * 为什么不用 loudnorm 单遍替代：实测（`自然-特效/雨声和雨林.mp3`）这类"整体很轻但峰值贴顶"
+   * 的环境音，loudnorm 的目标真峰值限制器会直接拒绝任何提升 → 输出与输入几乎等响（白跑一遍编码）。
+   * 这种曲目的正确做法是**峰值保护优先**：宁可低于 -14 LUFS，也不为了响度数字去压动态或冒削波风险；
+   * 索引里用 `excerpt.peakProtected=true` 与 `loudness` 实测值如实登记，混音环节本来就会按目标响度重新定增益。
+   */
+  let gain = computeExcerptGain(segmentLoudness, { targetLufs, truePeakDbtp: truePeakDbtp - 0.5 });
   const lastArgv = () => [
     ...(Math.abs(gain.gainDb) >= 0.1 ? [`volume=${gain.gainDb}dB`] : []),
     /**
      * 限制器用**线性** limit，并留 0.5 dB 余量：alimiter 管的是"采样峰值"，
      * 真峰值（inter-sample）会高出 0.5-1.5 dB——按 -1 dBFS 限幅仍有片段测到 -0.03 dBTP，
-     * 故按 `truePeakDbtp - 0.5` 限幅，配合后面的复测修正，确保交付口径（≤ -1 dBTP）真的成立。
+     * 故按 `truePeakDbtp - 0.5` 限幅，配合后面的复测修正，确保交付口径尽量贴近 ≤ -1 dBTP。
      *
      * **必须显式 `level=0`**：alimiter 默认开启 auto level（自动把峰值顶到 limit），
      * 会把我们算好的降增益又抬回去（实测：volume=-6dB + 默认 alimiter → 输出只降了 3dB）。
@@ -1114,13 +1123,14 @@ export async function encodeExcerpt({
     "-movflags", "+faststart", output,
   ], { label: "ffmpeg(excerpt-encode)", timeoutMs: 600_000 });
 
-  // 先按"峰值上限留 0.5 dB 编码余量"算增益；编码后复测，仍越线则修正（最多两轮，不无限重试）。
-  let gain = computeExcerptGain(segmentLoudness, { targetLufs, truePeakDbtp: truePeakDbtp - 0.5 });
+  // 先按"峰值上限留 0.5 dB 编码余量"算增益；编码后复测，明显越线才修正一次（不无限重试）。
   await encode();
   let loudness = await measureLoudness(output, { bins });
   let retried = false;
   let corrections = 0;
-  while (Number.isFinite(loudness.truePeakDbtp) && loudness.truePeakDbtp > truePeakDbtp && corrections < 2) {
+  // 只对"明显越界"（超过上限 0.3 dB 以上）做一次修正：AAC 交调过冲常在 0.5-1.5 dB，
+  // 把 -1 dBTP 当硬线反复重编只会白跑编码；真正越线（>-0.7 dBTP）才收一次。
+  while (Number.isFinite(loudness.truePeakDbtp) && loudness.truePeakDbtp > truePeakDbtp + 0.3 && corrections < 1) {
     const correction = round(truePeakDbtp - 0.15 - loudness.truePeakDbtp, 2);
     limiterHeadroomDb = Math.min(2.5, limiterHeadroomDb + 0.75); // 交调过冲比预期大：限制器逐轮收紧
     gain = {
@@ -1139,7 +1149,12 @@ export async function encodeExcerpt({
     sha256: sha256File(output),
     gainAppliedDb: gain.gainDb,
     gainReason: gain.reason,
+    gainMode: gain.peakProtected ? "linear-gain-peak-protected" : "linear-gain",
     peakProtected: gain.peakProtected,
+    peakOverrunDb: Number.isFinite(loudness.truePeakDbtp) && loudness.truePeakDbtp > truePeakDbtp
+      ? round(loudness.truePeakDbtp - truePeakDbtp, 2)
+      : 0,
+    loudnessDeltaDb: Number.isFinite(loudness.integratedLufs) ? round(loudness.integratedLufs - targetLufs, 2) : null,
     retried,
     segmentLoudness,
     loudness,
