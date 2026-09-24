@@ -202,11 +202,21 @@ async function main() {
 }
 
 main()
-  .then((code) => process.exit(code))
+  /**
+   * 退出方式：**设 exitCode 而不是 `process.exit()`**（2026-09-24 真机修复）。
+   *
+   * 实测（Node 24.19.0 / macOS arm64）：一次完整交付跑完后立刻 `process.exit(0)`，进程会卡在
+   * Node 关停阶段（`DisposePlatform → WorkerThreadsTaskRunner::Shutdown → uv_thread_join`）等一个
+   * 正在做 V8 baseline 编译的 worker 线程——产物其实早已写全（清单/报告都在盘上），但调用方永远等不到退出，
+   * 自动化脚本与"作业式"调用会被挂住。改成自然退出：事件循环排空后 Node 自己关停，不抢线程。
+   */
+  .then((code) => {
+    process.exitCode = code;
+  })
   .catch((error) => {
     const code = error instanceof PostError ? error.code : "engine_failed";
     process.stderr.write(`${code}: ${error instanceof Error ? error.message : String(error)}\n`);
-    process.exit(3);
+    process.exitCode = 3;
   });
 
 void findVariantPack;
