@@ -1587,7 +1587,14 @@ export async function mix({
   if (sidechainSource) {
     const keyInput = sidechainSource === input ? "[0:a]" : "[2:a]";
     if (sidechainSource !== input) musicArgs.push("-i", sidechainSource);
-    musicParts.push(`${keyInput}highpass=f=${VOICE_BAND.highpass},lowpass=f=${VOICE_BAND.lowpass},volume=1[sc]`);
+    /**
+     * 侧链必须 `apad`（2026-09-24 真机修复）：主输入是 `-stream_loop -1`（音乐永不 EOF），
+     * 若侧链（原片音轨）先 EOF，`sidechaincompress` 会一直等下一个侧链帧——ffmpeg 挂死
+     * （实测 0% CPU、`-t` 也救不回来，因为滤镜图本身不再产帧）。
+     * 侧链补静音后两端都是无限流，由输出的 `-t` 收口：语义不变（尾部静音=不触发让位），
+     * 但不再可能挂住；命中场景是"转场后成片时长不是整数秒"（如 xfade 的 26.333s）。
+     */
+    musicParts.push(`${keyInput}highpass=f=${VOICE_BAND.highpass},lowpass=f=${VOICE_BAND.lowpass},volume=1,apad[sc]`);
     musicParts.push(
       `[music][sc]sidechaincompress=threshold=${duck.threshold}:ratio=${duck.ratio}:attack=20:release=400:`
       + "makeup=1:level_sc=1:link=maximum[out]",
@@ -1597,7 +1604,14 @@ export async function mix({
   }
   await runBin(bins.ffmpeg, [
     ...musicArgs, "-filter_complex", musicParts.join(";"),
-    "-map", "[out]", "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "2", duckedPath,
+    "-map", "[out]", "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "2",
+    /**
+     * 输出时长上界（2026-09-24 真机修复）：音乐输入是 `-stream_loop -1`（无限），只靠
+     * `atrim` 收口时，若侧链（原片音轨）在末帧略早于音乐结束，`sidechaincompress` 会等一个
+     * 永不到来的侧链帧 → ffmpeg 卡死（实测：0% CPU，直到 900s 超时；26.33s 的片子也不例外）。
+     * 显式 `-t` 给输出一个确定终点，语义不变（音乐仍按 atrim 对齐片长），只是不再可能挂住。
+     */
+    "-t", String(round(duration, 3)), duckedPath,
   ], { label: "ffmpeg(ducked-music)", timeoutMs: 900_000 });
   const duckedProbe = await probeMedia(duckedPath, { bins });
 
