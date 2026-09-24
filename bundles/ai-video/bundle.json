@@ -614,10 +614,10 @@
   },
   "integrity": {
     "algorithm": "sha256",
-    "digest": "38ae0f81ae15d5a48396aaa7c57bb936de31d16a3e3030b7708ab1a7cb4f171a",
+    "digest": "8a293a918bc5c1d977586945c49528cad4ceba0901fe64a341e9266d69cf28a5",
     "assets": {
       "connectors/bgm-bridge/cli.mjs": "7f64e35286363564946a336daf5bd75ea4342f67cca30496361034cb52b0056f",
-      "connectors/bgm-bridge/core.mjs": "a3c0f65659361a5d3596acc6bd28629a6d16b407e2da9dfdeca9753e739b7f55",
+      "connectors/bgm-bridge/core.mjs": "56d25a55ead090d648a28af6c966582f8f6601b2015e97bd528b73bc51d377df",
       "connectors/bgm-bridge/executor.ts": "eb6ad23be21b26de4e6d0ad342ecfcfbf22709d739fa97cdb83629d3cba9002c",
       "connectors/bgm-bridge/kit/ffmpeg-pin.json": "0373e14b63b3ba4e883e10c3823b2658be41929cbbc541a71086162ae3fda96e",
       "connectors/bgm-bridge/kit/install.sh": "2bb487a25c6af04297e9406826e75c1c9c50c9f02e1ead3a5edd749d664d51e5",
