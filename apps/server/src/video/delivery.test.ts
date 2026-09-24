@@ -17,7 +17,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import {
   DeliveryError, latestFilmProjectPath, listDeliveryPackages, readDeliveryPackage,
-  recordRevisionRequest, resolvePackageDir, selectDeliveryVariant, startDeliveryRevision,
+  readDeliveryArtifact, recordRevisionRequest, resolvePackageDir, selectDeliveryVariant, startDeliveryRevision,
 } from "./delivery.js";
 
 let root: string;
@@ -46,6 +46,7 @@ function seedPackage(name: string, manifest: Record<string, unknown>, project: R
   writeFileSync(join(dir, "variants", "warm-story", "warm-story.mp4"), "fake-video", "utf8");
   // 产物文件真实存在，读模型才会给出签名 URL（缺件时 URL 应为 null —— 这也是被断言的行为）
   writeFileSync(join(dir, "master", "master-clean.mp4"), "fake-master", "utf8");
+  writeFileSync(join(dir, "variants", "warm-story", "large.mp4"), Buffer.alloc(4096, 7));
   writeFileSync(join(dir, "variants", "warm-story", "cover.png"), "fake-cover", "utf8");
   writeFileSync(join(dir, "subtitles", "VID-TEST-001.zh.srt"), "1\n00:00:00,000 --> 00:00:01,000\n测\n", "utf8");
   return dir;
@@ -116,6 +117,18 @@ describe("交付包路径监狱", () => {
     mkdirSync(join(root, "not-a-package"), { recursive: true });
     expect(() => resolvePackageDir("not-a-package", env())).toThrow(/不是交付包/);
   });
+
+  it("交付物取件：路径监狱 + 体积上限", () => {
+    const artifact = readDeliveryArtifact({ dir: "VID-TEST-001", ref: "master/master-clean.mp4", env: env() });
+    expect(artifact.contentType).toBe("video/mp4");
+    expect(Buffer.from(artifact.base64, "base64").toString("utf8")).toBe("fake-master");
+    // 穿越与绝对路径一律拒绝
+    expect(() => readDeliveryArtifact({ dir: "VID-TEST-001", ref: "../../etc/passwd", env: env() })).toThrow(/非法/);
+    expect(() => readDeliveryArtifact({ dir: "VID-TEST-001", ref: "/etc/passwd", env: env() })).toThrow(/非法/);
+    // 超出上限 → 明确提示"用本地播放器打开"，不硬搬（上限本身有 1KB 的下限保护）
+    expect(() => readDeliveryArtifact({ dir: "VID-TEST-001", ref: "variants/warm-story/large.mp4", maxBytes: 1024, env: env() }))
+      .toThrow(/超过页内取件上限|本地播放器/);
+  });
 });
 
 describe("交付包读模型", () => {
@@ -134,9 +147,11 @@ describe("交付包读模型", () => {
     expect(detail.variants[0]!.audio?.autoTrimDb).toBe(-3);
     expect(detail.divergence[0]!.meanAbsDiff).toBe(16.71);
     expect(detail.checks.map((check) => check.kind)).toEqual(["master_no_burn_in", "variants_distinct"]);
-    // 媒体走签名 URL（HMAC + 过期），不暴露裸目录
-    expect(detail.master.url).toMatch(/^\/delivery-artifact\/VID-TEST-001\/master\/master-clean\.mp4\?token=/);
-    expect(detail.variants[0]!.videoUrl).toContain("token=");
+    // 交付物给**包内相对引用**（页内取件走 video.delivery.artifact 的路径监狱），不暴露绝对路径
+    expect(detail.master.ref).toBe("master/master-clean.mp4");
+    expect(detail.variants[0]!.videoRef).toBe("variants/warm-story/warm-story.mp4");
+    expect(detail.variants[0]!.coverRef).toBe("variants/warm-story/cover.png");
+    expect(detail.subtitleFiles[0]!.ref).toBe("subtitles/VID-TEST-001.zh.srt");
     expect(detail.cost?.tokenCostDelta).toBe(0);
   });
 

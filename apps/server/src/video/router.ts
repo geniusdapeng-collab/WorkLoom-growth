@@ -42,8 +42,8 @@ export type { PollReport } from "./render-poller.js";
 import { dealRouter } from "./deal.js";
 import { getRun, startRun, startVideoProjectRun, StudioWorkerError } from "./studio-worker.js";
 import {
-  DeliveryError, deliveryJobStatus, listDeliveryJobs, listDeliveryPackages, readDeliveryPackage,
-  recordRevisionRequest, selectDeliveryVariant, startDeliveryRevision, triageDeliveryFeedback,
+  DeliveryError, deliveryJobStatus, listDeliveryJobs, listDeliveryPackages, readDeliveryArtifact,
+  readDeliveryPackage, recordRevisionRequest, selectDeliveryVariant, startDeliveryRevision, triageDeliveryFeedback,
 } from "./delivery.js";
 
 interface Scope { tenantId: string; workspaceId: string }
@@ -129,7 +129,8 @@ function deliveryRethrow(err: unknown): never {
   if (err instanceof DeliveryError) {
     const code = err.code === "not_found" ? "NOT_FOUND"
       : err.code === "path_not_allowed" ? "FORBIDDEN"
-        : err.code === "idempotency_conflict" || err.code === "shot_regeneration_required" ? "PRECONDITION_FAILED"
+        : err.code === "idempotency_conflict" || err.code === "shot_regeneration_required" || err.code === "artifact_too_large"
+          ? "PRECONDITION_FAILED"
           : "BAD_REQUEST";
     throw new TRPCError({ code, message: err.message });
   }
@@ -187,6 +188,27 @@ const deliveryRouter = router({
     .query(({ input }) => {
       try {
         return readDeliveryPackage(input.dir);
+      } catch (err) {
+        deliveryRethrow(err);
+      }
+    }),
+
+  /**
+   * 交付物取件（封面 / 成片 / 旁挂字幕文件）。
+   *
+   * 为什么不走独立 HTTP 路由：`apps/server/src/index.ts` 是舰队同步 PR 的常改文件（协议 §4 同文件后到者拒），
+   * 交付界面不该为此常年排队；走行业域 tRPC 同时天然拿到 workspace 作用域与统一错误规约。
+   * 体积上限内联返回 base64（默认 8MB），超出则报错并提示用本地播放器打开。
+   */
+  artifact: protectedProcedure
+    .input(z.object({
+      dir: z.string().min(1).max(200),
+      ref: z.string().min(1).max(400),
+      maxBytes: z.number().int().min(1024).max(64 * 1024 * 1024).optional(),
+    }))
+    .query(({ input }) => {
+      try {
+        return readDeliveryArtifact({ dir: input.dir, ref: input.ref, maxBytes: input.maxBytes });
       } catch (err) {
         deliveryRethrow(err);
       }

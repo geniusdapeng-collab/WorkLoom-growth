@@ -28,17 +28,18 @@ interface PackageSummary {
   failedChecks: string[];
   selectedVariantId: string | null;
   revisionCount: number;
-  coverUrl: string | null;
+  coverRef: string | null;
 }
 
 interface VariantView {
   id: string;
   name: string;
   positioning: string | null;
-  videoUrl: string | null;
-  softsubUrl: string | null;
-  burnedUrl: string | null;
-  coverUrl: string | null;
+  videoRef: string | null;
+  videoPath: string | null;
+  softsubRef: string | null;
+  burnedRef: string | null;
+  coverRef: string | null;
   coverText: string | null;
   duration: number | null;
   style: {
@@ -55,8 +56,8 @@ interface VariantView {
 interface PackageDetail extends PackageSummary {
   resolution: number[] | null;
   fps: number | null;
-  master: { path: string | null; url: string | null; duration: number | null; sha256: string | null; subtitles: string | null };
-  subtitleFiles: Array<{ path: string; lang: string; format: string; url: string | null; sha256: string | null }>;
+  master: { path: string | null; ref: string | null; duration: number | null; sha256: string | null; subtitles: string | null };
+  subtitleFiles: Array<{ path: string; lang: string; format: string; ref: string | null; sha256: string | null }>;
   variants: VariantView[];
   divergence: Array<{ a: string; b: string; meanAbsDiff: number | null; verdict: string | null; audioDiffers: boolean }>;
   coverDivergence: Array<{ a: string; b: string; meanAbsDiff: number | null; verdict: string | null }>;
@@ -301,6 +302,49 @@ export default function Delivery() {
     [packages, activeDir],
   );
 
+  /**
+   * 交付物取件（封面上屏 / 字幕下载 / 成片预览）。
+   * 走 `video.delivery.artifact`（路径监狱 + 8MB 页内上限）：拿得到的转成 data URL，
+   * 超上限的记成错误文案 → 界面提示"用本地播放器打开 <包内路径>"，不硬搬大文件。
+   */
+  const [artifacts, setArtifacts] = useState<Record<string, string>>({});
+  useEffect(() => {
+    if (!detail || !activeDir) return;
+    const refs = [
+      detail.master.ref,
+      ...detail.subtitleFiles.map((file) => file.ref),
+      ...detail.variants.flatMap((variant) => [variant.coverRef, variant.videoRef, variant.softsubRef]),
+    ].filter((ref): ref is string => Boolean(ref));
+    const unique = [...new Set(refs)];
+    let cancelled = false;
+    void (async () => {
+      const next: Record<string, string> = {};
+      for (const ref of unique) {
+        try {
+          const payload = await trpc.video.delivery.artifact.query({ dir: activeDir, ref }) as unknown as {
+            base64: string; contentType: string;
+          };
+          next[ref] = `data:${payload.contentType};base64,${payload.base64}`;
+        } catch (error) {
+          next[ref] = `error:${error instanceof Error ? error.message : String(error)}`;
+        }
+      }
+      if (!cancelled) setArtifacts((current) => ({ ...current, ...next }));
+    })();
+    return () => { cancelled = true; };
+  }, [detail, activeDir]);
+
+  const artifactUrl = useCallback((ref: string | null | undefined): string | null => {
+    if (!ref) return null;
+    const value = artifacts[ref];
+    return value && !value.startsWith("error:") ? value : null;
+  }, [artifacts]);
+  const artifactError = useCallback((ref: string | null | undefined): string | null => {
+    if (!ref) return null;
+    const value = artifacts[ref];
+    return value?.startsWith("error:") ? value.slice(6) : null;
+  }, [artifacts]);
+
   if (!ready) {
     return (
       <div className="space-y-3 p-4">
@@ -392,21 +436,28 @@ export default function Delivery() {
                       {detail.master.duration ? ` · ${detail.master.duration}s` : ""}
                     </span>
                   </div>
-                  {detail.master.url ? (
-                    <a className="text-xs text-holo underline" href={detail.master.url} target="_blank" rel="noreferrer">下载母版</a>
+                  {artifactUrl(detail.master.ref) ? (
+                    <a className="text-xs text-holo underline" href={artifactUrl(detail.master.ref)!} download={`${active?.dir ?? "master"}-master.mp4`}>下载母版</a>
                   ) : null}
                 </div>
                 <div className="mt-2 grid gap-2 md:grid-cols-2">
-                  {detail.master.url ? (
-                    <video className="w-full rounded border border-line/50" src={detail.master.url} controls preload="metadata" />
-                  ) : <div className="text-sm text-ink3">母版文件缺失</div>}
+                  {artifactUrl(detail.master.ref) ? (
+                    <video className="w-full rounded border border-line/50" src={artifactUrl(detail.master.ref)!} controls preload="metadata" />
+                  ) : (
+                    <div className="text-xs text-ink3">
+                      {artifactError(detail.master.ref) ?? "母版文件缺失"}
+                      {detail.master.path ? <div className="mt-1 text-ink4">本地路径：{detail.master.path}</div> : null}
+                    </div>
+                  )}
                   <div className="space-y-1 text-xs text-ink3">
                     <div>旁挂字幕（母版未烧字，可后置决定用不用）：</div>
                     {detail.subtitleFiles.length === 0 ? <div>本次未提供字幕</div> : detail.subtitleFiles.map((file) => (
                       <div key={file.path} className="flex items-center gap-2">
                         <span className="rounded bg-black/30 px-1.5 py-0.5">{file.format.toUpperCase()}</span>
                         <span>{file.lang}</span>
-                        {file.url ? <a className="text-holo underline" href={file.url} target="_blank" rel="noreferrer">下载</a> : null}
+                        {artifactUrl(file.ref) ? (
+                          <a className="text-holo underline" href={artifactUrl(file.ref)!} download={file.path.split("/").pop() ?? "subtitle"}>下载</a>
+                        ) : null}
                       </div>
                     ))}
                     {detail.cost ? <div className="pt-2 text-[11px] text-ink4">{detail.cost.note ?? ""}</div> : null}
@@ -422,8 +473,8 @@ export default function Delivery() {
                       key={variant.id}
                       className={`flex flex-col rounded border p-3 ${variant.isSelected ? "border-go/60 bg-go/5" : "border-line/60"}`}
                     >
-                      {variant.coverUrl ? (
-                        <img className="mb-2 w-full rounded border border-line/40 object-cover" src={variant.coverUrl} alt={`${variant.name} 封面`} />
+                      {artifactUrl(variant.coverRef) ? (
+                        <img className="mb-2 w-full rounded border border-line/40 object-cover" src={artifactUrl(variant.coverRef)!} alt={`${variant.name} 封面`} />
                       ) : (
                         <div className="mb-2 grid h-40 place-items-center rounded border border-dashed border-line/50 text-xs text-ink4">无封面</div>
                       )}
@@ -465,11 +516,11 @@ export default function Delivery() {
                         >
                           {busy === `select:${variant.id}` ? "提交中…" : variant.isSelected ? "已选这个版本" : "选这个版本"}
                         </button>
-                        {variant.videoUrl ? (
-                          <a className="text-xs text-ink2 underline" href={variant.videoUrl} target="_blank" rel="noreferrer">下载成片</a>
+                        {artifactUrl(variant.videoRef) ? (
+                          <a className="text-xs text-ink2 underline" href={artifactUrl(variant.videoRef)!} download={`${variant.id}.mp4`}>下载成片</a>
                         ) : null}
-                        {variant.softsubUrl ? (
-                          <a className="text-xs text-ink2 underline" href={variant.softsubUrl} target="_blank" rel="noreferrer">软字幕轨版</a>
+                        {artifactUrl(variant.softsubRef) ? (
+                          <a className="text-xs text-ink2 underline" href={artifactUrl(variant.softsubRef)!} download={`${variant.id}-softsub.mp4`}>软字幕轨版</a>
                         ) : null}
                       </div>
                     </article>

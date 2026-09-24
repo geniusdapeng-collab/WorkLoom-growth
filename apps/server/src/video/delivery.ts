@@ -21,7 +21,28 @@ import {
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-import { signMediaPath } from "./gen/ingest.js";
+/**
+ * 交付物取件走 **tRPC 单一入口**（`video.delivery.artifact`），不再新开 Hono 路由：
+ * 舰队同步 PR（`sync/base-*`）常年会改 `apps/server/src/index.ts`，协议 §4 的"同文件后到者拒"
+ * 会让交付界面永远排在同步 PR 后面。落在行业域的 tRPC 子路由既避开该热点文件，
+ * 又天然继承 workspace 作用域与统一的错误规约。
+ */
+const ARTIFACT_MIME: Record<string, string> = {
+  ".mp4": "video/mp4",
+  ".mov": "video/quicktime",
+  ".mkv": "video/x-matroska",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".webp": "image/webp",
+  ".srt": "text/plain; charset=utf-8",
+  ".vtt": "text/vtt; charset=utf-8",
+  ".ass": "text/plain; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".md": "text/markdown; charset=utf-8",
+};
+/** 页内取件上限（base64 会膨胀约 1/3）：超过就只给本地路径提示，不在页面里搬大文件 */
+export const ARTIFACT_INLINE_MAX_BYTES = 8 * 1024 * 1024;
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../../..");
 
@@ -70,38 +91,70 @@ export function resolvePackageDir(dir: string, env: NodeJS.ProcessEnv = process.
   return abs;
 }
 
-/** 交付物签名 URL（复用媒体签名密钥：相对交付根的路径参与签名，服务端路由再校验）。 */
-export function deliveryArtifactUrl(relPath: string, ttlSec = 3600): string {
-  const token = signMediaPath(relPath, ttlSec);
-  return `/delivery-artifact/${relPath.split("/").map(encodeURIComponent).join("/")}?token=${token}`;
-}
-
 /**
- * 产物 → 签名 URL。**必须接收 env**：交付根可经 `WORKLOOM_DELIVERY_DIR` 覆盖（测试/多实例部署），
- * 早先把 env 漏在函数外，覆盖交付根时所有媒体 URL 会静默变成 null（单测当场抓到）。
+ * 产物 → **包内相对引用**（如 `variants/warm-story/cover.png`）。
+ *
+ * 为什么不是签名 URL：交付根专属的 HTTP 路由要改 `apps/server/src/index.ts`，而舰队同步 PR 常年占用该文件
+ * （协议 §4 同文件后到者拒）。改成"引用 + tRPC 取件"后，这条链路不再与同步 PR 抢路径，
+ * 也避免为本地交付物再引入一套签名密钥；安全边界由 `readDeliveryArtifact` 的路径监狱守住。
+ *
+ * **必须接收 env**：交付根可经 `WORKLOOM_DELIVERY_DIR` 覆盖（测试/多实例部署）。
  */
-function artifactUrlFor(
+function artifactRefFor(
   packageDir: string,
   relOrAbs: string | null | undefined,
   env: NodeJS.ProcessEnv = process.env,
 ): string | null {
   if (!relOrAbs) return null;
-  const root = deliveryRoot(env);
+  void env;
   const abs = isAbsolute(relOrAbs) ? relOrAbs : resolve(packageDir, relOrAbs);
   if (!existsSync(abs)) return null;
-  const rel = relative(root, abs);
+  const rel = relative(packageDir, abs);
   if (!rel || rel.startsWith("..")) return null;
-  try {
-    return deliveryArtifactUrl(rel.split(sep).join("/"));
-  } catch {
-    /**
-     * 签名密钥缺失时**只降级媒体 URL，不拖垮整个读模型**：
-     * 页面核心是"看清单、选版本、提返修"，拿不到签名 URL 时前端显示"暂无预览"即可；
-     * 若让这里抛错，一个密钥没配就把交付包页面整个打不开（诊断成本高、收益为零）。
-     * 注意：真正的媒体读取仍走 /delivery-artifact 的 token 校验（fail-closed，不泄漏文件）。
-     */
-    return null;
+  return rel.split(sep).join("/");
+}
+
+/**
+ * 读交付物（页内取件）：路径监狱 + 体积上限 + 内容类型推断。
+ * 超出上限时抛 `artifact_too_large`（界面据此提示"用本地播放器打开 <路径>"），不硬搬大文件。
+ */
+export function readDeliveryArtifact({
+  dir, ref, maxBytes = ARTIFACT_INLINE_MAX_BYTES, env = process.env,
+}: {
+  dir: string; ref: string; maxBytes?: number; env?: NodeJS.ProcessEnv;
+}): { ref: string; bytes: number; contentType: string; base64: string } {
+  const packageDir = resolvePackageDir(dir, env);
+  const cleanRef = String(ref ?? "").trim();
+  if (!cleanRef || isAbsolute(cleanRef) || cleanRef.includes("..")) {
+    throw new DeliveryError(`交付物引用非法：${cleanRef}`, "path_not_allowed");
   }
+  const abs = resolve(packageDir, cleanRef);
+  if (!abs.startsWith(packageDir + sep)) {
+    throw new DeliveryError(`交付物越界：${cleanRef}`, "path_not_allowed");
+  }
+  if (!existsSync(abs) || !statSync(abs).isFile()) {
+    throw new DeliveryError(`交付物不存在：${cleanRef}`, "not_found");
+  }
+  const bytes = statSync(abs).size;
+  const limit = Math.max(1024, Math.min(maxBytes, 64 * 1024 * 1024));
+  if (bytes > limit) {
+    throw new DeliveryError(
+      `交付物 ${cleanRef} 共 ${(bytes / 1048576).toFixed(1)}MB，超过页内取件上限 ${(limit / 1048576).toFixed(0)}MB：`
+      + `请用本地播放器打开交付物（路径 ${abs}）`,
+      "artifact_too_large",
+    );
+  }
+  return {
+    ref: cleanRef,
+    bytes,
+    contentType: ARTIFACT_MIME[extnameOf(abs)] ?? "application/octet-stream",
+    base64: readFileSync(abs).toString("base64"),
+  };
+}
+
+function extnameOf(file: string): string {
+  const index = file.lastIndexOf(".");
+  return index < 0 ? "" : file.slice(index).toLowerCase();
 }
 
 /* ============================ 交付清单的读模型 ============================ */
@@ -175,14 +228,14 @@ export interface DeliveryPackageSummary {
   failedChecks: string[];
   selectedVariantId: string | null;
   revisionCount: number;
-  coverUrl: string | null;
+  coverRef: string | null;
 }
 
 export interface DeliveryPackageDetail extends DeliveryPackageSummary {
   resolution: number[] | null;
   fps: number | null;
-  master: { path: string | null; url: string | null; duration: number | null; sha256: string | null; subtitles: string | null };
-  subtitleFiles: Array<{ path: string; lang: string; format: string; url: string | null; sha256: string | null }>;
+  master: { path: string | null; ref: string | null; duration: number | null; sha256: string | null; subtitles: string | null };
+  subtitleFiles: Array<{ path: string; lang: string; format: string; ref: string | null; sha256: string | null }>;
   variants: DeliveryVariantView[];
   divergence: Array<{ a: string; b: string; meanAbsDiff: number | null; verdict: string | null; audioDiffers: boolean }>;
   coverDivergence: Array<{ a: string; b: string; meanAbsDiff: number | null; verdict: string | null }>;
@@ -201,10 +254,12 @@ export interface DeliveryVariantView {
   id: string;
   name: string;
   positioning: string | null;
-  videoUrl: string | null;
-  softsubUrl: string | null;
-  burnedUrl: string | null;
-  coverUrl: string | null;
+  videoRef: string | null;
+  /** 成片的包内相对路径：超出页内取件上限时，界面用它提示"用本地播放器打开" */
+  videoPath: string | null;
+  softsubRef: string | null;
+  burnedRef: string | null;
+  coverRef: string | null;
   coverText: string | null;
   duration: number | null;
   style: ManifestVariant["style"] | null;
@@ -319,7 +374,7 @@ function summarize(packageDir: string, manifest: DeliveryManifest, env: NodeJS.P
     failedChecks: checks.filter((check) => check.ok === false).map((check) => String(check.kind ?? "unknown")),
     selectedVariantId: selections.at(-1)?.variantId ?? null,
     revisionCount: revisions.length,
-    coverUrl: firstCover ? artifactUrlFor(packageDir, firstCover, env) : null,
+    coverRef: firstCover ? artifactRefFor(packageDir, firstCover, env) : null,
   };
 }
 
@@ -354,10 +409,11 @@ export function readDeliveryPackage(dir: string, env: NodeJS.ProcessEnv = proces
     id: String(variant.id),
     name: String(variant.name ?? variant.id),
     positioning: variant.positioning ?? null,
-    videoUrl: artifactUrlFor(packageDir, variant.video?.path, env),
-    softsubUrl: artifactUrlFor(packageDir, variant.softsub?.path, env),
-    burnedUrl: artifactUrlFor(packageDir, variant.burned?.path, env),
-    coverUrl: artifactUrlFor(packageDir, variant.cover?.path, env),
+    videoRef: artifactRefFor(packageDir, variant.video?.path, env),
+    videoPath: variant.video?.path ?? null,
+    softsubRef: artifactRefFor(packageDir, variant.softsub?.path, env),
+    burnedRef: artifactRefFor(packageDir, variant.burned?.path, env),
+    coverRef: artifactRefFor(packageDir, variant.cover?.path, env),
     coverText: variant.cover?.text ?? null,
     duration: variant.video?.duration ?? null,
     style: variant.style ?? null,
@@ -383,7 +439,7 @@ export function readDeliveryPackage(dir: string, env: NodeJS.ProcessEnv = proces
     lang: String(file.lang ?? ""),
     format: String(file.format ?? ""),
     sha256: file.sha256 ?? null,
-    url: artifactUrlFor(packageDir, file.path, env),
+    ref: artifactRefFor(packageDir, file.path, env),
   }));
   const revisions = readRevisions(packageDir);
   return {
@@ -392,7 +448,7 @@ export function readDeliveryPackage(dir: string, env: NodeJS.ProcessEnv = proces
     fps: typeof manifest.fps === "number" ? manifest.fps : null,
     master: {
       path: manifest.master?.path ?? null,
-      url: artifactUrlFor(packageDir, manifest.master?.path, env),
+      ref: artifactRefFor(packageDir, manifest.master?.path, env),
       duration: manifest.master?.duration ?? null,
       sha256: manifest.master?.sha256 ?? null,
       subtitles: manifest.master?.subtitles ?? null,
