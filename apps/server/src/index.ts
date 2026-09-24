@@ -12,7 +12,7 @@ import { cors } from "hono/cors";
 import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import { dirname, extname, join } from "node:path";
+import { dirname, extname, join, resolve, sep } from "node:path";
 import { appRouter } from "./trpc/router.js";
 import { createContext } from "./trpc/context.js";
 import { serviceGateway } from "./service/gateway.js";
@@ -21,6 +21,7 @@ import { bundlesRoot } from "@workloom/base/bundles";
 import { registerFeedbackEnumsFromDisk } from "@workloom/base/evolve";
 import { startSkillDistAutoSync, buildManifest, receiveReflux, type RefluxPayload } from "@workloom/base/skill-ops";
 import { resolveMediaPath, verifyMediaToken } from "./video/gen/ingest.js";
+import { deliveryRoot } from "./video/delivery.js";
 
 import { readVoiceFile, synthesizeVoice, voiceStationConfig } from "./voice/station.js";
 const app = new Hono();
@@ -102,6 +103,34 @@ const MEDIA_MIME: Record<string, string> = {
   ".mp4": "video/mp4", ".webm": "video/webm", ".mov": "video/quicktime",
   ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp",
 };
+/**
+ * 交付物（封面/成片/软字幕轨版）走与媒体库同一套签名口径，但**独立的路径根**：
+ * 交付根（`WORKLOOM_DELIVERY_DIR`，默认 `<repo>/var/delivery`），目录穿越一律拒绝。
+ * 前端拿到的是 `video.delivery.get` 返回的签名 URL（HMAC + 过期），不暴露裸目录。
+ */
+app.get("/delivery-artifact/*", async (c) => {
+  const raw = c.req.path.replace(/^\/delivery-artifact\//, "");
+  let relPath: string;
+  try {
+    relPath = decodeURIComponent(raw);
+  } catch {
+    return c.json({ error: "DELIVERY_PATH_INVALID" }, 400);
+  }
+  const verdict = verifyMediaToken(relPath, c.req.query("token") ?? "");
+  if (!verdict.ok) return c.json({ error: "DELIVERY_TOKEN_INVALID", reason: verdict.reason }, 403);
+  const root = deliveryRoot();
+  const abs = resolve(root, relPath);
+  if (abs !== root && !abs.startsWith(root + sep)) return c.json({ error: "DELIVERY_PATH_INVALID" }, 400);
+  if (!existsSync(abs)) return c.json({ error: "DELIVERY_NOT_FOUND" }, 404);
+  const buf = await readFile(abs);
+  return new Response(buf, {
+    headers: {
+      "content-type": MEDIA_MIME[extname(abs).toLowerCase()] ?? "application/octet-stream",
+      "cache-control": "private, max-age=300",
+    },
+  });
+});
+
 app.get("/media/*", async (c) => {
   const raw = c.req.path.replace(/^\/media\//, "");
   let relPath: string;
