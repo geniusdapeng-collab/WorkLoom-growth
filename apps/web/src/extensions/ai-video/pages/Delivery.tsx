@@ -12,7 +12,7 @@
  * 状态源：video.delivery.list / get / selectVariant / triage / startRevision / job
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { ensureDemoLogin, trpc } from "../../../lib/trpc";
 import { BannerAlert, EmptyState, Skeleton } from "../../../components/hud";
 
@@ -130,6 +130,7 @@ function fmtTime(value: string | null): string {
 
 export default function Delivery() {
   const [params] = useSearchParams();
+  const nav = useNavigate();
   const preferDir = params.get("package");
   const [ready, setReady] = useState(false);
   const [banner, setBanner] = useState<{ level: "alert" | "warn" | "info"; text: string } | null>(null);
@@ -357,6 +358,14 @@ export default function Delivery() {
 
   return (
     <div className="space-y-4 p-4">
+      {/* 页面级出口：交付包是二级页，除了外壳的统一出口，页内再给一条明确的返回路径（回归测试 PageExitAffordance 要求） */}
+      <button
+        type="button"
+        className="text-xs text-ink3 hover:text-holo"
+        onClick={() => nav("/ai-video/assets")}
+      >
+        ← 返回片库 / 脚本 CMS
+      </button>
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="font-orb text-xl text-ink">交付包 · 多风格版本与返修</h1>
