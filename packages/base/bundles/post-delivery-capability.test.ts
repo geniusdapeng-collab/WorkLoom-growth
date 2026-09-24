@@ -18,7 +18,7 @@ import { evalCondition } from "../fence-engine/expr.js";
 import { bundlesRoot } from "./assembly.js";
 import {
   ASPECT_PRESETS, POST_TOOLS, REVISION_RULES, analyzeImpact, buildCopyPack, extractShotIds,
-  findVariantPack, listVariantPacks, resolveLut, resolveResolution, triageFeedback,
+  findVariantPack, listVariantPacks, pickTrackForVariant, resolveLut, resolveResolution, triageFeedback,
 } from "../../../bundles/ai-video/connectors/post-bridge/core.mjs";
 import {
   NEVER_RETRY_CODES, POST_BRIDGE_TOOLS, createPostBridgeExecutor, isPostBridgeTool, stableKey,
@@ -222,6 +222,18 @@ describe("风格变体包（library/style-variants）", () => {
     // 路径监狱：LUT 只能取仓内 library/luts 下的 .cube
     expect(() => resolveLut("../../../../etc/passwd")).toThrow();
     expect(() => resolveLut("nope.cube")).toThrow();
+  });
+
+  it("选曲支持 曲目 id / 风格关键词 / 情绪 三种口径，且找不到就报错（不静默换曲）", () => {
+    // ① 风格关键词（用户与配方说的"corporate-clean 那种风格"）——在全量曲库上匹配，不是只在前 20 条里找
+    const byStyle = pickTrackForVariant({ id: "probe-style", bgm: { style: "corporate-clean" } });
+    expect(String(byStyle.id)).toContain("corporate-clean");
+    // ② 情绪
+    const byMood = pickTrackForVariant({ id: "probe-mood", bgm: { mood: "温暖自在" } });
+    expect(String(byMood.mood)).toContain("温暖自在");
+    // ③ 不存在的风格 / 曲目 → 如实报错（fail-closed，不悄悄换一首风格不符的）
+    expect(() => pickTrackForVariant({ id: "probe-missing", bgm: { style: "no-such-style-xyz" } })).toThrow(/风格|曲库/);
+    expect(() => pickTrackForVariant({ id: "probe-missing-id", bgm: { trackId: "no-such-track-id" } })).toThrow(/曲库/);
   });
 });
 
