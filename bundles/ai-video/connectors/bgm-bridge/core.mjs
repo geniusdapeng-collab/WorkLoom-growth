@@ -1448,6 +1448,41 @@ export async function mix({
     ? sectionPlaceOffsetSec
     : (align ? grid.offsetSec : 0);
 
+  /**
+   * 铺底长度收敛（2026-09-24 真机修复）：
+   *
+   * 旧实现把音乐输入写成 `-stream_loop -1`（无限），靠 `atrim` + 输出 `-t` 收口。实测（ffmpeg 6.0 / macOS）
+   * 这条组合会**永不退出**：`-stream_loop -1` 的 demuxer 一直在喂帧，滤镜图与 muxer 等不到输入结束，
+   * 输出文件已经写完（实测 5MB / 0% CPU）进程却挂着 5–14 分钟，`apad` / `-t` 都救不回来；
+   * 同一条命令去掉 `-stream_loop -1` 立刻正常退出 —— 根因是 loop 输入，不是 sidechaincompress。
+   *
+   * 现在改为：**先在有限输入上把选段循环拼到"够长"**（写 `bed-music.wav`），再走原有让位混音链。
+   * 有限输入 = 可预期退出；音乐只是被"过采样"到片长 + 淡出余量，听感与循环铺底一致。
+   */
+  const bedTargetSec = round(duration + Math.max(fadeInSec, fadeOutSec) + 0.5, 3);
+  const playProbe = await probeMedia(playPath, { bins });
+  if (playProbe.duration && playProbe.duration < bedTargetSec) {
+    const loops = Math.max(2, Math.ceil(bedTargetSec / playProbe.duration));
+    const listFile = path.join(work, "bed-music.txt");
+    await fsp.writeFile(
+      listFile,
+      Array.from({ length: loops }, () => `file '${playPath.replaceAll("'", "'\\''")}'`).join("\n"),
+      "utf8",
+    );
+    const bedMusic = path.join(work, "bed-music.wav");
+    await runBin(bins.ffmpeg, [
+      "-hide_banner", "-v", "error", "-y",
+      "-f", "concat", "-safe", "0", "-i", listFile,
+      "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "2", bedMusic,
+    ], { label: "ffmpeg(bed-music)", timeoutMs: 600_000 });
+    playPath = bedMusic;
+    if (sectionPlan?.played) {
+      sectionPlan.played.loops = loops;
+      sectionPlan.played.bedPath = bedMusic;
+      sectionPlan.played.bedNote = `选段 ${round(playProbe.duration, 2)}s × ${loops} 拼到 ${bedTargetSec}s（有限输入，规避 -stream_loop 不退出）`;
+    }
+  }
+
   const roomTone = await (async () => {
     const windows = voice.silences
       .filter((segment) => segment.duration >= 0.4 && segment.start >= 0.2)
@@ -1521,18 +1556,19 @@ export async function mix({
   const musicArgs = [
     "-hide_banner", "-v", "error", "-y",
     "-i", input,
-    "-stream_loop", "-1", "-i", playPath,
+    /**
+     * 音乐输入**必须有限**（2026-09-24 真机修复）：不再用 `-stream_loop -1`（它会永远不退出，
+     * 详见上面"铺底长度收敛"的注释）。需要比选段更长时已在前面拼好 `bed-music.wav`。
+     */
+    "-i", playPath,
   ];
   const musicParts = [`[1:a]${musicChain},atrim=0:${round(duration, 3)},asetpts=N/SR/TB[music]`];
   if (sidechainSource) {
     const keyInput = sidechainSource === input ? "[0:a]" : "[2:a]";
     if (sidechainSource !== input) musicArgs.push("-i", sidechainSource);
     /**
-     * 侧链必须 `apad`（2026-09-24 真机修复）：主输入是 `-stream_loop -1`（音乐永不 EOF），
-     * 若侧链（原片音轨）先 EOF，`sidechaincompress` 会一直等下一个侧链帧——ffmpeg 挂死
-     * （实测 0% CPU、`-t` 也救不回来，因为滤镜图本身不再产帧）。
-     * 侧链补静音后两端都是无限流，由输出的 `-t` 收口：语义不变（尾部静音=不触发让位），
-     * 但不再可能挂住；命中场景是"转场后成片时长不是整数秒"（如 xfade 的 26.333s）。
+     * 侧链补静音：转场后成片时长常带小数（如 xfade 的 26.333s），音乐与侧链的帧边界不完全对齐时，
+     * 补齐静音可以避免 `sidechaincompress` 在末尾等一个不会再来的侧链帧；输出再用 `-t` 收口。
      */
     musicParts.push(`${keyInput}highpass=f=${VOICE_BAND.highpass},lowpass=f=${VOICE_BAND.lowpass},volume=1,apad[sc]`);
     musicParts.push(
