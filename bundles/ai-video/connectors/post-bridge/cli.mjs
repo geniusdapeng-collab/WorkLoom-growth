@@ -11,6 +11,7 @@
  *                     [--burn-subtitles] [--no-soft-subtitles]
  *   post-cli impact   --project film-project.json --patch patch.json
  *   post-cli reedit   --project film-project.json --patch patch.json [--out-dir versions/v2]
+ *                     [--delivery-dir <交付包根>]   # 连续返修时指定产物根（缺省=工程文件所在目录）
  *                     [--shot SC-03=/path/new.mp4]…        # 只在已重生成镜头后使用
  *   post-cli triage   --feedback "配乐太吵了，另外第 3 个镜头人物走形"
  *
@@ -156,6 +157,7 @@ async function main() {
       }));
       const outcome = await reedit({
         projectPath: flags.project,
+        deliveryDir: typeof flags["delivery-dir"] === "string" ? flags["delivery-dir"] : null,
         patch,
         outDir: typeof flags["out-dir"] === "string" ? flags["out-dir"] : null,
         shotPaths: Object.keys(shotPaths).length ? shotPaths : null,

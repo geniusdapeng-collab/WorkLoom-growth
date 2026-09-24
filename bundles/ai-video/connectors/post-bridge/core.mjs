@@ -1439,7 +1439,15 @@ export async function reedit({
     throw new PostError(`工程文件版本不支持：${project.schemaVersion}（期望 ${FILM_PROJECT_SCHEMA}）`, "bad_request");
   }
   const impact = analyzeImpact({ project, patch });
-  const base = deliveryDir ? path.resolve(deliveryDir) : path.dirname(projectFile);
+  /**
+   * 两个基准必须分开（2026-09-24 真机修复）：
+   *   · `projectDir`：工程文件所在目录——**产物路径按它解析**（约定：路径相对工程文件自己所在目录）；
+   *   · `base`：交付包根——**新版本目录与缓存按它落盘**（`versions/vN`、`work/`）。
+   * 早先把两者都当成 projectDir，于是连续返修（基线 = versions/v2/film-project.json）会把新版本写成
+   * `versions/v2/versions/v3`（嵌套两层）——版本链看着像有、其实结构已经错了。
+   */
+  const projectDir = path.dirname(projectFile);
+  const base = deliveryDir ? path.resolve(deliveryDir) : projectDir;
   const version = (Number(project.version) || 1) + 1;
   const targetDir = path.resolve(outDir ?? path.join(base, "versions", `v${version}`));
 
@@ -1498,13 +1506,13 @@ export async function reedit({
       rebuilt.push({ layer: "shots", shotId: clip.shotId, path: clip.path, sha256: clip.sha256, note: "点名镜头：用重生成后的新产物归一化" });
       continue;
     }
-    const file = resolveStored(base, entry.stored.normalised);
+    const file = resolveStored(projectDir, entry.stored.normalised);
     if (!fs.existsSync(file)) throw new PostError(`返修需要的镜头产物缺失：${entry.shotId} → ${file}`, "not_found");
     const sha256 = await sha256File(file);
     const drifted = Boolean(entry.stored.sha256) && sha256 !== entry.stored.sha256;
     const clip = {
       shotId: entry.shotId,
-      source: resolveStored(base, entry.stored.source ?? entry.stored.normalised),
+      source: resolveStored(projectDir, entry.stored.source ?? entry.stored.normalised),
       sourceHash: entry.stored.sourceSha256 ?? null,
       path: file,
       sha256,
@@ -1548,12 +1556,12 @@ export async function reedit({
 
     const variantDir = path.join(targetDir, "variants", variantId);
     await fsp.mkdir(variantDir, { recursive: true });
-    const previousVideo = stored?.artifacts?.video?.path ? resolveStored(base, stored.artifacts.video.path) : null;
-    const previousSoftsub = stored?.artifacts?.softsub?.path ? resolveStored(base, stored.artifacts.softsub.path) : null;
-    const previousCover = stored?.artifacts?.cover?.path ? resolveStored(base, stored.artifacts.cover.path) : null;
+    const previousVideo = stored?.artifacts?.video?.path ? resolveStored(projectDir, stored.artifacts.video.path) : null;
+    const previousSoftsub = stored?.artifacts?.softsub?.path ? resolveStored(projectDir, stored.artifacts.softsub.path) : null;
+    const previousCover = stored?.artifacts?.cover?.path ? resolveStored(projectDir, stored.artifacts.cover.path) : null;
 
     // 拼接层（只有转场/镜头变化才重算）
-    let assemblyPath = stored?.assembly?.path ? resolveStored(base, stored.assembly.path) : null;
+    let assemblyPath = stored?.assembly?.path ? resolveStored(projectDir, stored.assembly.path) : null;
     let assemblyReused = true;
     if (impact.rebuild.assemble || !assemblyPath || !fs.existsSync(assemblyPath)) {
       const transitions = { ...(project.layers.transitions ?? {}), ...(pack.transitions ?? {}) };
@@ -1569,7 +1577,7 @@ export async function reedit({
     // 调色层
     let gradedInput = assemblyPath;
     let colorReused = true;
-    if (pack.color && (impact.rebuild.color || !stored?.color?.path || !fs.existsSync(resolveStored(base, stored.color.path)))) {
+    if (pack.color && (impact.rebuild.color || !stored?.color?.path || !fs.existsSync(resolveStored(projectDir, stored.color.path)))) {
       const gradedPath = path.join(workDir, "graded", `${variantId}-re${version}.mp4`);
       const report = await colorGrade({
         input: assemblyPath,
@@ -1583,7 +1591,7 @@ export async function reedit({
       colorReused = false;
       (rebuilt).push({ layer: "color", variant: variantId, path: gradedPath, sha256: report.sha256 });
     } else if (pack.color && stored?.color?.path) {
-      gradedInput = resolveStored(base, stored.color.path);
+      gradedInput = resolveStored(projectDir, stored.color.path);
       reused.push({ layer: "color", variant: variantId, path: gradedInput, sha256: stored.color.sha256 ?? null });
     }
 
@@ -1616,7 +1624,7 @@ export async function reedit({
 
     // 文字层：旁挂字幕 + 软字幕轨
     const subtitleFiles = (project.layers?.text?.files ?? []);
-    let textDir = project.layers?.text?.sidecarDir ? resolveStored(base, project.layers.text.sidecarDir) : path.join(base, "subtitles");
+    let textDir = project.layers?.text?.sidecarDir ? resolveStored(projectDir, project.layers.text.sidecarDir) : path.join(projectDir, "subtitles");
     let softsub = null;
     let softsubReused = true;
     if (impact.rebuild.text) {
@@ -1624,13 +1632,13 @@ export async function reedit({
       const baseCuesPath = subtitleFiles.find((file) => file.format === "srt" && file.lang === "chi")?.path;
       const zhText = patch.subtitles?.zhText
         ?? (patch.subtitles?.zhPath ? await fsp.readFile(path.resolve(patch.subtitles.zhPath), "utf8") : null)
-        ?? (baseCuesPath ? await fsp.readFile(path.join(base, baseCuesPath), "utf8") : null);
+        ?? (baseCuesPath ? await fsp.readFile(path.join(projectDir, baseCuesPath), "utf8") : null);
       if (!zhText) throw new PostError("返修文字层缺少字幕内容（既没有 patch.subtitles，也没有原字幕）", "bad_request");
       const enText = patch.subtitles?.enText
         ?? (patch.subtitles?.enPath ? await fsp.readFile(path.resolve(patch.subtitles.enPath), "utf8") : null)
         ?? (() => {
           const enPath = subtitleFiles.find((file) => file.format === "srt" && file.lang === "eng")?.path;
-          return enPath ? fs.readFileSync(path.join(base, enPath), "utf8") : null;
+          return enPath ? fs.readFileSync(path.join(projectDir, enPath), "utf8") : null;
         })();
       textDir = path.join(targetDir, "subtitles");
       const sidecar = await exportSidecars({
@@ -1741,8 +1749,8 @@ export async function reedit({
         const fresh = normalised.find((clip) => clip.shotId === shot.shotId);
         return {
           ...shot,
-          source: shot.source ? path.relative(targetDir, resolveStored(base, shot.source)) : shot.source,
-          normalised: path.relative(targetDir, resolveStored(base, shot.normalised)),
+          source: shot.source ? path.relative(targetDir, resolveStored(projectDir, shot.source)) : shot.source,
+          normalised: path.relative(targetDir, resolveStored(projectDir, shot.normalised)),
           sha256: fresh?.sha256 ?? shot.sha256,
           duration: fresh?.duration ?? shot.duration ?? null,
         };

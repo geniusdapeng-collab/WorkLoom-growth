@@ -614,7 +614,7 @@
   },
   "integrity": {
     "algorithm": "sha256",
-    "digest": "8a293a918bc5c1d977586945c49528cad4ceba0901fe64a341e9266d69cf28a5",
+    "digest": "d7c2f47b251afcad9ebbe774e66320b9bfaea221f97d93512f35ec220af7c11d",
     "assets": {
       "connectors/bgm-bridge/cli.mjs": "7f64e35286363564946a336daf5bd75ea4342f67cca30496361034cb52b0056f",
       "connectors/bgm-bridge/core.mjs": "56d25a55ead090d648a28af6c966582f8f6601b2015e97bd528b73bc51d377df",
@@ -627,8 +627,8 @@
       "connectors/bgm-bridge/server-adapter.mts": "bd8790725a0662cedfd0f8d9bd4d984bff4fdaa32d02c7cb1e182835995f4c20",
       "connectors/bgm-bridge/server.mjs": "53503ea2050936af97901d387dd39565651eba2c7272072fe3dfe266bef13837",
       "connectors/bgm-bridge/synth.mjs": "e6ebdcb8d6a37e40786a8ae22d00417b19761965141c6e7fad20eecb971f085a",
-      "connectors/post-bridge/cli.mjs": "dad23f9ddd06d85c25c896994a2c5a182445f26b3ae361727d6a5f67353cf339",
-      "connectors/post-bridge/core.mjs": "82fe99d6f191b1adc1d0dec3c38816a98986d2ca10933bcf6281740c98043fbd",
+      "connectors/post-bridge/cli.mjs": "7aa6e504d3da6de559112157ec02f3c9f6cf35be6436a6e990c301231b29ab98",
+      "connectors/post-bridge/core.mjs": "a3386f1fcdcfe8d1033a61eb43a463b41a7e6aaefdf0e76ad3eeda4d919e8226",
       "connectors/post-bridge/executor.ts": "a73427d32920966bb2d26941445d037d3e36d6de738db05609566b74aae80154",
       "connectors/post-bridge/README.md": "caad3019a806d09ef993a6847f1de456452459f294d82e9603944746937ab831",
       "connectors/post-bridge/server-adapter.mts": "80780fbfef049f3690bdd14b591d59cd4e8ddfba6e9854344601a4ffb5073d48",
