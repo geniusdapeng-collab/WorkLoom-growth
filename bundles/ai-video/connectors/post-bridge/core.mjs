@@ -36,7 +36,7 @@ import {
   softMux, srtSecondsToAss, SubtitleError,
 } from "../subtitle-bridge/core.mjs";
 import { frameDifference, grade as colorGrade } from "../color-bridge/core.mjs";
-import { findTracks, mix as bgmMix } from "../bgm-bridge/core.mjs";
+import { findTracks, loadAllLocalTracks, mix as bgmMix } from "../bgm-bridge/core.mjs";
 
 /* ============================ 工具面与错误 ============================ */
 
@@ -441,10 +441,57 @@ export async function assembleTimeline({
 
 /** 确定性选曲：按变体包的曲风/情绪过滤本地曲库，排序后取第一首可商用且文件在位者。 */
 export function pickTrackForVariant(variant, { env = process.env } = {}) {
+  const requestedStyle = String(variant.bgm?.style ?? "").trim().toLowerCase();
   const query = {};
   if (variant.bgm?.mood) query.mood = variant.bgm.mood;
   if (variant.bgm?.genre) query.genre = variant.bgm.genre;
   if (variant.bgm?.trackId) query.trackId = variant.bgm.trackId;
+  /**
+   * 指定曲目：走 `findTracks({ trackId })`——它会做许可可商用校验，找不到/不合规都如实报错。
+   */
+  if (variant.bgm?.trackId) {
+    const byId = findTracks(query, env);
+    const hit = byId.track ?? byId.items[0];
+    if (!hit) throw new PostError(`曲库中未找到可用曲目：${variant.bgm.trackId}`, "not_found");
+    return hit;
+  }
+  /**
+   * 曲风（style）检索：`findTracks` 只按 mood/genre/id 过滤，而用户与配方说的是
+   * "corporate-clean / sports-hype 那种风格"。这里直接在**全量曲库**上按风格关键词匹配
+   * （id / style / genre / mood / tags / styleLabel 任一命中），再逐首过许可校验——
+   * 不能只在前 20 条搜索结果里找风格（1034 首的库会漏）。找不到就如实报错，不静默换风格不符的曲目。
+   */
+  if (requestedStyle) {
+    const library = loadAllLocalTracks(env);
+    const matches = library.tracks
+      .map((track) => ({
+        track,
+        haystack: [track.id, track.style, track.styleLabel, track.genre, track.mood,
+          ...(Array.isArray(track.tags) ? track.tags : [])]
+          .filter(Boolean).join(" ").toLowerCase(),
+      }))
+      .filter((entry) => entry.haystack.includes(requestedStyle))
+      .sort((a, b) => String(a.track.id).localeCompare(String(b.track.id)));
+    if (matches.length === 0) {
+      throw new PostError(
+        `曲库里没有「${variant.bgm.style}」风格的曲目：请换一个风格关键词（可用风格见 library/bgm-library-curated/tracks.json 的 style 字段）`,
+        "not_found",
+      );
+    }
+    for (const entry of matches) {
+      try {
+        const verified = findTracks({ trackId: entry.track.id }, env);
+        const hit = verified.track ?? verified.items[0];
+        if (hit) return hit;
+      } catch {
+        /* 该曲目许可不合规/文件缺失：继续找同风格的下一首（不静默降级，最终全不过就报错） */
+      }
+    }
+    throw new PostError(
+      `风格「${variant.bgm.style}」下 ${matches.length} 首曲目都不满足许可/文件要求：请补曲库或换风格`,
+      "license_blocked",
+    );
+  }
   const result = findTracks(query, env);
   if (!result.items?.length) {
     throw new PostError(
@@ -453,14 +500,26 @@ export function pickTrackForVariant(variant, { env = process.env } = {}) {
       "not_found",
     );
   }
-  const style = String(variant.bgm?.style ?? "").toLowerCase();
+  const styleHit = (item) => {
+    if (!requestedStyle) return 1;
+    const haystack = [item.id, item.genre, item.mood, ...(Array.isArray(item.tags) ? item.tags : [])]
+      .filter(Boolean).join(" ").toLowerCase();
+    return haystack.includes(requestedStyle) ? 2 : 0;
+  };
   const ranked = [...result.items]
     .map((item) => ({
       item,
-      styleHit: style && (String(item.genre ?? "").toLowerCase().includes(style) || String(item.mood ?? "").toLowerCase().includes(style) || String(item.id).toLowerCase().includes(style)) ? 1 : 0,
+      styleHit: styleHit(item),
     }))
     .sort((a, b) => (b.styleHit - a.styleHit) || String(a.item.id).localeCompare(String(b.item.id)));
-  const chosen = ranked.find((entry) => entry.item.fileExists !== false && entry.item.path)?.item;
+  const usable = ranked.filter((entry) => entry.item.fileExists !== false && entry.item.path);
+  if (requestedStyle && usable.every((entry) => entry.styleHit === 0)) {
+    throw new PostError(
+      `曲库里没有「${variant.bgm.style}」风格的可用曲目：请换一个风格关键词，或改用 mood/genre 检索`,
+      "not_found",
+    );
+  }
+  const chosen = usable[0]?.item;
   if (!chosen) {
     throw new PostError(`匹配到的曲目在工位上都不可用（文件缺失）：${result.items.map((item) => item.id).join(", ")}`, "not_found");
   }
