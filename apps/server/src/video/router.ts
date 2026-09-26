@@ -43,7 +43,7 @@ export type { PollReport } from "./render-poller.js";
 import { dealRouter } from "./deal.js";
 import { getRun, startRun, startVideoProjectRun, StudioWorkerError } from "./studio-worker.js";
 import { makeStageArchive } from "./archive-host.js";
-import { readArchiveSummary, resumeProject } from "./archive-resume.js";
+import { readArchiveSummary, resumeProject, scanStaleRunsOnStartup } from "./archive-resume.js";
 import { applyRouteToMetadata, buildPipelineIntent, routeVideoPipeline } from "@hyperreality/video-studio";
 import { routedLlmCall } from "../service/llm.js";
 import {
@@ -1277,3 +1277,25 @@ export const videoRouter = router({
   accounting: accountingRouter,
   delivery: deliveryRouter,
 });
+
+/**
+ * server 启动钩（规格书 §6.3 改动 C；`ARCHIVE_AUTO_RESUME=1` 时启用）：
+ * 把进程死亡留下的 `running` 台账归位 `interrupted` 并留工程发现；**不自动拉起管线**
+ * （自动重跑会在人不知情时重复烧额度；恢复动作走 `video.studio.resume`，人工确认）。
+ *
+ * 位置说明：钩子随**路由模块装载**触发（tRPC 根路由 import `videoRouter` 即启动期），
+ * 不改 `apps/server/src/index.ts` —— 该入口文件正被在途 base-sync PR 修改，
+ * 按协议 §4「先声明后落笔、先到先得」避让文件重叠，等对方合并后再谈是否回归入口。
+ */
+if ((process.env.ARCHIVE_AUTO_RESUME ?? "0") === "1") {
+  void scanStaleRunsOnStartup()
+    .then((report) => {
+      console.log(
+        `[archive] 启动扫描完成：归位 interrupted ${report.interrupted.length} 条`
+        + `（阈值 ${report.staleAfterMinutes} 分钟）/ 写工程发现 ${report.findingsWritten} 张`,
+      );
+    })
+    .catch((err) => {
+      console.warn(`[archive] 启动扫描失败（不阻断启动）：${err instanceof Error ? err.message : err}`);
+    });
+}
