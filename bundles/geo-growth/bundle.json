@@ -295,6 +295,11 @@
       "skills/video-cover/SKILL.md": "77eb6e2247ee5df248ab69fa391f917598aea72dd2d5495a12b0a5915f317be9",
       "skills/visibility-monitor/SKILL.md": "4486f68ca3e6e9d8fa345839cf1fb61aaa1d241012d358e40320c50f2e999702",
       "ui/cases.json": "032a25657ac30c2def9240c45eeee94365adf29848bca91c526b9c7b532a9e7c"
+    },
+    "signature": {
+      "algorithm": "ed25519",
+      "keyId": "ed25519-12613d8b27999511",
+      "value": "cjgnO2eCNGvSjZafs9bTy/o6iDL5cBv2CIb/8MpDGyXfL9QJQUVs7megWAWgqgpVw7p3kHuUBFhD1AYa/07wAg=="
     }
   }
 }

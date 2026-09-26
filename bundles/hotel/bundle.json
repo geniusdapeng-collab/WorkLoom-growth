@@ -219,6 +219,11 @@
       "skills/safety-compliance/SKILL.md": "65d85f4ffddee27c50b46adaed5d8d5f9d631bd639f42aec7af9cb1b412a583d",
       "skills/staff-scheduler/SKILL.md": "f8e76d6db7b0514b4036be3761dd8d3a17ad09532a2788f656d7ae06ff9da3ba",
       "ui/cases.json": "0b15be28bd6075223d1bce1396ca53653b851b575de2ce89ad1ae820f4baae52"
+    },
+    "signature": {
+      "algorithm": "ed25519",
+      "keyId": "ed25519-12613d8b27999511",
+      "value": "i1rRO2yNI9KKFvsQeMMOkBvDnliEs62vX9YigAZkUrj5J6aFd1GRPBX8rwH0dDnzE8ppcvNy2hm7bs6rUHo3DQ=="
     }
   }
 }
