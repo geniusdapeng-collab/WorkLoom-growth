@@ -21,6 +21,7 @@ import { bundlesRoot } from "@workloom/base/bundles";
 import { registerFeedbackEnumsFromDisk } from "@workloom/base/evolve";
 import { startSkillDistAutoSync, buildManifest, receiveReflux, type RefluxPayload } from "@workloom/base/skill-ops";
 import { resolveMediaPath, verifyMediaToken } from "./video/gen/ingest.js";
+import { scanStaleRunsOnStartup } from "./video/archive-resume.js";
 
 import { readVoiceFile, synthesizeVoice, voiceStationConfig } from "./voice/station.js";
 const app = new Hono();
@@ -216,4 +217,19 @@ registerFeedbackEnumsFromDisk(getOwnerPool(), bundlesRoot())
   })
   .catch((err) => {
     console.warn(`反馈枚举表装载失败（不阻断启动，decide 校验按未装配放行）：${err instanceof Error ? err.message : err}`);
+  });
+
+// 制片档案启动扫描（T-2026-0926-0002，ARCHIVE_AUTO_RESUME=1 时启用）：
+// 把进程死亡留下的 running 台账归位为 interrupted 并留工程发现；**不自动拉起管线**
+// （自动重跑会在人不知情时重复烧额度；恢复动作走 video.studio.resume，人工确认）。
+void scanStaleRunsOnStartup()
+  .then((report) => {
+    if (!report.enabled) return;
+    console.log(
+      `[archive] 启动扫描完成：归位 interrupted ${report.interrupted.length} 条`
+      + `（阈值 ${report.staleAfterMinutes} 分钟）/ 写工程发现 ${report.findingsWritten} 张`,
+    );
+  })
+  .catch((err) => {
+    console.warn(`[archive] 启动扫描失败（不阻断启动）：${err instanceof Error ? err.message : err}`);
   });

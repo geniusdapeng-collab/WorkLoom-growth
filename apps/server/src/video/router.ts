@@ -15,6 +15,7 @@
  */
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { logStageOutcome } from "@hyperreality/video-studio";
 import { getAppPool, getGatewayPool } from "@workloom/db";
 import { gatewayAppendOnClient, MockEmbedder, upsertMemoryInTx } from "@workloom/base/workdata";
 import {
@@ -41,6 +42,8 @@ import { mediaUrl } from "./gen/ingest.js";
 export type { PollReport } from "./render-poller.js";
 import { dealRouter } from "./deal.js";
 import { getRun, startRun, startVideoProjectRun, StudioWorkerError } from "./studio-worker.js";
+import { makeStageArchive } from "./archive-host.js";
+import { readArchiveSummary, resumeProject } from "./archive-resume.js";
 import { applyRouteToMetadata, buildPipelineIntent, routeVideoPipeline } from "@hyperreality/video-studio";
 import { routedLlmCall } from "../service/llm.js";
 import {
@@ -520,6 +523,36 @@ const studioRouter = router({
         resultSummary: entry.resultSummary,
       };
     }),
+
+  /**
+   * 制片档案恢复（T-2026-0926-0002）：
+   * 从档案推导断点（台账里每个环节的**最新** attempt 为 running/failed/interrupted）→ 校验锁
+   * → 走既有补跑路径（`studio.start` 的 projectId 分支 + vendor `enableResume`）。
+   *
+   * 四种返回：resumed（预生产续跑）/ noaction（渲染/后期/交付段由轮询驱动，无需动作）
+   *          / awaiting_approval（待审批门：接续审批，不重跑、不产生第二张 approvals 行）/ busy（已有执行者）
+   */
+  resume: writeProcedure
+    .input(z.object({
+      projectId: z.string().min(1),
+      fromStage: z.string().min(1).max(64).optional(),
+      intent: z.string().max(2000).optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const scope = scopeOf(ctx.identity);
+      return resumeProject(scope, {
+        projectId: input.projectId,
+        fromStage: input.fromStage,
+        intent: input.intent,
+        startRun: (runInput) => startRun(scope, runInput),
+        actor: { id: ctx.identity.memberNo, type: "human" },
+      });
+    }),
+
+  /** 档案只读视图（任务详情页「制片档案」标签数据源）：manifest + 台账 + 最近 20 条事件 + 关联发现 */
+  archive: protectedProcedure
+    .input(z.object({ projectId: z.string().min(1) }))
+    .query(async ({ ctx, input }) => readArchiveSummary(scopeOf(ctx.identity), input.projectId)),
 });
 
 /* ================= cms：渲染脚本 CMS（§6） ================= */
@@ -870,6 +903,36 @@ const renderRouter = router({
       budgetOverageSeconds: budget.overageSeconds,
       durationProvenance
     });
+
+      /**
+       * 环节台账（T-2026-0926-0002，规格书 §6.3 改动 A）：
+       * 提交成功记 done；`deduped=true`（幂等键命中旧 job）**不新开 attempt**，只留一条 skipped 事件——
+       * 把"没做事"记成一次执行会污染监控的失败率与成本统计。
+       */
+      const archiveHandle = makeStageArchive(scope, script.project_id);
+      if (archiveHandle) {
+        try {
+          await logStageOutcome(archiveHandle.store, archiveHandle.ledger, {
+            stageId: "renderSubmit",
+            status: submitted.deduped ? "skipped" : "done",
+            skipReason: submitted.deduped ? "idempotency-key 命中既有 job（不重复烧额度）" : null,
+            input: {
+              scriptId: script.id, scriptKey: script.script_key, scriptVersion: script.version,
+              mode: input.mode, modelId, durationSec, fenceLevel: verdict.level,
+              idempotencyKey: input.idempotencyKey?.trim() || `render:${script.id}:${chosen.id}:${durationSec}:${input.mode}`,
+            },
+            output: {
+              jobId: submitted.jobId, taskId: submitted.taskId, provider: submitted.provider,
+              providerModel: submitted.providerModel, estCny: submitted.estCny, mock: submitted.mock,
+              deduped: submitted.deduped, degraded: submitted.degraded,
+            },
+            cost: { cashCny: submitted.estCny ?? null },
+            runId: null,
+          });
+        } catch (err) {
+          console.error(`[video.render.submit] 档案记账失败（不影响提交）: ${(err as Error).message}`);
+        }
+      }
 
       return {
         jobId: submitted.jobId,
