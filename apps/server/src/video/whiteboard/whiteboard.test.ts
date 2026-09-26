@@ -277,6 +277,18 @@ describe("narration 分句复用（断点续跑的**正确性**凭据）", () =>
     expect(reusableSegment({ manifest: assumed, index: 3, text: "任意", profile: "chen-zhuo-film", fileExists: true })).toBe(true);
     expect(reusableSegment({ manifest: assumed, index: 3, text: "任意", profile: "chen-zhuo-film", fileExists: false })).toBe(false);
   });
+
+  it("迁移条目一旦被真实哈希登记，assumed 兜底立即失效（防止旧文件被无限期信任）", () => {
+    const text = "大家好，我是陈卓。";
+    const partlyPinned = manifest({
+      derivedFrom: "assumed-from-existing-files",
+      segments: [{ index: 3, sha256: hash16(text), profile: "chen-zhuo-film", file: "seg-04.wav", seconds: 6 }],
+    });
+    // 已登记且一致 → 复用
+    expect(reusableSegment({ manifest: partlyPinned, index: 3, text, profile: "chen-zhuo-film", fileExists: true })).toBe(true);
+    // 已登记但文本变了 → 即使 derivedFrom 仍是 assumed，也不再兜底（按哈希判否）
+    expect(reusableSegment({ manifest: partlyPinned, index: 3, text: "改过的句子。", profile: "chen-zhuo-film", fileExists: true })).toBe(false);
+  });
 });
 
 describe("渲染任务断点续跑（provider 的接管判据）", () => {

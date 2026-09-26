@@ -321,6 +321,18 @@ export async function synthesizeNarration(opts: SynthesizeOptions): Promise<Narr
     const file = files[i]!;
     if (reusable(i)) {
       durations[i] = await probeDurationSec(file, cfg.ffprobe);
+      /**
+       * 复用也要**补写清单条目**：否则"旧文件（assumed 路径复用）+ 新合成条目"混在一起时，
+       * 下一次重跑会因为 `derivedFrom` 已被置为 synthesized 而失去 assumed 兜底，
+       * 把复用过的那批句子又全部重合成（真机踩到：26 句差点白烧）。
+       * 复用即登记 → 清单逐步被真实哈希填满，之后每次都严格按哈希判定。
+       */
+      if (!manifest!.segments.some((s) => s.index === i)) {
+        manifest!.segments = [...manifest!.segments, {
+          index: i, sha256: textSha(text), profile: cfg.profile, file, seconds: durations[i]!,
+        }].sort((a, b) => a.index - b.index);
+        writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+      }
       reused += 1;
       done += 1;
       report(text);
