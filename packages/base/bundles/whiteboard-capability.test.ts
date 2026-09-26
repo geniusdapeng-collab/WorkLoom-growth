@@ -10,7 +10,7 @@
  *   · 上游执笔手素材（笔杆带第三方渠道标识）被用进对外成片。
  * 这些都能在磁盘上静态验出来，因此本组不触 DB、不跑 python、不出片。
  */
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { bundlesRoot } from "./assembly.js";
@@ -135,8 +135,15 @@ describe("接线面：目录 / 开关 / 迁移 / 编排", () => {
     expect(ingest).toContain("uri.startsWith(\"/\")");
   });
 
-  it("0042 迁移：kind/pipeline_kind 扩展 + 两张表 + 幂等 RLS", () => {
-    const sql = read("packages/db/migrations/0042_whiteboard.sql");
+  it("白板迁移：kind/pipeline_kind 扩展 + 两张表 + 幂等 RLS", () => {
+    /**
+     * 迁移**按文件名后缀发现**，不写死编号：舰队里各仓迁移序列本就不同步
+     * （本仓 0042、growthtest 0043、growthmatrix 0053），写死编号会让能力测试在移植仓直接红。
+     */
+    const migrationsDir = join(REPO_ROOT, "packages/db/migrations");
+    const file = readdirSync(migrationsDir).find((name) => name.endsWith("_whiteboard.sql"));
+    expect(file, "找不到 *_whiteboard.sql 迁移").toBeTruthy();
+    const sql = readFileSync(join(migrationsDir, file!), "utf8");
     expect(sql).toContain("video_projects_kind_check");
     expect(sql).toContain("'explainer'");
     expect(sql).toContain("video_assets_pipeline_kind_check");

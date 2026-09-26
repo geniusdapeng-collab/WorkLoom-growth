@@ -971,7 +971,8 @@ async function runNarrationJob(args: {
   } catch (err) {
     const message = err instanceof WhiteboardEngineError
       ? `${err.message}${err.detail ? `｜${err.detail}` : ""}`
-      : String((err as Error).message ?? err);
+      : `${(err as NarrationLike).message ?? String(err)}`
+        + `${(err as NarrationLike).detail ? `｜${(err as NarrationLike).detail}` : ""}`;
     await scopedQuery(
       app, scope,
       `UPDATE whiteboard_films SET status='failed', error_msg=$3 WHERE workspace_id=$1 AND id=$2`,
@@ -980,3 +981,6 @@ async function runNarrationJob(args: {
     console.error(`[whiteboard] 配音失败 film=${film.id}：${message.slice(0, 300)}`);
   }
 }
+
+/** NarrationError 的细节字段（跨模块只取用得到的两个字段，避免把类的实例判定写死在这里） */
+interface NarrationLike { message?: string; detail?: string }

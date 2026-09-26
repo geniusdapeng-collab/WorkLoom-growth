@@ -279,11 +279,19 @@ export async function synthesizeNarration(opts: SynthesizeOptions): Promise<Narr
   let manifest = readManifest(manifestPath);
   const scriptSha = createHash("sha256").update(sentences.join("\u0000")).digest("hex");
   if (!manifest || manifest.scriptSha256 !== scriptSha) {
-    const legacyComplete = sentences.every((_, i) => existsSync(files[i]!));
-    if (!manifest && legacyComplete) {
+    const existing = sentences.filter((_, i) => existsSync(files[i]!)).length;
+    /**
+     * 旧产物迁移（引入清单之前的任务目录只有 seg-NN.wav、没有清单，无法自证文本对应关系）。
+     * 默认**不猜**：宁可重合成，也不冒"字幕写 B、耳朵听 A"的风险。
+     * 明确知道"就是这份稿子生成的"时，用 `WHITEBOARD_NARRATION_TRUST_EXISTING=1` 显式声明信任，
+     * 才按已有文件补写清单（打警告，且清单标记 `derivedFrom=assumed-from-existing-files`）。
+     */
+    const trustExisting = (opts.env?.WHITEBOARD_NARRATION_TRUST_EXISTING
+      ?? process.env.WHITEBOARD_NARRATION_TRUST_EXISTING ?? "0") === "1";
+    if (!manifest && existing > 0 && trustExisting) {
       console.warn(
-        `[whiteboard] 分句清单缺失但 ${sentences.length} 个分句文件齐全：按"文件对应当前稿子"补写清单`
-        + `（一次性迁移路径；若稿子已改动，请手动删除 ${opts.outDir}/seg-*.wav 后重跑）`,
+        `[whiteboard] 分句清单缺失，按 WHITEBOARD_NARRATION_TRUST_EXISTING=1 信任现有 `
+        + `${existing}/${sentences.length} 个分句文件（一次性迁移路径；若稿子已改动，请先清空 ${opts.outDir}/seg-*.wav 再重跑）`,
       );
       manifest = {
         schema: "workloom.whiteboard-narration/v1",
@@ -292,6 +300,12 @@ export async function synthesizeNarration(opts: SynthesizeOptions): Promise<Narr
         segments: [],
         derivedFrom: "assumed-from-existing-files",
       };
+    } else if (!manifest && existing > 0) {
+      console.warn(
+        `[whiteboard] 分句清单缺失且存在旧的 ${existing} 个分句文件：默认不猜（全部重新合成）。`
+        + "确认这批文件就是当前稿子生成的，可置 WHITEBOARD_NARRATION_TRUST_EXISTING=1 复用",
+      );
+      manifest = { schema: "workloom.whiteboard-narration/v1", scriptSha256: scriptSha, profile: cfg.profile, segments: [] };
     } else {
       // 稿子变了：旧清单作废（不复用任何旧音频，避免"字幕写 B、耳朵听 A"）
       manifest = { schema: "workloom.whiteboard-narration/v1", scriptSha256: scriptSha, profile: cfg.profile, segments: [] };
@@ -343,6 +357,14 @@ export async function synthesizeNarration(opts: SynthesizeOptions): Promise<Narr
     report(text);
   };
 
+  /**
+   * 逐句失败**不中止整批**：`Promise.all` 在第一次失败时立刻抛出，而其余 worker 仍在后台跑完——
+   * 结果是"已完成的 26 句白跑、整片状态却是 failed"（真机踩到：一句引擎抖动牵连全批）。
+   * 改为 `allSettled` 语义：先把能合成的都合成完，再一次性报告失败句号；
+   * 单句抖动只损失那一句，重跑只补那一句（配合清单复用）。
+   */
+  const failures: Array<{ index: number; reason: string }> = [];
+  let succeeded = 0;
   try {
     report(sentences[0] ?? "");
     const queue = sentences.map((text, i) => ({ text, i }));
@@ -350,12 +372,26 @@ export async function synthesizeNarration(opts: SynthesizeOptions): Promise<Narr
       for (;;) {
         const next = queue.shift();
         if (!next) return;
-        await synthesizeOne(next.i, next.text);
+        try {
+          await synthesizeOne(next.i, next.text);
+          succeeded += 1;
+        } catch (err) {
+          failures.push({ index: next.i, reason: `${(err as Error).message}`.slice(0, 200) });
+        }
       }
     });
     await Promise.all(workers);
   } finally {
     rmSync(staging, { recursive: true, force: true });
+  }
+  if (failures.length > 0) {
+    failures.sort((a, b) => a.index - b.index);
+    throw new NarrationError(
+      `${failures.length} 句配音失败（本批已成功 ${succeeded} 句，产物保留可直接续跑）：`
+      + failures.slice(0, 4).map((f) => `第 ${f.index + 1} 句`).join("、")
+      + (failures.length > 4 ? ` 等 ${failures.length} 句` : ""),
+      failures.map((f) => `#${f.index + 1}: ${f.reason}`).join("\n").slice(0, 900),
+    );
   }
   for (const [i] of sentences.entries()) if (!durations[i]) throw new NarrationError(`第 ${i + 1} 句没有产出音频`);
 
