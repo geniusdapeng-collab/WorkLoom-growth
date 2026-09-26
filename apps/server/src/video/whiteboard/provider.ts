@@ -19,7 +19,7 @@
  *   { scenes: [{ sceneNo, title, lineartPath, annotation, durationMs }], fps, capLongEdge, handPath, srtPath }
  * 其中 `lineartPath` 是**绝对路径**（渲染器直接读文件；入库由 poller 完成）。
  */
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { GenKind, GenProvider, GenRequest } from "@workloom/base/model-router";
 import { newId } from "@workloom/shared";
@@ -66,6 +66,18 @@ export function readWhiteboardParams(req: GenRequest): WhiteboardParams {
   return params;
 }
 
+/**
+ * 进程内活跃任务集合——断点续跑的**判据**。
+ *
+ * 渲染跑在服务进程内（与其它 GenProvider 同构）。进程被 kill 之后，任务目录里
+ * 仍留着一份 `status.json: running`，但**没有任何东西在推进它**：
+ * 若只靠"磁盘上有 running 状态"就报 running，poller 会永远轮询下去（真机表现为任务悬死）。
+ * 因此 `poll()` 增加一条：磁盘说 running、但本进程没有活跃任务 → **按任务目录接管**。
+ */
+const activeJobs = new Set<string>();
+/** 接管竞态保护：同一拍内可能有多个调用方同时 poll，只允许一个真正接管 */
+const resuming = new Set<string>();
+
 export class WhiteboardProvider implements GenProvider {
   readonly providerId = "whiteboard-local";
   readonly kind: GenKind = "video";
@@ -89,6 +101,8 @@ export class WhiteboardProvider implements GenProvider {
     const taskId = `wb-${newId("WB").toLowerCase()}`;
     const dir = join(cfg.jobsDir, taskId);
     mkdirSync(dir, { recursive: true });
+    // 任务参数落盘：重启后接管时不需要调用方再传一遍（任务目录是唯一事实源）
+    writeFileSync(join(dir, "job.json"), `${JSON.stringify(params, null, 2)}\n`, "utf8");
 
     const scenes: SceneRunState[] = params.scenes.map((scene) => {
       const annotationPath = join(dir, `scene-${String(scene.sceneNo).padStart(2, "0")}.annotation.json`);
@@ -117,7 +131,8 @@ export class WhiteboardProvider implements GenProvider {
     writeJobState(initial, this.env);
 
     // 异步跑：调用方拿 taskId 后由 poller 轮询（与其它供应商同构）
-    void this.runJob(params, taskId, scenes).catch(() => undefined);
+    activeJobs.add(taskId);
+    void this.runJob(params, taskId, scenes).finally(() => activeJobs.delete(taskId));
     return { taskId };
   }
 
@@ -198,6 +213,32 @@ export class WhiteboardProvider implements GenProvider {
   }> {
     const state = readJobState(taskId, this.env);
     if (!state) return { status: "running" };
+    /**
+     * 断点续跑接管（规格 §2.10 验收 6）：
+     * 任务目录说还在跑、但本进程没有活跃任务 → 说明上一轮进程死了。
+     * 这里**就地恢复**：读回 job.json 的参数 + status.json 的分幕进度，
+     * 已 `rendered` 且产物仍在的幕会被 `resumableScene()` 跳过（不重复烧 CPU），
+     * 从断点那一幕接着渲到合并完成。`_resume` 是竞态保护：同一拍内并发多次 poll 只接管一次。
+     */
+    if (state.status === "running" && !activeJobs.has(taskId) && !resuming.has(taskId)) {
+      const jobFile = join(whiteboardEnv(this.env).jobsDir, taskId, "job.json");
+      if (existsSync(jobFile)) {
+        const params = JSON.parse(readFileSync(jobFile, "utf8")) as WhiteboardParams;
+        const scenes = state.scenes.map((scene) => ({
+          ...scene,
+          // 上一轮死在渲染中的那一幕没有终结态：显式打回 pending 重跑该幕
+          status: scene.status === "rendering" ? "pending" as const : scene.status,
+        }));
+        resuming.add(taskId);
+        activeJobs.add(taskId);
+        console.warn(
+          `[whiteboard] 接管未完成的任务 ${taskId}：`
+          + `${scenes.filter((s) => s.status === "rendered").length}/${scenes.length} 幕已完成，从断点续渲`,
+        );
+        void this.runJob(params, taskId, scenes)
+          .finally(() => { activeJobs.delete(taskId); resuming.delete(taskId); });
+      }
+    }
     if (state.status === "succeeded" && state.outputPath) {
       return {
         status: "succeeded",

@@ -11,6 +11,7 @@
  * 并在断言里写明跳过原因，而不是静默通过。
  */
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -19,7 +20,8 @@ import { describe, expect, it } from "vitest";
 import { buildSrt, groupScenes, parseSrt, srtTime, tileScenes } from "./srt.js";
 import { validateAnnotation } from "./annotate.js";
 import { pipelineKindOf } from "../render-poller.js";
-import { splitSentences } from "./narration.js";
+import { reusableSegment, splitSentences, type SegmentManifest } from "./narration.js";
+import { resumableScene } from "./store.js";
 import { readImageSize, whiteboardEngineReady, whiteboardEnv } from "./engine.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -219,6 +221,89 @@ describe("narration 分句", () => {
     expect(sentences[1]).toBe("参考 官方文档 里的说明。");
   });
 });
+
+describe("narration 分句复用（断点续跑的**正确性**凭据）", () => {
+  const manifest = (over: Partial<SegmentManifest> = {}): SegmentManifest => ({
+    schema: "workloom.whiteboard-narration/v1",
+    scriptSha256: "script",
+    profile: "chen-zhuo-film",
+    segments: [
+      { index: 0, sha256: "aaaaaaaaaaaaaaaa", profile: "chen-zhuo-film", file: "seg-01.wav", seconds: 6 },
+    ],
+    ...over,
+  });
+
+  it("文件在 + 文本一致 + 音色一致 → 复用", () => {
+    // 用真实哈希路径：先按同一算法生成（sha256(text).slice(0,16) 由被测代码计算，这里只验证一致性）
+    const text = "大家好，我是陈卓。";
+    const self: SegmentManifest = {
+      ...manifest(),
+      segments: [{ index: 0, sha256: hash16(text), profile: "chen-zhuo-film", file: "seg-01.wav", seconds: 6 }],
+    };
+    expect(reusableSegment({ manifest: self, index: 0, text, profile: "chen-zhuo-film", fileExists: true })).toBe(true);
+  });
+
+  it("**改了稿子**（同一句下标、文本变了）→ 不复用（这是修掉的真实缺陷：曾经会静默复用旧音频）", () => {
+    const oldText = "大家好，我是陈卓。";
+    const newText = "这次我们换个说法。";
+    const self: SegmentManifest = {
+      ...manifest(),
+      segments: [{ index: 0, sha256: hash16(oldText), profile: "chen-zhuo-film", file: "seg-01.wav", seconds: 6 }],
+    };
+    expect(reusableSegment({ manifest: self, index: 0, text: newText, profile: "chen-zhuo-film", fileExists: true })).toBe(false);
+  });
+
+  it("换了音色档案 → 不复用（同文本不同音色不是同一个产物）", () => {
+    const text = "大家好，我是陈卓。";
+    const self: SegmentManifest = {
+      ...manifest(),
+      segments: [{ index: 0, sha256: hash16(text), profile: "zh-myvoice", file: "seg-01.wav", seconds: 6 }],
+    };
+    expect(reusableSegment({ manifest: self, index: 0, text, profile: "chen-zhuo-film", fileExists: true })).toBe(false);
+  });
+
+  it("文件丢了 / 没有清单 → 不复用（宁可重合成，也不赌）", () => {
+    const text = "大家好，我是陈卓。";
+    const self: SegmentManifest = {
+      ...manifest(),
+      segments: [{ index: 0, sha256: hash16(text), profile: "chen-zhuo-film", file: "seg-01.wav", seconds: 6 }],
+    };
+    expect(reusableSegment({ manifest: self, index: 0, text, profile: "chen-zhuo-film", fileExists: false })).toBe(false);
+    expect(reusableSegment({ manifest: null, index: 0, text, profile: "chen-zhuo-film", fileExists: true })).toBe(false);
+  });
+
+  it("一次性迁移路径：清单由已有文件推导（derivedFrom=assumed）时，文件在即复用", () => {
+    const assumed = manifest({ segments: [], derivedFrom: "assumed-from-existing-files" });
+    expect(reusableSegment({ manifest: assumed, index: 3, text: "任意", profile: "chen-zhuo-film", fileExists: true })).toBe(true);
+    expect(reusableSegment({ manifest: assumed, index: 3, text: "任意", profile: "chen-zhuo-film", fileExists: false })).toBe(false);
+  });
+});
+
+describe("渲染任务断点续跑（provider 的接管判据）", () => {
+  it("已 rendered 且产物仍在 → 跳过重渲", () => {
+    const file = join(mkdtempSync(join(tmpdir(), "wb-resume-")), "scene-01.mp4");
+    writeFileSync(file, "x");
+    expect(resumableScene({ sceneNo: 1, sceneId: "scene-01", status: "rendered", annotationPath: "a", outputPath: file })).toBe(true);
+  });
+
+  it("状态是 rendered 但产物被删了 → 必须重渲（不能把「文件没了」当成功）", () => {
+    expect(resumableScene({
+      sceneNo: 1, sceneId: "scene-01", status: "rendered",
+      annotationPath: "a", outputPath: "/definitely/not/here.mp4",
+    })).toBe(false);
+  });
+
+  it("rendering / pending / failed → 都要重跑（上一轮死在渲染中的幕没有终结态）", () => {
+    for (const status of ["rendering", "pending", "failed"] as const) {
+      expect(resumableScene({ sceneNo: 2, sceneId: "scene-02", status, annotationPath: "a", outputPath: "/tmp/x.mp4" })).toBe(false);
+    }
+  });
+});
+
+/** 与 narration.ts#textSha 同算法（测试里独立实现一次，避免"用被测代码验证被测代码"） */
+function hash16(text: string): string {
+  return createHash("sha256").update(text).digest("hex").slice(0, 16);
+}
 
 describe("engine 环境与开关", () => {
   it("WHITEBOARD_ENABLED=0 时一律判为不可用（即使 venv 在）", () => {

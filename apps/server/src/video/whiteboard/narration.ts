@@ -142,7 +142,7 @@ export interface NarrationResult {
  *   ① 文件存在；② 清单里该下标的 `sha256(文本)` 与当前稿子一致；③ 音色档案一致。
  * 三者任一不符就重新合成该句。
  */
-interface SegmentManifestEntry {
+export interface SegmentManifestEntry {
   index: number;
   sha256: string;
   profile: string;
@@ -150,7 +150,7 @@ interface SegmentManifestEntry {
   seconds: number;
 }
 
-interface SegmentManifest {
+export interface SegmentManifest {
   schema: "workloom.whiteboard-narration/v1";
   scriptSha256: string;
   profile: string;
@@ -167,6 +167,24 @@ interface SegmentManifest {
 
 function textSha(text: string): string {
   return createHash("sha256").update(text).digest("hex").slice(0, 16);
+}
+
+/**
+ * 单句是否可复用（导出为**纯函数**，便于单测穷举"改了稿子/换了音色/文件丢了"三种情况）。
+ * 判定必须同时满足：文件存在 + 清单里该句文本哈希一致 + 音色档案一致。
+ */
+export function reusableSegment(args: {
+  manifest: SegmentManifest | null;
+  index: number;
+  text: string;
+  profile: string;
+  fileExists: boolean;
+}): boolean {
+  if (!args.fileExists || !args.manifest) return false;
+  const entry = args.manifest.segments.find((s) => s.index === args.index);
+  if (entry) return entry.sha256 === textSha(args.text) && entry.profile === args.profile;
+  // 一次性迁移路径：清单刚由"已有文件"推导出来，尚无逐条记录
+  return args.manifest.derivedFrom === "assumed-from-existing-files";
 }
 
 function readManifest(path: string): SegmentManifest | null {
@@ -280,11 +298,9 @@ export async function synthesizeNarration(opts: SynthesizeOptions): Promise<Narr
     }
   }
   const reusable = (i: number): boolean => {
-    if (!existsSync(files[i]!)) return false;
-    const entry = manifest!.segments.find((s) => s.index === i);
-    if (entry) return entry.sha256 === textSha(sentences[i]!) && entry.profile === cfg.profile;
-    // 迁移路径：清单里还没有这一条（`assumed-from-existing-files`），文件在即视为可复用
-    return manifest!.derivedFrom === "assumed-from-existing-files";
+    return reusableSegment({
+      manifest, index: i, text: sentences[i]!, profile: cfg.profile, fileExists: existsSync(files[i]!),
+    });
   };
 
   const synthesizeOne = async (i: number, text: string): Promise<void> => {
