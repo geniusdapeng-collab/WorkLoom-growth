@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   AV_SYNC_POLICY,
+  buildCutAudioStep,
   crossCorrelationLag,
   describeAvSync,
   evaluateAvSync,
@@ -94,5 +95,30 @@ describe("evaluateAvSync", () => {
     const report = evaluateAvSync([]);
     expect(report.ok).toBe(false);
     expect(report.violations[0]).toMatch(/没有任何可测窗口/);
+  });
+});
+
+describe("buildCutAudioStep", () => {
+  /**
+   * 2026-09-27 真机事故回归：硬切口曾用 `acrossfade=d=0.01` 凑数，
+   * 每刀吃掉 10ms 音频（18 镜 14 刀 → 音轨比画面短 294ms、尾镜 -132.9ms 单调漂移），
+   * 被 compose 的 av-sync 硬闸判红。硬切口必须走 `concat`，长度守恒。
+   */
+  it("硬切口走 concat（长度守恒），不得出现 0.01s 的 acrossfade", () => {
+    const step = buildCutAudioStep({ prevLabel: "[aex0]", nextLabel: "[aex1]", outLabel: "[a1]", overlapSec: 0 });
+    expect(step).toBe("[aex0][aex1]concat=n=2:v=0:a=1[a1]");
+    expect(step).not.toMatch(/acrossfade/);
+    expect(step).not.toMatch(/0\.01/);
+  });
+
+  it("转场口按真实转场时长 acrossfade（不接受最小交叉兜底）", () => {
+    const step = buildCutAudioStep({ prevLabel: "[a2]", nextLabel: "[aex3]", outLabel: "[a3]", overlapSec: 0.18 });
+    expect(step).toBe("[a2][aex3]acrossfade=d=0.180000:c1=tri:c2=tri[a3]");
+    expect(step).not.toMatch(/concat/);
+  });
+
+  it("极短转场（如 0.01s）也按声明时长如实生成，而不是被静默替换成硬切", () => {
+    const step = buildCutAudioStep({ prevLabel: "[a4]", nextLabel: "[aex5]", outLabel: "[a5]", overlapSec: 0.01 });
+    expect(step).toBe("[a4][aex5]acrossfade=d=0.010000:c1=tri:c2=tri[a5]");
   });
 });

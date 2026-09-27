@@ -27,6 +27,7 @@ import { basename, dirname, isAbsolute, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import {
   AV_SYNC_POLICY,
+  buildCutAudioStep,
   crossCorrelationLag,
   describeAvSync,
   evaluateAvSync,
@@ -214,7 +215,19 @@ if (transition && transitionDuration > 0) {
     const vOut = `[v${index}]`;
     const aOut = `[a${index}]`;
     steps.push(`${videoLabel}[${index}:v]xfade=transition=${useTransition ? transition : "fade"}:duration=${overlap}:offset=${Math.max(0, offset).toFixed(3)}${vOut}`);
-    steps.push(`${audioLabel}[aex${index}]acrossfade=d=${Math.max(0.01, overlap)}:c1=tri:c2=tri${aOut}`);
+    /**
+     * 硬切口**不能**用 `acrossfade=d=0.01` 凑数（2026-09-27 真机事故）：
+     * acrossfade 每做一刀就吃掉 10ms 音频，而视频侧 `xfade duration=0` 一点不损，
+     * 于是声音相对画面**逐刀提前**（本片 18 镜 14 刀硬切 → 尾镜实测 -132.9ms、
+     * 整条音轨比画面短 294ms），被 compose 的音画对齐硬闸判红。
+     * 现在：硬切口走 `concat`（样点级顺序拼接、长度守恒），只有真转场才 acrossfade。
+     */
+    steps.push(buildCutAudioStep({
+      prevLabel: audioLabel,
+      nextLabel: `[aex${index}]`,
+      outLabel: aOut,
+      overlapSec: overlap,
+    }));
     videoLabel = vOut;
     audioLabel = aOut;
   }

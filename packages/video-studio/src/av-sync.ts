@@ -191,3 +191,30 @@ export function describeAvSync(report: AvSyncReport): string {
   const drift = report.driftMs === null ? "n/a" : `${report.driftMs.toFixed(1)}ms`;
   return `音画对齐 ok：可测 ${report.measured} 镜，最大偏移 ${report.maxAbsLagMs.toFixed(1)}ms，累计漂移 ${drift}`;
 }
+
+/**
+ * 拼一刀**音频**的 filter 步骤（2026-09-27 真机事故修复）。
+ *
+ * 事故：`xfade duration=0` 等价硬切、视频侧一点不损；音频侧早先用
+ * `acrossfade=d=Math.max(0.01, overlap)`「凑最小交叉」——于是**每一刀硬切都吃掉 10ms 音频**。
+ * 本片（18 镜、14 刀硬切）实测：音轨比画面短 294ms，尾镜音画偏移 -132.9ms、单调漂移 -131.4ms，
+ * 被 compose 的音画对齐硬闸直接判红（报告 `*.av-sync.json`），而终审拿它当"素材拼接坏"的证据。
+ *
+ * 口径：转场口按真实转场时长 `acrossfade`；**硬切口走 `concat`**（样点级顺序拼接，长度守恒），
+ * 不再用任何"最小交叉"兜底——硬切就该是硬切，音频不许被静默削短。
+ */
+export function buildCutAudioStep(options: {
+  /** 上一段音频的 filter 标签，如 `[aex0]` / `[a3]` */
+  prevLabel: string;
+  /** 本段音频的 filter 标签，如 `[aex4]` */
+  nextLabel: string;
+  /** 输出标签，如 `[a4]` */
+  outLabel: string;
+  /** 该刀口的转场时长（秒）；0 = 硬切 */
+  overlapSec: number;
+}): string {
+  const { prevLabel, nextLabel, outLabel, overlapSec } = options;
+  return overlapSec > 0
+    ? `${prevLabel}${nextLabel}acrossfade=d=${overlapSec.toFixed(6)}:c1=tri:c2=tri${outLabel}`
+    : `${prevLabel}${nextLabel}concat=n=2:v=0:a=1${outLabel}`;
+}
