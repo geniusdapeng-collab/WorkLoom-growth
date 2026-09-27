@@ -17,6 +17,8 @@ export interface ScenePolicySourceDecision {
   id: string | null;
   version: string | null;
   sourceSha256: string | null;
+  reason: string;
+  evidence: string[];
 }
 
 export interface ScenePolicyProductionSource {
@@ -68,6 +70,13 @@ function exactPolicy(value: unknown, policy: ScenePolicy): boolean {
     && candidate.sourceSha256 === policy.sourceSha256;
 }
 
+function exactSelection(value: unknown, decision: ScenePolicySourceDecision): boolean {
+  const candidate = record(value);
+  return candidate?.id === decision.id && candidate.version === decision.version
+    && candidate.sourceSha256 === decision.sourceSha256 && candidate.reason === decision.reason
+    && Array.isArray(candidate.evidence) && JSON.stringify(candidate.evidence) === JSON.stringify(decision.evidence);
+}
+
 function nonemptyHash(value: unknown): value is string {
   return typeof value === "string" && /^[a-f0-9]{64}$/.test(value);
 }
@@ -83,9 +92,13 @@ export function verifyScenePolicyProductionSource(
   if (!Number.isSafeInteger(attempt) || attempt < 1 || !shotId.trim() || !source.projectId.trim())
     fail("项目、执行编号或镜头号无效");
   if (decision.id === null) {
-    if (policy || output.scenePolicyPassed !== undefined || output.scenePolicyReportRef !== undefined
-      || output.shotlistRef !== undefined || record(prompts.scenePolicy)?.id)
+    if (decision.version !== null || decision.sourceSha256 !== null) fail("空片型决策仍携带知识版本");
+    if (policy || report || shotlist || output.scenePolicyPassed !== undefined
+      || output.scenePolicyReportRef !== undefined || output.scenePolicyReportSha256 !== undefined
+      || output.shotlistRef !== undefined || output.shotlistSha256 !== undefined || record(prompts.scenePolicy)?.id)
       fail("客户需求决策为无片型，但预生产带有片型产物，须重新选型和预生产");
+    if (prompts.scenePolicy !== undefined && !exactSelection(prompts.scenePolicy, decision))
+      fail("空片型提示词包与本次选型事件不一致");
     return null;
   }
   if (!policy || !nonemptyHash(policy.sourceSha256) || !exactPolicy(decision, policy))
@@ -99,11 +112,12 @@ export function verifyScenePolicyProductionSource(
     || output.shotlistRef !== shotlistRef || !nonemptyHash(output.shotlistSha256))
     fail(`${policy.id} 缺少本次完整片型审计报告或镜头表的摘要引用`);
   if (!report || report.schemaVersion !== "workloom.scene-policy-report/v1" || report.passed !== true
-    || !Array.isArray(report.defects) || report.defects.length !== 0 || !exactPolicy(report.policy, policy))
+    || !Array.isArray(report.defects) || report.defects.length !== 0 || !exactPolicy(report.policy, policy)
+    || report.policy.selection !== decision.reason)
     fail(`${policy.id} 审计报告不是当前通过的知识版本`);
   const sheetPolicy = record(shotlist?.scenePolicy);
   if (!shotlist || !exactPolicy(sheetPolicy, policy)
-    || !exactPolicy(shotlist.scenePolicySelection, policy)
+    || !exactSelection(shotlist.scenePolicySelection, decision)
     || !Array.isArray(shotlist.shots) || !shotlist.shots.length)
     fail(`${policy.id} 完整镜头表缺失或政策身份不一致`);
   const exceptions = sheetPolicy?.exceptions;
@@ -121,7 +135,7 @@ export function verifyScenePolicyProductionSource(
       planCues: report.planCues, exceptionsApplied: report.exceptionsApplied, defects: report.defects }))
     fail(`${policy.id} 镜头表重算与审计报告不一致，须重新预生产`);
   if (prompts.attempt !== attempt || prompts.stageId !== "preproduction"
-    || !exactPolicy(prompts.scenePolicy, policy) || !Array.isArray(prompts.shots)
+    || !exactSelection(prompts.scenePolicy, decision) || !Array.isArray(prompts.shots)
     || prompts.shots.length !== shots.length)
     fail(`${policy.id} 本次完整提示词包与审计片单不一致`);
   const promptShots = prompts.shots as JsonRecord[];
@@ -133,8 +147,9 @@ export function verifyScenePolicyProductionSource(
   }
   for (const card of shots) {
     if (typeof card?.shotId !== "string" || typeof card.prompt !== "string"
-      || !card.prompt.trim() || promptById.get(card.shotId)?.prompt !== card.prompt)
-      fail(`${policy.id} 提示词包与完整镜头表的镜头/提示词未逐一对应`);
+      || !card.prompt.trim() || promptById.get(card.shotId)?.prompt !== card.prompt
+      || promptById.get(card.shotId)?.durationSec !== Number(card.duration))
+      fail(`${policy.id} 提示词包与完整镜头表的镜头/时长/提示词未逐一对应`);
   }
   const audited = shots.filter((item) => item?.shotId === shotId);
   const produced = promptShots.filter((item) => item?.shotId === shotId);

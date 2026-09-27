@@ -20,7 +20,8 @@ function validSource(): ScenePolicyProductionSource {
   ].map((shot) => applyScenePolicy({ ...shot, prompt: `${shot.scene}；${shot.composition}` }, policy));
   const report = auditScenePolicy({ title: "测试片型", shots }, policy);
   expect(report.passed).toBe(true);
-  const decision = { id: policy.id, version: policy.version, sourceSha256: policy.sourceSha256! };
+  const decision = { id: policy.id, version: policy.version, sourceSha256: policy.sourceSha256!, reason: "测试片型明确命中", evidence: ["title:测试片型"] };
+  report.policy.selection = decision.reason;
   return {
     decision, policy, projectId: "VID-1", attempt: 2, shotId: "S-1",
     output: {
@@ -30,9 +31,9 @@ function validSource(): ScenePolicyProductionSource {
       shotlistRef: "stages/preproduction/attempt-2.shotlist.json",
       shotlistSha256: "c".repeat(64),
     },
-    prompts: { stageId: "preproduction", attempt: 2, scenePolicy: decision,
-      shots: shots.map((shot) => ({ shotId: shot.shotId, prompt: shot.prompt })) },
-    report, shotlist: { title: "测试片型", scenePolicy: decision, scenePolicySelection: decision, shots },
+    prompts: { stageId: "preproduction", attempt: 2, scenePolicy: structuredClone(decision),
+      shots: shots.map((shot) => ({ shotId: shot.shotId, durationSec: shot.duration, prompt: shot.prompt })) },
+    report, shotlist: { title: "测试片型", scenePolicy: structuredClone(decision), scenePolicySelection: structuredClone(decision), shots },
   };
 }
 
@@ -49,6 +50,8 @@ describe("预生产片型证据进入供应商资格前的硬审计", () => {
     expect(() => verifyScenePolicyProductionSource(old)).toThrow(/本次完整片型审计/);
     const stale = validSource(); stale.decision.sourceSha256 = "d".repeat(64);
     expect(() => verifyScenePolicyProductionSource(stale)).toThrow(/知识条目不一致/);
+    const wrongEvidence = validSource(); wrongEvidence.decision.evidence = ["另一个客户来源"];
+    expect(() => verifyScenePolicyProductionSource(wrongEvidence)).toThrow(/政策身份不一致/);
     const rejected = validSource(); rejected.report!.passed = false;
     expect(() => verifyScenePolicyProductionSource(rejected)).toThrow(/审计报告不是当前通过/);
     const forged = validSource();
@@ -60,22 +63,27 @@ describe("预生产片型证据进入供应商资格前的硬审计", () => {
     const missing = validSource(); missing.shotId = "S-3";
     expect(() => verifyScenePolicyProductionSource(missing)).toThrow(/不在本次唯一完整片单/);
     const changed = validSource(); (changed.prompts.shots as Array<{ prompt: string }>)[0]!.prompt = "另一条未经审计的提示词";
-    expect(() => verifyScenePolicyProductionSource(changed)).toThrow(/提示词未逐一对应/);
+    expect(() => verifyScenePolicyProductionSource(changed)).toThrow(/镜头\/时长\/提示词未逐一对应/);
     const noPolicyPrompt = validSource();
     const shots = noPolicyPrompt.shotlist!.shots as ScenePolicyShot[];
     shots[0]!.prompt = "明亮厅堂里主角全景";
     (noPolicyPrompt.prompts.shots as Array<{ prompt: string }>)[0]!.prompt = shots[0]!.prompt;
     expect(() => verifyScenePolicyProductionSource(noPolicyPrompt)).toThrow(/未包含片型\/景别\/口播约束/);
+    const wrongDuration = validSource();
+    (wrongDuration.prompts.shots as Array<{ durationSec: number }>)[0]!.durationSec = 2;
+    expect(() => verifyScenePolicyProductionSource(wrongDuration)).toThrow(/镜头\/时长\/提示词未逐一对应/);
   });
 
   it("无片型项目可以继续旧链，但有片型残留不能以 null 决策旁路", () => {
     const unrelated = validSource();
-    unrelated.decision = { id: null, version: null, sourceSha256: null };
+    unrelated.decision = { id: null, version: null, sourceSha256: null, reason: "未命中", evidence: [] };
     unrelated.policy = null;
     expect(() => verifyScenePolicyProductionSource(unrelated)).toThrow(/无片型，但预生产带有片型产物/);
     unrelated.output = { success: true };
     unrelated.prompts = { stageId: "preproduction", attempt: 2, shots: [] };
     unrelated.report = null; unrelated.shotlist = null;
     expect(verifyScenePolicyProductionSource(unrelated)).toBeNull();
+    unrelated.output.scenePolicyReportSha256 = "b".repeat(64);
+    expect(() => verifyScenePolicyProductionSource(unrelated)).toThrow(/无片型，但预生产带有片型产物/);
   });
 });
