@@ -1677,8 +1677,15 @@ if (STAGES.has("spec")) {
      * 命中时给监制与设计者一个明确建议：改"正面走近"或去掉指物。
      */
     const sceneText = `${shot.scene ?? ""} ${shot.sceneDescription ?? ""}`;
-    const priorRisk = /指|挥|递|捧|端/.test(actionText)
-      && /桥|栏杆|船|河|水|岸/.test(sceneText)
+    /**
+     * 判据收紧（2026-09-27 真机 v2 首轮打回）：早先「指」与「水」两处都太宽——
+     * ・「指」把**拇指/手指**这类正常手部描述算成"指物"；
+     * ・「水」把**水磨石/水泥/水杯**这类材质与器物算成"水岸"。
+     * 于是「水磨石地面 + 拇指滑动 + 看向镜头」这种完全正常的口播镜被判成高危构图先验，
+     * 监制据此打回（score 62）。现在只认真正的指物动作与真正的水体/桥栏语义。
+     */
+    const priorRisk = /指(物|向|点|着|了指)|挥(手|动)?示意|递(物|出)|捧起|端(起|着)/.test(actionText)
+      && /(水岸|水面|水边|河水|江水|江面|河面|湖面|湖边|海边|岸边|桥|栏杆|船)/.test(sceneText)
       && /面向镜头|看向镜头|正对镜头|正脸|眼神交流/.test(actionText);
     checks.push({
       id: `prior-risk:${shot.shotId}`, pass: !priorRisk, hard: false,
