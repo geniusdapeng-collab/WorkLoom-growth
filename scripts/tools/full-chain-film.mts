@@ -39,8 +39,8 @@ import { homedir } from "node:os";
 import { tmpdir } from "node:os";
 import { basename, dirname, isAbsolute, join, resolve } from "node:path";
 import YAML from "yaml";
-import { loadOrCreateFilmAuthorContext, reviewFilmStage } from "../../packages/video-studio/src/film-contracts.js";
-import type { ProducerGateOptions } from "../../packages/video-studio/src/producer-gate.js";
+import { filmReviewContracts, loadOrCreateFilmAuthorContext, reviewFilmStage } from "../../packages/video-studio/src/film-contracts.js";
+import { buildProducerReviewContract, type ProducerGateOptions } from "../../packages/video-studio/src/producer-gate.js";
 import { executeRevision } from "../../packages/video-studio/src/revision-executor.js";
 import { assessVoiceArtifact, fingerprintFile, fingerprintText, promoteDubCandidate, type VoiceArtifactRecord } from "./film-voice-artifact.js";
 import {
@@ -63,6 +63,9 @@ import {
   measureBpm, beatGridReport, checkShotOrder, assessVariantAxes, VARIANT_MIN_COUNT, auditDeliverableNaming,
   assessCharacterConsistency, medianColor, type CharacterConsistencyReport, type RgbColor,
   normalizePromptLanguage,
+  normalizeDialogueWindow,
+  restoreCardFieldText,
+  mergeUniqueSegments,
   restoreTimelineField,
   environmentDefects, expandShotWithBible, summarizeDefects, validateSceneBible, spaceSummary,
   applyScenePolicy, auditScenePolicy, loadScenePolicies, selectScenePolicy, PRODUCER_RUBRICS,
@@ -2018,7 +2021,7 @@ if (STAGES.has("spec")) {
     const duration = Number(shot.duration ?? 0);
     const chars = dialogueText(shot).replace(/[，。！？、,.!?]/g, "").length;
     const rate = duration > 0 ? chars / duration : 0;
-    const report = prepareShotPrompt(shot as unknown as Record<string, unknown>, { ratio: ASPECT, resolution: SOURCE_RESOLUTION });
+    const report = prepareShotPrompt(shot as unknown as Record<string, unknown>, { ratio: ASPECT, resolution: SOURCE_RESOLUTION, fps: FPS });
     /**
      * 提示词语言与引用归一（2026-09-24 真机，6 镜全部命中）：
      *   · 卡片【语言约束】要求全中文，而 vendor 负面约束默认夹带英文（no text / no watermark…）→ 映射成中文等价；
@@ -2026,9 +2029,39 @@ if (STAGES.has("spec")) {
      * 归一后如仍有长度 ≥3 的拉丁词，写进阶段记录（供审计看到"还剩哪些英文"），不静默忽略。
      */
     const normalized = normalizePromptLanguage(report.prompt);
+    /**
+     * 镜头卡字段契约回写（2026-09-28 T1 真机监制打回）：
+     * vendor 精炼器把 `bright_constraint` 重写成 40 字通用句、并截断 `pacing`/`depth_of_field`/`makeup`/
+     * `color_palette` 等字段末句，监制逐条比对合同后判"约束被弱化/口径被删"。这里对**卡片更长的行**逐字回写原文。
+     * 场景/道具等扩展类字段行比卡片长，不触发回写。
+     */
+    const contractFields = [
+      { label: "场景", value: mergeUniqueSegments([(shot as Record<string, unknown>).scene, (shot as Record<string, unknown>).sceneDescription]) },
+      { label: "明亮约束", value: (shot as Record<string, unknown>).bright_constraint },
+      { label: "节奏", value: (shot as Record<string, unknown>).pacing },
+      { label: "景深", value: (shot as Record<string, unknown>).depth_of_field },
+      { label: "化妆", value: (shot as Record<string, unknown>).makeup },
+      { label: "色彩/色调", aliases: ["色彩", "色调"], value: (shot as Record<string, unknown>).color_palette },
+      { label: "角色", value: (shot as Record<string, unknown>).character },
+      { label: "情绪", value: (shot as Record<string, unknown>).mood },
+      { label: "转场", value: (shot as Record<string, unknown>).transition },
+      { label: "服装", value: (shot as Record<string, unknown>).costume },
+      { label: "构图", value: (shot as Record<string, unknown>).composition },
+      { label: "动作", value: (shot as Record<string, unknown>).action },
+      { label: "基础", value: (shot as Record<string, unknown>).baseline },
+      { label: "导演意图", value: (shot as Record<string, unknown>).director_instruction },
+      { label: "灯光设计", aliases: ["灯光/照明", "照明"], value: (shot as Record<string, unknown>).lighting },
+    ];
+    const contractFixed = restoreCardFieldText(normalized.prompt, contractFields);
     /** 时间轴补全（vendor 组装器会截断末段节拍，实测 6/6 镜） */
-    const timelineFixed = restoreTimelineField(normalized.prompt, (shot as Record<string, unknown>).timeline);
-    const finalPrompt = timelineFixed.prompt;
+    const timelineFixed = restoreTimelineField(contractFixed.prompt, (shot as Record<string, unknown>).timeline);
+    /**
+     * 台词窗归一到真实镜头时长（2026-09-28 T1 真机监制打回）：
+     * vendor `_renderDialogueBlocks` 用 `Math.round(duration)` 算窗，4.5s 镜头被写成 `[00s-05s]`，
+     * 与合同「每镜 4.5 秒」冲突，生成端可能照 5s 拉长口播。这里按真实小数时长重排。
+     */
+    const dialogueFixed = normalizeDialogueWindow(timelineFixed.prompt, duration);
+    const finalPrompt = dialogueFixed.prompt;
     specReports.push({
       shotId: shot.shotId, charCount: finalPrompt.length, promptSource: report.promptSource,
       deliveryPass: report.delivery.pass, issues: report.delivery.issues,
@@ -2036,7 +2069,9 @@ if (STAGES.has("spec")) {
       sceneSubstituted: report.sceneSubstituted, sceneSubstitution: report.sceneSubstitution,
       languageNormalized: {
         replacements: normalized.replacements, dedupedRefs: normalized.dedupedRefs,
-        remainingLatin: normalized.remainingLatin, timelineRestored: timelineFixed.restored
+        remainingLatin: normalized.remainingLatin, timelineRestored: timelineFixed.restored,
+        dialogueWindowClamped: dialogueFixed.clamped, dialogueWindowFrom: dialogueFixed.from,
+        contractRestored: contractFixed.restored
       }
     });
     /** 【场景】被 vendor 写实校验替换/漂移：必须在运行日志里显性出现（不得静默换掉卡片场景） */
@@ -2047,6 +2082,12 @@ if (STAGES.has("spec")) {
       log(`  ${shot.shotId}: 提示词归一（英文负面词→中文 ${normalized.replacements} 处 · 角色图去重 ${normalized.dedupedRefs} 处）`);
     }
     if (timelineFixed.restored) log(`  ${shot.shotId}: 时间轴补全（组装器截断了第 ${timelineFixed.segments} 段节拍）`);
+    if (contractFixed.restored.length > 0) {
+      log(`  ${shot.shotId}: 合同字段回写 ${contractFixed.restored.length} 项（${contractFixed.restored.map((item) => `${item.label}+${item.added}字`).join("、")}）`);
+    }
+    if (dialogueFixed.clamped > 0) {
+      log(`  ${shot.shotId}: 台词时间窗归一到本镜时长 ${duration}s（${dialogueFixed.from.join(" / ")} → 修正后窗口已写入提示词）`);
+    }
     writeFileSync(join(PROMPT_DIR, `${shot.shotId}.txt`), `${finalPrompt}\n`, "utf8");
     const promptFile = join(PROMPT_DIR, `${shot.shotId}.txt`);
     checks.push({
@@ -2067,6 +2108,21 @@ if (STAGES.has("spec")) {
     checks.push({
       id: `speech-rate:${shot.shotId}`, pass: rate <= 3.6, hard: true,
       detail: `台词 ${chars} 字 / ${duration}s = ${rate.toFixed(2)} 字每秒（上限 3.6）`
+    });
+    /**
+     * 台词窗闸（2026-09-28 T1 真机监制打回）：提示词里的【台词】时间窗不得超过本镜时长。
+     * 归一后理论上必然成立，这里按**产物文本**复核而不是相信上游，防止 vendor 改格式后静默漏修。
+     */
+    const dialogueWindows = [...finalPrompt.matchAll(/\[(\d+(?:\.\d+)?)s-(\d+(?:\.\d+)?)s\]/g)]
+      .filter((item, index, list) => list.findIndex((other) => other[0] === item[0]) === index);
+    const windowOverrun = duration > 0 ? dialogueWindows.filter((item) => Number(item[2]) > duration + 1e-9) : [];
+    checks.push({
+      id: `dialogue-window:${shot.shotId}`, pass: windowOverrun.length === 0, hard: true,
+      detail: dialogueWindows.length === 0
+        ? "无台词时间窗（无需核验）"
+        : windowOverrun.length > 0
+          ? `台词窗 ${windowOverrun.map((item) => item[0]).join("、")} 超出本镜时长 ${duration}s`
+          : `台词窗 ${dialogueWindows.map((item) => item[0]).join("、")} 在本镜 ${duration}s 内`
     });
     /**
      * 分镜自相矛盾闸（2026-09-24 SC-02 badcase）：
@@ -2183,7 +2239,7 @@ if (STAGES.has("spec")) {
       evidence: { materialShots: shots.length }
     });
   } else {
-  const verdict = await reviewStage({
+  const promptReviewOptions: Omit<ProducerGateOptions, "contracts"> = {
     stage: "prompt", projectId: PROJECT,
     rubric: scenePolicy ? [...PRODUCER_RUBRICS.prompt, scenePolicy.prompt.visualReview] : undefined,
     artifacts: [
@@ -2208,10 +2264,58 @@ if (STAGES.has("spec")) {
         + "微动作段（action 里【微动作】之后）是质感层，不参与节拍与动作复杂度判断。"
     }, env: ENV,
     allowFallbackApprove: ALLOW_FALLBACK_APPROVE, log
-  });
+  };
+  let verdict: ProducerVerdict;
+  let scopedReviewFile: string | null = null;
+  if (scenePolicy) {
+    // The complete ten-shot author contract exceeds the producer adapter's per-call context limit.
+    // Review every generated shot with its complete original contract and its own full spec report;
+    // aggregate only after all shot verdicts exist. The global deterministic checks remain on G6.
+    const scoped: Array<{ shotId: string; verdict: ProducerVerdict }> = [];
+    const allShotIds = shots.map((item) => item.shotId);
+    for (const shot of generatedShots()) {
+      const report = specReports.find((item) => item.shotId === shot.shotId);
+      if (!report) throw new Error(`PROMPT_REVIEW_SCOPE_MISSING: ${shot.shotId}`);
+      const reportFile = join(PROMPT_DIR, `spec-report-${shot.shotId}.json`);
+      writeFileSync(reportFile, `${JSON.stringify(report, null, 2)}\n`, "utf8");
+      const perShot = await reviewStage({
+        ...promptReviewOptions,
+        artifacts: [
+          { path: reportFile, kind: "json" },
+          { path: join(PROMPT_DIR, `${shot.shotId}.txt`), kind: "text" },
+        ],
+        deterministic: checks.filter((check) => !allShotIds.some((id) => check.id.endsWith(`:${id}`)) || check.id.endsWith(`:${shot.shotId}`)),
+        context: { ...promptReviewOptions.context, shotId: shot.shotId },
+      });
+      scoped.push({ shotId: shot.shotId, verdict: perShot });
+    }
+    if (scoped.length !== generatedShots().length) throw new Error("PROMPT_REVIEW_SCOPE_INCOMPLETE");
+    scopedReviewFile = join(PROMPT_DIR, "prompt-review-scoped.json");
+    writeFileSync(scopedReviewFile, `${JSON.stringify(scoped, null, 2)}\n`, "utf8");
+    const approved = scoped.every((item) => item.verdict.approved);
+    const failed = scoped.find((item) => !item.verdict.approved);
+    verdict = {
+      stage: "prompt", status: approved ? "passed" : scoped.some((item) => item.verdict.status === "unverified") ? "unverified" : "failed",
+      approved, score: Math.min(...scoped.map((item) => item.verdict.score)),
+      contractHash: buildProducerReviewContract(filmReviewContracts(filmContractSource)).contractHash,
+      evidence: [...scoped.flatMap((item) => item.verdict.evidence ?? []),
+        { path: scopedReviewFile, sha256: sha256FileSync(scopedReviewFile), scope: "per-shot-verdicts" }],
+      hardFailures: scoped.flatMap((item) => item.verdict.hardFailures.map((issue) => `${item.shotId}: ${issue}`)),
+      issues: scoped.flatMap((item) => item.verdict.issues.map((issue) => `${item.shotId}: ${issue}`)),
+      suggestions: scoped.flatMap((item) => item.verdict.suggestions.map((itemText) => `${item.shotId}: ${itemText}`)),
+      rerun: !approved, via: failed?.verdict.via ?? "llm", model: scoped[0]?.verdict.model,
+      ms: scoped.reduce((sum, item) => sum + item.verdict.ms, 0),
+      reason: approved ? `${scoped.length} 镜原始合同和完整提示词逐镜监制通过`
+        : `${failed!.shotId} 等镜头监制未通过：${failed!.verdict.reason}`,
+      degraded: scoped.some((item) => item.verdict.degraded),
+    };
+  } else {
+    verdict = await reviewStage(promptReviewOptions);
+  }
   record({
     stage: "prompt-review", shotId: null, invoked: true, ok: verdict.approved, cached: false, degraded: verdict.degraded,
-    attempt: 1, ms: verdict.ms, artifact: join(PROMPT_DIR, "spec-report.json"), evidence: { score: verdict.score }, verdict
+    attempt: 1, ms: verdict.ms, artifact: join(PROMPT_DIR, "spec-report.json"),
+    evidence: { score: verdict.score, ...(scopedReviewFile ? { outputFiles: [scopedReviewFile] } : {}) }, verdict
   });
   /** G6 提示词审核（step_key: g6-prompt-confirm）——把 prompt-review 的裁决按门记账 */
   recordGate({
