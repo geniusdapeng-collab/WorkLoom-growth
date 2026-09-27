@@ -2854,7 +2854,28 @@ if (STAGES.has("videos")) {
     return existsSync(plate) && statSync(plate).size > 50_000;
   });
   const promptApproved = historyApproved(gateHistory, "prompt-review") || historyApproved(records, "prompt-review");
-  const plateApproved = generatedShots.every((s) => gateHistory.some((r) => r.stage === "keyframe" && r.shotId === s.shotId && r.ok));
+  /**
+   * 关键帧放行判据（2026-09-27 真机 v2 修正）：**放行必须晚于磁盘上这一版关键帧**。
+   *
+   * 事故：某镜在上一轮被放行（历史里有 ok 记录），本轮提示词变更 → 关键帧缓存失效 → 重渲 3 次全部被打回，
+   * 但失败产物**覆盖了磁盘上的文件名**；G7 只看历史里的 ok 记录 → 误判"已放行"，
+   * 于是用一版**从未被放行的关键帧**去渲染视频（最贵的环节）。判据改为"该镜存在 ok 记录且记录时间 ≥ 关键帧文件 mtime"。
+   */
+  const plateApprovedDetail = generatedShots.map((s) => {
+    const plate = join(PLATE_DIR, `${s.shotId}-plate.png`);
+    if (!existsSync(plate)) return { shotId: s.shotId, ok: false, reason: "缺关键帧文件" };
+    const mtime = statSync(plate).mtimeMs;
+    const approval = [...gateHistory, ...records]
+      .filter((r) => r.stage === "keyframe" && r.shotId === s.shotId && r.ok)
+      .map((r) => Date.parse(r.at))
+      .filter((t) => Number.isFinite(t))
+      .sort((a, b) => b - a)[0];
+    if (approval === undefined) return { shotId: s.shotId, ok: false, reason: "无放行记录" };
+    return approval >= mtime
+      ? { shotId: s.shotId, ok: true, reason: `放行时间晚于关键帧（${new Date(approval).toISOString().slice(11, 19)} ≥ ${new Date(mtime).toISOString().slice(11, 19)}）` }
+      : { shotId: s.shotId, ok: false, reason: `关键帧在放行之后被重渲（${new Date(mtime).toISOString().slice(11, 19)} > 放行 ${new Date(approval).toISOString().slice(11, 19)}）——必须重新过监制` };
+  });
+  const plateApproved = plateApprovedDetail.every((entry) => entry.ok);
   /**
    * 素材镜就绪判据（2026-09-25 口径修订）：**不是"有文件就行"**，而是要求
    * ① 片段在盘上；② G-MAT1 的 **verify 事件**存在（证明做过生成溯源 + 复用度实测 + 监制评审）。
@@ -2891,7 +2912,12 @@ if (STAGES.has("videos")) {
       { id: "prompt-files", pass: promptReady, hard: true, detail: promptReady ? `${generatedShots.length} 个生成镜提示词齐备且 ≥1200 字（另有 ${materialShots.length} 个素材镜走 material-gen 的动效提示词）` : "有生成镜缺提示词或字数不足 1200" },
       { id: "plate-files", pass: plateReady, hard: true, detail: plateReady ? `${generatedShots.length} 个生成镜关键帧齐备（>50KB）` : "有生成镜关键帧缺失或过小" },
       { id: "prompt-approved", pass: promptApproved, hard: true, detail: promptApproved ? "提示词环节有放行裁决（历史/本轮）" : "提示词环节无放行裁决" },
-      { id: "plates-approved", pass: plateApproved, hard: true, detail: plateApproved ? "每镜关键帧均有放行裁决" : "有镜头关键帧未放行" },
+      {
+        id: "plates-approved", pass: plateApproved, hard: true,
+        detail: plateApproved
+          ? `每镜关键帧均有**晚于该文件**的放行裁决（${plateApprovedDetail.filter((e) => e.ok).length}/${generatedShots.length}）`
+          : `有镜头关键帧缺少有效放行：${plateApprovedDetail.filter((e) => !e.ok).map((e) => `${e.shotId}（${e.reason}）`).join("；")}`
+      },
       {
         id: "material-segments", pass: materialReady, hard: true,
         detail: materialReady
