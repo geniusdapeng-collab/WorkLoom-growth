@@ -825,7 +825,12 @@ if (envAuditInScope && envHardTotal > 0 && !envAccepted) {
  */
 const PLATFORM = arg("--platform", "抖音/快手");
 const hookCard: HookCard | null = shotlist.hook ?? null;
-const hookChecks = openingHookChecks({ shots, hook: hookCard, platform: PLATFORM });
+/**
+ * 钩子判据必须看**整片**镜头卡，而不是 `--only` 过滤后的子集（2026-09-27 真机 v2 发现）：
+ * 单镜补渲（`--stages plates --only CF-05`）时，兑现镜 CF-03 不在子集里 → 误报"兑现镜不存在"，
+ * 把一次正常的补渲判成硬失败。首镜与兑现镜都是**片级**概念，口径应为完整 shotlist.shots。
+ */
+const hookChecks = openingHookChecks({ shots: shotlist.shots, hook: hookCard, platform: PLATFORM });
 const hookSummary = summarizeHookChecks(hookChecks);
 /**
  * 钩子音效三条开关口径：显式关（`--no-hook-sfx`）> 显式开（`--hook-sfx`）> 有钩子卡即开。
