@@ -185,11 +185,19 @@ const rejected = () => ({
 
 async function runToTerminal(isMarketing = true) {
   const projectId = `VID-result-${++projectSequence}`;
-  if (!isMarketing) doubles.meta.mockResolvedValue({ kind: "narrative", title: "叙事结果", createdAt: "2026-09-27T00:00:00Z" });
+  if (!isMarketing) useNarrativeProject();
   const runId = worker.startRun(scope, { projectId, intent: "测试预生产结果", isMarketing });
   await vi.waitFor(() => expect(worker.getRun(runId, scope.workspaceId)?.finishedAt).not.toBeNull(), { timeout: 3_000, interval: 10 });
   const entry = worker.getRun(runId, scope.workspaceId)!;
   return { projectId, runId, entry };
+}
+
+/**
+ * 上游新增 PIPELINE_KIND_MISMATCH 校验：预生产管线必须与服务项目 kind 一致。
+ * 本文件默认 meta 是 marketing，叙事用例必须先声明叙事项目，否则 run 会在建档前失败。
+ */
+function useNarrativeProject() {
+  doubles.meta.mockResolvedValue({ kind: "narrative", title: "叙事结果", threadId: "T1", createdAt: "2026-09-27T00:00:00Z" });
 }
 
 async function archiveOutput(projectId: string, attempt: number) {
@@ -230,6 +238,7 @@ describe("预生产原始结果与诚实终态", () => {
 
   it("原始需求选出的 T1 进入建档事件、routeMeta、供应商入参与分镜/提示词包", async () => {
     doubles.runPreproduction.mockResolvedValue(commercialSuccess());
+    useNarrativeProject();
     const started = await worker.startVideoProjectRun(scope, {
       rawIntent: "给企业负责人拍正式商务短片，陈卓出镜口播",
       intent: "给企业负责人拍短片\n[需求口径] 时长：30秒",
@@ -271,6 +280,7 @@ describe("预生产原始结果与诚实终态", () => {
 
   it("供应商返回不合规镜头表时报告落档并在渲染前打回", async () => {
     doubles.runPreproduction.mockResolvedValue(success());
+    useNarrativeProject();
     const started = await worker.startVideoProjectRun(scope, {
       rawIntent: "给企业负责人拍正式商务短片，陈卓出镜口播",
       intent: "给企业负责人拍短片",
@@ -286,6 +296,7 @@ describe("预生产原始结果与诚实终态", () => {
 
   it("既有项目补跑重新选型并留下 routeMeta 变更事件", async () => {
     doubles.runPreproduction.mockResolvedValue(success());
+    useNarrativeProject();
     const projectId = `VID-route-${++projectSequence}`;
     const first = worker.startRun(scope, { projectId, intent: "山间风景片" });
     await vi.waitFor(() => expect(worker.getRun(first, scope.workspaceId)?.finishedAt).not.toBeNull(), { timeout: 3_000, interval: 10 });
