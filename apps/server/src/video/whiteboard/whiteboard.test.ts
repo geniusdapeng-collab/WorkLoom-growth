@@ -22,7 +22,23 @@ import { validateAnnotation, visibleArea } from "./annotate.js";
 import { pipelineKindOf } from "../render-poller.js";
 import { reusableSegment, splitSentences, type SegmentManifest } from "./narration.js";
 import { resumableScene } from "./store.js";
-import { readImageSize, whiteboardEngineReady, whiteboardEnv } from "./engine.js";
+import { projectedWhiteboardSize, readImageSize, whiteboardEngineReady, whiteboardEnv } from "./engine.js";
+import { readWhiteboardParams } from "./provider.js";
+
+describe("白板输出画布契约", () => {
+  it("UHD 线稿按引擎网格对齐后为原生 3840×2160", () => {
+    expect(projectedWhiteboardSize({ width: 1672, height: 941 }, 3840))
+      .toEqual({ width: 3840, height: 2160 });
+    expect(projectedWhiteboardSize({ width: 1024, height: 1024 }, 3840))
+      .toEqual({ width: 3840, height: 3840 });
+  });
+
+  it("provider 拒绝 UHD 档位与 HD 长边混用", () => {
+    const req = { prompt: "", estimatedUnits: 1,
+      params: { extra: { whiteboard: { projectId: "p", scenes: [{ sceneNo: 1 }], quality: "uhd", capLongEdge: 1280 } } } };
+    expect(() => readWhiteboardParams(req as Parameters<typeof readWhiteboardParams>[0])).toThrow(/长边参数非法/);
+  });
+});
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(HERE, "../../../../..");
