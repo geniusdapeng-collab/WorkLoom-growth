@@ -65,12 +65,14 @@ import {
   normalizePromptLanguage,
   restoreTimelineField,
   environmentDefects, expandShotWithBible, summarizeDefects, validateSceneBible, spaceSummary,
+  applyScenePolicy, auditScenePolicy, loadScenePolicies, selectScenePolicy, PRODUCER_RUBRICS,
   openingHookChecks, summarizeHookChecks, validateHookCard, defaultHookSfx, hookWindowFor, HOOK_TYPE_LABELS, HOOK_WINDOW_SEC,
   deviceDefects, summarizeDeviceDefects, DEVICE_POLICY_VERSION, DEVICE_POLICY_VERIFIED_AT, allowedModelSummary,
   planMicromotion, MICROMOTION_MARKER, MICROMOTION_POLICY_VERSION,
   type CoverAccountProfile, type CoverDesignInput, type CoverMeasurements, type CoverPlan,
   type CoverPlatformSpec, type GateCheck, type GateEvent, type PipelineGateStepKey,
-  type DeviceCategory, type DeviceDefect, type EnvDefect, type HookCard, type MicromotionTrace, type PlatePromptShot, type ProducerVerdict, type SceneBible
+  type DeviceCategory, type DeviceDefect, type EnvDefect, type HookCard, type MicromotionTrace, type PlatePromptShot,
+  type ProducerVerdict, type SceneBible, type ScenePolicyReport
 } from "../../packages/video-studio/src/index.js";
 import { normalizeShotIntent, shotIntentHash, type ShotIntentStatus } from "../../packages/video-studio/src/shot-intent.js";
 
@@ -921,6 +923,7 @@ function detectQualityAccidents(file: string): { blackSeconds: number; silenceSe
 interface ShotCard {
   shotId: string; sceneType?: string; duration?: number;
   scene?: string; sceneDescription?: string; action?: string; character?: string; costume?: string;
+  policyTags?: string[]; speechMode?: "on-camera" | "voice-over"; speechScene?: string;
   makeup?: string; composition?: string; lighting?: string; color_palette?: string; mood?: string;
   dialogue?: Array<{ speaker?: string; text?: string; emotion?: string; trigger?: string }>;
   [key: string]: unknown;
@@ -928,9 +931,43 @@ interface ShotCard {
 const shotlist = structuredClone(sourceDocument) as {
   projectId?: string; title?: string; durationSeconds?: number; aspect?: string; resolution?: string;
   sceneBible?: SceneBible;
+  videoType?: string;
+  logline?: string;
+  scenePolicy?: { id?: string; exceptions?: Array<{ rule: "restricted-location" | "restricted-costume"; shotId: string; term: string; customerRequest: string; source: string }> };
   hook?: HookCard;
   character?: { id?: string; name?: string }; shots: ShotCard[];
 };
+const policyBrief: Record<string, unknown> | null = BRIEF_FILE ? (() => {
+  const file = abs(BRIEF_FILE);
+  if (!existsSync(file)) throw new Error(`--brief 指向的文件不存在：${file}`);
+  const value: unknown = JSON.parse(readFileSync(file, "utf8"));
+  if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error(`--brief 必须是 JSON 对象：${file}`);
+  return value as Record<string, unknown>;
+})() : null;
+const scenePolicies = loadScenePolicies(join(REPO_ROOT, "bundles/ai-video/library/scene-policies"));
+const scenePolicySelection = selectScenePolicy(shotlist, policyBrief, scenePolicies);
+const scenePolicy = scenePolicySelection.policy;
+if (scenePolicy && (ACCEPT_REJECTED.length > 0 || flag("--accept-env-defects"))) {
+  throw new Error(`${scenePolicy.id} 片型的品质底线不得用 --accept-rejected / --accept-env-defects 绕过；请修复或登记客户特殊场景例外`);
+}
+const SCENE_POLICY_REPORT_FILE = join(WORK_DIR, `scene-policy-report-${PROJECT}.json`);
+let scenePolicyReport: ScenePolicyReport | null = scenePolicy ? auditScenePolicy(shotlist, scenePolicy) : null;
+if (scenePolicyReport) scenePolicyReport.policy.selection = scenePolicySelection.reason;
+const writeScenePolicyReport = (): void => {
+  writeFileSync(SCENE_POLICY_REPORT_FILE, `${JSON.stringify(scenePolicyReport ?? {
+    schemaVersion: "workloom.scene-policy-report/v1", policy: null, selection: scenePolicySelection.reason, passed: true
+  }, null, 2)}\n`, "utf8");
+};
+writeScenePolicyReport();
+record({ stage: "scene-policy-audit", shotId: null, invoked: true, ok: scenePolicyReport?.passed ?? true,
+  cached: false, degraded: false, attempt: 1, ms: 0, artifact: SCENE_POLICY_REPORT_FILE,
+  evidence: { policy: scenePolicy?.id ?? null, version: scenePolicy?.version ?? null,
+    sourceSha256: scenePolicy?.sourceSha256 ?? null, selection: scenePolicySelection.reason,
+    defects: scenePolicyReport?.defects ?? [], ratios: scenePolicyReport?.ratios ?? null }, verdict: null });
+if (scenePolicyReport && !scenePolicyReport.passed) {
+  log(`⛔ ${scenePolicy.title} 生成前门禁未通过（${scenePolicyReport.defects.length} 项）：${scenePolicyReport.defects.map((item) => `${item.shotId ?? "全片"}[${item.rule}] ${item.detail}`).join("；")}`);
+  process.exit(7);
+}
 const shotsSelected = ONLY.length > 0 ? shotlist.shots.filter((s) => ONLY.includes(s.shotId)) : shotlist.shots;
 if (!Array.isArray(shotsSelected) || shotsSelected.length === 0) throw new Error("shotlist 里没有镜头");
 
@@ -952,15 +989,16 @@ if (!Array.isArray(shotsSelected) || shotsSelected.length === 0) throw new Error
  *
  * 纪律：圣经只升级**环境**，不改表演/台词/时长/构图（`expandShotWithBible` 的字段白名单）。
  */
-const shots: ShotCard[] = sceneBible
+const baseShots: ShotCard[] = sceneBible
   ? shotsSelected.map((shot) => expandShotWithBible(shot as ShotCard & Record<string, unknown>, sceneBible))
   : shotsSelected;
+const shots: ShotCard[] = scenePolicy ? baseShots.map((shot) => applyScenePolicy(shot, scenePolicy)) : baseShots;
 
 /** 只有"要花钱生成"的阶段才让环境审计 fail-closed；纯后期复跑（compose/subtitle/mux…）不拦 */
 const ENV_AUDIT_STAGES = ["spec", "plates", "material-gen", "videos"] as const;
 const envAuditInScope = ENV_AUDIT_STAGES.some((stage) => STAGES.has(stage));
 const envBibleIssues = sceneBible ? validateSceneBible(sceneBible) : [];
-const envDefects: EnvDefect[] = environmentDefects(shots, sceneBible);
+const envDefects: EnvDefect[] = environmentDefects(baseShots, sceneBible);
 const envSummary = summarizeDefects(envDefects);
 /**
  * 设备口径：新项目默认当前故事日期并冻结，历史场景/品牌要求由源合同明确声明。
@@ -1944,6 +1982,19 @@ if (STAGES.has("micromotion")) {
   log(`微动作增强：${perShot.filter((entry) => entry.status === "passed").length} 镜实际写入，${perShot.filter((entry) => entry.status === "not_applicable").length} 镜不适用；已核验当前卡片${verdict ? `，监制${verdict.approved ? "放行" : "打回"}` : "（未启用 LLM 文本复评）"}`);
 }
 
+/** 摄影知识库和微动作可能重写镜头卡；在真正生成前复核当前完整片型方案。 */
+if (scenePolicy) {
+  for (let index = 0; index < shots.length; index += 1) shots[index] = applyScenePolicy(shots[index]!, scenePolicy);
+  const current = new Map(shots.map((shot) => [shot.shotId, shot]));
+  scenePolicyReport = auditScenePolicy({ ...shotlist, shots: shotlist.shots.map((shot) => current.get(shot.shotId) ?? shot) }, scenePolicy);
+  scenePolicyReport.policy.selection = scenePolicySelection.reason;
+  writeScenePolicyReport();
+  record({ stage: "scene-policy-postplan", shotId: null, invoked: true, ok: scenePolicyReport.passed,
+    cached: false, degraded: false, attempt: 1, ms: 0, artifact: SCENE_POLICY_REPORT_FILE,
+    evidence: { policy: scenePolicy.id, version: scenePolicy.version, defects: scenePolicyReport.defects, ratios: scenePolicyReport.ratios }, verdict: null });
+  if (!scenePolicyReport.passed) throw new Error(`${scenePolicy.title} 后置分镜门禁未过：${scenePolicyReport.defects.map((item) => `${item.shotId ?? "全片"}[${item.rule}] ${item.detail}`).join("；")}`);
+}
+
 /** 后续审核与生成共享这份当前镜头快照；每次替换镜头卡后均从 shots 重建视图。 */
 const CURRENT_SHOTS_FILE = join(WORK_DIR, `shotlist-current-${PROJECT}.json`);
 writeFileSync(CURRENT_SHOTS_FILE, `${JSON.stringify({ projectId: PROJECT, shots }, null, 2)}\n`, "utf8");
@@ -2001,6 +2052,13 @@ if (STAGES.has("spec")) {
     checks.push({
       id: `delivery:${shot.shotId}`, pass: report.delivery.pass, hard: true,
       detail: report.delivery.pass ? `交付闸通过（${finalPrompt.length} 字 · ${report.promptSource}）` : `交付闸未过：${report.delivery.issues.join("；")}`
+    });
+    const primaryPolicyTag = scenePolicy ? shot.policyTags?.find((tag) => scenePolicy.primaryTags.includes(tag)) : undefined;
+    const policyPromptPresent = !scenePolicy || (finalPrompt.includes(scenePolicy.prompt.scene)
+      && Boolean(primaryPolicyTag && finalPrompt.includes(scenePolicy.prompt.byTag[primaryPolicyTag] ?? "\u0000")));
+    checks.push({
+      id: `scene-policy-prompt:${shot.shotId}`, pass: policyPromptPresent, hard: true,
+      detail: policyPromptPresent ? "片型场景与景别约束已进入最终视频提示词" : "最终视频提示词缺片型场景或景别约束，禁止生成"
     });
     checks.push({
       id: `char-count:${shot.shotId}`, pass: finalPrompt.length >= 1200, hard: true,
@@ -2077,7 +2135,7 @@ if (STAGES.has("spec")) {
     motionBudgetNotes.push({ shotId: shot.shotId, beats, advice: beats > 8 ? "节拍偏多（建议 ≤8），可合并同拍的连续位移" : "节拍在预算内" });
     if (rate > 3.6) rateFail += 1;
     record({
-      stage: "spec", shotId: shot.shotId, invoked: true, ok: report.delivery.pass && report.charCount >= 1200,
+      stage: "spec", shotId: shot.shotId, invoked: true, ok: report.delivery.pass && report.charCount >= 1200 && policyPromptPresent,
       cached: false, degraded: report.degraded, attempt: 1, ms: Date.now() - started,
       artifact: promptFile,
       evidence: {
@@ -2127,6 +2185,7 @@ if (STAGES.has("spec")) {
   } else {
   const verdict = await reviewStage({
     stage: "prompt", projectId: PROJECT,
+    rubric: scenePolicy ? [...PRODUCER_RUBRICS.prompt, scenePolicy.prompt.visualReview] : undefined,
     artifacts: [
       { path: join(PROMPT_DIR, "spec-report.json"), kind: "json" },
       /** 只送**生成镜**的提示词；真实素材段没有提示词文件（硬塞路径会让监制读到空文件） */
@@ -2135,6 +2194,8 @@ if (STAGES.has("spec")) {
     deterministic: checks,
     context: {
       title: shotlist.title, shots: generatedShots().length, materialShots: materialShots().map((s) => s.shotId), rateFail,
+      scenePolicy: scenePolicyReport ? { id: scenePolicy!.id, version: scenePolicy!.version, ratios: scenePolicyReport.ratios,
+        exceptionsApplied: scenePolicyReport.exceptionsApplied } : null,
       /** 节拍预算：只报数不拦（监制可据情权衡，不作 PASS/FAIL） */
       motionBudget: motionBudgetNotes,
       poseContradictionRule: "同一镜「面向镜头」与「转身/侧身/背身」互斥；「桥/栏杆/船/河 + 指物 + 正面」属高漂移先验，建议改正面走近或删指物",
@@ -2297,12 +2358,14 @@ if (STAGES.has("plates")) {
         const expected = aspectWidth! / aspectHeight!;
         const verdict = await reviewStage({
           stage: "keyframe", projectId: PROJECT,
+          rubric: scenePolicy ? [...PRODUCER_RUBRICS.keyframe, scenePolicy.prompt.visualReview] : undefined,
           artifacts: [{ path: plate, kind: "image", bytes: Number(info.bytes ?? 0), probe: info }],
           deterministic: [
             { id: "bytes", pass: Number(info.bytes ?? 0) > 50_000, detail: `文件 ${((Number(info.bytes ?? 0)) / 1024).toFixed(0)}KB`, hard: true },
             { id: "aspect", pass: Math.abs(ratio - expected) < 0.06, detail: `${width}x${height}（期望比例 ${expected.toFixed(3)}，实测 ${ratio.toFixed(3)}）`, hard: true }
           ],
-          referenceImages: portraitRefs.slice(0, 2), context: { shotId: shot.shotId, scene: shot.scene, action: shot.action }, env: ENV,
+          referenceImages: portraitRefs.slice(0, 2), context: { shotId: shot.shotId, scene: shot.scene, action: shot.action,
+            scenePolicy: scenePolicy ? { id: scenePolicy.id, tags: shot.policyTags, speechScene: shot.speechScene } : null }, env: ENV,
           allowFallbackApprove: ALLOW_FALLBACK_APPROVE, log
         });
         record({
@@ -3082,7 +3145,8 @@ if (STAGES.has("material-gen")) {
               "真实地标保真：首帧里的真实地标/建筑形制、檐口层叠、匾额与文字标识、周边水域与地形关系在画面上保持不变（不得被改造、臆造或增删构件）",
               "不是静态直出：不允许「把素材照片放大/平移当镜头」的观感（画面出现全幅一致的位移/缩放痕迹即判不合格）",
               "画质与质感：写实摄影质感，无 AI 绘画感/塑料感，无结构畸变、无纹理重复、无穿模",
-              "无文字与水印：画面内不得出现新增文字、字幕、LOGO、边框、角标"
+              "无文字与水印：画面内不得出现新增文字、字幕、LOGO、边框、角标",
+              ...(scenePolicy ? [scenePolicy.prompt.visualReview] : [])
             ],
             referenceImages: [prepared],
             deterministic: [
@@ -3278,6 +3342,12 @@ if (STAGES.has("videos")) {
           ? `环境真实性 + 设备口径硬缺陷 0（场景圣经 ${sceneBible ? sceneBible.spaceId : "未提供"}；设备清单 ${DEVICE_POLICY_VERSION}；软提示 ${envSoftTotal} 项，报告 ${basename(ENV_REPORT_FILE)}）`
           : `环境真实性硬缺陷 ${envSummary.hard} 项 + 设备口径硬缺陷 ${devSummary.hard} 项（${Object.entries({ ...envSummary.byRule, ...devSummary.byRule }).map(([rule, count]) => `${rule}×${count}`).join(" · ")}）${envAccepted ? "——已显式声明带瑕疵放行" : "——渲染前必须清零"}`
       },
+      {
+        id: "scene-policy", pass: scenePolicyReport?.passed ?? true, hard: true,
+        detail: scenePolicyReport
+          ? `${scenePolicy!.id}@${scenePolicy!.version} 全片配比和逐镜品质门：${scenePolicyReport.defects.length} 项硬缺陷；报告 ${basename(SCENE_POLICY_REPORT_FILE)}`
+          : "需求未命中已安装的片型知识条目（本门不适用）"
+      },
       /** 开场钩子（2026-09-27 新增岗位/机制）：同 env-realism，结论必须在这道花钱前的门里可见 */
       {
         id: "hook-first-3s", pass: hookSummary.hard === 0 || hookAccepted, hard: true,
@@ -3293,6 +3363,8 @@ if (STAGES.has("videos")) {
     evidence: {
       promptReady, plateReady, promptApproved, plateApproved, materialReady, micromotionReady, micromotionEvidence,
       envRealism: { hard: envSummary.hard, soft: envSummary.soft, byRule: envSummary.byRule, bible: sceneBible?.spaceId ?? null, report: ENV_REPORT_FILE },
+      scenePolicy: scenePolicyReport ? { id: scenePolicy!.id, version: scenePolicy!.version, sourceSha256: scenePolicy!.sourceSha256,
+        ratios: scenePolicyReport.ratios, exceptionsApplied: scenePolicyReport.exceptionsApplied, report: SCENE_POLICY_REPORT_FILE } : null,
       devicePolicy: { version: DEVICE_POLICY_VERSION, hard: devSummary.hard, soft: devSummary.soft, byRule: devSummary.byRule },
       openingHook: {
         platform: PLATFORM, windowSec: hookWindowFor(PLATFORM), hard: hookSummary.hard, soft: hookSummary.soft,
@@ -3354,10 +3426,12 @@ if (STAGES.has("videos")) {
       const settings = cachedShotSettings(shot);
       const verdict = await reviewStage({
         stage: "shot", projectId: PROJECT,
+        rubric: scenePolicy ? [...PRODUCER_RUBRICS.shot, scenePolicy.prompt.visualReview] : undefined,
         artifacts: [{ path: clip, kind: "video", bytes: Number(info.bytes ?? 0), probe: info }, ...settings.frames.map((f) => ({ path: f, kind: "image" as const }))],
         deterministic: settings.checks,
         referenceImages: refs.slice(0, 2),
-        context: { shotId: shot.shotId, dialogue: dialogueText(shot), action: shot.action, note: "复用既有成片的复检" },
+        context: { shotId: shot.shotId, dialogue: dialogueText(shot), action: shot.action, note: "复用既有成片的复检",
+          scenePolicy: scenePolicy ? { id: scenePolicy.id, tags: shot.policyTags, speechScene: shot.speechScene } : null },
         env: ENV, allowFallbackApprove: ALLOW_FALLBACK_APPROVE, log
       });
       record({
@@ -3504,6 +3578,7 @@ if (STAGES.has("videos")) {
         const expectsMotion = /走|步行|漫步|挥|摆|蹲|起身|跑|turn|walk/i.test(String(shot.action ?? ""));
         const verdict = await reviewStage({
           stage: "shot", projectId: PROJECT,
+          rubric: scenePolicy ? [...PRODUCER_RUBRICS.shot, scenePolicy.prompt.visualReview] : undefined,
           artifacts: [
             { path: clip, kind: "video", bytes: Number(info.bytes ?? 0), probe: info },
             ...frameFiles.map((f) => ({ path: f, kind: "image" as const }))
@@ -6004,6 +6079,7 @@ if (STAGES.has("master") && existsSync(scored) && !DRY_RUN) {
   const materialPolicyFails = materialShots().filter((shot) => !stageApproved("gate:material-generate:verify", [shot.shotId], history));
   const verdict = await reviewStage({
     stage: "master", projectId: PROJECT,
+    rubric: scenePolicy ? [...PRODUCER_RUBRICS.master, scenePolicy.prompt.visualReview] : undefined,
     /**
      * 终审证据包（2026-09-24 真机修正）：只给成片本体时，监制会凭"看不到封面产物"判定"封面阶段被跳过"。
      * 这里把封面 PNG、阶段汇总 JSON 一并作为产物附件交给它审。
@@ -6016,7 +6092,8 @@ if (STAGES.has("master") && existsSync(scored) && !DRY_RUN) {
       { path: STAGE_LOG, kind: "json", note: "逐环节阶段日志（invoked/ok/degraded/cached/verdict）" }
     ],
     deterministic: [
-      ...[],
+      { id: "scene-policy", pass: scenePolicyReport?.passed ?? true, hard: true,
+        detail: scenePolicyReport ? `${scenePolicy!.id}@${scenePolicy!.version} 全片配比与逐镜方案审计通过；${basename(SCENE_POLICY_REPORT_FILE)}` : "未命中片型政策，不适用" },
       {
         id: "duration",
         pass: Math.abs(Number(info.duration ?? 0) - expectedMasterSeconds) <= 1.0,
@@ -6206,6 +6283,8 @@ if (STAGES.has("master") && existsSync(scored) && !DRY_RUN) {
     ],
     context: {
       stageSummary, stages: [...STAGES],
+      scenePolicy: scenePolicyReport ? { id: scenePolicy!.id, version: scenePolicy!.version,
+        ratios: scenePolicyReport.ratios, exceptionsApplied: scenePolicyReport.exceptionsApplied } : null,
       narration: coverage.map((entry) => `${entry.shotId}（${entry.speaker}）：${entry.ok ? "有人声" : "缺人声"}`),
       materialPolicy: { version: MATERIAL_POLICY_VERSION, statement: MATERIAL_POLICY_STATEMENT, shots: materialShots().map((s) => s.shotId) }
     },
@@ -6258,6 +6337,7 @@ if (STAGES.has("master") && existsSync(scored) && !DRY_RUN) {
     throw new Error(`UHD 母版终审未放行：${verdict.reason}`);
   } else {
     log(`⛔ 母版终审未放行（score=${verdict.score}）：${verdict.reason}；保留工作产物 ${reviewFile}`);
+    if (scenePolicy) throw new Error(`${scenePolicy.title} 母版终审未放行，已停止交付派生；审片候选留在工作目录：${reviewFile}`);
     process.exitCode = 6;
   }
 }
