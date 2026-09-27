@@ -668,8 +668,7 @@ export const whiteboardRouter = router({
             engine: "whiteboard-local",
             scenes: scenes.length,
             durationMs: scenes.reduce((s, x) => s + (x.duration_ms ?? 0), 0),
-            quality,
-            resolution: quality === "uhd" ? "3840x2160" : null,
+            ...(quality === "uhd" ? { quality, resolution: "3840x2160" } : {}),
           },
           by: actor,
         });

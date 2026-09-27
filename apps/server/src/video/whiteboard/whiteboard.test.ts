@@ -442,6 +442,7 @@ describe("白板 render 路由提交脚本的数据库版本", () => {
   const persisted = () => ({ id: "script-v7", project_id: "project-wb", shot_id: "WHITEBOARD",
     script_key: "whiteboard-project-wb", version: 7, status: "approved", md: "数据库精确正文及备注", fields: { durationMs: 5000, engine: "whiteboard-local" } });
   let current: ReturnType<typeof persisted> | null;
+  let filmCapLongEdge = 1280;
   let fence = "auto";
   const submitted = vi.fn();
   const created = vi.fn();
@@ -456,10 +457,11 @@ describe("白板 render 路由提交脚本的数据库版本", () => {
     vi.doMock("../gen/submit.js", () => ({ submitGenJob: submitted }));
     vi.doMock("@workloom/base/asset-cms", () => ({ create: created }));
     vi.doMock("@workloom/base/fence-engine", () => ({ loadActiveRulesInTx: async () => [], judge: () => ({ level: fence, impacts: [], triggeredBy: [] }) }));
-    vi.doMock("./engine.js", async () => ({ ...await vi.importActual<any>("./engine.js"), whiteboardEngineReady: () => true }));
+    vi.doMock("./engine.js", async () => ({ ...await vi.importActual<any>("./engine.js"),
+      whiteboardEngineReady: () => true, readImageSize: () => ({ width: 1672, height: 941 }) }));
     vi.doMock("../gen/db.js", () => ({ scopedQuery: async (_pool: unknown, actualScope: unknown, sql: string, params: unknown[]) => {
       expect(actualScope).toEqual(scope);
-      if (sql.includes("FROM whiteboard_films")) return [{ id: "film-wb", project_id: "project-wb", script_md: "口播原文", render_fps: 30, cap_long_edge: 1280 }];
+      if (sql.includes("FROM whiteboard_films")) return [{ id: "film-wb", project_id: "project-wb", script_md: "口播原文", render_fps: 30, cap_long_edge: filmCapLongEdge }];
       if (sql.includes("FROM whiteboard_scenes")) return [{ scene_no: 1, lineart_path: "lineart.png", annotation: { elements: [{}] }, duration_ms: 5000 }];
       if (sql.includes("SELECT s.* FROM render_scripts")) {
         expect(params).toEqual([scope.workspaceId, "whiteboard-project-wb", scope.tenantId, "project-wb"]);
@@ -471,7 +473,7 @@ describe("白板 render 路由提交脚本的数据库版本", () => {
     caller = (await import("./router.js")).whiteboardRouter.createCaller({ identity: { ...scope, memberId: "MEM-WB" } } as any);
   });
   beforeEach(() => {
-    current = persisted(); fence = "auto"; submitted.mockReset().mockResolvedValue({ taskId: "task" }); created.mockReset();
+    current = persisted(); filmCapLongEdge = 1280; fence = "auto"; submitted.mockReset().mockResolvedValue({ taskId: "task" }); created.mockReset();
     created.mockImplementation(async (_a, _g, _scope, input) => ({ ...persisted(), id: "script-v1", version: 1, status: "draft", md: input.md, fields: input.fields }));
   });
   it("已有 v7 的正文、字段、状态原样交给唯一提交入口，不伪造 v1", async () => {
@@ -486,6 +488,18 @@ describe("白板 render 路由提交脚本的数据库版本", () => {
     expect(actual.version).toBe(1); expect(actual.md).toContain("手绘白板片");
     expect(actual.fields).toEqual({ engine: "whiteboard-local", scenes: 1, durationMs: 5000 });
     expect(actual.md).not.toBe("口播原文");
+  });
+  it("UHD 首次创建保留画质与分辨率证据，并提交同一脚本版本", async () => {
+    current = null;
+    filmCapLongEdge = 3840;
+    await caller.render({ filmId: "film-wb" });
+    const actual = submitted.mock.calls[0]?.[0];
+    expect(actual.script.fields).toEqual({
+      engine: "whiteboard-local", scenes: 1, durationMs: 5000,
+      quality: "uhd", resolution: "3840x2160",
+    });
+    expect(actual.params.resolution).toBe("3840x2160");
+    expect(actual.params.extra.whiteboard).toMatchObject({ quality: "uhd", capLongEdge: 3840 });
   });
   it("review 未批准时仍在唯一提交入口前拒绝", async () => {
     fence = "review"; current!.status = "draft";
