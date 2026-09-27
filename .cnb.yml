@@ -333,6 +333,13 @@ main:
         namespace: group
         tags:
           - workloom-growth-desktop-windows
+      # PG17/pgvector use a system-wide installation on a persistent runner.
+      # Serialize entire Windows producers across release events before Choco/nmake.
+      lock:
+        key: workloom-desktop-windows-pg17-install
+        expires: 64800
+        wait: true
+        timeout: 64800
       stages:
         - name: 校验发布身份、工具链和签名凭据
           script: |

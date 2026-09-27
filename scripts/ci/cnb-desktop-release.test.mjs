@@ -247,6 +247,12 @@ test("CNB config has main-only signed producers and one locked publisher", () =>
   const jobs = config.main.api_trigger_desktop_release;
   assert.deepEqual(jobs.map((job) => job.name),
     ["desktop-macos", "desktop-windows", "desktop-publisher"]);
+  assert.deepEqual(jobs[1].lock, {
+    key: "workloom-desktop-windows-pg17-install",
+    expires: 64800,
+    wait: true,
+    timeout: 64800,
+  });
   for (const [index, platform] of ["macos", "windows"].entries()) {
     assert.equal(jobs[index].runner.namespace, "group");
     assert.ok(jobs[index].runner.tags.includes(`workloom-growth-desktop-${platform}`));
