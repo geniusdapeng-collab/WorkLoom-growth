@@ -34,7 +34,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  extractFrame, probeMedia, round, runBin, sha256File, tempDir,
+  extractFrame, probeMedia, regionStats, round, runBin, sha256File, tempDir,
 } from "../subtitle-bridge/measure.mjs";
 import {
   buildAssDocument, exportSidecars, loadFontCatalog, plan as planSubtitle,
@@ -428,6 +428,7 @@ export async function normaliseShots({
           || receipt.outputSha256 !== cachedHash || receipt.bytes !== stat.size
           || cachedProbe.width !== width || cachedProbe.height !== height || !cachedProbe.hasAudio
           || cachedProbe.videoCodec !== "h264" || cachedProbe.audioCodec !== "aac"
+          || !(cachedProbe.videoDuration > 0)
           || Math.abs((cachedProbe.fps ?? 0) - fps) > 0.01) {
         throw new PostError(`归一化缓存内容或规格与回执不一致：${target}`, "verify_failed");
       }
@@ -438,7 +439,7 @@ export async function normaliseShots({
       out.push({
         shotId, source, sourceHash, sourceKind, enhancement, quality, path: target, reused: true,
         sha256: cachedHash, bytes: stat.size, mtimeMs: Math.round(stat.mtimeMs),
-        duration: cachedProbe.duration,
+        duration: cachedProbe.videoDuration,
       });
       continue;
     }
@@ -466,6 +467,7 @@ export async function normaliseShots({
       outputProbe = await probeMedia(tempTarget, { bins });
       if (outputProbe.width !== width || outputProbe.height !== height || !outputProbe.hasAudio
           || outputProbe.videoCodec !== "h264" || outputProbe.audioCodec !== "aac"
+          || !(outputProbe.videoDuration > 0)
           || Math.abs((outputProbe.fps ?? 0) - fps) > 0.01) {
         throw new PostError(`镜头 ${shotId} 归一化规格不符：实测 ${outputProbe.width}×${outputProbe.height}/${outputProbe.fps}fps`, "verify_failed");
       }
@@ -485,7 +487,7 @@ export async function normaliseShots({
     out.push({
       shotId, source, sourceHash, sourceKind, enhancement, quality, path: target, reused: false,
       sha256: outputHash, bytes: stat.size, mtimeMs: Math.round((await fsp.stat(target)).mtimeMs),
-      duration: outputProbe.duration,
+      duration: outputProbe.videoDuration,
     });
   }
   return out;
@@ -566,6 +568,7 @@ async function assembleSampleAccurate({
     throw new PostError("样点级拼接需要每个镜头的有效时长", "bad_media");
   }
   const plan = buildSampleAccurateConcatPlan({ listFile: list, clips: measuredClips, output, workDir, fps });
+  await fsp.writeFile(list, plan.concatList, "utf8");
   await runBin(bins.ffmpeg, plan.videoArgs, { label: "ffmpeg(concat-video)", timeoutMs: 900_000 });
   await runBin(bins.ffmpeg, plan.audioArgs, { label: "ffmpeg(concat-audio)", timeoutMs: 900_000 });
   await runBin(bins.ffmpeg, plan.muxArgs, { label: "ffmpeg(concat-mux)", timeoutMs: 900_000 });
@@ -592,10 +595,14 @@ async function assembleSampleAccurate({
     });
   } catch (error) {
     /** 失败也要留报告（审计要能看到"哪一镜偏了多少/为什么测不了"），再原样抛出 */
-    await writeAvSyncReport(output, {
-      ok: false, degraded: false, error: error?.code ?? "av_sync_error",
-      detail: error?.message ?? String(error), report: error?.report ?? null,
-    });
+    try {
+      await writeAvSyncReport(output, {
+        ok: false, degraded: false, error: error?.code ?? "av_sync_error",
+        detail: error?.message ?? String(error), report: error?.report ?? null,
+      });
+    } catch (reportError) {
+      error.reportWriteError = reportError instanceof Error ? reportError.message : String(reportError);
+    }
     throw error;
   }
   await writeAvSyncReport(output, {
@@ -609,11 +616,11 @@ async function assembleSampleAccurate({
 
 /** 音画对齐报告落地（与基座 CLI 同口径：`<输出>.av-sync.json`，便于发布方/审计复核）。 */
 async function writeAvSyncReport(output, payload) {
+  const target = `${output.replace(/\.mp4$/i, "")}.av-sync.json`;
   try {
-    const target = `${output.replace(/\.mp4$/i, "")}.av-sync.json`;
     await fsp.writeFile(target, `${JSON.stringify({ generatedAt: new Date().toISOString(), output, ...payload }, null, 2)}\n`, "utf8");
-  } catch {
-    /* 报告写不进去不改变判定，但要显式吞掉并留在上层日志里（不静默改判） */
+  } catch (error) {
+    throw new PostError(`音画同步报告写入失败：${target}：${error instanceof Error ? error.message : String(error)}`, "io_failed");
   }
 }
 
@@ -637,7 +644,6 @@ export async function assembleTimeline({
 
   if (mode === "hard" || clips.length === 1) {
     const list = path.join(dir, "concat.txt");
-    await fsp.writeFile(list, clips.map((clip) => `file '${clip.path.replaceAll("'", "'\\''")}'`).join("\n"), "utf8");
     /**
      * 硬切拼接的**音画对齐纪律**（2026-09-26 真机事故修复，与基座 compose-film 同口径）：
      * 逐段 aac 音轨按 1024 样点成帧、末帧向上取整 → 每段音轨比画面长 0–21ms；
@@ -669,11 +675,17 @@ export async function assembleTimeline({
       parts.push(target);
     }
     const list = path.join(dir, "fade-concat.txt");
-    await fsp.writeFile(list, parts.map((file) => `file '${file.replaceAll("'", "'\\''")}'`).join("\n"), "utf8");
     /** 淡入淡出路径同样按样点级对齐拼接（各段已重编码，长度口径以各自的 durationSec 为准） */
     const avSync = await assembleSampleAccurate({
       bins, list,
-      clips: clips.map((clip, index) => ({ ...clip, path: parts[index] ?? clip.path })),
+      clips: await Promise.all(clips.map(async (clip, index) => {
+        const file = parts[index] ?? clip.path;
+        const fadedProbe = await probeMedia(file, { bins });
+        if (!(fadedProbe.videoDuration > 0)) {
+          throw new PostError(`淡化镜头 ${clip.shotId} 缺视频轨时长`, "bad_media");
+        }
+        return { ...clip, path: file, duration: fadedProbe.videoDuration };
+      })),
       output, workDir: dir, fps,
       verify: transitions.verifyAvSync !== false,
       allowUnverified: transitions.allowUnverifiedAvSync === true,
@@ -894,10 +906,41 @@ export async function buildCover({
   bins = resolveBinaries(), workDir, catalog = loadFontCatalog(),
 }) {
   const probe = await probeMedia(input, { bins });
-  const at = round(Math.max(0, (probe.duration ?? 1) * optionalNumber(variant.cover?.at, 0.35)), 3);
+  const duration = probe.videoDuration ?? probe.duration;
+  if (!(duration > 0)) throw new PostError("封面来源缺视频轨时长", "bad_media");
+  const maxAt = Math.max(0, duration - 0.1);
+  const requestedAt = round(Math.min(maxAt, Math.max(0, duration * optionalNumber(variant.cover?.at, 0.35))), 3);
   const dir = path.join(workDir, "cover");
   await fsp.mkdir(dir, { recursive: true });
-  const frame = await extractFrame({ input, at, output: path.join(dir, `${variant.id}-frame.png`), bins });
+  const frameAt = async (time, index) => {
+    const file = await extractFrame({
+      input, at: time, output: path.join(dir, `${variant.id}-frame-${index}.png`), bins,
+    });
+    const stats = await regionStats({ input: file, bins });
+    if (stats.lumaAvg === null || stats.lumaSpreadUnit === null) {
+      throw new PostError("封面背景亮度无法实测", "verify_failed");
+    }
+    return { at: time, file, stats };
+  };
+  const isBlankFade = ({ stats }) => stats.lumaAvg < 38 && stats.lumaSpreadUnit < 0.04;
+  let selected = await frameAt(requestedAt, 0);
+  if (isBlankFade(selected)) {
+    const step = Math.min(1, Math.max(0.2, duration * 0.08));
+    const candidates = [-1, 1, -2, 2, -3, 3]
+      .map((offset) => round(Math.min(maxAt, Math.max(0, requestedAt + offset * step)), 3))
+      .filter((time, index, times) => time !== requestedAt && times.indexOf(time) === index);
+    for (const [index, time] of candidates.entries()) {
+      const candidate = await frameAt(time, index + 1);
+      if (!isBlankFade(candidate)) {
+        selected = candidate;
+        break;
+      }
+    }
+    if (isBlankFade(selected)) {
+      throw new PostError("封面候选帧均为近黑纯色画面，请调整封面取帧位置或素材", "verify_failed");
+    }
+  }
+  const { at, file: frame, stats: background } = selected;
   const titleLine = String(project.copy?.title ?? project.title ?? project.projectId ?? "");
   const hookLine = String(variant.cover?.subtitle ?? project.copy?.hook ?? "");
   const titleText = [titleLine, hookLine].filter(Boolean).join("\\N");
@@ -968,10 +1011,13 @@ export async function buildCover({
     { kind: "cover_size", ok: coverProbe.width === (resolution?.[0] ?? coverProbe.width) && coverProbe.height === (resolution?.[1] ?? coverProbe.height), detail: { width: coverProbe.width, height: coverProbe.height } },
     { kind: "cover_title_present", ok: Boolean(titleText), detail: { text: titleText.replace("\\N", " / ") } },
     { kind: "cover_layout", ok: coverPlanChecks.length === 0, detail: coverPlanChecks.map((check) => check.kind) },
+    { kind: "cover_background_visible", ok: !isBlankFade(selected), detail: { requestedAt, selectedAt: at, lumaAvg: background.lumaAvg, lumaSpreadUnit: background.lumaSpreadUnit } },
   ];
   return {
     output,
     at,
+    requestedAt,
+    background,
     frame,
     assPath,
     text: titleText.replace("\\N", " / "),
@@ -1225,8 +1271,9 @@ export async function buildDeliveryPackage({
     bins,
   });
   const masterProbe = await probeMedia(masterAssembly.output, { bins });
-  if (masterProbe.width !== width || masterProbe.height !== height) {
-    throw new PostError(`干净母版规格不符：实测 ${masterProbe.width}×${masterProbe.height}，目标 ${width}×${height}`, "verify_failed");
+  if (masterProbe.width !== width || masterProbe.height !== height
+      || Math.abs((masterProbe.fps ?? 0) - fps) > 0.01) {
+    throw new PostError(`干净母版规格不符：实测 ${masterProbe.width}×${masterProbe.height}/${masterProbe.fps}fps，目标 ${width}×${height}/${fps}fps`, "verify_failed");
   }
 
   /* ② 旁挂字幕（一次生成，全部变体共用同一份文字层；母版不烧字） */
@@ -1362,8 +1409,9 @@ export async function buildDeliveryPackage({
         }
         : { track: null, policy: "原声（变体刻意不配乐）", note: pack.bgm?.note ?? null });
     const scoredProbe = await probeMedia(scoredPath, { bins });
-    if (scoredProbe.width !== width || scoredProbe.height !== height) {
-      throw new PostError(`变体 ${pack.id} 规格不符：实测 ${scoredProbe.width}×${scoredProbe.height}，目标 ${width}×${height}`, "verify_failed");
+    if (scoredProbe.width !== width || scoredProbe.height !== height
+        || Math.abs((scoredProbe.fps ?? 0) - fps) > 0.01) {
+      throw new PostError(`变体 ${pack.id} 规格不符：实测 ${scoredProbe.width}×${scoredProbe.height}/${scoredProbe.fps}fps，目标 ${width}×${height}/${fps}fps`, "verify_failed");
     }
 
     // 封面 + 文案
@@ -1433,7 +1481,7 @@ export async function buildDeliveryPackage({
         video: { path: scoredPath, sha256: await sha256File(scoredPath), duration: scoredProbe.duration, resolution: [scoredProbe.width, scoredProbe.height] },
         softsub: softsub ? { path: softsub.output, sha256: softsub.sha256, tracks: softsub.tracks, checks: softsub.checks } : null,
         burned: burned ? { path: burned.output.path, sha256: burned.output.hash, checks: burned.checks } : null,
-        cover: { path: cover.output, sha256: cover.sha256, at: cover.at, text: cover.text, checks: cover.checks },
+        cover: { path: cover.output, sha256: cover.sha256, at: cover.at, requestedAt: cover.requestedAt, background: cover.background, text: cover.text, checks: cover.checks },
         copy: { path: path.join(variantDir, "copy.md"), checks: copy.checks, title: copy.title, hashtags: copy.hashtags },
         audio: audioReport
           ? {
@@ -1520,6 +1568,11 @@ export async function buildDeliveryPackage({
     { kind: "variant_count", ok: variantsOut.length >= 2, detail: { variants: variantsOut.map((variant) => variant.id) } },
     { kind: "variants_distinct", ok: indistinct.length === 0, detail: { indistinct: indistinct.map((row) => `${row.a}~${row.b}`), divergence } },
     { kind: "covers_distinct", ok: coverDivergence.every((row) => row.distinct), detail: coverDivergence },
+    {
+      kind: "covers_valid",
+      ok: variantsOut.every((variant) => variant.artifacts.cover.checks.every((check) => check.ok === true)),
+      detail: variantsOut.map((variant) => ({ id: variant.id, checks: variant.artifacts.cover.checks })),
+    },
     { kind: "bgm_layer", ok: audioFailures.length === 0, detail: { failed: audioFailures, note: "失败的变体已按原声降级交付，不冒充带配乐成片" } },
     { kind: "softsub_video_unchanged", ok: variantsOut.every((variant) => !variant.artifacts.softsub || variant.artifacts.softsub.checks.every((check) => check.ok === true)), detail: variantsOut.filter((variant) => variant.artifacts.softsub).map((variant) => ({ id: variant.id, checks: variant.artifacts.softsub.checks.map((check) => check.kind) })) },
 {
@@ -1642,7 +1695,12 @@ note: "计划口径 = 镜头卡/PRD 的目标总时长；实际口径 = 逐镜�
         artifacts: {
           video: { path: path.relative(target, variant.artifacts.video.path), sha256: variant.artifacts.video.sha256 },
           softsub: variant.artifacts.softsub ? { path: path.relative(target, variant.artifacts.softsub.path), sha256: variant.artifacts.softsub.sha256 } : null,
-          cover: { path: path.relative(target, variant.artifacts.cover.path), sha256: variant.artifacts.cover.sha256 },
+          cover: {
+            path: path.relative(target, variant.artifacts.cover.path),
+            sha256: variant.artifacts.cover.sha256,
+            at: variant.artifacts.cover.at,
+            requestedAt: variant.artifacts.cover.requestedAt,
+          },
           copy: { path: path.relative(target, variant.artifacts.copy.path) },
         },
       })),
@@ -1684,7 +1742,15 @@ note: "计划口径 = 镜头卡/PRD 的目标总时长；实际口径 = 逐镜�
       video: { path: path.relative(target, variant.artifacts.video.path), sha256: variant.artifacts.video.sha256, duration: variant.artifacts.video.duration, resolution: variant.artifacts.video.resolution },
       softsub: variant.artifacts.softsub ? { path: path.relative(target, variant.artifacts.softsub.path), sha256: variant.artifacts.softsub.sha256, tracks: variant.artifacts.softsub.tracks.map((track) => ({ lang: track.lang, title: track.title })) } : null,
       burned: variant.artifacts.burned ? { path: path.relative(target, variant.artifacts.burned.path), sha256: variant.artifacts.burned.sha256 } : null,
-      cover: { path: path.relative(target, variant.artifacts.cover.path), sha256: variant.artifacts.cover.sha256, text: variant.artifacts.cover.text, at: variant.artifacts.cover.at },
+      cover: {
+        path: path.relative(target, variant.artifacts.cover.path),
+        sha256: variant.artifacts.cover.sha256,
+        text: variant.artifacts.cover.text,
+        at: variant.artifacts.cover.at,
+        requestedAt: variant.artifacts.cover.requestedAt,
+        background: variant.artifacts.cover.background,
+        checks: variant.artifacts.cover.checks,
+      },
       copy: { path: path.relative(target, variant.artifacts.copy.path), title: variant.artifacts.copy.title, hashtags: variant.artifacts.copy.hashtags, checks: variant.artifacts.copy.checks },
       audio: variant.artifacts.audio
         ? {
@@ -2027,6 +2093,10 @@ export async function reedit({
     if (!entry.stored.sha256 || sha256 !== entry.stored.sha256) {
       throw new PostError(`返修镜头 ${entry.shotId} 的归一化产物与工程文件哈希不一致：请通过 shotPaths 显式替换或从原素材重新归一化`, "verify_failed");
     }
+    const reusedProbe = await probeMedia(file, { bins });
+    if (!(reusedProbe.videoDuration > 0)) {
+      throw new PostError(`返修镜头 ${entry.shotId} 缺视频轨时长`, "bad_media");
+    }
     const clip = {
       shotId: entry.shotId,
       source: resolveStored(projectDir, entry.stored.source ?? entry.stored.normalised),
@@ -2040,7 +2110,7 @@ export async function reedit({
       } : null,
       path: file,
       sha256,
-      duration: entry.stored.duration ?? (await probeMedia(file, { bins })).duration,
+      duration: reusedProbe.videoDuration,
       reused: true,
     };
     normalised.push(clip);

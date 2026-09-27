@@ -568,7 +568,7 @@ function sourceHashFor(shotId: string | null): string {
     source: shotId ? { ...common, shot: allShots!.find((shot) => shot.shotId === shotId) ?? null } : { ...sourceDocument, selectedShotIds: ONLY },
     brief: BRIEF_FILE ? sourceSupportHashes.get(abs(BRIEF_FILE)) ?? null : null,
     sceneBible: arg("--scene-bible") ? sourceSupportHashes.get(abs(arg("--scene-bible"))) ?? null : null,
-    aspect: ASPECT, resolution: RESOLUTION, fps: FPS,
+    aspect: ASPECT, resolution: SOURCE_RESOLUTION, fps: FPS,
   });
 }
 function lineageStage(rec: Pick<StageRecord, "stage" | "stepKey" | "evidence">): string {
