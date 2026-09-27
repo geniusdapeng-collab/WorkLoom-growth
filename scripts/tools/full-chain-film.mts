@@ -3502,9 +3502,26 @@ if (STAGES.has("subtitle") && existsSync(colored)) {
 
   if (SUBTITLE_MODE !== "sidecar") {
     const out = join(POST_DIR, "master-subtitled.mp4");
+    /**
+     * 片头标题卡（2026-09-27 真机事故）：字幕工位的 `burn --title` 会在**正片开头烧一张 3 秒标题卡**。
+     * 上一版把片名原样（`AI 班组住进你公司 · 获客增长系统 89 秒销售口播`）传进去，
+     * 大号标题横穿人物面部、两行还各自超宽——产品所有者看到的第一眼就是"排版乱"。
+     * 纪律：
+     *   · 封面卡已经承担片头标题时（本管线默认会产出并前置封面卡）**不再重复烧标题卡**；
+     *   · 确需标题卡（`--no-open-with-cover` 或只跑字幕段）时，用**短标题**（取 `·` 前主标题、≤12 字），
+     *     不再把整条片名塞进画面。
+     */
+    const coverWillOpenTheFilm = (STAGES.has("cover") || existsSync(join(OUT_DIR, `${PROJECT}-cover.png`)))
+      && !flag("--no-open-with-cover");
+    const burnOpeningTitle = !coverWillOpenTheFilm && !flag("--no-title-card");
+    const openingTitle = arg("--opening-title", arg("--cover-hook", shotlist.title ?? ""))
+      .split(/[·|｜]/)[0]!.trim().slice(0, 12);
+    if (!burnOpeningTitle) {
+      log(`  · 片头标题卡：跳过（封面卡承担片头标题${coverWillOpenTheFilm ? "" : "；--no-title-card 显式关闭"}）`);
+    }
     const result = runCli(SUBTITLE_CLI, [
       "burn", "--in", colored, "--out", out, "--srt", srtFile,
-      "--title", arg("--title", shotlist.title ?? ""),
+      ...(burnOpeningTitle ? ["--title", openingTitle] : []),
       "--platform", platform,
       ...(briefFile ? ["--brief", briefFile] : []),
       "--evidence-dir", join(POST_DIR, "subtitle-evidence")
