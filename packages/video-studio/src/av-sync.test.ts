@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   AV_SYNC_POLICY,
   buildCutAudioStep,
+  candidateSyncWindows,
   crossCorrelationLag,
   describeAvSync,
   evaluateAvSync,
@@ -120,5 +121,38 @@ describe("buildCutAudioStep", () => {
   it("极短转场（如 0.01s）也按声明时长如实生成，而不是被静默替换成硬切", () => {
     const step = buildCutAudioStep({ prevLabel: "[a4]", nextLabel: "[aex5]", outLabel: "[a5]", overlapSec: 0.01 });
     expect(step).toBe("[a4][aex5]acrossfade=d=0.010000:c1=tri:c2=tri[a5]");
+  });
+});
+
+describe("candidateSyncWindows", () => {
+  /**
+   * 2026-09-27 真机回归：单窗口实测会在停顿/环境声上锁到假峰（GR-06 报 -573.6ms），
+   * 同一素材整段包络互相关却正好落在期望位置。改为多候选窗口取相关性最高者。
+   */
+  it("5s 镜头给出多个候选窗口，起点递增且都落在镜头内", () => {
+    const windows = candidateSyncWindows({ durationSec: 5 });
+    expect(windows.length).toBeGreaterThanOrEqual(3);
+    expect(windows[0]).toEqual({ startSec: 0.35, lengthSec: 1.5 });
+    const starts = windows.map((w) => w.startSec);
+    expect([...starts].sort((a, b) => a - b)).toEqual(starts);
+    for (const w of windows) {
+      expect(w.startSec).toBeGreaterThanOrEqual(0);
+      expect(w.startSec + w.lengthSec).toBeLessThanOrEqual(5 + 1e-6);
+      expect(w.lengthSec).toBe(1.5);
+    }
+  });
+
+  it("短镜（1s）只给一个窗口；过短（0.5s）直接不给窗口（按不可测处理）", () => {
+    const one = candidateSyncWindows({ durationSec: 1 });
+    expect(one).toHaveLength(1);
+    expect(one[0]!.startSec).toBe(0.12);
+    expect(one[0]!.lengthSec).toBe(0.63);
+    expect(candidateSyncWindows({ durationSec: 0.5 })).toHaveLength(0);
+  });
+
+  it("候选数受 maxWindows 约束（避免长镜无谓放大计算量）", () => {
+    const windows = candidateSyncWindows({ durationSec: 5, maxWindows: 2 });
+    expect(windows.length).toBeLessThanOrEqual(3);
+    expect(windows[0]!.startSec).toBe(0.35);
   });
 });

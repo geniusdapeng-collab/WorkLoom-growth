@@ -218,3 +218,34 @@ export function buildCutAudioStep(options: {
     ? `${prevLabel}${nextLabel}acrossfade=d=${overlapSec.toFixed(6)}:c1=tri:c2=tri${outLabel}`
     : `${prevLabel}${nextLabel}concat=n=2:v=0:a=1${outLabel}`;
 }
+
+/**
+ * 音画对齐实测的**候选取样窗口**（2026-09-27 真机：单窗口会锁到假峰）。
+ *
+ * 事故：18 镜销售片的实测里，GR-06 那一段固定窗口正好落在停顿/环境声上，
+ * 互相关只有 0.439，并锁到邻近镜的相似内容上，报出 -573.6ms 的假偏移（硬闸误判）。
+ * 同一素材改用整段包络互相关复核是 0.995、位置正好等于期望值——素材没问题，是**取样窗口**不好。
+ *
+ * 口径：同一镜给若干候选窗口（起点等差 + 末尾一窗），逐个互相关取**相关性最高**者；
+ * 相关性仍低于阈值就按"不可测"处理（判据不放宽），只是不再拿一个坏窗口给整镜定罪。
+ */
+export function candidateSyncWindows(options: {
+  durationSec: number;
+  /** 候选窗口起点步长（秒） */
+  hopSec?: number;
+  /** 最多候选数（含末尾窗口） */
+  maxWindows?: number;
+}): Array<{ startSec: number; lengthSec: number }> {
+  const { durationSec, hopSec = 0.8, maxWindows = 4 } = options;
+  const base = Math.min(0.35, Math.max(0.05, durationSec * 0.12));
+  const lengthSec = Math.min(1.5, Math.max(0.5, durationSec - base - 0.25));
+  if (!(lengthSec >= 0.4)) return [];
+  const starts: number[] = [base];
+  while (starts.length < maxWindows) starts.push(starts[starts.length - 1]! + hopSec);
+  const tail = durationSec - lengthSec - 0.3;
+  if (tail > base) starts.push(tail);
+  const unique = [...new Set(starts.map((value) => Number(value.toFixed(3))))]
+    .filter((value) => value >= 0 && value + lengthSec <= durationSec + 1e-6)
+    .sort((a, b) => a - b);
+  return unique.map((startSec) => ({ startSec, lengthSec }));
+}
