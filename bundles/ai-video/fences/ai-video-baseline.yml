@@ -6,6 +6,12 @@
 # 审批点矩阵 G1-G16（fusion-design §3 / 拆解台账 §2；G11-G16 为经营扩展 v2）
 version: ai-video-baseline/v2
 default_level: review
+
+# GR-03（2026-09-28）：无任何岗位工具会产生下列红线动作 → 显式声明未接线（装配检查单留痕）
+unwired_blocks:
+  - rule_id: G16
+    reason: 账号登录/会话绑定类动作无对应工具（矩阵账号自动化尚未落地）
+    owner: 平台工程
 rules:
   - rule_id: G1
     name: 商品情报档案确认必审
