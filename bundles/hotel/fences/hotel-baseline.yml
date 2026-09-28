@@ -97,7 +97,7 @@ rules:
     level: block
     is_baseline: true
     match:
-      object_types: [guest, member, lead]
+      object_types: [guest, member, lead, review]
       actions: [crm.touch, guest.contact, guest.care.send, dm.reply, review.guide.send, member.revive.campaign]
     when: "params.frequency_exceeded == true || params.unsubscribed == true"
     note: 触达频率超限或客人已退订 → block 级拒绝（私域运营硬合规，retention-manager 绑定）
@@ -251,7 +251,7 @@ rules:
     level: block
     is_baseline: true
     match:
-      object_types: [lead, member, guest]
+      object_types: [lead, member, guest, review]
       actions: [lead.export, lead.bulk_message, member.export, member.revive.campaign, guest.care.send, review.guide.send, lead.capture]
     when: "params.desensitized == false || params.batch_size > 50"
     note: 未脱敏客资明文批量导出直接熔断；客资明文不出系统边界（数据红线 R4 的获客域延伸）
