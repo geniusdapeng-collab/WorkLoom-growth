@@ -1,10 +1,10 @@
 {
   "baseRepo": "workloom-ai/workloom-im",
-  "lastSyncedBaseSha": "878967518b946b32706397d2fd125a40548924b8",
-  "lastSyncAt": "2026-09-27T07:58:21.479Z",
-  "filesTouched": 1,
-  "lastRequiredAssetsBaseSha": "f5fe43403fed9fa2db6f159b431861d11573e521",
-  "lastSyncMode": "required-only",
+  "lastSyncedBaseSha": "7735969ca5b17d8787233ed40bac941cb00c8ce3",
+  "lastSyncAt": "2026-09-29T01:05:31.584Z",
+  "filesTouched": 90,
+  "lastRequiredAssetsBaseSha": "7735969ca5b17d8787233ed40bac941cb00c8ce3",
+  "lastSyncMode": "full",
   "pathPrefix": ".",
   "requiredRootAssetsSha256": {
     "WORKLOOM_PRODUCT_CONTEXT.md": "cea905be2e1b98a33dcfdda60ff78018a0c85ffa65172deffb4956455b90a294",

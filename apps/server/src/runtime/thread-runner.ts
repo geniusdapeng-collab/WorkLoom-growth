@@ -14,13 +14,29 @@ import { TRPCError } from "@trpc/server";
 import YAML from "yaml";
 import { getAppPool, getGatewayPool } from "@workloom/db";
 import { bundlesRoot } from "@workloom/base/bundles";
-import { assemblePreset, runQuest, type QuestRunResult } from "@workloom/runtime";
+import { assemblePreset, runQuest, type QuestPlanner, type QuestRunResult } from "@workloom/runtime";
 import { llmCall } from "../service/llm.js";
-import { acquisitionQuestPlanner } from "../industry/hotel/acquisition-planner.js";
 import { loadDeploymentToolExecutor, describeToolCoverage } from "./tool-executor.js";
 import { preferredDispatchPresets } from "./dispatch-routing.js";
 
 export interface Scope { tenantId: string; workspaceId: string }
+
+/**
+ * 行业规划器注册位（依赖倒置）。
+ *
+ * 为什么不让本文件直接 import 行业规划器：本文件属**基座公共分发面**（会下发给全部子仓），
+ * 而行业规划器是行业仓保留资产（`apps/server/src/industry/**` 在 sync 白名单之外）。
+ * 公共面到行业资产新增相对依赖会被 base-sync 的依赖闭包门禁拒绝
+ * （`relative-target-excluded`），因此行业仓在自己的组合根（trpc/router.ts）注册，
+ * 基座缺省无行业规划器 → runQuest 退回确定性通用规划（不猜业务参数）。
+ */
+export type IndustryQuestPlannerFactory = (goal: string) => QuestPlanner | undefined;
+let industryPlannerFactory: IndustryQuestPlannerFactory | null = null;
+
+/** 行业仓组合根调用：注册/清理行业规划器（传 null 取消注册）。 */
+export function registerIndustryQuestPlanner(factory: IndustryQuestPlannerFactory | null): void {
+  industryPlannerFactory = factory;
+}
 
 /** 指挥层兜底岗位（Bundle 清单不可用/未命中时） */
 const DISPATCH_PRESET_FALLBACKS = ["company-ceo", "group-ceo", "growth-lead", "director"] as const;
@@ -226,6 +242,8 @@ export async function runQuestForThread(scope: Scope, input: ThreadQuestInput): 
   const warnings = await questCoverageWarnings(scope, presetKey, input.goal);
   // GR-13：把本工作区 bundle 的对象枚举交给规划器（围栏词表由 runQuest 内部按 active 规则注入）
   const planVocabulary = await loadObjectVocabulary(scope);
+  // 行业规划器由行业仓组合根注册；未注册（基座缺省）时不传 fallbackPlanner，退回通用确定性规划
+  const fallbackPlanner = industryPlannerFactory?.(input.goal);
   const result = await runQuest(getAppPool(), getGatewayPool(), scope, {
     threadId: input.threadId,
     goal: input.goal,
@@ -234,7 +252,7 @@ export async function runQuestForThread(scope: Scope, input: ThreadQuestInput): 
     ...(input.replan ? { replan: true, ...(input.replanReason ? { replanReason: input.replanReason } : {}) } : {}),
     // 视觉目标关掉 LLM 规划（空参步骤到桥侧必 bad_request），走行业确定性直译
     ...(visualGoal ? {} : { llmCall: llmCall("quest-plan") }),
-    fallbackPlanner: acquisitionQuestPlanner(input.goal),
+    ...(fallbackPlanner ? { fallbackPlanner } : {}),
     ...(toolExecutor ? { toolExecutor } : {}),
     ...(planVocabulary.objectTypes.length ? { planVocabulary } : {}),
   });
