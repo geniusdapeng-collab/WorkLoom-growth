@@ -237,9 +237,9 @@
     },
     {
       "id": "growth.video.production.plan",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "预览出片计划（不执行）",
-      "description": "给出「出片建议命令 + 前置检查清单」（分流是否就绪、镜头卡是否在场、火山方舟密钥是否配置、欠费提示）。这是预览：不跑管线、不提交渲染、不花钱；真正的执行走 CLI（full-chain-film.mts）。",
+      "description": "预览正式服务的客户意图/档案身份→原生预生产→服务来源与预算计划→单次完整渲染后期调用步骤。不接受手写分镜或密钥文件，不以本地文件存在判断ready；本能力不访问服务、不执行、不花钱。",
       "operation": "preview",
       "risk": "low",
       "dataMode": "unverified",
@@ -263,17 +263,15 @@
             "type": "string",
             "maxLength": 60
           },
-          "shotlistPath": {
+          "characterId": {
             "type": "string",
-            "maxLength": 400
+            "minLength": 1,
+            "maxLength": 200
           },
-          "routePath": {
+          "productId": {
             "type": "string",
-            "maxLength": 400
-          },
-          "outDir": {
-            "type": "string",
-            "maxLength": 400
+            "minLength": 1,
+            "maxLength": 200
           }
         },
         "additionalProperties": false

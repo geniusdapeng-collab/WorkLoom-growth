@@ -9,8 +9,8 @@
  *   - productionPlan   产出"建议命令 + 前置检查清单"，**不执行任何生成**
  *
  * 边界（与 `scripts/AGENT-CAPABILITIES.md` 同源）：
- *   · 本地能力**不许写**：只读文件、只返回结构化结果；真正的生成/渲染/交付执行仍在 CLI
- *     （`scripts/tools/route-video.mts` → `scripts/tools/full-chain-film.mts`）；
+ *   · 本地能力**不许写**：只读文件、只返回结构化结果；生成/渲染/交付由正式服务与固定工位执行；
+ *     公开 full-chain CLI 只接受客户意图/档案身份或服务原生 projectId；
  *   · 路径监狱：只允许读取**仓库根内**的路径（拒绝绝对路径、`..`、符号链接逃逸）；
  *   · 不回显秘密：只报告密钥"是否存在"，绝不返回其值；
  *   · 单文件读取上限 8MB / 2 万行，超出即如实失败，不截断冒充完整。
@@ -143,27 +143,6 @@ function sha256File(absolute) {
   } finally { closeSync(handle); }
 }
 
-/** 只报"密钥是否配置"，绝不返回值（凭据纪律） */
-function envFileKeyPresence(name) {
-  const candidates = [process.env.WORKLOOM_KEYS_FILE, join(process.env.HOME ?? "", ".workloom/live.env")]
-    .filter((entry) => typeof entry === "string" && entry.trim());
-  for (const file of candidates) {
-    if (!existsSync(file)) continue;
-    let text;
-    try {
-      text = readFileSync(file, "utf8");
-    } catch {
-      continue;
-    }
-    for (const line of text.split("\n")) {
-      const match = line.match(/^([A-Z0-9_]+)=(.*)$/u);
-      if (match && match[1] === name) return { present: Boolean(match[2].trim()), source: file };
-    }
-    return { present: false, source: file };
-  }
-  return { present: false, source: null };
-}
-
 /* ---------------------------------- 能力 1：分流结论 ---------------------------------- */
 
 /** 读已落盘的 `work/route.json`（route-video.mts 的产物）；不重新跑分流。 */
@@ -190,7 +169,7 @@ export function routeRecord(input) {
     via: typeof decision.via === "string" ? decision.via : null,
     productAnchor: plain(decision.product) && typeof decision.product.name === "string" ? decision.product.name : null,
     clarifyQuestion: plain(decision.clarify) && typeof decision.clarify.question === "string" ? decision.clarify.question : null,
-    note: "分流结论是出片入口的硬前置：`full-chain-film.mts` 需要 --route 或 --route-kind",
+    note: "分流记录仅作诊断；生产资格来自正式服务本次原生预生产，分流JSON不能授权渲染",
   };
 }
 
@@ -332,44 +311,38 @@ export function deliveryInspect(input) {
 
 /** 产出"建议命令 + 前置检查清单"；**不执行**任何生成/渲染/提交。 */
 export function productionPlan(input) {
-  const value = assertKeys(input, ["title", "projectId", "platform", "shotlistPath", "routePath", "outDir"]);
+  const value = assertKeys(input, ["title", "projectId", "platform", "characterId", "productId"]);
   const title = optionalText(value.title, "title", 400) ?? "";
   const projectId = optionalText(value.projectId, "projectId") ?? "VID-XXXX";
   const platform = optionalText(value.platform, "platform") ?? "抖音";
-  const shotlistPath = optionalText(value.shotlistPath, "shotlistPath") ?? "work/film/shotlist.json";
-  const routePath = optionalText(value.routePath, "routePath") ?? "work/route.json";
-  const outDir = optionalText(value.outDir, "outDir") ?? `work/out-${projectId}`;
-
-  const route = routeRecord({ path: routePath });
-  const shotlistExists = existsSync(insideRepo(shotlistPath, "shotlistPath"));
-  const arkKey = envFileKeyPresence("VOLCENGINE_ARK_API_KEY");
-  const checklist = [
-    { id: "route", ok: route.found === true, detail: route.found ? `分流结论：${route.route ?? "?"}` : "缺 work/route.json：先跑 route-video.mts" },
-    { id: "shotlist", ok: shotlistExists, detail: shotlistExists ? `镜头卡在场：${shotlistPath}` : `缺镜头卡：${shotlistPath}（25 字段规范）` },
-    { id: "ark-key", ok: arkKey.present, detail: arkKey.present ? `火山方舟密钥已配置（${arkKey.source}）` : "缺 VOLCENGINE_ARK_API_KEY（渲染会 403）" },
-  ];
-  const argv = ["exec", "tsx", "scripts/tools/full-chain-film.mts", "--shots", shotlistPath, "--project", projectId,
-    "--work-dir", `work/vm-${projectId}`, "--out", outDir, "--route", routePath,
-    "--keys-file", process.env.WORKLOOM_KEYS_FILE || join(process.env.HOME ?? "", ".workloom/live.env"),
+  const characterId = optionalText(value.characterId, "characterId");
+  const productId = optionalText(value.productId, "productId");
+  const argv = ["exec", "tsx", "scripts/tools/full-chain-film.mts", "--project", projectId, "--plan",
     "--platform", platform, "--fps", "24", "--subtitle-mode", "both", "--review-policy", "off"];
   const posixQuote = (text) => `'${text.replace(/'/gu, `'"'"'`)}'`;
   const powershellQuote = (text) => `'${text.replace(/'/gu, "''")}'`;
-  const command = ["pnpm", ...argv].map(posixQuote).join(" ");
+  const productionArgs = argv.filter(arg => arg !== "--plan");
+  const prepareArgs = ["exec", "tsx", "scripts/tools/full-chain-film.mts", "--prepare", "--intent", title || "<客户完整需求>", "--platform", platform,
+    ...(characterId ? ["--character", characterId] : []), ...(productId ? ["--product", productId] : [])];
   return {
-    previewOnly: true,
-    title: title || null,
-    projectId,
-    platform,
-    checklist,
-    ready: checklist.every((entry) => entry.ok),
-    recommendedCommand: command,
+    previewOnly: true, title: title || null, projectId, platform, ready: false,
+    serviceVerification: "required",
+    checklist: [
+      { id: "native-preproduction", ok: null, detail: "正式服务生成创意、剧本、分镜、完整提示词及交接稿；客户只给意图与档案身份" },
+      { id: "native-source-version", ok: null, detail: "video.film.plan须核实当前PG执行、完整系统门、来源摘要及单次预算；本地文件在场不授予资格" },
+      { id: "single-submission", ok: null, detail: "同一原生来源只提交一次；失败或结果未知时查询已有作业，禁止重发" },
+    ],
+    recommendedCommand: ["pnpm", ...argv].map(posixQuote).join(" "),
     recommendedPowerShellCommand: `& ${["pnpm", ...argv].map(powershellQuote).join(" ")}`,
     execution: { command: "pnpm", args: argv },
+    preparation: { command: "pnpm", args: prepareArgs, paidPlanning: true },
+    production: { command: "pnpm", args: productionArgs, paidRendering: true },
+    humanAcceptance: "final-film-only",
     beforeRun: [
-      "pnpm video:doctor（环境自检：ffmpeg/密钥/配音工位/曲库路径监狱）",
-      "营销片：product-archive.mts 建/取商品档案；真人出镜：video:assets reconcile 对账素材清单",
-      "账户欠费（AccountOverdueError 403）会拦住提交：先充值再跑，不要连点重试",
+      "启动正式Growth服务；工作区凭据只经WORKLOOM_TOKEN或WORKLOOM_ACCESS_TOKEN环境变量；模型密钥只在服务侧",
+      "先执行原生预生产并取得projectId，再读video.film.plan核实全部来源与成本；预生产失败不得手补分镜",
+      "按当前服务原生来源提交完整渲染与后期，max-attempts固定1；渲染后审美review off，由客户验收最终成片",
     ],
-    notExecuted: "本能力只产出计划与检查项，不代跑管线；出片执行见 `scripts/tools/full-chain-film.mts`",
+    notExecuted: "此本地能力只预览调用步骤，不核实服务、不执行、不花钱；实际准备/渲染均经正式服务",
   };
 }

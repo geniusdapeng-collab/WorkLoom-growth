@@ -10,28 +10,32 @@
 
 ---
 
-## 0. 先做一件事：判断这是哪一类视频
+## 0. 正式入口：提交需求，由系统完成营销或叙事策划
 
-**不要上来就跑出片命令。** 先跑分流：
+客户只提供意图、档案 ID 和发布平台。系统自动分流，营销片走商品情报/G1 → 创意 → 洞察 → PRD → 剧本 → 定妆 → 分镜 → 完整提示词；叙事片走原生叙事策划。调用方不能替系统填写创意、剧本、分镜或提示词。
+
+先启动本仓服务，取得当前工作区的成员令牌，通过环境变量设置 `WORKLOOM_ACCESS_TOKEN` 与 `WORKLOOM_BASE_URL`。令牌不得写入参数、日志或仓库。随后执行：
 
 ```bash
-pnpm exec tsx scripts/tools/route-video.mts --title "<用户需求原文>" --llm --out work/route.json
+# 预生产：真实运行原生管线，输出项目 ID、运行回执及服务计划；此命令不提交影片渲染。
+pnpm exec tsx scripts/tools/full-chain-film.mts --prepare \
+  --intent "<客户需求原文>" --character <角色档案ID> --product <商品档案ID> \
+  --platform 视频号 --pipeline marketing
+
+# 复查本次系统片单、来源版本、完整步骤及预算预占上界。
+pnpm exec tsx scripts/tools/full-chain-film.mts --project <项目ID> --plan
+
+# 一次正式渲染与完整后期；预算不足会在提交之前拒绝。
+pnpm exec tsx scripts/tools/full-chain-film.mts --project <项目ID> \
+  --max-budget-cny <计划上界> --review-policy off --subtitle-mode both
+
+# 中断后只查询原任务，不重新提交。
+pnpm exec tsx scripts/tools/full-chain-film.mts --status <作业ID>
 ```
 
-它会给出 `marketing`（营销片，含商品情报档案与 G1 门）/ `narrative`（通用叙事片）/
-`explainer`（口播解说片）/ `clarify`（**判不准 → 先问用户，不要替用户花钱**），
-并打印对应的**建议命令**与意图清理后的文本。
+无指定角色或商品时可省略对应参数；`--pipeline auto` 由系统分流，叙事片可指定 `narrative`。分流不明确或营销片缺商品锚点时系统停止并留回执。`route-video.mts` 仍可作只读诊断，不能代替正式服务端策划资格。
 
-> **出片入口的硬约束（T-2026-0930-0015）**：`full-chain-film.mts` 现在**要求分流结论**——
-> 要么 `--route work/route.json`（上面这条命令的 `--out` 产物），要么对已确认过的补跑项目显式
-> `--route-kind marketing|narrative`。两者都没有会直接 `ROUTE_PREFLIGHT_ROUTE_REQUIRED` 拒绝出片；
-> 判不准（`clarify`）时也会拒绝并提示"先问用户"。营销片缺商品锚点同样 fail-closed。
-
-- 判据与口径：`packages/video-studio/src/pipeline-router.ts`；设计说明：`docs/video-pipeline-routing-and-dossier-2026-09-25.md`
-- **营销片必需商品锚点**（商品名只能来自用户显式声明 / metadata / 模型抽取，**不许猜**）；
-  商品档案放在 `bundles/ai-video/library/products/<档案>/`，G-PROD1 会逐镜校验真实商品绑定。
-- 服务端派活（`apps/server/src/video/router.ts`）走的是同一条分流；CLI 侧以前没有入口，
-  所以本补充了 `route-video.mts`。
+正式入口拒绝 `--shots`、`--brief`、调用方 `document`、任意路径、裁剪步骤及 `post-only`。服务只冻结当前工作区本次成功预生产产物，绑定来源执行、完整提示词和片单 SHA-256；旧版本、篡改、缺证据均不能付费渲染。同一来源已有作业时返回 `FILM_SOURCE_ALREADY_SUBMITTED`，后续读取原作业状态。
 
 ## 1. 安装与环境（一次）
 
@@ -50,73 +54,51 @@ pnpm exec tsx scripts/tools/video-doctor.mts   # 出片环境自检（缺什么�
 | 依赖 | 位置 / 变量 | 说明 |
 |---|---|---|
 | 视频/图片生成（火山方舟） | `~/.workloom/live.env`：`VOLCENGINE_ARK_API_KEY`、`SEEDANCE_MODEL`、`SEEDREAM_MODEL` | 出片/出图必需；**欠费时提交会被 403 `AccountOverdueError` 拒绝**（先充值再跑，别反复提交） |
-| 评审/仲裁模型 | `DEEPSEEK_API_KEY`（同文件） | 仅 `--review-policy advisory|blocking` 与 `route-video --llm` 用 |
+| 系统策划/事前检查模型 | 服务端 `LLM_*` 配置；后期咨询模型为 `DEEPSEEK_API_KEY` | 正式策划及完整请求检查必需；渲染后审美默认关闭 |
 | 调色/字幕/配乐工位 | `bundles/ai-video/connectors/{color,subtitle,bgm}-bridge` | 纯本地；ffmpeg 走 `~/.workloom-color/bin`（管线的 `WL_FFMPEG/WL_FFPROBE`） |
 | 配音/人声核查 | `~/.workloom/voice-station`（本地 MLX 引擎，**不联网不花钱**） | `voice-bridge health` 可自检；音色档默认 `zh-xiaozhi` |
 | 真人素材 | 火山方舟"私域真人人像库"的 `asset://...` | 参考图只能以 `asset://` 提交（平台禁止直传真人照片） |
 
 自检：`bash scripts/agent-tour.sh`（能力巡游）、`pnpm exec tsx scripts/tools/route-video.mts --title test`。
 
-## 2. 三条管线与它们的执行器
+## 2. 两条原生制作管线与完整后期
 
-| 类型 | 执行器 | 特点 |
+| 类型 | 正式入口 | 行为 |
 |---|---|---|
-| 营销片 | `scripts/tools/full-chain-film.mts`（+ 商品情报档案/G1 门） | 卖货/种草/投放；需要商品锚点；逐镜生成 + 完整后期 |
-| 叙事片（通用） | 同上（不需要商品情报层） | 故事/形象片；分镜卡仍须过 25 字段规范（`spec` 阶段） |
-| 口播解说片 | `pnpm explainer:run -- --script <稿> --profile <音色>` | 图文成片，不跑逐镜生成 |
-| 手绘白板 | `scripts/tools/whiteboard-film.mts --script <稿>` | 本地白板引擎 |
+| 营销片 | `full-chain-film.mts --prepare --pipeline marketing` | 从受控商品档案或真实来源建立事实包，经 G1 后完成原生营销策划；服务生成片单 |
+| 叙事片 | 同上，`--pipeline narrative` | 由原生叙事引擎生成剧本、分镜及完整提示词；服务生成片单 |
+| 口播解说片 | `pnpm explainer:run -- --script <稿> --profile <音色>` | 独立图文解说工具 |
+| 手绘白板 | `whiteboard-film.mts --script <稿>` | 独立本地白板工具 |
 
-`full-chain-film.mts` 阶段顺序（**按需裁剪，但别跳"规范类"阶段**）：
+正式影片的工位顺序固定，不能由调用方裁剪：
 
 ```
-cine-kb → continuity → micromotion → spec（25 字段交付闸）→ plates → material-gen → videos
-        → voice（逐镜人声核查/补旁白）→ compose → color → subtitle → bgm → cover → mux → master → deliver
+cine-kb → continuity → micromotion → spec → plates → material-gen → videos → voice
+        → compose → color → subtitle → danmaku → bgm → cover → mux → master → deliver
 ```
 
-> **post-only 组装自动带 `spec`**（T-2026-0930-0015）：`--assembly-mode post-only` 时管线会**自动补上**
-> `spec` 阶段；此时它按"25 字段 P0 规范"判（不要求生成用提示词）。真机事故：手写组装卡的 `character`
-> 只写"这位女士…"、没写主角名/ID（P0 字段），一路漏到封面才炸。
+逐镜步骤可因本次冻结来源而不适用，例如认证真人跳过图端点、无对白镜头无需补配音；服务按原生每镜判断并核验记录，不能由工位声称“不适用”而漏步骤。原生预生产同时生成开场钩子、场景圣经与道具/环境上下文，保留原始提示词、结构字段、顺序和时长。
 
-## 3. 三条已定稿的执行口径（2026-09-30 / 10-01，产品所有者）
+## 3. 执行口径：中间系统检查，最终由客户验收
 
-1. **渲染后不做"合格/不合格"裁决**：`--review-policy off`（默认）。渲染成功就**直接走完整后期链并交付**，
-   质量由客户验收。只保留**事实性硬闸**（产物存在/时长/分辨率/音轨/音画对齐/字幕文件/命名/变体差异）。
-   需要时用 `--review-policy advisory`（只记录不阻断）/ `blocking`（旧口径）。
-2. **渲染前一次性过关**：红线 linter（屏幕文字/证件文字/道具重复/落幅/帧率）、合同字段与参数、
-   授权与素材用途、商品绑定、就绪度（风险优先渲染）——这些是 fail-closed 的**事前**闸；
-   默认 `--max-attempts 1`，**禁止同提示词重试**（要重试必须先改卡）。
-3. **定妆照（G5）决策交人类**（T-2026-1001-0007）：8 张出满后**直接交人类验收**
-   （`portrait-agent accept`，`via=owner-acceptance`）；机器像不像/监制结论只留证，**不参与放行、不触发自动重做**。
-   服务端 Web 预生产同样默认在 G5 停下等人放行（G5 已移出 `HR_AUTO_GATES` 默认表），AI 打回也不再自动重跑。
+1. G1–G7 由系统检查完整本次产物并归档证据；中间不等待人工验收。已有定妆档案经当前文件摘要和身份来源核对后由原生定妆工位复用，无需重新出图。独立档案的客户验收登记工具仍见 §6。
+2. 渲染前检查当前来源、授权、真人参考素材、商品绑定、参数/时长、完整最终请求与预算。系统模型检查失败时停止并记录原因，不用手写卡或放宽闸门继续。
+3. `--max-attempts` 固定为 1。未知提交结果不自动重发；同一原生来源不创建第二个付费作业。明确返修需独立的历史回执流程，不能用 `post-only` 冒充正式首次制作。
+4. 渲染后 `--review-policy off` 为默认：不作审美合格判定、不因审美重复渲染；成功媒体直接进入完整后期与交付。产物、时长、分辨率、音轨、音画对齐、字幕、命名及变体证据仍要核验。
 
-## 4. 踩过的坑（务必遵守）
+## 4. 执行与留证纪律
 
-1. **post-only 组装（复用既有成品片段）**：必须显式 `--assembly-mode post-only --assembly-reason "<≥8 字>"`；
-   同时**把 `spec` 阶段带上**，让手写的组装卡也过 25 字段规范（本次事故：`character` 字段没写主角名/ID →
-   封面人物卡找不到来源镜 → 封面退化 → 母版终审被上游放行闸拦下）。
-2. **`character` 字段必须写主角名/ID**（如 `客户方CEO（demo-character…）`），
-   否则封面"人物为主"版式、造型一致性判定都会失配。
-   现在管线会在封面环节**显式报错**（`COVER_PERSON_SOURCE_MISSING`）而不是静默退化成"仅标题"。
-3. **配乐**：本机没有独立音轨签发者（`WORKLOOM_AUDIO_STEM_SIGNING_SECRET` 未配置）时，
-   管线自动走**声明式直混** `--declared-program-mix`：本地无版权曲库直接可用，
-   回执如实标注 `sourceAuthority=declared-unverified`、`stemsVerified=false`（不冒充签章分轨）。
-   接入内部签发者后自动切回签章路径。
-4. **不要手工做封面 / 手工混音绕过管线**：交付清单要能核对（`delivery-manifest.json` 里有
-   `reviewPolicy` / `assembly` / 封面来源 / 各变体 sha256）。
-5. **账户欠费**：`AccountOverdueError` 403 会拦住提交；**先充值**，不要连点重试。
-6. **服务端固定影片工位（`--worker`）第二批未接线**：CLI 侧还没有解析 `FILM_JOB_CONTEXT`
-   与受限通道（llm/image/video/media/voice/review）的实现，本 CLI 会显式报
-   `WORKER_MODE_NOT_WIRED`。需要"客户端 UI 派活 → 工位出片"时先完成第二批（`docs/repairs/T-2026-0927-0037.md` / `-0039.md`）。
-7. **创作口径不得写成硬闸**：片型配比、运镜强弱、造型主色这类"好不好看"的问题默认只做咨询项，
-   硬闸只允许事实类（产物/时长/分辨率/音轨/音画对齐/字幕/命名/授权与素材用途）。CI 会拦（`scripts/ci/verify-hard-gate-policy.mjs`）。
+- 外部 Agent 通过 `FilmServiceClient` 调正式 Studio/Film 服务；工位只经父服务受限通道调用模型、图片、视频、媒体与配音。公开 CLI 不接收模型密钥文件或任意片单。
+- 每次付费提交前先写组件台账并预占费用。失败、未知结果和实际费用不可知均如实保留，不标为成功或零费用。
+- 认证真人只用当前主档权威 `asset://` 参考；商品只用当前受控档案图片。封面和混音由正式后期工位生成，不手工替代。
+- 本机无独立音轨签发者时，原生配乐工位可使用声明式直混；交付回执标注 `sourceAuthority=declared-unverified`、`stemsVerified=false`，不得冒充签章分轨。
+- 账户欠费或原生策划失败时读取回执并停止付费提交。`--dry-run` 仅本地诊断，无生产资格，不能产出成功生产回执。
 
 ## 5. 交付物与验收
 
-交付目录（`--out`）应包含：`*-<实测时长>s-final.mp4`（母版，名称与实测时长一致）、
-`subtitles/`（srt/ass/vtt + 清单）、`*-softsub.mp4`、变体 3 支 + 变体封面、
-`*-cover.png`、`*-delivery-manifest.json`（sha256/变体差异/审核口径/组装声明/**分流结论**/**渲染台账**）、
-`*-render-ledger.md`（每一次花钱的账：提交几次、判不合格几次、平台拒收几次、canary 止损几次、后期返工几次）。
-质量口径见 `docs/video-delivery-and-revision.md`；监制门设计见 `docs/producer-gate-design.md`。
+服务为每个作业选择受控输出目录。状态回执给出结果引用和摘要；正式交付包含实测时长命名的母版、软字幕版、`subtitles/`、三个风格变体及对应封面、主封面、交付清单和渲染台账。核对文件 SHA-256、变体差异、后期步骤记录、来源版本及每镜平台任务 ID，然后交客户作最终成片验收。
+
+只读 `growth.video.production.status` 与 `growth.video.delivery.inspect` 可检查阶段和交付文件；`growth.video.production.plan` 只给正式服务命令，必须再运行 `--project --plan` 读取本次真实资格与预算。质量口径见 `docs/video-delivery-and-revision.md`。
 
 ## 6. 认证真人（asset://）：定妆照/角度槽位怎么落实
 

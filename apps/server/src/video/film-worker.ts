@@ -28,10 +28,12 @@ import {
   filmReviewContracts,
   buildProducerReviewContract,
   normalizeFilmJobRequest,
+  normalizeNativeFilmJobRequest,
   assertFilmStageCoverage,
   resolveEraProfile,
   storyDateAt,
   reviewFilmStage,
+  reviewStage,
   type FilmChannelFrame,
   type FilmChannelMethod,
   type FilmChannelRequestFrame,
@@ -47,6 +49,7 @@ import { canonicalRenderJson, compileProviderRequest, providerEndpointOptions, r
 import type { Scope } from "./gen/db.js";
 import { ArkImageProvider, ArkVideoProvider } from "./gen/providers.js";
 import { SubmissionError } from "./gen/submission-ledger.js";
+import { loadProductionFilmSource } from "./production-authority.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 /** 仓库根（apps/server/src/video → 上溯四级）。 */
@@ -89,13 +92,35 @@ export interface FilmJobStartReceipt {
   inputSha256: string; workerEntrySha256: string; stages: string[]; startedAt: string; budgetCny: number;
 }
 
+export interface NativeFilmPlan {
+  projectId: string; pipelineKind: "narrative" | "marketing";
+  sourceVersion: { sourceStageRunId: string; promptsSha256: string; filmSourceSha256: string };
+  sourceAttempt: number; shots: Array<{ shotId: string; durationSec: number; promptSha256: string }>;
+  stages: string[]; totalSeconds: number; estimatedReserveCny: number; humanAcceptance: "final-film-only";
+}
+function filmReserve(document: Record<string, unknown>): number {
+  const shots = (document.shots ?? []) as Array<Record<string, unknown>>;
+  return Math.ceil((shots.reduce((sum, shot) => sum + Number(shot.duration) * VIDEO_RESERVE_CNY_PER_SECOND
+    + (shot.photo || shot.assetRef ? 0 : IMAGE_RESERVE_CNY), 0) + (shots.length * 4 + 20) * LLM_RESERVE_CNY) * 100) / 100;
+}
+/** Read the authoritative source and its cost bound before any paid render; no caller-authored shotlist is consulted. */
+export async function planFilmJob(input: { scope: Scope; projectId: string; env?: NodeJS.ProcessEnv }): Promise<NativeFilmPlan> {
+  const source = await loadProductionFilmSource({ app: getAppPool(), ...input });
+  return { projectId: input.projectId, pipelineKind: source.document.productionSource.pipelineKind,
+    sourceVersion: { sourceStageRunId: source.sourceStageRunId, promptsSha256: source.promptsSha256, filmSourceSha256: source.filmSourceSha256 },
+    sourceAttempt: source.sourceAttempt, shots: source.document.shots.map(shot => ({ shotId: shot.shotId,
+      durationSec: shot.duration, promptSha256: renderSha256(shot.prompt) })),
+    stages: normalizeNativeFilmJobRequest(undefined, {}).stages, totalSeconds: Number(source.document.durationSeconds),
+    estimatedReserveCny: filmReserve(source.document), humanAcceptance: "final-film-only" };
+}
+
 export interface StartFilmJobInput {
   scope: Scope;
   actor: string;
   projectId: string;
   workerName?: string;
-  document: unknown;
-  stages: string[];
+  sourceVersion: { sourceStageRunId: string; promptsSha256: string; filmSourceSha256: string };
+  stages?: string[];
   options?: Record<string, unknown>;
   maxBudgetCny?: number;
   env?: NodeJS.ProcessEnv;
@@ -271,16 +296,17 @@ export async function registerFilmWorker(input: {
 /* ================= 启动作业 ================= */
 
 export async function startFilmJob(input: StartFilmJobInput): Promise<FilmJobStartReceipt> {
+  if (Object.hasOwn(input, "document") || Object.hasOwn(input, "shots") || Object.hasOwn(input, "prompt")) fail("CALLER_SOURCE_FORBIDDEN", "公开影片入口不接受调用方分镜、剧本或提示词；先执行正式预生产并取得服务计划");
   const env = { ...(input.env ?? process.env) };
   const workerName = input.workerName ?? "full-chain-film";
   const ledger = new FilmLedger(getAppPool(), input.scope);
-  if (!Array.isArray(input.stages) || input.stages.length === 0 || !input.stages.every((stage) => typeof stage === "string" && stage.trim())) {
+  if (input.stages !== undefined && (!Array.isArray(input.stages) || input.stages.length === 0 || !input.stages.every((stage) => typeof stage === "string" && stage.trim()))) {
     fail("REQUEST_INVALID", "stages 必须是非空字符串数组");
   }
-  if (input.stages.length > 64) fail("REQUEST_INVALID", "stages 数量超限");
+  if ((input.stages?.length ?? 0) > 64) fail("REQUEST_INVALID", "stages 数量超限");
   if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/.test(input.projectId) || input.projectId.includes("..")) fail("PROJECT_ID_INVALID", "项目 ID 不能包含路径字符");
   let normalized: ReturnType<typeof normalizeFilmJobRequest>;
-  try { normalized = normalizeFilmJobRequest(input.stages, input.options ?? {}); }
+  try { normalized = normalizeNativeFilmJobRequest(input.stages, input.options ?? {}); }
   catch (error) { fail("REQUEST_INVALID", error instanceof Error ? error.message : String(error)); }
   const projectRows = await (async () => {
     const client = await getAppPool().connect();
@@ -308,7 +334,15 @@ export async function startFilmJob(input: StartFilmJobInput): Promise<FilmJobSta
   if (normalized.options["route-kind"] && normalized.options["route-kind"] !== project.kind) fail("ROUTE_KIND_CONFLICT", "工位分流必须与项目类型一致");
   normalized.options["route-kind"] = project.kind;
 
-  const document = record(input.document);
+  const lease = await acquireProjectLease(input.scope, input.projectId);
+  if (!lease) fail("FILM_PROJECT_BUSY", "该项目正在预生产、审核或另一个固定工位作业中，拒绝并发执行");
+  let started = false;
+  try {
+  const source = await loadProductionFilmSource({ app: getAppPool(), scope: input.scope, projectId: input.projectId, env });
+  const expected = input.sourceVersion;
+  if (!expected || expected.sourceStageRunId !== source.sourceStageRunId || expected.promptsSha256 !== source.promptsSha256
+    || expected.filmSourceSha256 !== source.filmSourceSha256) fail("FILM_SOURCE_CHANGED", "当前原生预生产版本与渲染前服务计划不一致，请重新读取计划；未提交渲染");
+  const document = source.document;
   const era = document.eraProfile ?? record(document.sceneBible ?? {}).eraProfile;
   const frozen = await freezeSource({ scope: input.scope, projectId: input.projectId,
     document: { ...document, eraProfile: resolveEraProfile(era ?? { storyDate: storyDateAt(new Date()) }) }, env });
@@ -328,9 +362,8 @@ export async function startFilmJob(input: StartFilmJobInput): Promise<FilmJobSta
   }
   const budget = input.maxBudgetCny ?? DEFAULT_BUDGET_CNY;
   if (!Number.isFinite(budget) || budget <= 0) fail("REQUEST_INVALID", "作业预算必须为正数");
+  if (budget < filmReserve(document)) fail("FILM_BUDGET_INSUFFICIENT", "预算低于本次原生镜头与后期的预占上界；未提交任何渲染");
 
-  const lease = await acquireProjectLease(input.scope, input.projectId);
-  if (!lease) fail("FILM_PROJECT_BUSY", "该项目正在预生产、审核或另一个固定工位作业中，拒绝并发执行");
   let job: FilmJobRow;
   try {
     job = await ledger.claimJob({
@@ -344,6 +377,7 @@ export async function startFilmJob(input: StartFilmJobInput): Promise<FilmJobSta
       inputSha256: frozen.sha256,
       workerEntrySha256: worker.entry_sha256,
       actor: input.actor,
+      nativeSourceKey: `${source.sourceStageRunId}:${source.promptsSha256}:${source.filmSourceSha256}`,
     });
   } catch (error) {
     await lease.release().catch(() => undefined);
@@ -360,11 +394,13 @@ export async function startFilmJob(input: StartFilmJobInput): Promise<FilmJobSta
         errorMsg: error instanceof Error ? error.message.slice(0, 500) : String(error).slice(0, 500),
       }).catch(() => undefined);
     });
+  started = true;
   return {
     jobId: job.id, projectId: job.project_id, attempt: Number(job.attempt), runId: job.run_id, status: "running",
     inputSha256: job.input_sha256, workerEntrySha256: job.worker_entry_sha256,
     stages: job.stages, startedAt: new Date(job.started_at).toISOString(), budgetCny: budget,
   };
+  } finally { if (!started) await lease.release(); }
 }
 
 /* ================= 工位运行与通道 ================= */
@@ -548,6 +584,7 @@ async function handleChannelRequest(ctx: RunContext, frame: FilmChannelRequestFr
     stages: ctx.job.stages, projectId: ctx.job.project_id,
     shotIds: new Set([...ctx.shots.keys()].filter((id) => !selected.length || selected.includes(id))),
   });
+  if (frame.method === "video.generate" || frame.method === "image.generate") validateFilmRenderRequest(frame, ctx.frozen);
   const actualHash = filmRequestHash({ method: frame.method, stepKey: frame.stepKey, shotId: frame.shotId, params: frame.params });
   if (actualHash !== frame.requestHash) fail("FRAME_INVALID", "请求哈希与参数不一致");
   const payloadHash = renderSha256(filmCanonicalJson(frame.params));
@@ -578,6 +615,42 @@ async function handleChannelRequest(ctx: RunContext, frame: FilmChannelRequestFr
       evidence: { message: error instanceof Error ? error.message.slice(0, 400) : String(error).slice(0, 400) },
     }).catch(() => undefined);
     throw error;
+  }
+}
+
+/** Cheap source checks precede reservation; full compiled-request review always precedes provider submission. */
+export function validateFilmRenderRequest(frame: FilmChannelRequestFrame, source: Record<string, unknown>): void {
+  const shots = Array.isArray(source.shots) ? source.shots as Record<string, unknown>[] : [];
+  const shot = shots.find(item => item.shotId === frame.shotId);
+  if (!shot) fail("SHOT_NOT_FOUND", "付费请求没有当前原生镜头");
+  const params = record(frame.params);
+  text(params.prompt, "付费请求缺少完整提示词", 30_000);
+  if (frame.method === "video.generate" && Number(params.seconds) !== Number(shot.duration)) fail("NATIVE_DURATION_MISMATCH", "工位不得改写原生镜头时长");
+  if (shot.assetRef) {
+    if (frame.method === "image.generate" || params.firstFrame !== undefined) fail("NATIVE_ASSET_CONFLICT", "授权真人镜不得以生成首帧替换既有身份");
+    const allowed = Array.isArray(shot.referenceAssetRefs) ? shot.referenceAssetRefs as string[] : [String(shot.assetRef)];
+    if (!Array.isArray(params.refs) || !params.refs.length || params.refs.some(ref => !allowed.includes(String(ref)))
+      || !params.refs.includes(allowed[0])) fail("NATIVE_ASSET_CONFLICT", "真人参考素材必须来自冻结主档，且包含其主素材");
+  }
+}
+
+async function reviewCompiledFilmRequest(ctx: RunContext, frame: FilmChannelRequestFrame, compiled: unknown): Promise<void> {
+  const shot = ctx.shots.get(String(frame.shotId));
+  if (!shot) fail("SHOT_NOT_FOUND", "编译请求缺少原生镜头");
+  const artifact = await writeJobBytes(ctx, `request-reviews/${frame.requestHash}.json`, Buffer.from(filmCanonicalJson({
+    source: shot, sceneBible: ctx.frozen.sceneBible ?? null, compiled, request: frame.params,
+    sourceVersion: ctx.frozen.productionSource, sourceInputSha256: ctx.job.input_sha256 })));
+  const file = await resolveWithin(ctx.workDir, artifact.ref);
+  const verdict = await reviewStage({ stage: "prompt", projectId: ctx.job.project_id, env: ctx.env,
+    artifacts: [{ path: file, kind: "json" }], allowFallbackApprove: false, minScore: 85,
+    deterministic: [{ id: "native-render-bound", pass: true, hard: true, detail: "镜号、原生时长与授权身份引用在父服务校验；完整编译请求先落档后审核" }],
+    requiredCheckIds: ["native-render-bound"],
+    rubric: ["逐项比较完整source、request和compiled：最终提示词可增加正式摄影/微动作/场景合同，但不改变原镜头的主体、人数、服装、动作、台词、时长、空间或叙事目的",
+      "最终模型请求不能省略原生主张限制，营销功能及数字无新增；真人身份与所选档案一致，道具及商品外观没有变成别的型号"] });
+  await writeJobBytes(ctx, `request-reviews/${frame.requestHash}.verdict.json`, Buffer.from(filmCanonicalJson(verdict)));
+  if (!verdict.approved || verdict.status !== "passed" || verdict.via !== "llm" || verdict.degraded || !verdict.model
+    || !verdict.evidence?.some(item => item.path === file && item.sha256 === artifact.sha256 && item.scope === "complete-text")) {
+    fail("NATIVE_RENDER_UNVERIFIED", `完整编译请求未通过系统预检：${verdict.reason}`);
   }
 }
 
@@ -743,6 +816,7 @@ async function runImage(ctx: RunContext, frame: FilmChannelRequestFrame, compone
     },
   };
   const compiled = compileProviderRequest("seedream", genRequest, endpoint);
+  await reviewCompiledFilmRequest(ctx, frame, compiled);
   const provider = new ArkImageProvider({ apiKey, baseUrl: endpoint.baseUrl });
   const started = Date.now();
   await ctx.ledger.recordDispatch(componentId, ctx.ownerToken, "seedream", model);
@@ -829,6 +903,7 @@ async function runVideo(ctx: RunContext, frame: FilmChannelRequestFrame, compone
     },
   };
   const compiled = compileProviderRequest("seedance", genRequest, endpoint);
+  await reviewCompiledFilmRequest(ctx, frame, compiled);
   const provider = new ArkVideoProvider({ apiKey, baseUrl: endpoint.baseUrl });
   const started = Date.now();
   await ctx.ledger.recordDispatch(componentId, ctx.ownerToken, "seedance", model);

@@ -45,8 +45,10 @@ printf '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion
 | 执行（`execute`） | **是**（服务端过程 + 幂等键 + 围栏/审批） | 仅在启用且过审后出现 | `growth.service.inquiry.execute`（本仓当前**禁用**） |
 
 **视频的"执行"目前不在 MCP 里**：渲染/出片是本地长任务，走 CLI：
-`scripts/tools/route-video.mts` → `scripts/tools/full-chain-film.mts`（见 `bundles/ai-video/README.md`）。
-`growth.video.production.plan` 只给"建议命令 + 前置检查"，**不替你执行、不花钱**——这是产品所有者口径。
+`scripts/tools/full-chain-film.mts --prepare --intent "<需求>" --character <档案ID> --product <档案ID>`
+→ `--project <系统项目ID> --plan` → `--project <系统项目ID>`（见 `bundles/ai-video/README.md`）。
+CLI 调正式服务，由系统完成两条原生策划管线并冻结本次来源；不接受外部手写分镜、剧本或提示词。中间系统检查，人类只验收最终成片。
+`growth.video.production.plan` 只给正式命令与前置提示，`ready=false`；真实来源资格、完整片单和预算要读服务 `video.film.plan`。
 
 ---
 
@@ -99,7 +101,7 @@ DSH 桌面端（v0.2 预览版，macOS/Windows 安装包，MIT 开源）"一切�
 
 1. 在 DSH 里把本仓目录设为工作区；
 2. 让它读 `bundles/ai-video/README.md`（§0–§6 是给 Agent 的 runbook）；
-3. 用它的 `bash` 工具执行同一套命令（`pnpm video:doctor` → `route-video.mts` → `full-chain-film.mts`）。
+3. 用它的 `bash` 工具执行同一套命令（`pnpm video:doctor` → `full-chain-film.mts --prepare` → `--project <ID> --plan` → `--project <ID>`）。
 
 ### 4.2 桌面端接入 · 路线 B（把本仓 MCP 挂成 DSH 插件，能力进菜单）
 
@@ -128,8 +130,8 @@ DSH 官方扩展手册明确："**MCP：每个服务器一个插件：发现工�
 
 | 能力 | 何时用 | 备注 |
 |---|---|---|
-| `growth.video.route.record` | 出片前：确认本项目的分流结论 | 读 `work/route.json`；没有就让 Agent 先跑分流 |
-| `growth.video.production.plan` | 出片前：拿"建议命令 + 检查清单" | **预览**：不执行、不花钱 |
+| `growth.video.route.record` | 出片前：确认本项目的分流结论 | 读既有 `work/route.json`；正式分流由 `--prepare` 的服务完成 |
+| `growth.video.production.plan` | 出片前：拿"建议命令 + 检查清单" | **预览**：只接意图/档案身份/项目引用，返回服务命令；不读取调用方分镜 |
 | `growth.video.gen.catalog` | 选模型/看限额 | 服务端只读 |
 | `growth.video.production.shots` | 看项目镜头与生产资格 | 服务端只读 |
 | `growth.video.production.status` | 跑片过程中/跑完后：看卡在哪一步 | 读 `logs/<project>/stages.jsonl`，含渲染台账 |

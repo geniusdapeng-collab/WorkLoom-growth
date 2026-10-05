@@ -3,14 +3,11 @@
  *
  * 职责：
  *  1. 内存 run 注册表（runId → 运行投影），studio.start 异步启动不阻塞 tRPC 响应
- *  2. onApproval：确认门 → gatewayAppendOnClient 落门动作事件 + INSERT approvals（pending）
- *     → 轮询审批状态（HR_APPROVAL_POLL_MS / HR_APPROVAL_TIMEOUT_MS）→ 映射 GateVerdict
+ *  2. onApproval：G1–G7 系统检查、真实文件证据和事件留痕；中间不创建人工验收单
  *  3. onEvent：pipeline.* 生命周期事件经 gatewayAppend 落五元事件库
  *  4. LLM engine：WorkloomLLMEngine.fromEnv()；为 null 拒绝启动（禁止静默降级，vendor 纪律）
  *
- * 纪律：门事件与 approvals 行同一事务同一 COMMIT（D16）；事件一律经 workdata 安全网关。
- * 注意：ApprovalCallback 签名（packages/video-studio，冻结）不透传 vendor 的 shouldAbort，
- *      本工作器以 run 注册表 aborted 位实现同等中止语义（轮询每拍检查）。
+ * 纪律：门事件经 workdata 安全网关；渲染接续只消费本次成功预生产和原生交接稿。
  */
 import path from "node:path";
 import { appendFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
@@ -22,6 +19,9 @@ import { gatewayAppend, gatewayAppendOnClient, insertWithReadableId, VIDEO_PROJE
 import { makeReadableId, newId } from "@workloom/shared";
 import {
   VideoStudio,
+  nativeProductionShots,
+  buildNativeFilmSource,
+  planNativeFilmHandoff,
   WorkloomLLMEngine,
   ArchiveStore,
   StageRunner,
@@ -56,6 +56,7 @@ import { ingestPortraitsFromIndex } from "./media/library.js";
 import { upsertProductProfileFromDossier } from "./media/products.js";
 import { appendScenePolicyGuidance, resolveScenePolicyForIntent } from "./scene-policy-routing.js";
 import { appendPlatformGuidance, resolvePlatformForIntent } from "./platform-routing.js";
+import { assertCustomerVideoMetadata, resolveNativeVideoAssets, bindNativeVideoAssets, type NativeVideoAssets } from "./native-video-assets.js";
 import {
   AUTO_GATES,
   GATE_PRODUCER_STAGE,
@@ -64,26 +65,21 @@ import {
   isProducerRejection,
   producerModeFromEnv,
   portraitGateEvidence,
-  portraitReviewManifest,
   writeGateArtifact,
   type ProducerMode,
 } from "./gate-policy.js";
 
 /* ================= 可配项（环境变量） ================= */
 
-/** 审批等待上限（默认 2 小时；超时 → { approved:false, fatal:'timeout' }） */
-const APPROVAL_TIMEOUT_MS = Number(process.env.HR_APPROVAL_TIMEOUT_MS ?? 7_200_000);
-/** 审批状态轮询间隔（默认 2s） */
-const APPROVAL_POLL_MS = Number(process.env.HR_APPROVAL_POLL_MS ?? 2_000);
 /** 流水线总截止（透传 vendor STORMAXE_TOTAL_DEADLINE_MS 口径，默认 1 小时） */
 const TOTAL_DEADLINE_MS = Number(process.env.VM_TOTAL_DEADLINE_MS ?? 3_600_000);
 
 /**
  * 内部门三档处置与逐门口径见 `./gate-policy.js`（服务端与本地审计跑批共用同一份定义，
- * 避免"审计过的门 ≠ 生产的门"漂移）。花钱/对外门（G8 渲染提交、G9 发布、G10 对外评论）
- * 不在 AUTO_GATES 内，仍按高风险走人审。
+ * 避免"审计过的门 ≠ 生产的门"漂移）。本次生产授权后只验收最终成片；
+ * G8仍校验原生计划/预算/单次提交，G9发布和G10对外评论保持独立授权范围。
  */
-const PRODUCER_MODE: ProducerMode = producerModeFromEnv();
+const PRODUCER_MODE: ProducerMode = producerModeFromEnv({ HR_PRODUCER: "review" });
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 /** 仓库根（apps/server/src/video → 上溯四级）：参考图相对路径按此解析 */
@@ -353,93 +349,6 @@ function gateObjectOf(gate: GateKey, vendorType: string): { type: string; action
   }
 }
 
-/* ================= 审批轮询 ================= */
-
-interface ApprovalPollRow {
-  status: string;
-  gesture: { reason_enum?: string; reason_text?: string; edited_after?: unknown } | null;
-}
-
-async function readApproval(
-  scope: { tenantId: string; workspaceId: string },
-  approvalId: string,
-): Promise<ApprovalPollRow | null> {
-  const client = await getAppPool().connect();
-  try {
-    // 事务级 RLS 上下文必须在显式事务内设置：autocommit 下 set_config(...,true) 语句结束即失效
-    await client.query("BEGIN");
-    await client.query("SELECT set_config('app.workspace_id', $1, true)", [scope.workspaceId]);
-    const r = await client.query<ApprovalPollRow>(
-      `SELECT status, gesture FROM approvals WHERE approval_id=$1 AND workspace_id=$2`,
-      [approvalId, scope.workspaceId],
-    );
-    await client.query("COMMIT");
-    return r.rows[0] ?? null;
-  } catch (err) {
-    await client.query("ROLLBACK").catch(() => undefined);
-    throw err;
-  } finally {
-    client.release();
-  }
-}
-
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-/** 轮询审批状态 → GateVerdict（尊重 entry.aborted；超时 fatal='timeout'） */
-async function pollApproval(
-  entry: RunEntry,
-  scope: { tenantId: string; workspaceId: string },
-  approvalId: string,
-): Promise<GateVerdict> {
-  const deadline = Date.now() + APPROVAL_TIMEOUT_MS;
-  for (;;) {
-    if (entry.aborted) return { approved: false, reason: "run-aborted", fatal: "abort" };
-    if (Date.now() >= deadline) {
-      // C-05 修复：超时出口把审批行置 expired——否则审批中心仍显示可办，
-      // 人后来批准了也没有任何消费者（僵尸审批；与 expireSweep 口径一致）
-      try {
-        const client = await getAppPool().connect();
-        try {
-          await client.query("BEGIN");
-          await client.query("SELECT set_config('app.workspace_id', $1, true)", [scope.workspaceId]);
-          await client.query(
-            `UPDATE approvals SET status='expired' WHERE approval_id=$1 AND workspace_id=$2 AND status='pending'`,
-            [approvalId, scope.workspaceId],
-          );
-          await client.query("COMMIT");
-        } catch (inner) {
-          // 事务不得带着未决状态归还连接池（否则后续借用者接手一个已中止事务）
-          await client.query("ROLLBACK").catch(() => undefined);
-          throw inner;
-        } finally {
-          client.release();
-        }
-      } catch (err) {
-        console.warn(`[studio-worker] 审批超时置 expired 失败（${approvalId}）：`, err instanceof Error ? err.message : err);
-      }
-      return { approved: false, reason: "approval-timeout", fatal: "timeout" };
-    }
-    const row = await readApproval(scope, approvalId);
-    if (row && row.status !== "pending") {
-      if (row.status === "approved") return { approved: true };
-      if (row.status === "edited") {
-        // 编辑后采纳：edited_after 文本作为 suggestions 回传引擎（F5.2 手势语义）
-        const edited = row.gesture?.edited_after;
-        const text = typeof edited === "string" ? edited : edited !== undefined ? JSON.stringify(edited) : "";
-        return { approved: true, suggestions: text ? [text] : [] };
-      }
-      if (row.status === "rejected") {
-        return { approved: false, reason: row.gesture?.reason_text ?? row.gesture?.reason_enum ?? "rejected" };
-      }
-      // expired 等其余终态按驳回处理（L5.4：不存在超时自动放行）
-      return { approved: false, reason: `approval-${row.status}` };
-    }
-    await sleep(APPROVAL_POLL_MS);
-  }
-}
-
 /* ================= 启动入口 ================= */
 
 interface Scope { tenantId: string; workspaceId: string }
@@ -474,7 +383,7 @@ function collectReferenceImages(metadata?: Record<string, unknown>): string[] {
 }
 
 /** 定妆照出图配置（缺密钥则显式关闭：保持 vendor 规格包口径，不假装出图） */
-function portraitConfig(metadata?: Record<string, unknown>): StudioPortraitConfig {
+function portraitConfig(metadata?: Record<string, unknown>, assets?: NativeVideoAssets): StudioPortraitConfig {
   const apiKey = (process.env.VOLCENGINE_ARK_API_KEY ?? process.env.ARK_API_KEY ?? "").trim();
   const model = (process.env.ARK_IMAGE_MODEL ?? process.env.SEEDREAM_MODEL ?? "").trim();
   const enabled = (process.env.HR_PORTRAIT_ENABLED ?? "1") !== "0";
@@ -501,6 +410,8 @@ function portraitConfig(metadata?: Record<string, unknown>): StudioPortraitConfi
      * 直接污染真人出镜链路。（vendor 直跑保持默认 false，不影响其它产品。）
      */
     requireCharacterDescription: true,
+    retries: 0,
+    existingAssets: assets?.portraits ?? [],
   };
 }
 
@@ -518,6 +429,7 @@ type StudioRunInput = RunInput & {
 };
 
 export function startRun(scope: Scope, input: StudioRunInput): string {
+  const nativeAssets = resolveNativeVideoAssets(input.metadata ?? {});
   // 补跑/恢复同样经过选型；歧义或知识库损坏在任何供应商调用之前同步失败。
   const selectedScenePolicy = input.selectedScenePolicy
     ?? resolveScenePolicyForIntent(input.rawIntent ?? input.intent, input.metadata);
@@ -536,7 +448,7 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
   };
   const runInput: RunInput = {
     projectId: input.projectId,
-    intent: appendPlatformGuidance(appendScenePolicyGuidance(input.intent, selectedScenePolicy.policy), selectedPlatform.decision),
+    intent: appendPlatformGuidance(appendScenePolicyGuidance([input.intent, nativeAssets.guidance].filter(Boolean).join("\n\n"), selectedScenePolicy.policy), selectedPlatform.decision),
     metadata: resolvedMetadata,
     isMarketing: input.isMarketing,
   };
@@ -681,213 +593,71 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
     const gate = req.gate as GateKey;
     const gateObj = gateObjectOf(gate, req.vendorType);
     const objectId = gate === "G7_FINAL" ? input.projectId : `${input.projectId}:${gate.toLowerCase()}`;
-    /**
-     * 内部准备门：**AI 监制评审** + 留痕（不插 approvals 行）。
-     * 与下面的人工门共用同一事务口径：门事件经安全网关落事件账本（过程与时间线可见），
-     * 审批中心只保留真正的业务决策与花钱/对外门。
-     *
-     * 裁决三类：① 评审放行 → approved；② 评审打回 → approved:false（vendor 中止本 run，由发起方重跑）；
-     * ③ `HR_PRODUCER=auto` → 旧的无条件放行（应急口径，事件里标注 autoApproved 以便审计）。
-     */
-    if (AUTO_GATES.has(gate) && PRODUCER_MODE !== "human") {
+    if (gate === "G5_PORTRAIT") {
+      // Vendor may ask before it executes portraits. This is permission to execute, never a G5 pass proof.
+      if (!completedVendorResult) return { approved: true, reason: "portrait-execution-pending-system-check", suggestions: [] };
+      const portrait = portraitGateEvidence({ workDir: runWorkDir, projectId: input.projectId,
+        stage: completedVendorResult?.stages?.portraitStudio,
+        scriptReport: (completedVendorResult?.stages?.scriptEngine as { report?: unknown } | undefined)?.report });
+      const approved = portrait.notApplicable || portrait.deterministic.every(check => check.pass === true);
+      const evidence = portrait.artifacts.map(artifact => ({ path: artifact.path,
+        sha256: renderSha256(readFileSync(artifact.path)), scope: artifact.kind === "image" ? "image" : "complete-text" }));
+      gateProofs.set(gate, { gate, approved, status: portrait.notApplicable ? "not_applicable" : approved ? "passed" : "failed",
+        via: "deterministic", degraded: false, model: null, evidence,
+        basis: portrait.notApplicable ? "no-characters-or-products" : "native-portrait-files" });
+      await onEvent({ kind: "pipeline.gate.resolved", projectId: input.projectId, runId: entry.runId, gate,
+        payload: { approved, via: "deterministic", checks: portrait.deterministic, evidence } });
+      return { approved, reason: approved ? "native-portrait-files" : "portrait-evidence-failed", suggestions: [],
+        ...(approved ? {} : { fatal: "portrait_evidence_missing" }) };
+    }
+    // Internal gates use system review and append evidence; only the final film goes to the customer.
+    if (AUTO_GATES.has(gate)) {
       const producerStage = GATE_PRODUCER_STAGE[gate] ?? "script";
-      let producerVerdict: Awaited<ReturnType<typeof reviewStage>> | null = null;
-      if (PRODUCER_MODE === "review") {
-        /**
-         * 门内容落盘后送审（真机根因修复）：此前传的是 `${gate}:${vendorType}` 标签路径，
-         * `reviewStage` 读不到文件 → 监制只看到 rubric 里的 600 字摘录 → 文档后半段
-         * （需求契约/结论摘要等）等于不存在，连续三轮把 G3 判成"契约缺失"。
-         */
-        const artifact = writeGateArtifact(runWorkDir, path.join(input.projectId, `attempt-${stageRef.attempt}`), gate, req.contentMd ?? "");
-        const portrait = gate === "G5_PORTRAIT" ? portraitGateEvidence({ workDir: runWorkDir, projectId: input.projectId,
-          stage: completedVendorResult?.stages?.portraitStudio,
-          scriptReport: (completedVendorResult?.stages?.scriptEngine as { report?: unknown } | undefined)?.report }) : null;
-        producerVerdict = portrait?.notApplicable ? {
-          stage: "keyframe", status: "not_applicable", approved: true, score: 100, hardFailures: [], issues: [], suggestions: [],
-          rerun: false, via: "deterministic", ms: 0, reason: "no-characters-or-products", degraded: false, evidence: [],
-        } : await reviewStage({
-          stage: producerStage,
-          projectId: input.projectId,
-          artifacts: [{ path: artifact.path, kind: "text", note: req.title }, ...(portrait?.artifacts ?? [])],
-          deterministic: portrait?.deterministic ?? gateDeterministicChecks(gate, req.contentMd ?? ""),
-          rubric: [
-            ...((GATE_RUBRIC[gate] ?? []) as string[]),
-            `门内容全长 ${artifact.chars} 字，已随附件送审；摘录（供定位，不是全文）：${(req.contentMd ?? "").slice(0, 600)}`
-          ],
-          context: { gate, vendorType: req.vendorType, runId: entry.runId, contentChars: (req.contentMd ?? "").length },
-          // 内部准备门默认 fail-closed：评审模型不可用即打回，不静默放行
-          allowFallbackApprove: (process.env.HR_PRODUCER_FALLBACK_APPROVE ?? "0") === "1",
-          log: (line) => console.log(line)
-        });
-      }
-      const approved = PRODUCER_MODE === "auto" ? true : Boolean(producerVerdict?.approved);
-      /**
-       * 门外账本字段（2026-09-25）：把平台门按 **step_key** 记账，与 CLI 运行时同一套口径。
-       * 能一一对应的门（G5/G6/G7）在事件 payload 里带 `stepKey` 与规范化 `gateEvent`；
-       * 未知/未映射门返回 null，payload 保持原样（**不猜映射**，审计一眼能看出"这个门没有 step_key"）。
-       */
-      const gateRecord = buildServerGateRecord({
-        gate,
-        vendorType: String(req.vendorType ?? ""),
-        projectId: input.projectId,
-        runId: entry.runId,
-        approved,
-        verdict: producerVerdict,
-        producerMode: PRODUCER_MODE
+      const artifact = writeGateArtifact(runWorkDir, path.join(input.projectId, `attempt-${stageRef.attempt}`), gate, req.contentMd ?? "");
+      const producerVerdict = await reviewStage({
+        stage: producerStage, projectId: input.projectId,
+        artifacts: [{ path: artifact.path, kind: "text", note: req.title }],
+        deterministic: gateDeterministicChecks(gate, req.contentMd ?? ""),
+        rubric: [...((GATE_RUBRIC[gate] ?? []) as string[]), `门内容全长 ${artifact.chars} 字，完整正文已随附件送审`],
+        context: { gate, vendorType: req.vendorType, runId: entry.runId, contentChars: artifact.chars },
+        allowFallbackApprove: false, log: (line) => console.log(line)
       });
-      const autoClient = await getAppPool().connect();
+      const approved = producerVerdict.approved && producerVerdict.status === "passed" && producerVerdict.via === "llm"
+        && !producerVerdict.degraded && producerVerdict.evidence?.some(item => item.path === artifact.path
+          && item.sha256 === renderSha256(readFileSync(artifact.path)) && item.scope === "complete-text") === true;
+      const gateRecord = buildServerGateRecord({ gate, vendorType: String(req.vendorType ?? ""), projectId: input.projectId,
+        runId: entry.runId, approved, verdict: producerVerdict, producerMode: PRODUCER_MODE });
+      const client = await getAppPool().connect();
       try {
-        await autoClient.query("BEGIN");
-        await autoClient.query("SELECT set_config('app.workspace_id', $1, true)", [scope.workspaceId]);
-        await autoClient.query("SELECT set_config('app.tenant_id', $1, true)", [scope.tenantId]);
-        await gatewayAppendOnClient(autoClient, { ...scope, actor: { ...WORKER_ACTOR } }, {
+        await client.query("BEGIN");
+        await client.query("SELECT set_config('app.workspace_id', $1, true)", [scope.workspaceId]);
+        await client.query("SELECT set_config('app.tenant_id', $1, true)", [scope.tenantId]);
+        await gatewayAppendOnClient(client, { ...scope, actor: { ...WORKER_ACTOR } }, {
           who: { ...WORKER_ACTOR },
-          context: {
-            tenant_id: scope.tenantId, workspace_id: scope.workspaceId,
-            time: new Date().toISOString(), channel: "inapp",
-          },
+          context: { tenant_id: scope.tenantId, workspace_id: scope.workspaceId, time: new Date().toISOString(), channel: "inapp" },
           object: { type: gateObj.type, id: objectId },
-          decision: {
-            action: gateObj.action,
-            after: withGateLedger({
-              gate: req.gate, vendorType: req.vendorType, runId: entry.runId, title: req.title,
-              producerMode: PRODUCER_MODE,
-              approved,
-              ...(producerVerdict
-                ? {
-                    score: producerVerdict.score, via: producerVerdict.via, model: producerVerdict.model ?? null,
-                    degraded: producerVerdict.degraded, issues: producerVerdict.issues.slice(0, 5),
-                    suggestions: producerVerdict.suggestions.slice(0, 5), reason: producerVerdict.reason
-                  }
-                : { autoApproved: true }),
-            }, gateRecord),
-            basis: PRODUCER_MODE === "auto"
-              ? ["HR_PRODUCER=auto（应急口径）：内部准备门无条件放行，产出作为过程与时间线留痕"]
-              : [`AI 监制门（${producerStage}）：确定性硬闸 + 模型评审后${approved ? "放行" : "打回重跑"}；人审只保留给花钱与对外动作`],
-          },
+          decision: { action: gateObj.action,
+            after: withGateLedger({ gate: req.gate, vendorType: req.vendorType, runId: entry.runId, title: req.title,
+              producerMode: PRODUCER_MODE, approved, score: producerVerdict.score, via: producerVerdict.via,
+              model: producerVerdict.model ?? null, degraded: producerVerdict.degraded, issues: producerVerdict.issues,
+              suggestions: producerVerdict.suggestions, reason: producerVerdict.reason }, gateRecord),
+            basis: [`系统检查完整本次产物（${producerStage}）并归档摘要；中间不人审，最终成片由客户验收`] },
           rule_impact: [],
         });
-        await autoClient.query("COMMIT");
-      } catch (err) {
-        await autoClient.query("ROLLBACK").catch(() => undefined);
-        throw err;
-      } finally {
-        autoClient.release();
-      }
-      gateProofs.set(gate, { gate, approved, status: producerVerdict?.status ?? "unverified",
-        via: producerVerdict?.via ?? "auto", degraded: producerVerdict?.degraded ?? true,
-        model: producerVerdict?.model ?? null, evidence: producerVerdict?.evidence ?? [],
-        ...(producerVerdict?.status === "not_applicable" ? { basis: producerVerdict.reason } : {}) });
-      if (PRODUCER_MODE === "auto") {
-        return { approved: true, reason: `auto-approved(${req.gate})`, suggestions: [] };
-      }
-      return producerVerdict
-        ? {
-            approved,
-            reason: producerVerdict.approved
-              ? `producer-approved(${req.gate} · score=${producerVerdict.score} · via=${producerVerdict.via})`
-              : `producer-rejected(${req.gate} · score=${producerVerdict.score})：${producerVerdict.reason}`,
-            suggestions: producerVerdict.suggestions,
-            fatal: producerVerdict.approved ? undefined : "producer_rejected"
-          }
-        : { approved: false, reason: `producer-unavailable(${req.gate})`, fatal: "producer_unavailable" };
+        await client.query("COMMIT");
+      } catch (error) {
+        try { await client.query("ROLLBACK"); }
+        catch (rollback) { throw new AggregateError([error, rollback], "preproduction-gate-evidence-rollback-failed"); }
+        throw error;
+      } finally { client.release(); }
+      gateProofs.set(gate, { gate, approved, status: producerVerdict.status, via: producerVerdict.via,
+        degraded: producerVerdict.degraded, model: producerVerdict.model ?? null, evidence: producerVerdict.evidence ?? [] });
+      return { approved, reason: approved ? `producer-approved(${gate} · score=${producerVerdict.score})`
+        : `producer-rejected(${gate})：${producerVerdict.reason}`, suggestions: producerVerdict.suggestions,
+        ...(approved ? {} : { fatal: "producer_rejected" }) };
     }
-    /**
-     * G5 定妆照：**默认人审**（T-2026-1001-0007，G5 已移出 AUTO_GATES 默认表）。
-     * ① 事实核验先行：实际出图 / 必需角度 / 文件可读，不成立即 fail-closed（不占用人类时间，也不自动重出）；
-     * ② 事实成立 → 把逐张文件清单写进审批内容，交给人类看过原图后放行或退回；
-     * ③ 机器像不像/监制判据不参与这里的决策，也不会触发自动重做。
-     */
-    let humanContentMd = req.contentMd ?? "";
-    if (gate === "G5_PORTRAIT") {
-      const portrait = portraitGateEvidence({
-        workDir: runWorkDir,
-        projectId: input.projectId,
-        stage: completedVendorResult?.stages?.portraitStudio,
-        scriptReport: (completedVendorResult?.stages?.scriptEngine as { report?: unknown } | undefined)?.report,
-      });
-      if (portrait.notApplicable) {
-        gateProofs.set("G5_PORTRAIT", { gate, approved: true, status: "not_applicable", via: "deterministic",
-          degraded: false, model: null, evidence: [], basis: "no-characters-or-products" });
-        return { approved: true, reason: "no-characters-or-products", suggestions: [] };
-      }
-      const evidenceFailed = portrait.deterministic.filter((check) => check.hard === true && check.pass === false);
-      if (evidenceFailed.length > 0) {
-        gateProofs.set("G5_PORTRAIT", { gate, approved: false, status: "failed", via: "deterministic",
-          degraded: false, model: null, evidence: portrait.deterministic });
-        return {
-          approved: false,
-          reason: `portrait-evidence-failed：${evidenceFailed.map((check) => check.detail).join("；")}`,
-          suggestions: [],
-          fatal: "portrait_evidence_missing",
-        };
-      }
-      humanContentMd = `${humanContentMd}\n\n${portraitReviewManifest({ workDir: runWorkDir, projectId: input.projectId }).markdown}`;
-    }
-    /* HR_PRODUCER=human 或门不在 AUTO_GATES 内 → 落到下面的人工审批分支（插 approvals 行等人点） */
-    // D16（#1/A）：门动作事件与 approvals 行同一事务同一 COMMIT（模仿 fence.confirmDryRun 口径）
-    const client = await getAppPool().connect();
-    let approvalId: string;
-    try {
-      await client.query("BEGIN");
-      await client.query("SELECT set_config('app.workspace_id', $1, true)", [scope.workspaceId]);
-      await client.query("SELECT set_config('app.tenant_id', $1, true)", [scope.tenantId]);
-      const ev = await gatewayAppendOnClient(client, { ...scope, actor: { ...WORKER_ACTOR } }, {
-        who: { ...WORKER_ACTOR },
-        context: {
-          tenant_id: scope.tenantId, workspace_id: scope.workspaceId,
-          time: new Date().toISOString(), channel: "inapp",
-        },
-        object: { type: gateObj.type, id: objectId },
-        decision: {
-          action: gateObj.action,
-          after: { gate: req.gate, vendorType: req.vendorType, runId: entry.runId, title: req.title },
-          basis: [`预生产确认门 ${req.gate}（§3 门矩阵：${gateObj.action} 默认 review）`],
-        },
-        rule_impact: [],
-      });
-      approvalId = `apr-${ev.eventId.toLowerCase()}`;
-      await client.query(
-        `INSERT INTO approvals (approval_id, tenant_id, workspace_id, event_id, channel, status, snapshot)
-         VALUES ($1,$2,$3,$4,'inapp','pending',$5)
-         ON CONFLICT (event_id, channel) DO NOTHING`,
-        [
-          approvalId, scope.tenantId, scope.workspaceId, ev.eventId,
-          /**
-           * W-04 举一反三：这一支是"人工确认门"（HR_PRODUCER=human 或门不在 AUTO_GATES 内），
-           * 按模块自述"人审只保留给花钱与对外动作"——必须在快照上显式声明高危，
-           * 否则批量采纳入口会把"逐门确认"降级成一键放行（第三方实测同类的 l4 种子审批即被批量放行）。
-           */
-          // B-01 修复：G8 渲染提交/G9 发布/G10 对外评论均为花钱/对外门，快照必须显式携带高危标记——
-          // 批量审批守卫与演示脚本的 lowRisk 过滤都读 high_risk，缺失即守卫空转（此前可一键批量照批对外发布）。
-          // B-07 修复：补 expires_at（与 pollApproval 超时同口径）——此前快照无过期位，decide/expireSweep 永不标 expired
-          JSON.stringify({
-            contentMd: humanContentMd, gate: req.gate, vendorType: req.vendorType, high_risk: true,
-            expires_at: new Date(Date.now() + APPROVAL_TIMEOUT_MS).toISOString(),
-          }),
-        ],
-      );
-      await client.query("COMMIT");
-    } catch (err) {
-      await client.query("ROLLBACK").catch(() => undefined);
-      throw err;
-    } finally {
-      client.release();
-    }
-
-    entry.currentGate = gate;
-    entry.pendingApprovalId = approvalId!;
-    entry.status = "awaiting_approval";
-    const verdict = await pollApproval(entry, scope, approvalId!);
-    entry.currentGate = null;
-    entry.pendingApprovalId = null;
-    if (entry.status === "awaiting_approval") entry.status = "running";
-    /** G5 的放行/否决来自人类验收（T-2026-1001-0007）：把人类裁决写进本次门证据，供终态完整性核对与审计 */
-    if (gate === "G5_PORTRAIT") {
-      gateProofs.set(gate, { gate, approved: verdict.approved, status: verdict.approved ? "passed" : "failed",
-        via: "owner-acceptance", degraded: false, model: null, evidence: [] });
-    }
-    return verdict;
+    // Rendering is deferred to the qualified film service. No intermediate gate waits for a human.
+    return { approved: false, reason: `unsupported-preproduction-gate(${gate})`, fatal: "unsupported_gate" };
   };
 
   let marketingDossierRoot: string | undefined;
@@ -899,8 +669,8 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
     onEvent,
     totalDeadlineMs: TOTAL_DEADLINE_MS,
     // 片型硬闸必须在 G8 之前审完整分镜，禁止 env 让 vendor 在审计前直接渲染。
-    deferRender: selectedScenePolicy.policy ? true : (process.env.HR_DEFER_RENDER ?? "1") !== "0",
-    portraits: portraitConfig(runInput.metadata),
+    deferRender: true,
+    portraits: portraitConfig(runInput.metadata, nativeAssets),
     /** 营销路由 → 情报五站真跑（叙事路由不装配，vendor 也不会进情报层） */
     dataMining: input.isMarketing ? undefined : dataMiningConfigFor(runInput.metadata, llm, scope.workspaceId),
     log: (line) => console.log(line),
@@ -1039,7 +809,7 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
               const missing = [...(input.isMarketing ? ["G1_DOSSIER"] : []), "G2_THEME", "G3_INSIGHT", "G4_PRD", "G5_PORTRAIT", "G6_PROMPT", "G7_FINAL"].filter(gate => {
                 const proof = gateProofs.get(gate);
                 return !(proof?.approved === true && (proof.status === "passed" && ((proof.via === "llm" && proof.degraded === false)
-                  || (gate === "G5_PORTRAIT" && proof.via === "owner-acceptance" && proof.degraded === false))
+                  || (gate === "G5_PORTRAIT" && proof.via === "deterministic" && proof.basis === "native-portrait-files" && proof.degraded === false))
                   || gate === "G5_PORTRAIT" && proof.status === "not_applicable" && proof.basis === "no-characters-or-products"));
               });
               if (missing.length) {
@@ -1104,9 +874,29 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
              * 会被 vendor 主动清理）。档案号称"自包含、可跨会话承接"，就必须把提示词本体落盘，
              * 否则新会话拿到档案也接不上下一步（提交渲染/交付）。
              */
-            const shots = (
-              (r.stages?.productionEngine as { shots?: Array<Record<string, unknown>> } | undefined)?.shots ?? []
-            );
+            const handoff = r.success ? await planNativeFilmHandoff({ intent: input.rawIntent ?? input.intent,
+              platform: String(runInput.metadata?.platform ?? "抖音"), nativeStages: r.stages ?? {},
+              scenePolicy: selectedScenePolicy.policy,
+              shots: bindNativeVideoAssets(nativeProductionShots(r.stages ?? {}), nativeAssets), llm }) : undefined;
+            const shots = handoff?.shots ?? [];
+            if (handoff) {
+              const handoffRef = `stages/preproduction/attempt-${ctx.attempt}.film-handoff-report.json`;
+              const handoffArtifact = await ctx.writeArtifact(handoffRef, { ...handoff.report, originalShots: nativeProductionShots(r.stages ?? {}),
+                handoff: { shots, context: handoff.context } });
+              if (!handoffArtifact || handoffArtifact.truncated) throw new Error("NATIVE_FILM_PLAN_UNVERIFIED: 完整交接审核证据被裁剪");
+              const handoffPath = path.join(archive.root, handoffRef);
+              const verdict = await reviewStage({ stage: "prompt", projectId: input.projectId,
+                artifacts: [{ path: handoffPath, kind: "json" }], minScore: 85,
+                deterministic: [{ id: "native-handoff-bound", pass: true, hard: true, detail: "交接完整覆盖当前原生镜头，提示词/时长/字段未改写，环境和钩子结构通过实测" }],
+                requiredCheckIds: ["native-handoff-bound"], allowFallbackApprove: false,
+                rubric: ["完整逐镜比较originalShots与handoff：没有改写原剧本、主体、动作、对白、服装或镜头目的，没有凭空新增镜头",
+                  "钩子在原首镜提出且在指定原镜头实际兑现；空间、道具方向、操作者与接触合同来自原动作，无矛盾或新营销主张"] });
+              await ctx.writeArtifact(`stages/preproduction/attempt-${ctx.attempt}.film-handoff-verdict.json`, verdict);
+              if (!verdict.approved || verdict.status !== "passed" || verdict.via !== "llm" || verdict.degraded || !verdict.model
+                || !verdict.evidence?.some(item => item.path === handoffPath && item.sha256 === handoffArtifact.sha256 && item.scope === "complete-text")) {
+                throw new Error(`NATIVE_FILM_PLAN_UNVERIFIED: 交接语义审核未通过：${verdict.reason}`);
+              }
+            }
             const promptPack = shots.length
               ? {
                   stageId: "preproduction",
@@ -1224,9 +1014,20 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
             const marketingFacts = marketing && r.success && promptPack ? await finalizeMarketingFacts(marketing,
               promptPack.shots.map(shot => ({ shotId: String(shot.shotId ?? ""), prompt: shot.prompt, fields: shot.fields }))) : undefined;
             if (marketing && r.success && !marketingFacts) throw new Error("MARKETING_PROMPTS_UNVERIFIED：营销预生产没有完整最终镜头事实审核");
+            const filmSourceArtifact = r.success && shots.length ? await ctx.writeArtifact(
+              `stages/preproduction/attempt-${ctx.attempt}.film-source.json`, buildNativeFilmSource({
+                binding: { ...scope, projectId: input.projectId, runId: entry.runId, attempt: ctx.attempt, pipelineKind },
+                title: projectMeta?.title ?? input.rawIntent ?? input.intent, shots,
+                context: { ...handoff!.context, scenePolicySelection: selectedScenePolicy.decision, ...(nativeAssets.productId ? { products: [nativeAssets.productId] } : {}),
+                  ...(selectedScenePolicy.policy ? { scenePolicy: { id: selectedScenePolicy.policy.id,
+                    version: selectedScenePolicy.policy.version, sourceSha256: selectedScenePolicy.policy.sourceSha256,
+                    exceptions: (selectedScenePolicy.metadata.scenePolicy as { exceptions?: ScenePolicyException[] } | undefined)?.exceptions ?? [] } } : {}) },
+              })) : null;
+            if (r.success && (!filmSourceArtifact || filmSourceArtifact.truncated)) throw new Error("NATIVE_FILM_SOURCE_REQUIRED: 完整原生影片交接稿没有完整归档");
             return {
               output: {
                 success: r.success,
+                ...(filmSourceArtifact ? { filmSourceRef: `stages/preproduction/attempt-${ctx.attempt}.film-source.json`, filmSourceSha256: filmSourceArtifact.sha256 } : {}),
                 ...(marketingFacts ? { marketingFactsRef: marketingFacts.ref, marketingFactsSha256: marketingFacts.sha256 } : {}),
                 productionEvidence: { schemaVersion: "workloom.preproduction-authority/v1", issuer: "workloom.studio-worker",
                   tenantId: scope.tenantId, workspaceId: scope.workspaceId, projectId: input.projectId,
@@ -1471,6 +1272,7 @@ export async function startVideoProjectRun(
   scope: { tenantId: string; workspaceId: string },
   input: StartVideoProjectInput,
 ): Promise<{ projectId: string; runId: string }> {
+  assertCustomerVideoMetadata(input.metadata ?? {});
   const selectionMetadata = Object.hasOwn(input, "customerMetadata") ? input.customerMetadata ?? undefined : input.metadata;
   const selectedScenePolicy = resolveScenePolicyForIntent(input.rawIntent ?? input.intent, selectionMetadata);
   const selectedPlatform = resolvePlatformForIntent(input.rawIntent ?? input.intent, selectionMetadata, input.platform);

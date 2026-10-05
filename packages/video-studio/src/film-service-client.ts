@@ -6,6 +6,16 @@
  * 与 `production-client.ts` 同一纪律：HTTPS 或本机回环、token 不落盘、超时按 `unknown` 处理、
  * 收到畸形回执一律拒绝而不是猜测。
  */
+import { NATIVE_FILM_STAGES } from "./native-film-source.js";
+
+export interface FilmSourceVersion { sourceStageRunId: string; promptsSha256: string; filmSourceSha256: string }
+export interface NativePreproductionReceipt { kind: "routed"; projectId: string; runId: string; pipeline: "narrative" | "marketing" }
+export interface NativePreproductionStatus { projectId: string; runId: string; status: "running" | "finished" | "failed"; currentGate: string | null; pendingApprovalId: null; error: string | null }
+export interface FilmProductionPlan {
+  projectId: string; pipelineKind: "narrative" | "marketing"; sourceVersion: FilmSourceVersion; sourceAttempt: number;
+  shots: Array<{ shotId: string; durationSec: number; promptSha256: string }>;
+  stages: string[]; totalSeconds: number; estimatedReserveCny: number; humanAcceptance: "final-film-only";
+}
 export interface FilmJobStartReceipt {
   jobId: string;
   projectId: string;
@@ -91,7 +101,7 @@ export class FilmServiceClient {
     return message.slice(0, 1200);
   }
 
-  private async request<T>(route: "video.film.start" | "video.film.status", input: unknown, method: "GET" | "POST"): Promise<T> {
+  private async request<T>(route: "video.film.plan" | "video.film.start" | "video.film.status" | "video.studio.start" | "video.studio.status", input: unknown, method: "GET" | "POST"): Promise<T> {
     const suffix = method === "GET" ? `?input=${encodeURIComponent(JSON.stringify(input))}` : "";
     let response: Response;
     try {
@@ -125,31 +135,74 @@ export class FilmServiceClient {
     return envelope.result.data as T;
   }
 
-  /** 提交作业：原稿 JSON 由服务冻结进项目档案；服务返回不可换绑的作业回执。 */
+  async prepare(input: { intent: string; characterId?: string; productId?: string; platform?: string; route?: "auto" | "marketing" | "narrative" }): Promise<NativePreproductionReceipt> {
+    if (Object.keys(input).some(key => !["intent", "characterId", "productId", "platform", "route"].includes(key))) throw new FilmServiceClientError("CALLER_SOURCE_FORBIDDEN", "预生产只接受客户意图及档案身份，不接受阶段产物");
+    if (!isText(input.intent) || input.intent.length > 2000) throw new FilmServiceClientError("REQUEST_INVALID", "客户意图须为1–2000字");
+    const metadata: Record<string, string> = {};
+    for (const key of ["characterId", "productId", "platform"] as const) if (input[key] !== undefined) {
+      if (!isText(input[key]) || input[key]!.length > 200 || /[\0\r\n]/.test(input[key]!)) throw new FilmServiceClientError("REQUEST_INVALID", `${key}非法`);
+      metadata[key] = input[key]!;
+    }
+    const value = await this.request<unknown>("video.studio.start", { intent: input.intent, metadata, route: input.route ?? "auto" }, "POST");
+    if (isObject(value) && value.kind === "clarify") throw new FilmServiceClientError("PREPRODUCTION_CLARIFY_REQUIRED",
+      this.safeError(typeof value.question === "string" ? value.question : "服务尚未立项；缺少可核实的客户需求"));
+    if (!isObject(value) || value.kind !== "routed" || !isText(value.projectId) || !isText(value.runId) || !["narrative", "marketing"].includes(String(value.pipeline))) {
+      throw new FilmServiceClientError("PREPRODUCTION_RECEIPT_INVALID", "原生预生产没有返回可核实的营销/叙事项目与执行身份；不重发");
+    }
+    return value as unknown as NativePreproductionReceipt;
+  }
+  async preproductionStatus(runId: string): Promise<NativePreproductionStatus> {
+    const value = await this.request<NativePreproductionStatus>("video.studio.status", { runId }, "GET");
+    if (!isObject(value) || value.runId !== runId || !isText(value.projectId) || !["running", "finished", "failed"].includes(String(value.status))
+      || value.pendingApprovalId !== null) throw new FilmServiceClientError("PREPRODUCTION_RECEIPT_INVALID", "原生预生产状态未核实或误入中间人工验收");
+    return value;
+  }
+
+  async plan(projectId: string): Promise<FilmProductionPlan> {
+    if (!isText(projectId)) throw new FilmServiceClientError("REQUEST_INVALID", "projectId必填");
+    const plan = await this.request<FilmProductionPlan>("video.film.plan", { projectId }, "GET");
+    if (!isObject(plan) || plan.projectId !== projectId || !["narrative", "marketing"].includes(String(plan.pipelineKind))
+      || !isObject(plan.sourceVersion) || !isText(plan.sourceVersion.sourceStageRunId)
+      || !isHash(plan.sourceVersion.promptsSha256) || !isHash(plan.sourceVersion.filmSourceSha256)
+      || !Number.isSafeInteger(plan.sourceAttempt) || plan.sourceAttempt < 1 || plan.humanAcceptance !== "final-film-only"
+      || !Array.isArray(plan.stages) || plan.stages.join("\0") !== NATIVE_FILM_STAGES.join("\0")
+      || !Array.isArray(plan.shots) || !plan.shots.length || new Set(plan.shots.map(shot => shot.shotId)).size !== plan.shots.length
+      || plan.shots.some(shot => !isObject(shot) || !isText(shot.shotId) || !Number.isSafeInteger(shot.durationSec) || shot.durationSec <= 0 || !isHash(shot.promptSha256))
+      || plan.totalSeconds !== plan.shots.reduce((sum, shot) => sum + shot.durationSec, 0)
+      || !Number.isFinite(plan.estimatedReserveCny) || plan.estimatedReserveCny <= 0) {
+      throw new FilmServiceClientError("PLAN_RECEIPT_INVALID", "服务计划缺少本次原生来源、完整步骤或预算证据");
+    }
+    return plan;
+  }
+
+  /** Submit only a source version returned by the service; the service freezes its own current native document. */
   async start(input: {
     projectId: string;
     workerName: string;
-    document: unknown;
-    stages: string[];
+    sourceVersion: FilmSourceVersion;
+    stages?: string[];
     options?: Record<string, unknown>;
     maxBudgetCny?: number;
   }): Promise<FilmJobStartReceipt> {
+    if (Object.hasOwn(input, "document") || Object.hasOwn(input, "shots") || Object.hasOwn(input, "prompt")) throw new FilmServiceClientError("CALLER_SOURCE_FORBIDDEN", "公开影片入口不接受调用方分镜或提示词");
     if (!isText(input.projectId) || !isText(input.workerName)) throw new FilmServiceClientError("REQUEST_INVALID", "projectId 与 workerName 必填");
-    if (!Array.isArray(input.stages) || input.stages.length === 0 || !input.stages.every(isText)) {
+    if (input.stages !== undefined && (!Array.isArray(input.stages) || input.stages.join("\0") !== NATIVE_FILM_STAGES.join("\0"))) {
       throw new FilmServiceClientError("REQUEST_INVALID", "stages 必须是非空字符串数组");
     }
+    if (!isObject(input.sourceVersion) || !isText(input.sourceVersion.sourceStageRunId) || !isHash(input.sourceVersion.promptsSha256)
+      || !isHash(input.sourceVersion.filmSourceSha256)) throw new FilmServiceClientError("NATIVE_FILM_SOURCE_REQUIRED", "先读取服务原生制作计划");
     const receipt = await this.request<FilmJobStartReceipt>("video.film.start", {
       projectId: input.projectId,
       workerName: input.workerName,
-      document: input.document,
-      stages: input.stages,
+      sourceVersion: input.sourceVersion,
+      ...(input.stages ? { stages: input.stages } : {}),
       options: input.options ?? {},
       ...(input.maxBudgetCny !== undefined ? { maxBudgetCny: input.maxBudgetCny } : {}),
     }, "POST");
     if (!isObject(receipt) || !isText(receipt.jobId) || receipt.projectId !== input.projectId
       || !Number.isInteger(receipt.attempt) || receipt.attempt <= 0 || !isText(receipt.runId)
       || receipt.status !== "running" || !isHash(receipt.inputSha256) || !isHash(receipt.workerEntrySha256)
-      || !Array.isArray(receipt.stages) || receipt.stages.join("\u0000") !== input.stages.join("\u0000")
+      || !Array.isArray(receipt.stages) || receipt.stages.join("\u0000") !== NATIVE_FILM_STAGES.join("\u0000")
       || !Number.isFinite(Date.parse(String(receipt.startedAt ?? "")))
       || typeof receipt.budgetCny !== "number" || !Number.isFinite(receipt.budgetCny) || receipt.budgetCny < 0) {
       throw new FilmServiceClientError("START_RECEIPT_INVALID", "服务回执不完整或与提交内容不一致");

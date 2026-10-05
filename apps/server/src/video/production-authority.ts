@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import type pg from "pg";
 import { newId } from "@workloom/shared";
 import { gatewayAppendOnClient } from "@workloom/base/workdata";
-import { loadScenePolicies, reviewStage, type ProducerVerdict, type ScenePolicyReport } from "@hyperreality/video-studio";
+import { assertNativeFilmSource, loadScenePolicies, reviewStage, type NativeFilmSource, type NativeProductionShot, type ProducerVerdict, type ScenePolicyReport } from "@hyperreality/video-studio";
 import { verifyMarketingFacts } from "./marketing-authority.js";
 import { archiveWorkDir, projectRunLockKey } from "./archive-host.js";
 import { ScenePolicyRenderGateError, verifyScenePolicyProductionSource, type ScenePolicySourceDecision } from "./scene-policy-render-gate.js";
@@ -158,7 +158,8 @@ async function sourceForShot(app: AppPool, scope: Scope, projectId: string, shot
     const matches = gates.filter(g => g.gate === key);
     const gate = matches[0];
     const na = key === "G5_PORTRAIT" && gate?.status === "not_applicable" && gate?.basis === "no-characters-or-products";
-    if (matches.length !== 1 || (!na && (gate?.status !== "passed" || gate?.approved !== true || gate?.via !== "llm" || gate?.degraded !== false))) fail("PREPRODUCTION_GATES_UNVERIFIED", `当前执行缺少有效 ${key} 裁决`);
+    const portraitFiles = key === "G5_PORTRAIT" && gate?.via === "deterministic" && gate?.basis === "native-portrait-files";
+    if (matches.length !== 1 || (!na && (gate?.status !== "passed" || gate?.approved !== true || (!portraitFiles && gate?.via !== "llm") || gate?.degraded !== false))) fail("PREPRODUCTION_GATES_UNVERIFIED", `当前执行缺少有效 ${key} 裁决`);
     if (!na && (!Array.isArray(gate.evidence) || gate.evidence.length === 0)) fail("PREPRODUCTION_GATES_UNVERIFIED", `${key} 缺少实际审核证据摘要`);
     if (!na) {
       if (key === "G5_PORTRAIT" && !(gate.evidence as JsonRecord[]).some(item => item.scope === "image")) fail("PREPRODUCTION_GATES_UNVERIFIED", "G5 缺少实际图像审核证据");
@@ -242,6 +243,26 @@ export async function listProductionShots(input: {
       fields: record(shot.fields, "镜头字段缺失"), promptSha256: renderSha256(shot.prompt) };
   });
   return { projectId: input.projectId, sourceStageRunId: source.row.id, sourceAttempt: source.row.attempt, promptsSha256: source.promptsHash, shots };
+}
+
+/** Same PG/source/gate/marketing/scene-policy authority as per-shot rendering; callers never provide a film document. */
+export async function loadProductionFilmSource(input: {
+  app: AppPool; scope: Scope; projectId: string; env?: NodeJS.ProcessEnv; workDir?: string;
+}): Promise<{ document: NativeFilmSource; sourceStageRunId: string; sourceAttempt: number; sourceOutputSha256: string;
+  promptsSha256: string; filmSourceSha256: string; root: string }> {
+  const source = await sourceForShot(input.app, input.scope, input.projectId, null, input.workDir ?? archiveWorkDir(input.env));
+  const ref = `stages/preproduction/attempt-${source.row.attempt}.film-source.json`;
+  if (source.output.filmSourceRef !== ref || typeof source.output.filmSourceSha256 !== "string"
+    || !/^[a-f0-9]{64}$/.test(source.output.filmSourceSha256)) fail("NATIVE_FILM_SOURCE_REQUIRED", "当前预生产没有完整原生影片交接稿，必须由正式管线完成交接；禁止调用方补写分镜");
+  const document = JSON.parse((await readBytes(source.root, ref, source.output.filmSourceSha256)).toString("utf8"));
+  const shots = (source.prompts.shots as JsonRecord[]).map(shot => ({ ...shot, shotId: String(shot.shotId ?? ""),
+    duration: Number(shot.durationSec), prompt: String(shot.prompt ?? ""), fields: record(shot.fields, "完整原生镜头字段缺失") })) as NativeProductionShot[];
+  try { assertNativeFilmSource(document, { ...input.scope, projectId: input.projectId, runId: source.row.run_id,
+    attempt: source.row.attempt, pipelineKind: source.row.kind as "narrative" | "marketing" }, shots); }
+  catch (error) { fail("NATIVE_FILM_SOURCE_INVALID", error instanceof Error ? error.message : String(error)); }
+  return { document, sourceStageRunId: source.row.id, sourceAttempt: source.row.attempt,
+    sourceOutputSha256: source.row.output_sha256, promptsSha256: source.promptsHash,
+    filmSourceSha256: source.output.filmSourceSha256, root: source.root };
 }
 
 function signingKey(env: NodeJS.ProcessEnv): { key: Buffer; keyId: string } {

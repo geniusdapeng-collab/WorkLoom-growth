@@ -10,6 +10,7 @@ import { fetchMarketingSource, type SourceSnapshot } from "./marketing-source-fe
 import { validateStageFacts, revalidateStageFacts, type ValidatedStageFacts } from "./marketing-facts.js";
 import { canonicalRenderJson, renderSha256 } from "./gen/compiled-request.js";
 import { SubmissionError } from "./gen/submission-ledger.js";
+import { loadProductArchiveSource } from "./product-archive-source.js";
 
 type RecordValue = Record<string, unknown>;
 export interface MarketingScope { tenantId: string; workspaceId: string; projectId: string; runId: string; attempt: number }
@@ -108,17 +109,28 @@ export async function prepareMarketingFacts(input: {
   const scope = { ...input.scope }; Object.values({ ...scope, attempt: String(scope.attempt) }).forEach(component);
   if (!Number.isInteger(scope.attempt) || scope.attempt < 1) fail("MARKETING_SCOPE_INVALID", "来源执行编号非法");
   const root = await realpath(input.root), prefix = `stages/preproduction/attempt-${scope.attempt}.marketing`;
-  const storeRoot = path.join(root, `${prefix}-dossier`), product = productInput(input.metadata), collector = engine(storeRoot);
+  const archiveId = input.metadata.productId;
+  if (archiveId !== undefined && typeof archiveId !== "string") fail("PRODUCT_ARCHIVE_ID_INVALID", "商品档案身份必须为字符串");
+  const archived = typeof archiveId === "string" ? await loadProductArchiveSource(archiveId) : undefined;
+  const storeRoot = path.join(root, `${prefix}-dossier`), product = archived?.productQuery ?? productInput(input.metadata), collector = engine(storeRoot);
   const plan = collector.plan(product);
   const reports: StageFactsReport[] = [], sources: ArchivedSource[] = [];
   const cache = new Map<string, SourceSnapshot>();
   const sourceFetch = input.dependencies?.fetchSource ?? fetchMarketingSource;
   const review = input.dependencies?.review ?? reviewStage;
+  if (archived) {
+    const snapshot = archived.snapshot;
+    const raw = await writeBound(root, `${prefix}-sources/${snapshot.sourceId}.raw`, archived.rawBytes);
+    const text = await writeBound(root, `${prefix}-sources/${snapshot.sourceId}.txt`, snapshot.text);
+    const { text: _text, ...stored } = snapshot;
+    sources.push({ ...stored, rawRef: raw.ref, textRef: text.ref });
+  }
   const executor = createDataMiningExecutor({ llm: input.llm, search: input.dependencies?.search,
+    ...(archived ? { perStageQueryCap: { A1: 0 } } : {}),
     evidenceCollector: async (stage, stagePlan, hits: SearchHit[]) => {
-      const pages: SourceSnapshot[] = [], failures: Array<{ url: string; reason: string }> = [];
+      const pages: SourceSnapshot[] = stage === "A1" && archived ? [archived.snapshot] : [], failures: Array<{ url: string; reason: string }> = [];
       const candidates = [...new Map(hits.map(hit => [hit.url, hit])).values()]; let attempted = 0;
-      for (const hit of candidates.slice(0, 6)) {
+      for (const hit of (stage === "A1" && archived ? [] : candidates).slice(0, 6)) {
         if (pages.length === 3) break;
         attempted++;
         let snapshot = cache.get(hit.url);
@@ -235,6 +247,12 @@ export async function verifyMarketingFacts(input: {
   for (const source of bundle.sources) {
     if (!source.rawRef.startsWith(`${expectedPrefix}-sources/`) || !source.textRef.startsWith(`${expectedPrefix}-sources/`)) fail("MARKETING_PATH_INVALID", "营销来源不是当前执行目录");
     await readBound(input.root, source.rawRef, source.rawSha256);
+    if (source.finalUrl.startsWith("workloom-archive:")) {
+      const url = new URL(source.finalUrl);
+      if (url.protocol !== "workloom-archive:" || url.hostname !== "products" || !/^\/[A-Za-z0-9][A-Za-z0-9_-]*\/profile\.json$/.test(url.pathname)) fail("MARKETING_SOURCE_INVALID", "受控商品来源身份非法");
+      const current = await loadProductArchiveSource(url.pathname.split("/")[1]!);
+      if (current.snapshot.rawSha256 !== source.rawSha256 || canonicalRenderJson(current.snapshot.assetUrls) !== canonicalRenderJson(source.assetUrls)) fail("MARKETING_FACTS_CHANGED", "商品档案或商品图已变化，须重新预生产");
+    }
     const text = (await readBound(input.root, source.textRef, source.textSha256)).toString("utf8");
     const { rawRef: _rawRef, textRef: _textRef, ...snapshot } = source;
     pages.push({ ...snapshot, text });

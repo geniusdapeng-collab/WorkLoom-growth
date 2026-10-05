@@ -18,24 +18,17 @@ import { join, resolve, relative, sep } from "node:path";
 import type { ProducerArtifact, DeterministicCheck, PortraitIndex } from "@hyperreality/video-studio";
 
 /**
- * 自动放行的「内部准备门」。默认包含 G1–G4 / G6 / G7；**G5 定妆照默认人审**（T-2026-1001-0007）。
- * `HR_AUTO_GATES` 可覆盖（逗号分隔；设为空字符串即"全部门人审"；显式把 G5_PORTRAIT 加回来即恢复旧口径，不推荐）。
- *
- * 为什么 G5 不再默认自动：机器像不像判据本身不稳定（同一批文件实测 92 / 15 / 86），
- * 让 AI 监制裁决会误杀或误放，还会触发"打回 → 自动重出"重复烧钱；定妆照是否可用必须由人类看过原图决定。
+ * 正式制作的中间门由系统检查；人类只验收最终成片（T-2026-1005-0001）。
+ * G5只核对真实素材身份、文件与角度完整性，不以机器审美触发重新出图。
+ * 不允许环境配置把原生中间流程改成等待人工或无条件通过。
  */
-export const AUTO_GATES = new Set(
-  (process.env.HR_AUTO_GATES
-    ?? "G1_DOSSIER,G2_THEME,G3_INSIGHT,G4_PRD,G6_PROMPT,G7_FINAL")
-    .split(",").map((value) => value.trim()).filter(Boolean),
-);
+export const AUTO_GATES = new Set(["G1_DOSSIER", "G2_THEME", "G3_INSIGHT", "G4_PRD", "G5_PORTRAIT", "G6_PROMPT", "G7_FINAL"]);
 
 /**
- * 渲染提交（花钱动作）默认要求人审（T-2026-1001-0007）：
- * 缺省 **不自动放行**，脚本必须先经 `cms.approveScript` 审批；`WORKLOOM_RENDER_AUTO=1` 才恢复旧的自动放行口径。
+ * 渲染由当前原生资格、请求检查与预算共同决定；没有中间人工审批。
  */
 export function renderSubmitAutoAllowed(env: NodeJS.ProcessEnv = process.env): boolean {
-  return env.WORKLOOM_RENDER_AUTO === "1";
+  return env.WORKLOOM_RENDER_AUTO !== "0";
 }
 
 /** 内部门三档处置：review=AI 监制（默认）/ auto=无条件放行（应急）/ human=等人点 */

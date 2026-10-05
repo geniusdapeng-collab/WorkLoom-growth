@@ -23,8 +23,9 @@ export function assertFilmStageCoverage(stages: string[], options: Record<string
   const only = String(options.only ?? "").split(",").filter(Boolean);
   const selected = (Array.isArray(source.shots) ? source.shots : []).filter((shot) =>
     shot && typeof shot === "object" && (!only.length || only.includes(String((shot as Record<string, unknown>).shotId))));
+  const material = (shot: unknown): boolean => Boolean((shot as Record<string, unknown>).photo || (shot as Record<string, unknown>).product);
   const notApplicable = (stage: string): boolean =>
-    stage === "material-gen" && !selected.some((shot) => String((shot as Record<string, unknown>).photo ?? "").trim())
+    stage === "material-gen" && !selected.some(material)
     || stage === "mux" && options["subtitle-mode"] === "burn"
     || stage === "danmaku" && options["no-danmaku"] === true
     || stage === "revise" && !String(options["revise-note"] ?? "").trim();
@@ -38,9 +39,21 @@ export function assertFilmStageCoverage(stages: string[], options: Record<string
       if (aliases.includes(String(row.stage))) latest.set(`${row.stage}:${row.shotId ?? ""}`, row);
     }
     if (!latest.size) throw new FilmChannelError("RESULT_INVALID", `工位结果缺请求阶段：${stage}`);
+    const perShot = ["cine-kb", "spec", "plates", "material-gen", "videos", "voice"].includes(stage);
+    if (perShot && !(stage === "cine-kb" && latest.has("cine-kb:"))) {
+      for (const shot of selected) {
+        const native = shot as Record<string, unknown>, id = String(native.shotId);
+        if (stage === "material-gen" && !material(native)) continue;
+        if (!aliases.some(alias => latest.has(`${alias}:${id}`))) throw new FilmChannelError("RESULT_INVALID", `工位结果缺请求阶段镜头：${stage}:${id}`);
+      }
+    }
     for (const row of latest.values()) {
       const declaredPostOnly = options["assembly-mode"] === "post-only" && row.assemblyMode === "post-only";
-      if (row.ok !== true || row.degraded !== false && !declaredPostOnly || row.invoked !== true && row.cached !== true) {
+      const shot = selected.find(item => (item as Record<string, unknown>).shotId === row.shotId) as Record<string, unknown> | undefined;
+      const noDialogue = shot && !(typeof shot.dialogue === "string" ? shot.dialogue.trim() : Array.isArray(shot.dialogue) && shot.dialogue.some(item => item && typeof item === "object" && String(item.text ?? "").trim()));
+      const sourceInapplicable = Boolean(shot && ((stage === "plates" && (shot.assetRef || material(shot)))
+        || (stage === "voice" && noDialogue) || (stage === "spec" && material(shot))));
+      if (row.ok !== true || row.degraded !== false && !declaredPostOnly || row.invoked !== true && row.cached !== true && !sourceInapplicable) {
         throw new FilmChannelError("RESULT_INVALID", `请求阶段没有通过：${stage}${row.shotId ? `:${row.shotId}` : ""}`);
       }
     }

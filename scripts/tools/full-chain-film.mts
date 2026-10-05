@@ -1,33 +1,19 @@
 #!/usr/bin/env tsx
 /**
- * full-chain-film.mts —— 全链路出片（AI 监制自动放行版，T-2026-0924-0001）
+ * full-chain-film.mts — 正式服务入口与固定完整影片工位。
  *
- * 与 `render-project.mts` 的分工：
- *   · render-project.mts 是"预生产产物 → 逐镜提交渲染"的服务端工具（依赖 server + DB + G8 审批）；
- *   · 本工具是**端到端制片**：脚本 → 提示词交付闸 → 关键帧 → 逐镜视频 → 合成 → 调色 → 字幕
- *     → 弹幕 → 配乐 → 封面 → 母版，每一步都过 **AI 监制门**（`producer-gate`），
- *     不合格就打回重跑，并把"这一步到底有没有被调用/有没有降级"写进阶段日志。
+ * 公开调用先 --prepare --intent <客户需求> [--character <档案ID>] [--product <档案ID>]
+ * [--pipeline auto|marketing|narrative]；再 --project <系统项目ID> --plan 读取原生片单、版本与预算。
+ * --project <ID> --max-budget-cny <上界> 提交一次正式作业，--status <jobID> 只查询原作业。
+ * WORKLOOM_BASE_URL / WORKLOOM_ACCESS_TOKEN 只从环境读取。外部不得传 shots/brief/路径/模型密钥。
  *
- * 用法：
- *   tsx scripts/tools/full-chain-film.mts \
- *     --shots <shotlist.json> --project VID-PJL01 \
- *     --library <角色档案库根> --work-dir <.vm-work 根> --out <交付目录> \
- *     [--stages spec,plates,videos,compose,color,subtitle,danmaku,bgm,cover,mux] \
- *     [--subtitle-mode sidecar|burn|both]   # 缺省 sidecar：字幕只做旁挂文件 + 软字幕轨，母版不烧字 \
- *     [--aspect 9:16|16:9|1:1|4:5] [--resolution 720p|1080p|2160p] [--quality hd|uhd] \
- *     [--enhance-kind live-action|animation] [--enhance-engine-dir <本地引擎目录>] \
- *     [--fps 30] [--max-attempts 2] \
- *     [--keys-file ~/.workloom/live.env] [--brief <brief.json>] [--no-resume] [--dry-run]
+ * 服务从当前成功预生产产物冻结创意、剧本、分镜、提示词和来源摘要。
+ * 固定工位经父服务通道执行完整阶段链：cine-kb→continuity→micromotion→spec→plates
+ * →material-gen→videos→voice→compose→color→subtitle→danmaku→bgm→cover→mux→master→deliver。
+ * 中间系统检查；渲染后 review-policy 默认 off，由客户验收最终成片。max-attempts 固定1。
  *
- * 封面平台化与知识库（2026-09-27）：
- *   [--cover-platform douyin|kuaishou|xiaohongshu|wechat-channels|bilibili|tiktok|youtube|instagram-reels]
- *                                 # 缺省沿用 --platform（历史默认"抖音/快手"→抖音口径，回归基线）
- *   [--theme 知识科普|美食|旅行风光|…]   # 缺省从片名 + brief.goal 启发式匹配（匹配不到不注入）
- *   [--account chen-zhuo]           # 账号视觉锤档案（bundles/ai-video/library/account-profiles/<id>.yml）
- *   [--no-cover-kb]                 # 关闭封面知识库注入（退化为平台化之前的设计提示词）
- *
- * 阶段日志：`<work-dir>/logs/stages.jsonl`（逐条：stage/shotId/invoked/ok/degraded/cached/verdict）
- * 阶段汇总：`<work-dir>/logs/stages.json`
+ * --worker 只供服务派生；--dry-run 的本地片单接口仅诊断，不调用付费模型或声明生产完成。
+ * 安装、使用与交付契约见 bundles/ai-video/README.md。
  */
 import { execFileSync, spawnSync } from "node:child_process";
 import { createHash, randomUUID } from "node:crypto";
@@ -88,11 +74,17 @@ import { auditFilmRedlines, PROMPT_REDLINE_POLICY_VERSION } from "../../packages
 import { assessFilmFirstPass, FIRST_PASS_POLICY_VERSION } from "../../packages/video-studio/src/first-pass.js";
 import { publishUhdDelivery, sha256UhdAsset } from "../../packages/video-studio/src/uhd-delivery.js";
 import { FullChainFilmWorker } from "../../packages/video-studio/src/film-worker-runtime.js";
+import { runFilmServiceCli } from "./film-service-entry.mjs";
 
 const REPO_ROOT = resolve(import.meta.dirname ?? process.cwd(), "../..");
 const WORKER_RUNTIME = process.argv.includes("--worker") || process.env.FILM_WORKER_MODE === "worker"
   ? FullChainFilmWorker.fromEnvironment(REPO_ROOT) : null;
 if (WORKER_RUNTIME) process.argv = [...process.argv.slice(0, 2), ...WORKER_RUNTIME.args];
+// Paid production has one public route. Local shotlists remain diagnostic-only and never dispatch providers.
+if (!WORKER_RUNTIME && !process.argv.includes("--dry-run")) {
+  try { process.exit(await runFilmServiceCli(process.argv.slice(2))); }
+  catch (error) { process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`); process.exit(2); }
+}
 /** GUI 启动时 PATH 常不含工位 kit；只选经过仓内 pin 摘要核验的本机二进制。 */
 function verifiedLocalMediaBins(): { ffmpeg: string; ffprobe: string } | null {
   if (process.platform !== "darwin" || !["arm64", "x64"].includes(process.arch)) return null;

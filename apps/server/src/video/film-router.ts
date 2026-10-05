@@ -9,7 +9,7 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { protectedProcedure, router, scopeOf, writeProcedure } from "../trpc/context.js";
 import { SubmissionError } from "./gen/submission-ledger.js";
-import { registerFilmWorker, startFilmJob, FILM_WORKER_ENTRY } from "./film-worker.js";
+import { registerFilmWorker, startFilmJob, planFilmJob, FILM_WORKER_ENTRY } from "./film-worker.js";
 import { FilmLedger } from "./film-ledger.js";
 import { getAppPool } from "@workloom/db";
 
@@ -51,24 +51,25 @@ export const filmRouter = router({
   }),
 
   /** 提交一条固定工位作业：原稿由服务冻结进项目档案，返回不可换绑的作业回执。 */
+  plan: protectedProcedure.input(z.object({ projectId: z.string().min(1).max(200) }).strict())
+    .query(({ ctx, input }) => asTrpc(() => planFilmJob({ scope: scopeOf(ctx.identity), projectId: input.projectId }))),
+
   start: writeProcedure.input(z.object({
     projectId: z.string().min(1).max(200),
     workerName: z.string().min(1).max(120).default("full-chain-film"),
-    document: z.unknown(),
-    stages,
+    sourceVersion: z.object({ sourceStageRunId: z.string().min(1).max(200), promptsSha256: z.string().regex(/^[a-f0-9]{64}$/),
+      filmSourceSha256: z.string().regex(/^[a-f0-9]{64}$/) }).strict(),
+    stages: stages.optional(),
     options: options.default({}),
     maxBudgetCny: z.number().positive().max(100_000).optional(),
   }).strict()).mutation(async ({ ctx, input }) => {
     const scope = scopeOf(ctx.identity);
-    if (!input.document || typeof input.document !== "object" || Array.isArray(input.document)) {
-      throw new TRPCError({ code: "BAD_REQUEST", message: "document 必须是 JSON 对象" });
-    }
     return asTrpc(() => startFilmJob({
       scope,
       actor: ctx.identity.memberNo,
       projectId: input.projectId,
       workerName: input.workerName,
-      document: input.document,
+      sourceVersion: input.sourceVersion,
       stages: input.stages,
       options: input.options,
       ...(input.maxBudgetCny === undefined ? {} : { maxBudgetCny: input.maxBudgetCny }),

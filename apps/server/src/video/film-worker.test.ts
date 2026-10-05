@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { filmWorkerEnvironment, validateFilmChannelScope } from "./film-worker.js";
+import { filmWorkerEnvironment, validateFilmChannelScope, validateFilmRenderRequest, startFilmJob } from "./film-worker.js";
 import { FILM_CHANNEL_METHOD_COMPONENT, type FilmChannelRequestFrame } from "@hyperreality/video-studio";
 describe("film worker child environment", () => {
+  it("rejects caller-authored source documents before opening a database or dispatching any work", async () => {
+    await expect(startFilmJob({ scope: { tenantId: "t", workspaceId: "w" }, actor: "human", projectId: "P1",
+      document: { shots: [{ shotId: "S1", duration: 10, prompt: "手写分镜" }] }, stages: ["videos"] } as never)).rejects.toThrow("CALLER_SOURCE_FORBIDDEN");
+  });
   it("keeps public local tools while dropping every account, database, model and signing credential", () => {
     const env = filmWorkerEnvironment({ PATH: "/local/bin", WL_FFMPEG: "/local/ffmpeg", SEEDANCE_MODEL: "test-model", LLM_API_KEY: "test-secret", JWT_SECRET: "test-secret", CNB_TOKEN: "test-secret", DATABASE_URL: "test-secret", CUSTOMER_OAUTH_TOKEN: "test-secret", NODE_OPTIONS: "--import arbitrary" });
     expect(env).toEqual({ PATH: "/local/bin", WL_FFMPEG: "/local/ffmpeg", SEEDANCE_MODEL: "test-model" });
@@ -46,5 +50,14 @@ describe("film parent frozen method and shot scope", () => {
   });
   it("denies a frozen source shot outside an explicit only selection", () => {
     expect(() => validateFilmChannelScope(frame("image.generate", "plates:S2", "S2"), { ...scope, shotIds: new Set(["S1"]) })).toThrow("SHOT_NOT_FOUND");
+  });
+  it("binds the provider duration and certified identity before reserving or dispatching", () => {
+    const source = { shots: [{ shotId: "S1", duration: 6, assetRef: "asset://main", referenceAssetRefs: ["asset://main", "asset://side"] }] };
+    const render = (params: object) => frame("video.generate", "videos:S1", "S1", { prompt: "完整提示词", seconds: 6, refs: ["asset://main"], ...params });
+    expect(() => validateFilmRenderRequest(render({}), source)).not.toThrow();
+    expect(() => validateFilmRenderRequest(render({ seconds: 10 }), source)).toThrow("NATIVE_DURATION_MISMATCH");
+    expect(() => validateFilmRenderRequest(render({ refs: ["asset://other"] }), source)).toThrow("NATIVE_ASSET_CONFLICT");
+    expect(() => validateFilmRenderRequest(render({ firstFrame: { ref: "new-face.png" } }), source)).toThrow("NATIVE_ASSET_CONFLICT");
+    expect(() => validateFilmRenderRequest(frame("image.generate", "plates:S1", "S1", { prompt: "人物" }), source)).toThrow("NATIVE_ASSET_CONFLICT");
   });
 });

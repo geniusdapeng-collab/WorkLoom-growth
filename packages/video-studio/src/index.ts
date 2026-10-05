@@ -52,6 +52,8 @@ export * from "./film-worker-runtime.js";
 export * from "./film-service-client.js";
 /** 影片作者合同与监制评审（服务侧固定工位用冻结原稿构建合同）。 */
 export * from "./film-contracts.js";
+export * from "./native-film-source.js";
+export * from "./native-film-planner.js";
 /** 真实商品档案：涉及公司/品牌的片子必须绑定真实产品图（客户上传优先，系统检索次之）。 */
 export * from "./product-archive.js";
 /** 认证真人素材主档与一致性门（人物属性唯一事实源；禁止猜）。 */
@@ -60,3 +62,4 @@ export * from "./real-person-asset.js";
 export * from "./prompt-redlines.js";
 /** 一次过就绪度（花钱前判定风险与改卡建议；高风险先渲）。 */
 export * from "./first-pass.js";
+export * from "./portrait-archive-bridge.js";
