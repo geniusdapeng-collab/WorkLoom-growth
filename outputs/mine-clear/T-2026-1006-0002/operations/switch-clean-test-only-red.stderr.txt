@@ -1,0 +1,2 @@
+Previous HEAD position was c523e9e test(video): align native C1 fixture interfaces [T-2026-1006-0001]
+Switched to branch 'task/T-2026-1006-0002'

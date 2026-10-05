@@ -1,0 +1,54 @@
+{
+  "schema": "workloom.mc024-environment-history/v1",
+  "incidentTruth": "Original lost run is not reconstructed as an actual artifact.",
+  "attempts": [
+    {
+      "runId": "MC-024-0-1791239921092",
+      "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7",
+      "actualTests": 0,
+      "error": "Sparse checkout omitted shot-intent.mjs",
+      "originalDiskRunLost": true,
+      "evidence": "D: tool-observation-derived historical metadata only; not a formal red"
+    },
+    {
+      "runId": "MC-024-0-1791240366537",
+      "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7",
+      "actualTests": 0,
+      "error": "Task-owned workspace dependency links lacked shared package zod",
+      "originalDiskRunLost": false,
+      "root": "repair-current",
+      "validFormalRed": false
+    },
+    {
+      "runId": "MC-024-0-1791240490774",
+      "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7",
+      "actualTests": 26,
+      "passed": 21,
+      "failed": 5,
+      "root": "repair-current",
+      "validFormalRed": true
+    },
+    {
+      "runId": "MC-024-1-1791240860635",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+      "actualTests": 30,
+      "passed": 29,
+      "failed": 1,
+      "error": "Sparse checkout omitted dynamically-read media-catalog.json",
+      "root": "repair-green",
+      "validFinalGreen": false
+    },
+    {
+      "runId": "runs/MC-024-1-1791240979320.json",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+      "actualTests": 30,
+      "passed": 30,
+      "failed": 0,
+      "root": "repair-green",
+      "validFinalGreen": true
+    }
+  ],
+  "recovery": "Complete tracked checkout after disk recovery; dependencies resolve to task-owned workspace sources; formal artifactRoot is outside the checkout and all later actual runs retained.",
+  "productionPatchAttempts": 1,
+  "originalRuntimeOrPackagedPreparationModified": false
+}

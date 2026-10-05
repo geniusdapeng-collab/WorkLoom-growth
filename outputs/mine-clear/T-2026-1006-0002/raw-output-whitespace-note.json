@@ -1,0 +1,8 @@
+{
+  "schema": "workloom.mc024-raw-output-whitespace/v1",
+  "file": "repair-current/evidence/MC-024-0-1791240490774.txt",
+  "originalSha256": "1e57125713ba4bf6ade55b94c72afa887743387f3bb9cfb6f703e2fd53702bc7",
+  "gitDiffCheckWarnings": "11 trailing-space lines in original Node TAP assertion diagnostic blocks",
+  "preservedRawBytes": true,
+  "reason": "Immutable actual diagnostic output is retained verbatim. Authored source, docs and JSON are checked independently; no source formatting defect is waived."
+}

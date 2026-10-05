@@ -1,0 +1,32 @@
+{
+  "schema": "workloom.mc024-actual-operation/v1",
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "scripts/delivery/mine-clear.mjs",
+    "run-assertions",
+    "--ledger",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-green/ledger.json",
+    "--card",
+    "MC-024",
+    "--actor",
+    "/root/mc024_facts_scoring_repair",
+    "--role",
+    "repair",
+    "--repo",
+    ".",
+    "--timeout-ms",
+    "60000"
+  ],
+  "startedAt": "2026-10-05T22:56:18.259534+00:00",
+  "finishedAt": "2026-10-05T22:56:20.282246+00:00",
+  "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+  "workingTreeDirtyAfter": false,
+  "exitCode": 0,
+  "stdout": "operations/formal-green-complete-checkout.stdout.txt",
+  "stderr": "operations/formal-green-complete-checkout.stderr.txt",
+  "stdoutSha256": "0f95e4c6025c5999258cb768e61dd02d95b69be07d266bdbe0d9fb92c98b704f",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

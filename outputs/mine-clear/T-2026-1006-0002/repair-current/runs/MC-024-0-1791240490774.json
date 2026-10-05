@@ -1,0 +1,81 @@
+{
+  "schema": "workloom.evidence-run/v1",
+  "id": "MC-024-0-1791240490774",
+  "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/node_modules/tsx/dist/loader.mjs --test scripts/native-marketing-facts-scoring.test.mts",
+  "exec": {
+    "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "--test-reporter=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/delivery/node-test-reporter.mjs",
+      "--test-reporter-destination=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-current/evidence/MC-024-0-1791240490774-node-tests.jsonl",
+      "--test-reporter=tap",
+      "--test-reporter-destination=stdout",
+      "--import",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/node_modules/tsx/dist/loader.mjs",
+      "--test",
+      "scripts/native-marketing-facts-scoring.test.mts"
+    ]
+  },
+  "requested_exec": {
+    "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "--import",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/node_modules/tsx/dist/loader.mjs",
+      "--test",
+      "scripts/native-marketing-facts-scoring.test.mts"
+    ]
+  },
+  "node_observer": {
+    "schema": "workloom.node-test-observer/v1",
+    "reporter_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/delivery/node-test-reporter.mjs",
+    "reporter_sha256": "286448a4dee571759fc1703564477d27bf5319bcb05ff66db2186deda60bc78f",
+    "destination": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-current/evidence/MC-024-0-1791240490774-node-tests.jsonl",
+    "summary": {
+      "path": "evidence/MC-024-0-1791240490774-node-tests.jsonl",
+      "sha256": "cc0b2325ac834a248a6a14178b4f19c0e2ffbb4c4d643200c83b288153f007e8",
+      "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7"
+    }
+  },
+  "node_executable": {
+    "path": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "sha256": "27db838bb204ef7c21df2931f5656e4c8fb32e6e947f363a402b49714d32b5b1"
+  },
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "subject": {
+    "card_id": "MC-024",
+    "assertion_index": 0
+  },
+  "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7",
+  "working_tree_dirty": false,
+  "started_at": "2026-10-05T22:48:10.775Z",
+  "finished_at": "2026-10-05T22:48:11.863Z",
+  "exit_code": 1,
+  "signal": null,
+  "validation": {
+    "ok": false,
+    "errors": [
+      "Node TestsStream 没有非零实际 passed/逐文件摘要或存在失败/取消；文件加载成功不能替代逐文件真实断言"
+    ],
+    "testSummary": {
+      "total": 26,
+      "passed": 21,
+      "failed": 5,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "result": "fail",
+  "outputs": [
+    {
+      "path": "evidence/MC-024-0-1791240490774.txt",
+      "sha256": "1e57125713ba4bf6ade55b94c72afa887743387f3bb9cfb6f703e2fd53702bc7",
+      "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7"
+    },
+    {
+      "path": "evidence/MC-024-0-1791240490774-node-tests.jsonl",
+      "sha256": "cc0b2325ac834a248a6a14178b4f19c0e2ffbb4c4d643200c83b288153f007e8",
+      "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7"
+    }
+  ]
+}

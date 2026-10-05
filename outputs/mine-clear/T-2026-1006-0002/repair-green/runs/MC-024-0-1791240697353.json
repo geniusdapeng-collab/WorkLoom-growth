@@ -1,0 +1,79 @@
+{
+  "schema": "workloom.evidence-run/v1",
+  "id": "MC-024-0-1791240697353",
+  "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/node_modules/tsx/dist/loader.mjs --test scripts/native-marketing-facts-scoring.test.mts",
+  "exec": {
+    "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "--test-reporter=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/delivery/node-test-reporter.mjs",
+      "--test-reporter-destination=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-green/evidence/MC-024-0-1791240697353-node-tests.jsonl",
+      "--test-reporter=tap",
+      "--test-reporter-destination=stdout",
+      "--import",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/node_modules/tsx/dist/loader.mjs",
+      "--test",
+      "scripts/native-marketing-facts-scoring.test.mts"
+    ]
+  },
+  "requested_exec": {
+    "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "--import",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/node_modules/tsx/dist/loader.mjs",
+      "--test",
+      "scripts/native-marketing-facts-scoring.test.mts"
+    ]
+  },
+  "node_observer": {
+    "schema": "workloom.node-test-observer/v1",
+    "reporter_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/delivery/node-test-reporter.mjs",
+    "reporter_sha256": "286448a4dee571759fc1703564477d27bf5319bcb05ff66db2186deda60bc78f",
+    "destination": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-green/evidence/MC-024-0-1791240697353-node-tests.jsonl",
+    "summary": {
+      "path": "evidence/MC-024-0-1791240697353-node-tests.jsonl",
+      "sha256": "1f1c2ac0dbeed4b91b1582593437748fbe6f5652e7e8ac764b0ce1b9c2179a53",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+    }
+  },
+  "node_executable": {
+    "path": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "sha256": "27db838bb204ef7c21df2931f5656e4c8fb32e6e947f363a402b49714d32b5b1"
+  },
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "subject": {
+    "card_id": "MC-024",
+    "assertion_index": 0
+  },
+  "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+  "working_tree_dirty": false,
+  "started_at": "2026-10-05T22:51:37.353Z",
+  "finished_at": "2026-10-05T22:51:37.964Z",
+  "exit_code": 0,
+  "signal": null,
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "testSummary": {
+      "total": 26,
+      "passed": 26,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "result": "pass",
+  "outputs": [
+    {
+      "path": "evidence/MC-024-0-1791240697353.txt",
+      "sha256": "477d49897521eacfe8ffdf15da75232c386111c6a8d8708eb0dcac6aaa81f851",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+    },
+    {
+      "path": "evidence/MC-024-0-1791240697353-node-tests.jsonl",
+      "sha256": "1f1c2ac0dbeed4b91b1582593437748fbe6f5652e7e8ac764b0ce1b9c2179a53",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+    }
+  ]
+}

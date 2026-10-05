@@ -1,0 +1,29 @@
+{
+  "schema": "workloom.mc024-formal-red-seal/v1",
+  "auditCommit": "c523e9e24300755a6f65c018712ad85c1005838d",
+  "testOnlyCommit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7",
+  "remoteMain": "52a600e3f6a9f94c0ea67b4be5f5d713e5d00ddd",
+  "remoteMainIsAncestor": true,
+  "sourceGateSha256": "b2e79daffe9da2d00b7469ba0cded7178a85c9a52208cbc292cbff8ce497bcc9",
+  "testSha256": "dcdf62dc459b039115ab268af95ee995fbd0ba2c9c9118d10a29b5f5e6e46c11",
+  "ledgerRoot": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-current",
+  "run": {
+    "path": "runs/MC-024-0-1791240490774.json",
+    "sha256": "75e8e0b377d6b4c001359740744c898c58e5e7f5cfc5f7fcc2343036f83267e8",
+    "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7"
+  },
+  "counts": {
+    "schema": "workloom.node-test-summary/v1",
+    "aggregate": true,
+    "tests": 26,
+    "passed": 21,
+    "failed": 5,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "files": 1,
+    "success": false
+  },
+  "notRedEnvironmentRun": "MC-024-0-1791240366537 (0 actual tests, retained in red root as environment failure)",
+  "note": "Original red root is never moved or copied as a new actual run; Node observer destination remains the original absolute path. Green uses a fresh separate artifactRoot and index."
+}

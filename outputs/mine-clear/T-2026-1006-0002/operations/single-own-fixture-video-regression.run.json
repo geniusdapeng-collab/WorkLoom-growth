@@ -1,0 +1,30 @@
+{
+  "schema": "workloom.mc024-actual-operation/v1",
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024",
+  "argv": [
+    "/usr/bin/env",
+    "WL_FFMPEG=/Users/mac/.workloom-color/bin/ffmpeg",
+    "WL_FFPROBE=/Users/mac/.workloom-color/bin/ffprobe",
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "node_modules/vitest/vitest.mjs",
+    "run",
+    "packages/video-studio/src/producer-gate.test.ts",
+    "--testNamePattern=^AI producer evidence gate actual video is probed and sampled at five timestamps$",
+    "--maxWorkers=1",
+    "--no-file-parallelism",
+    "--reporter=json",
+    "--outputFile=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/single-own-fixture-video-vitest.json",
+    "--testTimeout=30000"
+  ],
+  "startedAt": "2026-10-05T23:02:56.489677+00:00",
+  "finishedAt": "2026-10-05T23:02:57.134933+00:00",
+  "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+  "workingTreeDirtyAfter": false,
+  "exitCode": 0,
+  "stdout": "operations/single-own-fixture-video-regression.stdout.txt",
+  "stderr": "operations/single-own-fixture-video-regression.stderr.txt",
+  "stdoutSha256": "410081c622a3709ae5f404b60aa237fce1cc59eefc0bfd33190c81c4291e7b6c",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

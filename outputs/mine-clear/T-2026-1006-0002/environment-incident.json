@@ -1,0 +1,20 @@
+{
+  "schema": "workloom.mc024-environment-incident/v1",
+  "incident": "An ignored out-of-cone temporary evidence directory was removed by git sparse-checkout add.",
+  "lostRunId": "MC-024-0-1791239921092",
+  "observedCommit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7",
+  "observedMachineSummary": {
+    "tests": 0,
+    "passed": 0,
+    "failed": 0,
+    "files": 0,
+    "success": false
+  },
+  "observedError": "ERR_MODULE_NOT_FOUND: owned bundles/ai-video/connectors/cine-kb-bridge/shot-intent.mjs was not materialized.",
+  "lostRunOriginalFilesRetained": false,
+  "evidenceGrade": "D: historical metadata copied from tool observation; not the lost original run or an artifact hash proof.",
+  "validFormalRed": false,
+  "affectedOriginalRuntimeArchive": false,
+  "affectedPackagedPreparationEvidence": false,
+  "remediation": "Plan complete runtime dependencies and keep formal MCD artifacts in a separate external artifactRoot. Run a new actual clean test-only red after dependency preflight."
+}

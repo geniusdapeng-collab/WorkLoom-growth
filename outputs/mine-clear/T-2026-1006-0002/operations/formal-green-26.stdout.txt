@@ -1,0 +1,17 @@
+{
+  "id": "MC-024",
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "result": "pass",
+  "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+  "assertions": [
+    {
+      "result": "pass",
+      "run": {
+        "path": "runs/MC-024-0-1791240697353.json",
+        "sha256": "ce050c8c8d40ab448b58c49fb891ef31bcc86df972f1a434b95f6819e2e9363d",
+        "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+      }
+    }
+  ]
+}

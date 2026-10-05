@@ -1,0 +1,2 @@
+[task/T-2026-1006-0002 5bee55d] fix(video): define facts support score without preset approval [T-2026-1006-0002]
+ 1 file changed, 9 insertions(+), 2 deletions(-)

@@ -1,0 +1,8 @@
+{
+  "ledger": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-green/ledger.json",
+  "ok": false,
+  "errors": [
+    "baseline.acceptance.commit 缺失/null/未知提交：不能证明三基线对齐",
+    "MC-024：P1 未闭环（未独立 verified）——阻断交付，fixed/covered/wontfix 不能绕过"
+  ]
+}

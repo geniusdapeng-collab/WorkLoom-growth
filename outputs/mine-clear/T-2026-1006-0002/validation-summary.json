@@ -1,0 +1,96 @@
+{
+  "schema": "workloom.mc024-validation-summary/v1",
+  "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+  "officialRed": {
+    "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7",
+    "tests": 26,
+    "passed": 21,
+    "failed": 5,
+    "root": "repair-current",
+    "runId": "MC-024-0-1791240490774"
+  },
+  "officialGreen": [
+    {
+      "run": {
+        "path": "runs/MC-024-0-1791240978615.json",
+        "sha256": "99ffa806436153cd36ff8a26911871ddb259de05cc694d4e39e1989e12b48fb1",
+        "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+      },
+      "summary": {
+        "schema": "workloom.node-test-summary/v1",
+        "aggregate": true,
+        "tests": 26,
+        "passed": 26,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "files": 1,
+        "success": true
+      },
+      "output": {
+        "path": "evidence/MC-024-0-1791240978615.txt",
+        "sha256": "1ca66f44330c1de93abdf59e845ba40499e45dd2406961e9006a3dcf961b9d6f",
+        "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+      }
+    },
+    {
+      "run": {
+        "path": "runs/MC-024-1-1791240979320.json",
+        "sha256": "96ba4d4db1717b10c6b703eb6a71d3aaf78cf4996b72a5eb8fdac028a7441fcc",
+        "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+      },
+      "summary": {
+        "schema": "workloom.node-test-summary/v1",
+        "aggregate": true,
+        "tests": 30,
+        "passed": 30,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "files": 4,
+        "success": true
+      },
+      "output": {
+        "path": "evidence/MC-024-1-1791240979320.txt",
+        "sha256": "ac745dd8c55aebbab3c0ef70652d1bd809bb02b2992bb50fe434c7c6bd7c0041",
+        "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+      }
+    }
+  ],
+  "nodeUniqueCases": 56,
+  "closestVitestInitial": {
+    "tests": 90,
+    "passed": 89,
+    "failed": 0,
+    "skipped": 1,
+    "report": "producer-facts-authority-vitest.json"
+  },
+  "exactSyntheticVideoClosure": {
+    "actualPassed": 1,
+    "failed": 0,
+    "other39FilteredNotRerun": true,
+    "report": "single-own-fixture-video-vitest.json"
+  },
+  "closestVitestDistinctCaseUnion": {
+    "tests": 90,
+    "passed": 90,
+    "failed": 0,
+    "uncovered": 0
+  },
+  "distinctCasesAcrossNodeAndVitest": 146,
+  "passedCasesAcrossNodeAndVitest": 146,
+  "builtIndustryContract": 0,
+  "videoTypecheckExitCode": 0,
+  "serverTypecheckExitCode": 0,
+  "taskCommitFormatExitCode": 0,
+  "repairGateExitCode": 1,
+  "repairHandoffExitCode": 1,
+  "realModelOrProviderCalls": 0,
+  "pgCalls": 0,
+  "customerOrVendorMediaWork": 0,
+  "deterministicSyntheticLocalFfmpegTest": true,
+  "modelSemanticOutcome": "D: unknown; all HTTP model replies in tests are fixed independent protocol fixtures.",
+  "roleState": "fixed; acceptance baseline and independent role absent; gate/handoff correctly rejected."
+}
