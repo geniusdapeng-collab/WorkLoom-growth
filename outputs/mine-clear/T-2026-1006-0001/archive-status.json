@@ -1,0 +1,12 @@
+{
+  "schema": "workloom.mc023-source-evidence-archive/v1",
+  "status": "historical-red-plus-dirty-development-observations",
+  "audit_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+  "historical_red_commits": [
+    "e0f496c67804b91b7dc44bf72c2c39a6a588381b",
+    "529acb3ebde112a4cc424af06d7aa2641ab783a5"
+  ],
+  "formal_final_repair": "To be actually run by the official executor against clean full source HEAD; no current green claim in this archive.",
+  "independent_acceptance": "not-run",
+  "actual_model_or_media_calls": 0
+}

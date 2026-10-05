@@ -1,0 +1,130 @@
+
+ RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline
+
+····················································stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 分流器加工出的 brief 不充当客户原始选型证据
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-9000.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 分流器加工出的 brief 不充当客户原始选型证据
+[media-ingest] 商品档案投影：商品（sha256 aaaaaaaaaaaa…，内容变化=true，主图新入库=false）
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 原始需求选出的 T1 进入建档事件、routeMeta、供应商入参与分镜/提示词包
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-9000.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 供应商返回不合规镜头表时报告落档并在渲染前打回
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-9000.log
+
+···stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 既有项目补跑重新选型并留下 routeMeta 变更事件
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-route-1.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 既有项目补跑重新选型并留下 routeMeta 变更事件
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-route-1.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 显式 VM_PRODUCER_RETRY=1 时才恢复有限重试；成功结果保留 stages.dataMining 驱动商品投影
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-2.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 显式 VM_PRODUCER_RETRY=1 时才恢复有限重试；成功结果保留 stages.dataMining 驱动商品投影
+[studio-worker] AI 监制打回 → 自动重跑第 2/2 次（同一项目、同一门口径）
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 显式 VM_PRODUCER_RETRY=1 时才恢复有限重试；成功结果保留 stages.dataMining 驱动商品投影
+[media-ingest] 商品档案投影：商品（sha256 aaaaaaaaaaaa…，内容变化=true，主图新入库=false）
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 默认：监制打回即停，不自动重跑（不再把 AI 打回变成重复烧钱）
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-3.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 业务软失败不得显示 finished
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-4.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > vendor 抛错保留原始错误，仍释放资源并写失败档案
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-5.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 归档输出写入失败时，不因已取得 rawResult 而伪称成功
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-6.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 租约 busy 不会无锁执行，并清理已安装的桥
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-7.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 租约 error 不会无锁执行，并清理已安装的桥
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-8.log
+
+·········stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 项目/档案初始化 missing 时不执行并释放租约
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-9.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 项目/档案初始化 error 时不执行并释放租约
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-10.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 项目/档案初始化 archive 时不执行并释放租约
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-11.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 完成回执未核实不投影商品也不自动重试
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-12.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 解锁和日志清理抛错仍清理绑定桥并写终态
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-13.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 解锁和日志清理抛错仍清理绑定桥并写终态
+[media-ingest] 商品档案投影：商品（sha256 aaaaaaaaaaaa…，内容变化=true，主图新入库=false）
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 叙事成功档案保留本次六门证据；G5没有人物时明确不适用，G7使用prompt
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-14.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 只有vendor自报成功但没有本次服务门回执，叙事档案不得done
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-15.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 定妆照只完成计划却缺实际图片时，G5 事实核验先行失败关闭（不占用人类时间、不调 AI 评审）
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-16.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 实际宿主G4档案接线（供应商和PG边界替身，不授予整片资格） > 图像模型未启用时仍把完整受控档案与全部8张原图送G4，生产配置没有丢授权作用域
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-17.log
+
+··········stdout | apps/server/src/video/studio-worker.test.ts > 实际宿主G4档案接线（供应商和PG边界替身，不授予整片资格） > missing-image-proof使真实onApproval拒绝自报通过
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-18.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 实际宿主G4档案接线（供应商和PG边界替身，不授予整片资格） > wrong-image-scope使真实onApproval拒绝自报通过
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-19.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 实际宿主G4档案接线（供应商和PG边界替身，不授予整片资格） > changed-during-review使真实onApproval拒绝自报通过
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-20.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 宿主营销G1必须先于vendor > 真实权限守卫允许本次内部裁决落账，系统事件归因保持一致
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-21.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 宿主营销G1必须先于vendor > 真实权限守卫允许本次内部裁决落账，系统事件归因保持一致
+[media-ingest] 商品档案投影：商品（sha256 aaaaaaaaaaaa…，内容变化=true，主图新入库=false）
+
+stdout | apps/server/src/video/studio-worker.test.ts > 宿主营销G1必须先于vendor > 内部裁决写入失败仍终止，保留失败回执与回滚
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-22.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 宿主营销G1必须先于vendor > vendor 返回后原生交接编译仍消费完整本次用途限制，结束后不泄漏
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-23.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 宿主营销G1必须先于vendor > vendor 返回后原生交接编译仍消费完整本次用途限制，结束后不泄漏
+[media-ingest] 商品档案投影：商品（sha256 aaaaaaaaaaaa…，内容变化=true，主图新入库=false）
+
+stdout | apps/server/src/video/studio-worker.test.ts > 宿主营销G1必须先于vendor > 当前attempt事实G1通过后才调用vendor，最终完整镜头审核写回事实引用
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-24.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 宿主营销G1必须先于vendor > 当前attempt事实G1通过后才调用vendor，最终完整镜头审核写回事实引用
+[media-ingest] 商品档案投影：商品（sha256 aaaaaaaaaaaa…，内容变化=true，主图新入库=false）
+
+·······stdout | apps/server/src/video/studio-worker.test.ts > 宿主营销G1必须先于vendor > source未核实不执行vendor或终态事实审核
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-25.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 宿主营销G1必须先于vendor > g1未核实不执行vendor或终态事实审核
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-26.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 宿主营销G1必须先于vendor > unverified-proof未核实不执行vendor或终态事实审核
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-27.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 宿主营销G1必须先于vendor > unbound-proof未核实不执行vendor或终态事实审核
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-28.log
+
+stdout | apps/server/src/video/studio-worker.test.ts > 宿主营销G1必须先于vendor > 最终事实审核失败时不写done、不投影商品，保留失败原因
+[studio-worker] run 日志开始落盘：/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/studio-result-F5iu0s/logs/VID-result-29.log
+
+······
+
+ Test Files  3 passed (3)
+      Tests  87 passed (87)
+   Start at  02:57:46
+   Duration  1.62s (transform 1.63s, setup 0ms, import 2.41s, tests 930ms, environment 0ms)
+

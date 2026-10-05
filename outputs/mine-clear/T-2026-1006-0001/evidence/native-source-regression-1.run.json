@@ -1,0 +1,28 @@
+{
+  "name": "native-source-regression-1",
+  "source_commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5",
+  "source_clean": false,
+  "argv": [
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "scripts/native-requirement-contract.test.mts",
+    "scripts/native-requirement-binding.test.mts",
+    "scripts/native-source-restrictions.test.mts",
+    "scripts/native-marketing-dossier.test.mts"
+  ],
+  "exit_code": 0,
+  "started_at": "2026-10-05T18:51:49.722599+00:00",
+  "finished_at": "2026-10-05T18:51:51.188470+00:00",
+  "outputs": {
+    "stdout": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/native-source-regression-1.stdout.txt",
+      "sha256": "6891a5d2f8e9f87bb5ded5c39af7b6c4d32be8465a444b4dc6222fa2f5cb6f20"
+    },
+    "stderr": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/native-source-regression-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

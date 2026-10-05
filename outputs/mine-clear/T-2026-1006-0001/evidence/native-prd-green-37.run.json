@@ -1,0 +1,25 @@
+{
+  "name": "native-prd-green-37",
+  "source_commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5",
+  "source_clean": false,
+  "argv": [
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "scripts/native-prd-contract.test.mts"
+  ],
+  "exit_code": 0,
+  "started_at": "2026-10-05T18:57:32.429555+00:00",
+  "finished_at": "2026-10-05T18:57:33.669995+00:00",
+  "outputs": {
+    "stdout": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/native-prd-green-37.stdout.txt",
+      "sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+    },
+    "stderr": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/native-prd-green-37.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

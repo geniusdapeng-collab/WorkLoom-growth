@@ -1,0 +1,597 @@
+{
+  "schema": "workloom.mc023-cases/v1",
+  "cases": [
+    {
+      "id": "MC023-01",
+      "name": "native five-agent PRD binds the exact selected CEO attributes and current portrait path",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 16.017875,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-02",
+      "name": "native agent2 and agent3 prompts receive the complete archive identity, authorization and every original photo hash",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 5.040042,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-03",
+      "name": "PRD positioning, duration, aspect and summary consume the same G3 authority",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 12.062417,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-04",
+      "name": "production quality and acceptance use the strictest original threshold, including score aliases",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 4.614292,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-05",
+      "name": "subtitle delivery is verifiable and matches the original full-chain default sidecar mode",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 9.104333,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-06",
+      "name": "G4 markdown carries full profile, all eight original receipts, unified delivery and system-only review",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 6.956125,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-07",
+      "name": "native creative core, complete scenes, shot mapping and dialogue remain byte-equivalent",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 5.604083,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-08",
+      "name": "approved PRD reaches the actual ScriptEngine parser and adapter with current portraits and exact requirements",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 11.714542,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-09",
+      "name": "actual native PortraitStudio plans all existing accepted views without manufacturing new image tasks",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 12.68625,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-10",
+      "name": "native output renaming the selected CEO fails rather than guessing a singleton identity",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 5.013166,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-11",
+      "name": "selected profile changed while native PRD agent awaits invalidates its source",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 4.00625,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-12",
+      "name": "explicit Brief changed while native PRD agent awaits invalidates its source",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 4.019083,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-13",
+      "name": "original discovery changed while native PRD agent awaits invalidates its source",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 3.60275,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-14",
+      "name": "original input changed while native PRD agent awaits invalidates its source",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 3.804542,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-15",
+      "name": "current portrait bytes changed while native PRD agent awaits invalidates its source",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 3.756666,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-16",
+      "name": "missing or mutated controlled portrait receipts fail before native agent generation",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 1.558417,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-17",
+      "name": "unapproved PRD cannot enter actual native ScriptEngine",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 4.797292,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-18",
+      "name": "minimal fallback and a clone of an approved PRD cannot impersonate the G4-owned instance",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 6.935042,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-19",
+      "name": "G4 rejection leaves no approved PRD for downstream consumption",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 7.447042,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-20",
+      "name": "an approved G4 with suggestions cannot silently regenerate a different unreviewed PRD",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 6.315541,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-21",
+      "name": "altered PRD or different Markdown cannot borrow the generated G4 source seal",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 5.751167,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-22",
+      "name": "source changes during actual G4 await cannot retain approval",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 5.791292,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-23",
+      "name": "source changes during the actual ScriptEngine await invalidate its output",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 6.950542,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-24",
+      "name": "mutable native script metadata description cannot bypass the complete G3/G4 source",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 6.885917,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-25",
+      "name": "mutable native script metadata character_id alias cannot bypass the complete G3/G4 source",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 8.579958,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-26",
+      "name": "mutable native script metadata portraitPaths cannot bypass the complete G3/G4 source",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 6.941291,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-27",
+      "name": "mutable native script metadata internal PRD override cannot bypass the complete G3/G4 source",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 6.809083,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-28",
+      "name": "mutable native script metadata internal aspect override cannot bypass the complete G3/G4 source",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 6.577291,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-29",
+      "name": "reusing one physical image for multiple named angles cannot impersonate complete accepted views",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 2.337791,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-30",
+      "name": "duplicate selected identities are rejected without picking the first profile",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 1.395,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-31",
+      "name": "invalid native quality thresholds are rejected instead of replaced by looser defaults",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 4.567167,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-32",
+      "name": "two independent native instances keep their own contracts when one scope finishes",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 14.159292,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-33",
+      "name": "external instance bridge replacement is detected and original methods are restored",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 1.700083,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-34",
+      "name": "a legacy narrative without selected archives preserves its native characters and scenes",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 2.001125,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-35",
+      "name": "G4 image evidence is the complete original-byte receipt list, never a text-only assertion",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 1.909375,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-36",
+      "name": "native vendor generator, agents and script source bytes remain unchanged by scoped adapters",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 14.643084,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-37",
+      "name": "actual native BaseAgent PARSE retry retains every source byte after its ordinary prompt shrink",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 513.080084,
+        "log": "evidence/native-prd-green-37.stdout.txt",
+        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    }
+  ]
+}

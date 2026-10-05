@@ -2,13 +2,13 @@
  * T-2026-0927-0013：真实 startRun + StageRunner + ArchiveStore 回归。
  * vendor、PG、媒体登记用边界替身；档案写盘与重试/终态/商品摘要走实际代码。
  */
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { gatewayAppend, gatewayAppendOnClient } from "@workloom/base/workdata";
-import { applyScenePolicy, auditScenePolicy, loadScenePolicies, currentSourceRestrictionPrompt, createNativeMarketingDossier, type ScenePolicyShot } from "@hyperreality/video-studio";
+import { applyScenePolicy, auditScenePolicy, loadScenePolicies, currentSourceRestrictionPrompt, createNativeMarketingDossier, readPortraitArtifact, type ScenePolicyShot } from "@hyperreality/video-studio";
 import { verifyScenePolicyProductionSource } from "./scene-policy-render-gate.js";
 import { validateStageFacts } from "./marketing-facts.js";
 import { canonicalRenderJson, renderSha256 } from "./gen/compiled-request.js";
@@ -34,6 +34,7 @@ const doubles = vi.hoisted(() => ({
   connect: vi.fn(),
   query: vi.fn(),
   releaseDb: vi.fn(),
+  nativeAssets: null as Record<string, any> | null,
 }));
 
 vi.mock("@workloom/db", () => ({ getAppPool: () => ({ connect: doubles.connect }), getGatewayPool: () => ({}) }));
@@ -67,6 +68,11 @@ vi.mock("./marketing-authority.js", () => ({ prepareMarketingFacts: doubles.prep
 vi.mock("./data-mining-executor.js", () => ({ createDataMiningExecutor: vi.fn() }));
 vi.mock("./media/library.js", () => ({ ingestPortraitsFromIndex: doubles.ingest }));
 vi.mock("./media/products.js", () => ({ upsertProductProfileFromDossier: doubles.project }));
+vi.mock("./native-video-assets.js", async (importOriginal) => {
+  const original = await importOriginal<typeof import("./native-video-assets.js")>();
+  return { ...original, resolveNativeVideoAssets: (metadata: Record<string, unknown>) =>
+    doubles.nativeAssets && metadata.characterId === "fixture-ceo" ? doubles.nativeAssets : original.resolveNativeVideoAssets(metadata) };
+});
 vi.mock("./archive-host.js", () => ({
   archiveWorkDir: () => doubles.workDir,
   acquireProjectLease: doubles.lease,
@@ -121,6 +127,7 @@ beforeEach(() => {
   vi.mocked(gatewayAppendOnClient).mockReset();
   doubles.nextAttempt = 0;
   doubles.studioConfigs.length = 0;
+  doubles.nativeAssets = null;
   doubles.prepare.mockReset().mockImplementation(async ({ scope, root }) => {
     const text = "本次商品示例", sha256 = renderSha256(text), finalUrl = "https://source.example.test/item";
     const source = { sourceId: "SRC-fixture", requestedUrl: finalUrl, finalUrl, redirectChain: [], fetchedAt: new Date().toISOString(),
@@ -230,10 +237,10 @@ const rejected = () => ({
   stages: { creativeTheme: { title: "需要重做" } },
 });
 
-async function runToTerminal(isMarketing = true) {
+async function runToTerminal(isMarketing = true, metadata?: Record<string, unknown>) {
   const projectId = `VID-result-${++projectSequence}`;
   if (!isMarketing) useNarrativeProject();
-  const runId = worker.startRun(scope, { projectId, intent: "测试预生产结果", isMarketing });
+  const runId = worker.startRun(scope, { projectId, intent: "测试预生产结果", isMarketing, ...(metadata ? { metadata } : {}) });
   await vi.waitFor(() => expect(worker.getRun(runId, scope.workspaceId)?.finishedAt).not.toBeNull(), { timeout: 3_000, interval: 10 });
   const entry = worker.getRun(runId, scope.workspaceId)!;
   return { projectId, runId, entry };
@@ -527,6 +534,58 @@ describe("预生产原始结果与诚实终态", () => {
     expect(doubles.review.mock.calls.some(([options]) => options.context.gate === "G5_PORTRAIT")).toBe(false);
   });
 
+});
+
+describe("实际宿主G4档案接线（供应商和PG边界替身，不授予整片资格）", () => {
+  async function selected() {
+    const angles = ["front", "threeQuarter", "closeup", "side", "back", "actionPose", "emotionCloseup", "handDetail"];
+    const files = Object.fromEntries(await Promise.all(angles.map(async (angle, index) => {
+      const file = path.join(doubles.workDir, `g4-${projectSequence}-${angle}.png`), bytes = Buffer.alloc(2048, index + 1);
+      Buffer.from([137,80,78,71,13,10,26,10]).copy(bytes); await writeFile(file, bytes); return [angle, readPortraitArtifact(file)] as const;
+    })));
+    const character = { id: "fixture-ceo", name: "已选CEO", kind: "authorized-real", identity: { age: "三十岁上下", gender: "female" },
+      appearance: { face: "原档案五官" }, wardrobe: [{ id: "business", outfit: "原档案商务装" }], persona: { speechRate: "2字/秒" },
+      authorization: { status: "real-authorized", evidence: "asset://fixture", scope: "customer-film-only" },
+      verification: { status: "passed", scope: "legacy-current-bytes-only", version: 3, assets: files, issues: [] } };
+    doubles.nativeAssets = { character, guidance: "本次已选人物原档案", portraits: [{ kind: "character", id: character.id, name: character.name, aliases: [], files }] };
+    doubles.emitGates = false; return { files, character };
+  }
+  function invokeOnlyG4(capture: (result: any) => void) {
+    doubles.runPreproduction.mockImplementation(async () => {
+      const verdict = await doubles.studioConfigs.at(-1)!.onApproval({ gate: "G4_PRD", vendorType: "prd", runId: "native-fixture", title: "本次原生PRD",
+        contentMd: "本次完整PRD、角色档案、素材授权作用域与字幕交付标准。".repeat(60) });
+      capture(verdict);
+      // This fixture checks only the G4 host boundary; it deliberately cannot claim successful preproduction.
+      return { success: false, errors: [{ stage: "fixture", message: "G4边界检查完成，未运行后续生产" }], stages: {} };
+    });
+  }
+  it("图像模型未启用时仍把完整受控档案与全部8张原图送G4，生产配置没有丢授权作用域", async () => {
+    const f = await selected(); let gate: any; invokeOnlyG4(value => { gate = value; });
+    const { entry } = await runToTerminal(false, { characterId: "fixture-ceo" });
+    expect(entry.status).toBe("failed"); expect(gate).toMatchObject({ approved: true });
+    const config = doubles.studioConfigs[0]!; expect(config.portraits).toEqual({ enabled: false });
+    expect(config.requirementArchives.characters[0]).toMatchObject({ id: f.character.id, authorization: { scope: "customer-film-only" } });
+    expect(config.requirementArchives.portraits[0].files).toEqual(f.files);
+    const review = doubles.review.mock.calls.find(([options]) => options.context.gate === "G4_PRD")?.[0];
+    expect(review.batchSize).toBe(8); expect(review.artifacts.filter((item: any) => item.kind === "image").map((item: any) => item.path)).toEqual(Object.values(f.files).map(file => file.path));
+    expect(review.artifacts.filter((item: any) => item.kind === "text")).toHaveLength(1);
+  });
+  it.each(["missing-image-proof", "wrong-image-scope", "changed-during-review"])("%s使真实onApproval拒绝自报通过", async kind => {
+    const f = await selected(), original = doubles.review.getMockImplementation()!;
+    doubles.review.mockImplementation(async (options) => {
+      const verdict = await original(options);
+      if (options.context.gate === "G4_PRD") {
+        if (kind === "missing-image-proof") verdict.evidence.pop();
+        if (kind === "wrong-image-scope") verdict.evidence.find((item: any) => item.scope === "image").scope = "complete-text";
+        if (kind === "changed-during-review") await writeFile(f.files.front!.path, Buffer.alloc(2048, 99));
+      }
+      return verdict;
+    });
+    let gate: any; invokeOnlyG4(value => { gate = value; });
+    const { entry } = await runToTerminal(false, { characterId: "fixture-ceo" });
+    expect(entry.status).toBe("failed"); expect(gate).toMatchObject({ approved: false, fatal: "producer_rejected" });
+    expect(doubles.review).toHaveBeenCalledTimes(1);
+  });
 });
 
  describe("宿主营销G1必须先于vendor", () => {

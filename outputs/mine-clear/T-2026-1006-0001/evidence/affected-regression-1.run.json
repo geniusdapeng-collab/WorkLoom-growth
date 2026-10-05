@@ -1,0 +1,31 @@
+{
+  "name": "affected-regression-1",
+  "source_commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5",
+  "source_clean": false,
+  "argv": [
+    "node",
+    "node_modules/vitest/vitest.mjs",
+    "run",
+    "packages/video-studio/src/character-archive.test.ts",
+    "packages/video-studio/src/portrait-archive-bridge.test.ts",
+    "packages/video-studio/src/portrait-binding.test.ts",
+    "packages/video-studio/src/portrait-runtime.test.ts",
+    "packages/video-studio/src/portrait-decision.test.ts",
+    "packages/video-studio/src/producer-gate.test.ts",
+    "apps/server/src/video/native-video-assets.test.ts",
+    "--reporter=dot"
+  ],
+  "exit_code": 0,
+  "started_at": "2026-10-05T18:51:49.722648+00:00",
+  "finished_at": "2026-10-05T18:51:52.398835+00:00",
+  "outputs": {
+    "stdout": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/affected-regression-1.stdout.txt",
+      "sha256": "146da03d097c682c22ad2575186b9ab74c79d65906ac72de29620a7bd5f3c7f9"
+    },
+    "stderr": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/affected-regression-1.stderr.txt",
+      "sha256": "92e4116776a1fe59d7d8792f1bd0ad0f463dce88961396f2e3d0096a1941a24c"
+    }
+  }
+}

@@ -30,6 +30,10 @@ vi.mock("node:module", async (importOriginal) => {
               requirementDiscoveryEngine = { discover: async () => ({}), generateMarkdown: () => "" };
               _convertDiscoveryToRequirementList = async () => ({});
               _renderRequirementContract = () => "";
+              prdGenerator = { generate: async () => ({}), generateMarkdown: () => "",
+                agent2: { _buildPrompt: () => "", _getSystemPrompt: () => "" }, agent3: { _buildPrompt: () => "", _getSystemPrompt: () => "" } };
+              _confirmPRD = async () => ({ approved: false });
+              scriptEngine = { process: async () => ({}) };
               constructor(config: unknown) { studioMocks.construct(config); }
               create(...input: unknown[]) { return studioMocks.create(...input); }
             } };

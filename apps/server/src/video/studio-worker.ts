@@ -49,6 +49,7 @@ import {
   type ScenePolicyShot,
   type StudioConfig,
   type StudioPortraitConfig,
+  type NativeRequirementArchives,
 } from "@hyperreality/video-studio";
 import { buildServerGateRecord, withGateLedger } from "./gate-ledger-bridge.js";
 import { STUDIO_WORKER_ACTOR, preproductionGateActor } from "./preproduction-gate-actor.js";
@@ -69,6 +70,8 @@ import {
   isProducerRejection,
   producerModeFromEnv,
   portraitGateEvidence,
+  prdArchiveGateEvidence,
+  prdArchiveReviewMatches,
   writeGateArtifact,
   type ProducerMode,
 } from "./gate-policy.js";
@@ -435,6 +438,15 @@ type StudioRunInput = RunInput & {
 
 export function startRun(scope: Scope, input: StudioRunInput): string {
   const nativeAssets = resolveNativeVideoAssets(input.metadata ?? {});
+  const requirementArchives: NativeRequirementArchives = {
+    characters: nativeAssets.character ? [{ id: nativeAssets.character.id, name: nativeAssets.character.name, kind: nativeAssets.character.kind,
+      identity: nativeAssets.character.identity, appearance: nativeAssets.character.appearance, wardrobe: nativeAssets.character.wardrobe,
+      persona: nativeAssets.character.persona, authorization: nativeAssets.character.authorization, certified: nativeAssets.realPerson?.certified,
+      verification: { status: nativeAssets.character.verification.status, scope: nativeAssets.character.verification.scope,
+        version: nativeAssets.character.verification.version } }] : [],
+    products: nativeAssets.portraits.filter(asset => asset.kind === "product").map(asset => ({ id: asset.id, name: asset.name })),
+    portraits: nativeAssets.portraits,
+  };
   // 补跑/恢复同样经过选型；歧义或知识库损坏在任何供应商调用之前同步失败。
   const selectedScenePolicy = input.selectedScenePolicy
     ?? resolveScenePolicyForIntent(input.rawIntent ?? input.intent, input.metadata);
@@ -620,17 +632,20 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
     if (AUTO_GATES.has(gate)) {
       const producerStage = GATE_PRODUCER_STAGE[gate] ?? "script";
       const artifact = writeGateArtifact(runWorkDir, path.join(input.projectId, `attempt-${stageRef.attempt}`), gate, req.contentMd ?? "");
+      const prdEvidence = gate === "G4_PRD" ? prdArchiveGateEvidence(requirementArchives) : undefined;
       const producerVerdict = await reviewStage({
         stage: producerStage, projectId: input.projectId,
-        artifacts: [{ path: artifact.path, kind: "text", note: req.title }],
-        deterministic: gateDeterministicChecks(gate, req.contentMd ?? ""),
+        artifacts: [{ path: artifact.path, kind: "text", note: req.title }, ...(prdEvidence?.artifacts ?? [])],
+        deterministic: [...gateDeterministicChecks(gate, req.contentMd ?? ""), ...(prdEvidence?.deterministic ?? [])],
+        ...(prdEvidence?.artifacts.length ? { batchSize: prdEvidence.artifacts.length } : {}),
         rubric: [...((GATE_RUBRIC[gate] ?? []) as string[]), `门内容全长 ${artifact.chars} 字，完整正文已随附件送审`],
         context: { gate, vendorType: req.vendorType, runId: entry.runId, contentChars: artifact.chars },
         allowFallbackApprove: false, log: (line) => console.log(line)
       });
       const approved = producerVerdict.approved && producerVerdict.status === "passed" && producerVerdict.via === "llm"
         && !producerVerdict.degraded && producerVerdict.evidence?.some(item => item.path === artifact.path
-          && item.sha256 === renderSha256(readFileSync(artifact.path)) && item.scope === "complete-text") === true;
+          && item.sha256 === renderSha256(readFileSync(artifact.path)) && item.scope === "complete-text") === true
+        && (gate !== "G4_PRD" || prdArchiveReviewMatches(requirementArchives, producerVerdict.evidence));
       const gateRecord = buildServerGateRecord({ gate, vendorType: String(req.vendorType ?? ""), projectId: input.projectId,
         runId: entry.runId, approved, verdict: producerVerdict, producerMode: PRODUCER_MODE });
       const client = await getAppPool().connect();
@@ -677,12 +692,7 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
     // 片型硬闸必须在 G8 之前审完整分镜，禁止 env 让 vendor 在审计前直接渲染。
     deferRender: true,
     portraits: portraitConfig(runInput.metadata, nativeAssets),
-    requirementArchives: {
-      characters: nativeAssets.character ? [{ id: nativeAssets.character.id, name: nativeAssets.character.name,
-        identity: nativeAssets.character.identity, appearance: nativeAssets.character.appearance,
-        wardrobe: nativeAssets.character.wardrobe, persona: nativeAssets.character.persona, certified: nativeAssets.realPerson?.certified }] : [],
-      products: nativeAssets.portraits.filter(asset => asset.kind === "product").map(asset => ({ id: asset.id, name: asset.name })),
-    },
+    requirementArchives,
     /** 营销路由 → 情报五站真跑（叙事路由不装配，vendor 也不会进情报层） */
     dataMining: input.isMarketing ? undefined : dataMiningConfigFor(runInput.metadata, llm, scope.workspaceId),
     log: (line) => console.log(line),

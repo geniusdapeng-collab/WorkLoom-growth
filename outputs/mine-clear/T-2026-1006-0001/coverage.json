@@ -1,0 +1,658 @@
+{
+  "schema": "workloom.mc023-repair-coverage/v1",
+  "task_id": "T-2026-1006-0001",
+  "scope": "single MC-023 G3/native PRD/G4/ScriptEngine/PortraitStudio and host image evidence; not whole repository, provider, DB, film, or RDAS276",
+  "source_commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5",
+  "source_clean": false,
+  "total": 80,
+  "counts": {
+    "A": 60,
+    "B": 16,
+    "C": 4,
+    "D": 0
+  },
+  "unread": [],
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "grade": "A",
+      "bytes": 11142,
+      "lines": 126,
+      "sha256": "9d622d465f7ff981289a5c0e10eefe387a6e456badebfaea26f9bd1729ae3dd2",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "AGENTS.repo.md",
+      "grade": "A",
+      "bytes": 3816,
+      "lines": 48,
+      "sha256": "545b15dd35eb8fbe01b211b7abbb94080d8ffbd78227a762b1262f4ad2c61d2d",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "WORKLOOM_PRODUCT_CONTEXT.md",
+      "grade": "A",
+      "bytes": 81799,
+      "lines": 596,
+      "sha256": "59667533f52d296468d152eb7bc05908fef64decc8e6a5415b48938c79410e51",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "docs/DEVELOPMENT-PROTOCOL.md",
+      "grade": "A",
+      "bytes": 31423,
+      "lines": 338,
+      "sha256": "9733f2c5b9697d4db158cd36b027e7321646708da729118ee2413437906578e6",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/native-prd-contract.ts",
+      "grade": "A",
+      "bytes": 22721,
+      "lines": 287,
+      "sha256": "43a212ec7c126bde97965f408593e89d1ffc63e0252a1ab80949a658beae73ea",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/native-requirement-contract.ts",
+      "grade": "A",
+      "bytes": 19511,
+      "lines": 251,
+      "sha256": "13483ee2c26e9b16f58d51c06a7c0be593661a93985f8d9737a0bc9230ba4003",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/studio.ts",
+      "grade": "A",
+      "bytes": 26959,
+      "lines": 543,
+      "sha256": "5fa20445a4ceff5661c728ca16e4d291b06876330ee400a519191d3d3c8ef6b3",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/index.ts",
+      "grade": "A",
+      "bytes": 2896,
+      "lines": 69,
+      "sha256": "1552d1217d7a0276c891041416c310cfe8fd83404064456259dbead6e1375c1d",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/studio.test.ts",
+      "grade": "A",
+      "bytes": 22025,
+      "lines": 389,
+      "sha256": "b74521f7a91b9ac9f543892e31de87271badb79d2aa534b6af4ef6216e7f91bc",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/character-archive.ts",
+      "grade": "A",
+      "bytes": 36150,
+      "lines": 544,
+      "sha256": "5e0c4275c74ab982263df47105885947d800ea9182811b78e560fe9fbcb5d8d0",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/portrait-runtime.ts",
+      "grade": "A",
+      "bytes": 33707,
+      "lines": 610,
+      "sha256": "419666c6457a641a2ddc36689b0e35fcad05c4a2949329702095a01ae1cef1a7",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/portrait-archive-bridge.ts",
+      "grade": "A",
+      "bytes": 4091,
+      "lines": 57,
+      "sha256": "2ba1c31fc8cbd24df67cd18a6f68fb1f9d04ec445e5917c4dd1e18a2c1e1b4f7",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/portrait-binding.ts",
+      "grade": "A",
+      "bytes": 9688,
+      "lines": 172,
+      "sha256": "6cae7a7e4e720f58b010224f42d9826042663f9189ee46ffc929c9d1195b73f2",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/native-intent-profile.ts",
+      "grade": "A",
+      "bytes": 3004,
+      "lines": 52,
+      "sha256": "5b7f93637f2a575061ffcc27df31fa2a8c8b0182afbc1e8e15fb48b498596648",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/source-restrictions.ts",
+      "grade": "A",
+      "bytes": 1937,
+      "lines": 29,
+      "sha256": "80ae90758efbf037f5c5b7fe24aab05cfdbf65b09548b90839eee7b17df32e78",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/native-marketing-dossier.ts",
+      "grade": "A",
+      "bytes": 17492,
+      "lines": 210,
+      "sha256": "e419e12e251b9b43258eba32be488966f4266e59a5ce16af7db6efce4bc56669",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/llm-adapter.ts",
+      "grade": "A",
+      "bytes": 16493,
+      "lines": 409,
+      "sha256": "87d56dd460a9dffd8141f52c3ad8e89aebb93e094cda34269e13066b94860804",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/vendor-compat.ts",
+      "grade": "A",
+      "bytes": 110847,
+      "lines": 2053,
+      "sha256": "c76a74494514c1d59e169a5e7f29a723691c401fcdf20f7404a32ee5ff79cec3",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/producer-gate.ts",
+      "grade": "A",
+      "bytes": 37446,
+      "lines": 596,
+      "sha256": "b2e79daffe9da2d00b7469ba0cded7178a85c9a52208cbc292cbff8ce497bcc9",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/gates.ts",
+      "grade": "A",
+      "bytes": 2602,
+      "lines": 83,
+      "sha256": "5c60cc86122dabc625d7ba523fcb2552d134a154bdb3345a7af021be496ea9ca",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/film-contracts.ts",
+      "grade": "A",
+      "bytes": 6855,
+      "lines": 96,
+      "sha256": "36a2faeb2db6a3d975943a128a90ec91b94dddc250097d6b7f8d3649cfef0486",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/package.json",
+      "grade": "A",
+      "bytes": 382,
+      "lines": 21,
+      "sha256": "04d675f0518aabf2b8983c17c9ea79e6e9a8ac545239261f94ab92bfd4200826",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/tsconfig.json",
+      "grade": "A",
+      "bytes": 137,
+      "lines": 8,
+      "sha256": "9222ec437c1c4b8378784ebceca444214102b64598ff2d611cb4f362d576990d",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "apps/server/package.json",
+      "grade": "A",
+      "bytes": 1036,
+      "lines": 37,
+      "sha256": "e394b4853e18c6b52f3f54090d291b64bc4ea94067915aeab2ca65bcca51750b",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "apps/server/tsconfig.json",
+      "grade": "A",
+      "bytes": 137,
+      "lines": 8,
+      "sha256": "9222ec437c1c4b8378784ebceca444214102b64598ff2d611cb4f362d576990d",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "tsconfig.base.json",
+      "grade": "A",
+      "bytes": 454,
+      "lines": 19,
+      "sha256": "8ed090d95c0a7767fe10b5d9d511dc84cb2356e1d82f787149d1c003d82abb6a",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "apps/server/src/video/studio-worker.ts",
+      "grade": "A",
+      "bytes": 74343,
+      "lines": 1367,
+      "sha256": "94755dc17f2db9bc651213a804736ac044ebe1c5fba816ed2efc40e159e1df8f",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "apps/server/src/video/studio-worker.test.ts",
+      "grade": "A",
+      "bytes": 43618,
+      "lines": 660,
+      "sha256": "5bd4490908c65a79d2ab398cbee85064c82fe595f00ed512282fe15c68adf536",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "apps/server/src/video/gate-policy.ts",
+      "grade": "A",
+      "bytes": 16882,
+      "lines": 254,
+      "sha256": "bba432d100f0a9d1159e6bf4b9b15c68566c997112c364ed255a15af89202681",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "apps/server/src/video/gate-policy.test.ts",
+      "grade": "A",
+      "bytes": 9829,
+      "lines": 132,
+      "sha256": "aaa694a9d9225ad7bcf23e5f4077f80b96a2d3e8bcb9545fe12e0100a10f9807",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "apps/server/src/video/native-video-assets.ts",
+      "grade": "A",
+      "bytes": 6610,
+      "lines": 77,
+      "sha256": "81ec0383846604be1de40d77b87a282f9c7ee78208cc4b3275830f384e68d1d8",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "apps/server/src/video/platform-routing.ts",
+      "grade": "A",
+      "bytes": 3728,
+      "lines": 72,
+      "sha256": "3324bb22d47094dd9c2528307c5f10cfffb5aced3167caf2008b5d4b49fca6a0",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "scripts/native-prd-contract.test.mts",
+      "grade": "A",
+      "bytes": 24849,
+      "lines": 277,
+      "sha256": "7a6a99e4d06697273c5a5bdbce8745d393c582f8d72e01dfc7efd447b4aa876f",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "scripts/native-requirement-contract.test.mts",
+      "grade": "A",
+      "bytes": 8244,
+      "lines": 95,
+      "sha256": "9ab5d645e4787a9cd7713b3aa44ba8cbf945046a848888e7b13019ef434bea25",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "scripts/native-requirement-binding.test.mts",
+      "grade": "A",
+      "bytes": 9845,
+      "lines": 129,
+      "sha256": "48ce323971d0430e3ec0962df225a107b4865804ec708ea1bd448a4e09f9f0c2",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "scripts/delivery/README.md",
+      "grade": "A",
+      "bytes": 9677,
+      "lines": 104,
+      "sha256": "816318aa71540baf64d6f2af36a61a1c96760434cbf85883cd6165ae4e3c19e6",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "scripts/delivery/node-test-reporter.mjs",
+      "grade": "A",
+      "bytes": 1113,
+      "lines": 17,
+      "sha256": "286448a4dee571759fc1703564477d27bf5319bcb05ff66db2186deda60bc78f",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "docs/mine-clear/ledger.schema.json",
+      "grade": "A",
+      "bytes": 11596,
+      "lines": 239,
+      "sha256": "db2b34f9fb45f83ff1eb60b71726c89e705011b90e22c6bda6fbf87d65d36d83",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "docs/mine-clear/report-template.md",
+      "grade": "A",
+      "bytes": 5364,
+      "lines": 114,
+      "sha256": "0ea464ab97054e04c388b9cfafbd125b859ed559fd7b7e7e56168aea145c0730",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "bundles/ai-video/library/characters/model-03-demo-character/profile.json",
+      "grade": "A",
+      "bytes": 4859,
+      "lines": 102,
+      "sha256": "d1b7094c90daffae0365b21d0b157c4efa1e806e623b05f74f833205c8a73b7e",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "bundles/ai-video/library/real-person-assets/asset-20260101000000-demo/profile.json",
+      "grade": "A",
+      "bytes": 6822,
+      "lines": 170,
+      "sha256": "d18ebfc57f4b30a926f828f927c25369908622d441b11c7449f3d0d46cb364e9",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/index.js",
+      "grade": "A",
+      "bytes": 205980,
+      "lines": 4126,
+      "sha256": "489171f35ce7cf5fc2cc4387e07380337ea1a574df638533f2b90ed6bd1f86fd",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/prd-generator/prd-generator.js",
+      "grade": "A",
+      "bytes": 20002,
+      "lines": 486,
+      "sha256": "7a155f4d33d091b94c24ed88416f7b4609c83a286cc7ba43ebfbd87c3a9305a6",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/prd-generator/agents/agent-1-product-definition.js",
+      "grade": "A",
+      "bytes": 4905,
+      "lines": 110,
+      "sha256": "0ecfde3dd418bb27eb2548674136c8791cb7243800584a9600280d33304b1006",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/prd-generator/agents/agent-2-creative-direction.js",
+      "grade": "A",
+      "bytes": 11102,
+      "lines": 205,
+      "sha256": "7ddf0251fd346e669dd31dcbb6d1d8b97c93b043b442b1b231274bdb0713f45d",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/prd-generator/agents/agent-3-production-specification.js",
+      "grade": "A",
+      "bytes": 14126,
+      "lines": 347,
+      "sha256": "288d1d0c0274173db51e65902764d0a9fa1ac038da51d26b6869ce68a43ef300",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/prd-generator/agents/agent-4-constraint-synthesis.js",
+      "grade": "A",
+      "bytes": 7137,
+      "lines": 181,
+      "sha256": "3f7ef95ffe824cbd93bc4b8d7bb95cfa3f6f2fa25db0c95c19a2f43939af8678",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/prd-generator/agents/agent-5-delivery-standard.js",
+      "grade": "A",
+      "bytes": 7209,
+      "lines": 197,
+      "sha256": "01f82381f2c8ff8f06a477a40332f908221abfe49303851330244f586bf82265",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/prd-generator/schema/prd-schema-v3.js",
+      "grade": "A",
+      "bytes": 20110,
+      "lines": 551,
+      "sha256": "3441abe6fb02ff7f4224dd514817bce0c787be996e240d425685272c96e26ad2",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/prd-generator/utils/prd-summary.js",
+      "grade": "A",
+      "bytes": 1646,
+      "lines": 41,
+      "sha256": "60c0d83aa59c888aef6765d4c54963580ef9274a4c16d5c3881ca107914f4c43",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/prd-generator/validators/cost-quality-alignment.js",
+      "grade": "A",
+      "bytes": 2713,
+      "lines": 79,
+      "sha256": "b9dace6e0dfce7f0a456c15eafb94ff1d96ddba93209a9b7a21f0a860881ef74",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/script-engine/index.js",
+      "grade": "A",
+      "bytes": 12093,
+      "lines": 301,
+      "sha256": "db97de235207cc770d7b05b1f32caeadb623aa0e8311a3fd6f5c7e171d1b1b39",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/script-engine/core/script-generator.js",
+      "grade": "A",
+      "bytes": 60615,
+      "lines": 1412,
+      "sha256": "f8bef97ad9445a494b3d5d55c1c0cf2faacf787a55b53d919494a876c97ab777",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/script-engine/core/adapter.js",
+      "grade": "A",
+      "bytes": 18990,
+      "lines": 572,
+      "sha256": "5bd3b1d873de29fc724b4eb3ffcae14b432cc043defbd30859d5c4a6171c227c",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/script-engine/core/requirement-list-builder.js",
+      "grade": "A",
+      "bytes": 45364,
+      "lines": 1113,
+      "sha256": "e965e7223ee11e8dbcc96a9fcc71296414bf9dedfaad4e5797298cd8c981350d",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/portrait-studio/index.js",
+      "grade": "A",
+      "bytes": 9462,
+      "lines": 232,
+      "sha256": "10814c2e5c97c5e881c45fc569268c2a50a545ad25b4d66ecbfdd2b1d6ccc789",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/portrait-studio/character-planner.js",
+      "grade": "A",
+      "bytes": 7289,
+      "lines": 173,
+      "sha256": "131a497815aa69d949e2646c371fe99ee0d87eeaaf18c52bc57dcd5a30694a20",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/production-engine/agents/base-agent.js",
+      "grade": "A",
+      "bytes": 20249,
+      "lines": 439,
+      "sha256": "53fa83952a6576a32d1ceab2f67a3e9d42fea2b3e82a081b22dcf1457fdbe778",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/production-engine/agents/error-classifier.js",
+      "grade": "A",
+      "bytes": 7783,
+      "lines": 235,
+      "sha256": "89f9bc71a47a823caece841dddb1613e41de53ab40dcbca7fb1cc8b0fcf71a77",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/core/llm-concurrency-limiter.js",
+      "grade": "A",
+      "bytes": 2730,
+      "lines": 96,
+      "sha256": "07c8471e88bb8d00d2d560133d4dcb4e9f43e36d09a272f53bd83a099d8e30c0",
+      "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
+    },
+    {
+      "path": "packages/video-studio/src/character-archive.test.ts",
+      "grade": "B",
+      "bytes": 18377,
+      "lines": 288,
+      "sha256": "60d26c5f3c9f0e671df43b09a85ab1cc0aabbe54479cc66ffb7b13d2df64b8e4",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "packages/video-studio/src/portrait-archive-bridge.test.ts",
+      "grade": "B",
+      "bytes": 3275,
+      "lines": 45,
+      "sha256": "0d3bd226e3ef661ccc59ad81839a9883e759b3b0268761f1fce4b6ce8206a88b",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "packages/video-studio/src/portrait-binding.test.ts",
+      "grade": "B",
+      "bytes": 8998,
+      "lines": 151,
+      "sha256": "5104fcb86e6ba9d541cc69863f60d6ff682b3b6f1ed4b900ddeee110f39b6908",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "packages/video-studio/src/portrait-runtime.test.ts",
+      "grade": "B",
+      "bytes": 26704,
+      "lines": 402,
+      "sha256": "1c122b3acf94e47c24dfb9a44a820c682d106e236a8d981ee6f1662e54934624",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "packages/video-studio/src/portrait-decision.test.ts",
+      "grade": "B",
+      "bytes": 3727,
+      "lines": 62,
+      "sha256": "985f4b90f29ecf2292a013e82a4426778af9709ccadd18274936b8deae47c59b",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "packages/video-studio/src/producer-gate.test.ts",
+      "grade": "B",
+      "bytes": 14197,
+      "lines": 189,
+      "sha256": "89ae0389d9296e16812d94e17836eb05fe3329626d8a69e110a2ed7dae104291",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "apps/server/src/video/native-video-assets.test.ts",
+      "grade": "B",
+      "bytes": 1918,
+      "lines": 22,
+      "sha256": "e4067335632d012aaccc0977e38f82ef937ff0db9e3d6b356b159249a642673c",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "scripts/native-source-restrictions.test.mts",
+      "grade": "B",
+      "bytes": 6107,
+      "lines": 92,
+      "sha256": "a40462afaffb66c7cec6f58c1dfb268901bead3719aeb395277ec84bc7137bcd",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "scripts/native-marketing-dossier.test.mts",
+      "grade": "B",
+      "bytes": 23728,
+      "lines": 274,
+      "sha256": "59c1db20b8cd44c1cec0ad2961a9571c502c57fabcb50151e49f9764b84d1dd0",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/script-engine/core/intent-parser.js",
+      "grade": "B",
+      "bytes": 14765,
+      "lines": 399,
+      "sha256": "74d8cad8eb44ae514ef5578a947ae81b97d54eb92e3a3c08669f20d79c02125b",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/script-engine/core/script-validator.js",
+      "grade": "B",
+      "bytes": 25715,
+      "lines": 751,
+      "sha256": "79a5587409f7ba3b8c01ef75e1a983fb49ba34b7a93c6e11959ecccc5a752388",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/script-engine/core/script-blueprint.js",
+      "grade": "B",
+      "bytes": 4786,
+      "lines": 152,
+      "sha256": "d8aea579823f5dc3203ab8e0a7b08fae188892edb05cb119a576cb76bf6672e1",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/script-engine/core/boundary-prompt-templates.js",
+      "grade": "B",
+      "bytes": 10111,
+      "lines": 240,
+      "sha256": "7c472fe4a7be6a200338eefaf0fc12c781f4f3895e32f998ce67f2010aa7c1db",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/script-engine/core/scene-type-normalizer.js",
+      "grade": "B",
+      "bytes": 6937,
+      "lines": 185,
+      "sha256": "8dd9416aaa8cd29d6e6606b2881c16a9721241e9ed5a8bded8f4752db5ed18a3",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/portrait-studio/product-branch.js",
+      "grade": "B",
+      "bytes": 19374,
+      "lines": 383,
+      "sha256": "1ba853b29d3011950145a55bf5cc3cb24d0fb4c759c6c80dab3f481ab96270bb",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/portrait-studio/portrait-set-builder.js",
+      "grade": "B",
+      "bytes": 8125,
+      "lines": 204,
+      "sha256": "12ae445df14caf0e94abf237d5459926ab0db28d7139adb5d19c8f83cc432355",
+      "reason": "Current bytes hashed; actual component/test execution where applicable, not semantic full read."
+    },
+    {
+      "path": "scripts/tools/full-chain-film.mts",
+      "grade": "C",
+      "bytes": 519286,
+      "lines": 8176,
+      "sha256": "4e073a71ca9e18b9e904686b0b2890972675030ad9188785b824d88ab5702ab6",
+      "reason": "Named subtitle/default/mux regions only; full 8000+ line production and actual film are owned by the root."
+    },
+    {
+      "path": "packages/video-studio/src/film-worker-runtime.ts",
+      "grade": "C",
+      "bytes": 19164,
+      "lines": 226,
+      "sha256": "4c075df2e4bdc31e3cdfe117cee64d5c715de583868105dda9fe4e7c85fe7526",
+      "reason": "Named type/contract regions only; no film-worker invocation in this repair."
+    },
+    {
+      "path": "scripts/delivery/mine-clear.mjs",
+      "grade": "C",
+      "bytes": 47305,
+      "lines": 910,
+      "sha256": "f2c0e0d200b32ffc7822c0f802afc8460c8c0f48afe261b656559bf1eb1596f5",
+      "reason": "Actual init/invariants/add/run-assertions usage and named helper regions; not a full executor audit."
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/post-production-engine/post-production-engine.js",
+      "grade": "C",
+      "bytes": 34746,
+      "lines": 905,
+      "sha256": "0bd7bc4077e6b3fac660089068000df91acc94497968533a0d281057294d58fc",
+      "reason": "Read 1-600 of 904 lines; its identity-card postprocessing does not define the host full-chain subtitle contract."
+    }
+  ],
+  "limits": "Unrelated old host imports, whole model-router/provider internals and production film are excluded from semantic scope. B/C are never described as full semantic read. Previously read unchanged original bytes carry by current hash; modified deltas were read completely."
+}

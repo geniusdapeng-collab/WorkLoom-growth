@@ -1,0 +1,55 @@
+[ScriptGenerator] 无法加载LLMEngine: Cannot find module './llm-output-normalizer'
+Require stack:
+- /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/[eval]
+[RenderingEngine] 无法加载现有渲染核心: Cannot find module './prompt-guardian'
+Require stack:
+- /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/[eval]
+[RenderingEngine] 将使用内置模拟模式
+⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+ 人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+ 配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+[ScriptGenerator] 无法加载LLMEngine: Cannot find module './llm-output-normalizer'
+Require stack:
+- /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/[eval]
+[RenderingEngine] 无法加载现有渲染核心: Cannot find module './prompt-guardian'
+Require stack:
+- /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/[eval]
+[RenderingEngine] 将使用内置模拟模式
+⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+ 人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+ 配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/server/src/video/studio-worker.test.ts > 实际宿主G4档案接线（供应商和PG边界替身，不授予整片资格） > 图像模型未启用时仍把完整受控档案与全部8张原图送G4，生产配置没有丢授权作用域
+Error: CHARACTER_SPEECH_RATE_UNVERIFIED: 已选人物语速无法在平台硬上限内执行
+ ❯ appendPlatformGuidance apps/server/src/video/platform-routing.ts:65:85
+     63|     const match = typeof actor.speechRate === "string" ? actor.speechR…
+     64|     const rate = Number(match?.[1]), platform = speechRateProfile(deci…
+     65|     if (!match || !Number.isFinite(rate) || rate <= 0 || rate > platfo…
+       |                                                                                     ^
+     66|     return `${intent}\n[平台制作口径 ${decision.id}·${decision.label}] 目标平台：…
+     67|       + `画幅 ${decision.aspectRatio}；开场钩子须落在前 ${platform.hookWindowSec}…
+ ❯ Module.startRun apps/server/src/video/studio-worker.ts:468:13
+ ❯ runToTerminal apps/server/src/video/studio-worker.test.ts:243:24
+ ❯ apps/server/src/video/studio-worker.test.ts:564:29
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  apps/server/src/video/studio-worker.test.ts > 实际宿主G4档案接线（供应商和PG边界替身，不授予整片资格） > missing-image-proof使真实onApproval拒绝自报通过
+ FAIL  apps/server/src/video/studio-worker.test.ts > 实际宿主G4档案接线（供应商和PG边界替身，不授予整片资格） > wrong-image-scope使真实onApproval拒绝自报通过
+ FAIL  apps/server/src/video/studio-worker.test.ts > 实际宿主G4档案接线（供应商和PG边界替身，不授予整片资格） > changed-during-review使真实onApproval拒绝自报通过
+Error: CHARACTER_SPEECH_RATE_UNVERIFIED: 已选人物语速无法在平台硬上限内执行
+ ❯ appendPlatformGuidance apps/server/src/video/platform-routing.ts:65:85
+     63|     const match = typeof actor.speechRate === "string" ? actor.speechR…
+     64|     const rate = Number(match?.[1]), platform = speechRateProfile(deci…
+     65|     if (!match || !Number.isFinite(rate) || rate <= 0 || rate > platfo…
+       |                                                                                     ^
+     66|     return `${intent}\n[平台制作口径 ${decision.id}·${decision.label}] 目标平台：…
+     67|       + `画幅 ${decision.aspectRatio}；开场钩子须落在前 ${platform.hookWindowSec}…
+ ❯ Module.startRun apps/server/src/video/studio-worker.ts:468:13
+ ❯ runToTerminal apps/server/src/video/studio-worker.test.ts:243:24
+ ❯ apps/server/src/video/studio-worker.test.ts:585:29
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+

@@ -1,0 +1,27 @@
+{
+  "name": "host-regression-3",
+  "source_commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5",
+  "source_clean": false,
+  "argv": [
+    "node",
+    "node_modules/vitest/vitest.mjs",
+    "run",
+    "packages/video-studio/src/studio.test.ts",
+    "apps/server/src/video/gate-policy.test.ts",
+    "apps/server/src/video/studio-worker.test.ts",
+    "--reporter=dot"
+  ],
+  "exit_code": 0,
+  "started_at": "2026-10-05T18:51:19.532922+00:00",
+  "finished_at": "2026-10-05T18:51:22.149051+00:00",
+  "outputs": {
+    "stdout": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/host-regression-3.stdout.txt",
+      "sha256": "3df23c643334b4266643fdea2cbdbd61c5239eb707061b7745a124ca214f2036"
+    },
+    "stderr": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/host-regression-3.stderr.txt",
+      "sha256": "5f5aa435daf4181b460346a7157aa46f5ebf5e6d07bb4c60d93414974c8d78b1"
+    }
+  }
+}

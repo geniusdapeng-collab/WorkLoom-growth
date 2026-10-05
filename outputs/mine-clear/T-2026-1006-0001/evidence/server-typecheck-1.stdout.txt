@@ -1,0 +1,1 @@
+apps/server/src/video/studio-worker.test.ts(570,182): error TS18046: 'file' is of type 'unknown'.

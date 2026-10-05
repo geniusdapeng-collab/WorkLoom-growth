@@ -1,0 +1,32 @@
+[ProcessGuard] 实例 default 安装完成（含SIGTERM/SIGINT处理）
+⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+ 人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+ 配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ScriptGenerator] 使用LLMEngine (fixture-model)
+[PRDGenerator] 🚀 开始生成 PRD...
+[PRDGenerator] Step 1/5: 产品定义...
+[PRDGenerator] Step 2/5: 创意方向（LLM）...
+[BaseAgent] _callLLM 进入 | perCallTimeout=120000ms maxTokens=12288 retries=2 budget=300000ms ceiling=300000ms
+[BaseAgent] 尝试 1/2 | timeout=120000ms
+[[BaseAgent] attempt 1/2] ✅ 正常完成，耗时≈0ms
+[BaseAgent] 尝试 1/2 失败: LLM引擎返回失败: JSON parse fixture | type=PARSE | retryable=true
+[BaseAgent] 等待 500ms 后重试...
+[BaseAgent] Prompt 缩短至 6598 字符
+[BaseAgent] 尝试 2/2 | timeout=120000ms strategy=shrink-prompt
+[[BaseAgent] attempt 2/2] ✅ 正常完成，耗时≈0ms
+[BaseAgent] LLM调用成功 ✓ | 耗时=1ms
+[PRDGenerator] Step 3/5: 制作规格（LLM）...
+[PRDGenerator] Step 4/5: 约束合成...
+[PRDGenerator] Step 5/5: 交付标准...
+[PRDGenerator] 🔍 结构校验...
+[PRDGenerator] ✅ PRD 生成完成，耗时 514ms
+✔ actual native BaseAgent PARSE retry retains every source byte after its ordinary prompt shrink (526.221583ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 790.13675

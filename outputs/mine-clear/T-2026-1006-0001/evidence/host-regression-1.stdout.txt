@@ -1,0 +1,14 @@
+
+ RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline
+
+ ❯ apps/server/src/video/studio-worker.test.ts (35 tests | 4 failed) 482ms
+     × 图像模型未启用时仍把完整受控档案与全部8张原图送G4，生产配置没有丢授权作用域 2ms
+     × missing-image-proof使真实onApproval拒绝自报通过 2ms
+     × wrong-image-scope使真实onApproval拒绝自报通过 1ms
+     × changed-during-review使真实onApproval拒绝自报通过 1ms
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  4 failed | 83 passed (87)
+   Start at  02:43:05
+   Duration  1.04s (transform 881ms, setup 0ms, import 1.21s, tests 723ms, environment 0ms)
+

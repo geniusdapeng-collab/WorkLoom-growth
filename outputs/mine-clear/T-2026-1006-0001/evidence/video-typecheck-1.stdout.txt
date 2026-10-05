@@ -1,0 +1,4 @@
+packages/video-studio/src/native-prd-contract.ts(29,72): error TS2339: Property 'id' does not exist on type '{ kind: string; }'.
+packages/video-studio/src/native-prd-contract.ts(30,73): error TS2339: Property 'name' does not exist on type '{ kind: string; }'.
+packages/video-studio/src/native-prd-contract.ts(35,91): error TS2339: Property 'id' does not exist on type '{ kind: string; }'.
+packages/video-studio/src/native-prd-contract.ts(35,118): error TS2339: Property 'name' does not exist on type '{ kind: string; }'.

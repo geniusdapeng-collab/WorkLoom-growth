@@ -1,6 +1,7 @@
 /** Resolve the vendor's async conversion before its synchronous caller consumes it; vendor files remain immutable. */
 import { createHash } from "node:crypto";
 import type { LLMReasonOptions, LLMReasonResult } from "./llm-adapter.js";
+import type { ExistingPortraitAsset } from "./portrait-archive-bridge.js";
 
 type Json = Record<string, unknown>;
 const object = (value: unknown): value is Json => Boolean(value && typeof value === "object" && !Array.isArray(value));
@@ -11,7 +12,17 @@ function text(value: unknown, label: string): string {
   return value;
 }
 
-export interface NativeRequirementArchives { characters: Json[]; products: Array<{ id: string; name: string }> }
+export interface NativeRequirementArchives {
+  characters: Json[];
+  products: Array<{ id: string; name: string }>;
+  /** Host-resolved current files, independent of image-provider availability. */
+  portraits?: ExistingPortraitAsset[];
+}
+export interface NativeRequirementBridge {
+  (): void;
+  /** A scoped getter, not a metadata field that a caller can forge. */
+  requirements(discovery: Json): Json;
+}
 export interface NativeRequirementBridgeOptions {
   llm: { reasonStructured(prompt: string, schema: unknown, options?: LLMReasonOptions): Promise<LLMReasonResult> };
   intent: string;
@@ -145,7 +156,7 @@ function markdown(contract: Contract, requirements: Json, discovery: Json): stri
 }
 
 /** All state is private to this native instance; a second run finishing cannot unpatch the first. */
-export function installNativeRequirementContractBridge(value: unknown, options: NativeRequirementBridgeOptions): () => void {
+export function installNativeRequirementContractBridge(value: unknown, options: NativeRequirementBridgeOptions): NativeRequirementBridge {
   const system = value as System, engine = system?.requirementDiscoveryEngine;
   if (!engine || typeof engine.discover !== "function" || typeof engine.generateMarkdown !== "function"
     || typeof system._convertDiscoveryToRequirementList !== "function" || typeof system._renderRequirementContract !== "function") fail("vendor缺少原生需求转换接口");
@@ -225,7 +236,7 @@ export function installNativeRequirementContractBridge(value: unknown, options: 
   engine.discover = discover; engine.generateMarkdown = generateMarkdown;
   system._convertDiscoveryToRequirementList = convert; system._renderRequirementContract = render;
   if (builder) builder.toScriptEngineMetadata = toMetadata;
-  return () => {
+  const dispose = () => {
     if (!active) return;
     active = false;
     const conflict = engine.discover !== discover || engine.generateMarkdown !== generateMarkdown
@@ -236,4 +247,5 @@ export function installNativeRequirementContractBridge(value: unknown, options: 
     if (builder) builder.toScriptEngineMetadata = originalMetadata!;
     if (conflict) fail("需求实例桥被外部替换，清理后拒绝宣称成功");
   };
+  return Object.assign(dispose, { requirements: (discovery: Json) => { ensureActive(); return ensureSnapshot(discovery).requirements; } });
 }

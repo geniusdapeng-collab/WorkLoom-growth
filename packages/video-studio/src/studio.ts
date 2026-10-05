@@ -39,6 +39,7 @@ import { loadDurationRules } from "./duration-rules.js";
 import { runWithSourceRestrictions, sourceRestrictionsHash } from "./source-restrictions.js";
 import { applyNativeIntentProfile } from "./native-intent-profile.js";
 import { installNativeRequirementContractBridge, type NativeRequirementArchives } from "./native-requirement-contract.js";
+import { installNativePrdContractBridge } from "./native-prd-contract.js";
 import { verifyNativeMarketingDossier, type NativeMarketingDossier } from "./native-marketing-dossier.js";
 
 /** vendor 引擎暴露的最小结构（HyperrealitySystem 实例方法） */
@@ -405,7 +406,10 @@ export class VideoStudio {
           charactersDir,
           durationConstraint: { maxSingleShot, minSingleShot }
         });
-        keep(installNativeRequirementContractBridge(system, { llm: cfg.llm, intent: input.intent,
+        const requirementBridge = installNativeRequirementContractBridge(system, { llm: cfg.llm, intent: input.intent,
+          archives: cfg.requirementArchives, brief: metadata.brief as Record<string, unknown> | undefined });
+        keep(requirementBridge);
+        keep(installNativePrdContractBridge(system, { requirement: requirementBridge.requirements,
           archives: cfg.requirementArchives, brief: metadata.brief as Record<string, unknown> | undefined }));
         /** 实例级放宽 rhythmProfiles（standard 12 / slow 15 → 模型上限），否则 30s 单镜会被重新夹紧 */
         applyDurationPolicyToManager(

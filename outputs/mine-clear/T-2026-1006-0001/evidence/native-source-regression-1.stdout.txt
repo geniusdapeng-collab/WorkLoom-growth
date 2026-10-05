@@ -1,0 +1,75 @@
+[pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+[ProcessGuard] 实例 default 安装完成（含SIGTERM/SIGINT处理）
+⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+ 人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+ 配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+✔ host G1 never promotes discovery-only model into any native fact/card (55.061292ms)
+✔ host G1 never promotes discovery-only brand into any native fact/card (58.015458ms)
+✔ host G1 never promotes discovery-only category into any native fact/card (85.370959ms)
+✔ host native specs keep actual source provenance without contradictory no-source gaps (36.304ms)
+✔ native assembly preserves five stations, chain, empty A2/A3, source restrictions and unchanged vendor prototypes (11.840625ms)
+✔ supported identity, escaped specs, zero/boolean values, prices and selling points map only to actual cited URLs (14.905458ms)
+✔ candidate images keep unverified mapping/license statement, unknown angle and actual source; unsupported metadata is rejected (2.189125ms)
+✔ missing, duplicate, mismatched, foreign and invalid claims cannot be wrapped as sourced native facts (0.73875ms)
+✔ malformed stage/source records, empty evidence, unbound URLs and deleted policy limits fail closed (1.253333ms)
+✔ native price and visual source URLs must belong to the specific cited competitor attribute (4.596416ms)
+✔ adapter proof rejects altered raw, query, native values, source URLs, mappings and restrictions even when outer SHA is recomputed (5.558209ms)
+✔ host proof and handoff restrictions remain bound through final fact qualification (160.235875ms)
+[LLM接线] 使用调用方注入的 LLM 引擎
+[ScriptGenerator] 使用LLMEngine (kimi-k2p6)
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ContinuityReviewAgent] LLM引擎加载成功 | model=fixture
+[ProductionEngine v2.0] LLM Agents 已启用 | deep=fixture fast=fixture
+[HealthMonitor] 🏥 健康监控已启动，检查间隔: 30000ms
+[StabilityShield] 🛡️ 三层稳定性护盾已初始化（通用化版本）
+[StabilityShield] constructor called
+[PandaAdapter][INFO] PandaCineForgeAdapter 已禁用（默认） {}
+[StabilityShield] initialize called with productionEngine
+[HealthMonitor] ✅ Agent已注册: ProductionEngine
+[ProductionEngine] setHealthMonitor called with HealthMonitor instance
+[ProductionEngine] Phases re-initialized with healthMonitor: yes
+[StabilityShield] ✅ 护盾已激活
+✔ actual VideoStudio entry reassembles the same source-bound facts without any query fallback or prototype mutation (216.457166ms)
+✔ actual studio rejects missing or altered native adapter proof before production boundary (7.256542ms)
+[ProcessGuard] 实例 default 安装完成（含SIGTERM/SIGINT处理）
+⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+ 人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+ 配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+✔ converted duration, platform, aspect and profile cannot diverge from the G3 and actual ScriptEngine contract (6.003583ms)
+✔ selected actors, full scenes and source citations cannot be replaced after conversion (0.603ms)
+✔ input changed during contract model await is rejected rather than binding old sources to new input (0.391166ms)
+✔ input changed during native discovery is rejected before profile or contract calls (0.175167ms)
+✔ discovery changed during native async conversion is rejected before contract compilation (0.474042ms)
+✔ trusted archive, brief and intent changes during await cannot replace entry source authority (0.668667ms)
+✔ legitimate native creative, emotion and content extensions remain usable with protected authority (0.43775ms)
+✔ finished native scope rejects a compiler result returning after cleanup (0.213541ms)
+✔ changed input after compilation cannot consume its earlier converted authority (0.307417ms)
+✔ actual native metadata consumption validates authority and returns an independent mutable downstream copy (0.437958ms)
+[ProcessGuard] 实例 default 安装完成（含SIGTERM/SIGINT处理）
+⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+ 人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+ 配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+✔ native discovery returns a resolved requirement object before the vendor's synchronous conversion call (3.3445ms)
+✔ current archive actor reaches G3 and the actual native ScriptEngine metadata without guessing identity (5.264ms)
+✔ full scene purposes, source-backed props and actions survive conversion without keyword fragments (0.452167ms)
+✔ invented sources, unrelated quotes and missing selected actors stop before G3 (0.678458ms)
+✔ conversion fallback cannot consume an uncompiled or different discovery object (0.297917ms)
+✔ concurrent native instances retain their own actors, sources and conversion caches (1.934833ms)
+[pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+✔ all native adapter interfaces carry complete restrictions despite custom system prompts (11.456417ms)
+✔ vendor-owned engine prototype calls inherit the native run limits (5.570125ms)
+✔ routed primary/fast calls retain restrictions, timeout and model billing traces (32.632125ms)
+✔ concurrent scopes and later narrative requests do not share source limitations (2.4655ms)
+✔ mutated input cannot change a running restriction snapshot and raw binding changes its hash (0.25175ms)
+✔ missing, malformed and oversized limits stop before the model callback without truncation (0.438125ms)
+✔ failed and completed scopes close, preventing detached late model submissions (0.387875ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1335.018042

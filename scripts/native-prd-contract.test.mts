@@ -206,6 +206,23 @@ test("source changes during the actual ScriptEngine await invalidate its output"
   const { requirements, prd } = await approved(f);
   await assert.rejects(() => f.system.scriptEngine.process("客户需求", metadata(f, requirements, prd)), denied);
 }));
+for (const [label, mutation] of [
+  ["description", (input: any) => { input.characters[0].description = "中年男性，未经档案核实的衣服和语音"; }],
+  ["character_id alias", (input: any) => { input.characters[0].character_id = "another-person"; }],
+  ["portraitPaths", (input: any) => { input.characters[0].portraitPaths = ["/uncontrolled/photo.png"]; }],
+  ["internal PRD override", (input: any) => { input._metadata = { _prd: {} }; }],
+  ["internal aspect override", (input: any) => { input._metadata = { aspectRatio: "16:9" }; }],
+] as const) test(`mutable native script metadata ${label} cannot bypass the complete G3/G4 source`, () => scoped({}, async f => {
+  const { requirements, prd } = await approved(f), input = metadata(f, requirements, prd);
+  mutation(input);
+  let modelCalls = 0; f.system.scriptEngine.scriptGenerator._callLLM = async () => { modelCalls++; return "{}"; };
+  await assert.rejects(() => f.system.scriptEngine.process("客户需求", input), denied);
+  assert.equal(modelCalls, 0);
+}));
+test("reusing one physical image for multiple named angles cannot impersonate complete accepted views", () => scoped({}, async f => {
+  f.archives.portraits[0].files.side = f.archives.portraits[0].files.front;
+  await assert.rejects(() => generated(f), denied); assert.equal(f.prompts.length, 0);
+}));
 test("duplicate selected identities are rejected without picking the first profile", () => scoped({}, async f => {
   f.archives.characters.push(structuredClone(f.archives.characters[0])); await assert.rejects(() => generated(f), denied);
 }));
@@ -238,4 +255,23 @@ test("native vendor generator, agents and script source bytes remain unchanged b
     "../vendor/supermickey/hyperreality-system/engines/script-engine/core/script-generator.js"];
   const before = paths.map(path => sha(readFileSync(new URL(path, import.meta.url)))); await approved(f);
   assert.deepEqual(paths.map(path => sha(readFileSync(new URL(path, import.meta.url)))), before);
+}));
+test("actual native BaseAgent PARSE retry retains every source byte after its ordinary prompt shrink", () => scoped({}, async f => {
+  const { BaseAgent } = require("../vendor/supermickey/hyperreality-system/engines/production-engine/agents/base-agent.js");
+  const prompts: string[] = [];
+  f.system.prdGenerator.agent2._callLLM = BaseAgent.prototype._callLLM;
+  f.system.prdGenerator.agent2._getLLMEngine = () => ({ reasonStructured: async (prompt: string) => {
+    prompts.push(prompt);
+    if (prompts.length === 1) return { success: false, error: "JSON parse fixture", type: "PARSE" };
+    return { success: true, data: structuredClone(creative) };
+  } });
+  const { requirements, prd } = await generated(f); assert.equal(prompts.length, 2);
+  const completeSource = JSON.stringify({ schema: "workloom.native-prd-contract/v1", sourceSha256: prd._nativePrdContract.sourceSha256,
+    brief: { duration: 30, aspectRatio: "9:16", platform: "wechat-channels" }, characters: requirements.characters,
+    archives: f.archives, portraits: bridge.nativePrdPortraitEvidence(f.archives), subtitleDelivery: prd.deliveryStandard.subtitleDelivery });
+  for (const prompt of prompts) {
+    assert.match(prompt, /三十岁上下/); assert.match(prompt, /internal-film/);
+    for (const file of Object.values(f.files) as any[]) assert.ok(prompt.includes(file.sha256));
+    assert.ok(prompt.includes(completeSource), "a partial or repeated fragment cannot impersonate the complete source JSON");
+  }
 }));

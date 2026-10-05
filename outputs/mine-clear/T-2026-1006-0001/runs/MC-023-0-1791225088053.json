@@ -1,0 +1,81 @@
+{
+  "schema": "workloom.evidence-run/v1",
+  "id": "MC-023-0-1791225088053",
+  "command": "node --import tsx --test scripts/native-prd-contract.test.mts",
+  "exec": {
+    "file": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/toolchain/official-node/node-v24.19.0-darwin-arm64/bin/node",
+    "args": [
+      "--test-reporter=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+      "--test-reporter-destination=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/MC-023-0-1791225088053-node-tests.jsonl",
+      "--test-reporter=tap",
+      "--test-reporter-destination=stdout",
+      "--import",
+      "tsx",
+      "--test",
+      "scripts/native-prd-contract.test.mts"
+    ]
+  },
+  "requested_exec": {
+    "file": "node",
+    "args": [
+      "--import",
+      "tsx",
+      "--test",
+      "scripts/native-prd-contract.test.mts"
+    ]
+  },
+  "node_observer": {
+    "schema": "workloom.node-test-observer/v1",
+    "reporter_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+    "reporter_sha256": "286448a4dee571759fc1703564477d27bf5319bcb05ff66db2186deda60bc78f",
+    "destination": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/MC-023-0-1791225088053-node-tests.jsonl",
+    "summary": {
+      "path": "evidence/MC-023-0-1791225088053-node-tests.jsonl",
+      "sha256": "1627872c511ae0a56dd2fd31a58675a18e9c2637e12c2c32855d343546ece2d5",
+      "commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5"
+    }
+  },
+  "node_executable": {
+    "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/toolchain/official-node/node-v24.19.0-darwin-arm64/bin/node",
+    "sha256": "27db838bb204ef7c21df2931f5656e4c8fb32e6e947f363a402b49714d32b5b1"
+  },
+  "actor": "mc023-prd-authority-repair",
+  "role": "repair",
+  "subject": {
+    "card_id": "MC-023",
+    "assertion_index": 0
+  },
+  "commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5",
+  "working_tree_dirty": false,
+  "started_at": "2026-10-05T18:31:28.053Z",
+  "finished_at": "2026-10-05T18:31:28.806Z",
+  "exit_code": 1,
+  "signal": null,
+  "validation": {
+    "ok": false,
+    "errors": [
+      "Node TestsStream 没有非零实际 passed/逐文件摘要或存在失败/取消；文件加载成功不能替代逐文件真实断言"
+    ],
+    "testSummary": {
+      "total": 30,
+      "passed": 6,
+      "failed": 24,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "result": "fail",
+  "outputs": [
+    {
+      "path": "evidence/MC-023-0-1791225088053.txt",
+      "sha256": "f63e568413396436b1f23f75df7a1d654a4ca1c784adae08142f550a9f74264c",
+      "commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5"
+    },
+    {
+      "path": "evidence/MC-023-0-1791225088053-node-tests.jsonl",
+      "sha256": "1627872c511ae0a56dd2fd31a58675a18e9c2637e12c2c32855d343546ece2d5",
+      "commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5"
+    }
+  ]
+}

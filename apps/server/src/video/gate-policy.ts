@@ -16,6 +16,33 @@ import { existsSync, mkdirSync, writeFileSync, readFileSync, realpathSync, statS
 import { createHash } from "node:crypto";
 import { join, resolve, relative, sep } from "node:path";
 import type { ProducerArtifact, DeterministicCheck, PortraitIndex } from "@hyperreality/video-studio";
+import { nativePrdPortraitEvidence, type NativeRequirementArchives } from "@hyperreality/video-studio";
+
+/** G4 receives every selected original view; textual archive claims cannot replace actual image evidence. */
+export function prdArchiveGateEvidence(archives: NativeRequirementArchives): {
+  artifacts: ProducerArtifact[];
+  deterministic: DeterministicCheck[];
+  expected: Array<{ path: string; sha256: string; scope: "image" }>;
+} {
+  try {
+    const rows = nativePrdPortraitEvidence(archives);
+    return { artifacts: rows.map(row => ({ path: row.receipt.path, kind: "image", bytes: row.receipt.bytes,
+      note: `${row.kind}:${row.id}:${row.name}:${row.angle}；当前受控原图，sha256=${row.receipt.sha256}` })),
+      expected: rows.map(row => ({ path: row.receipt.path, sha256: row.receipt.sha256, scope: "image" })),
+      deterministic: [{ id: "prd-archive-files", pass: true, hard: true,
+        detail: rows.length ? `${rows.length} 张当前受控原图与同份档案回执一致；身份/授权仍以原档案作用域为准` : "本次没有选定档案；保持原生角色/素材规划" }] };
+  } catch (error) {
+    return { artifacts: [], expected: [], deterministic: [{ id: "prd-archive-files", pass: false, hard: true,
+      detail: `当前档案实物无法核实：${error instanceof Error ? error.message : String(error)}` }] };
+  }
+}
+
+/** Re-read current bytes after the model await; every original view needs its matching image-scope proof. */
+export function prdArchiveReviewMatches(archives: NativeRequirementArchives, evidence: Array<{ path: string; sha256: string; scope: string }> | undefined): boolean {
+  const current = prdArchiveGateEvidence(archives);
+  return current.deterministic.every(check => check.pass) && current.expected.every(expected => evidence?.some(item =>
+    item.path === expected.path && item.sha256 === expected.sha256 && item.scope === expected.scope) === true);
+}
 
 /**
  * 正式制作的中间门由系统检查；人类只验收最终成片（T-2026-1005-0001）。

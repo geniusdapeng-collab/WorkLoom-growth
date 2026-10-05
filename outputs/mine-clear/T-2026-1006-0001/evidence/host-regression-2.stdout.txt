@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline
+
+
+ Test Files  3 passed (3)
+      Tests  87 passed (87)
+   Start at  02:45:44
+   Duration  1.54s (transform 1.40s, setup 0ms, import 2.03s, tests 827ms, environment 0ms)
+

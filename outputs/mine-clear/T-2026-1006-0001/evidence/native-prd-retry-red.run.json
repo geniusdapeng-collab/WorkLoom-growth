@@ -1,0 +1,26 @@
+{
+  "name": "native-prd-retry-red",
+  "source_commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5",
+  "source_clean": false,
+  "argv": [
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern=PARSE",
+    "scripts/native-prd-contract.test.mts"
+  ],
+  "exit_code": 0,
+  "started_at": "2026-10-05T18:56:17.070447+00:00",
+  "finished_at": "2026-10-05T18:56:18.043378+00:00",
+  "outputs": {
+    "stdout": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/native-prd-retry-red.stdout.txt",
+      "sha256": "dca47f608eac6eae935313e914a05897b70242dc1a9e3343c0e4fd717bf1f085"
+    },
+    "stderr": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/native-prd-retry-red.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}
