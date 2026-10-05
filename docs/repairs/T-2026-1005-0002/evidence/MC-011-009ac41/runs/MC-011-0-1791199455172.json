@@ -1,0 +1,79 @@
+{
+  "schema": "workloom.evidence-run/v1",
+  "id": "MC-011-0-1791199455172",
+  "command": "node --import tsx --test scripts/native-engine-scope.test.mts",
+  "exec": {
+    "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "--test-reporter=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+      "--test-reporter-destination=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/outputs/mine-clear/T-2026-1005-0002/engine-scope-ba91c6d/evidence/MC-011-0-1791199455172-node-tests.jsonl",
+      "--test-reporter=tap",
+      "--test-reporter-destination=stdout",
+      "--import",
+      "tsx",
+      "--test",
+      "scripts/native-engine-scope.test.mts"
+    ]
+  },
+  "requested_exec": {
+    "file": "node",
+    "args": [
+      "--import",
+      "tsx",
+      "--test",
+      "scripts/native-engine-scope.test.mts"
+    ]
+  },
+  "node_observer": {
+    "schema": "workloom.node-test-observer/v1",
+    "reporter_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+    "reporter_sha256": "286448a4dee571759fc1703564477d27bf5319bcb05ff66db2186deda60bc78f",
+    "destination": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/outputs/mine-clear/T-2026-1005-0002/engine-scope-ba91c6d/evidence/MC-011-0-1791199455172-node-tests.jsonl",
+    "summary": {
+      "path": "evidence/MC-011-0-1791199455172-node-tests.jsonl",
+      "sha256": "ee20acb30716c3f39b06fb2a86dda61fd47b2c6929c169f08e14f2921d08727d",
+      "commit": "009ac41575e0870186e16582ae92c014c34c6ea4"
+    }
+  },
+  "node_executable": {
+    "path": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "sha256": "27db838bb204ef7c21df2931f5656e4c8fb32e6e947f363a402b49714d32b5b1"
+  },
+  "actor": "native-video-mechanism-repair",
+  "role": "repair",
+  "subject": {
+    "card_id": "MC-011",
+    "assertion_index": 0
+  },
+  "commit": "009ac41575e0870186e16582ae92c014c34c6ea4",
+  "working_tree_dirty": false,
+  "started_at": "2026-10-05T11:24:15.172Z",
+  "finished_at": "2026-10-05T11:24:15.682Z",
+  "exit_code": 0,
+  "signal": null,
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "testSummary": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "result": "pass",
+  "outputs": [
+    {
+      "path": "evidence/MC-011-0-1791199455172.txt",
+      "sha256": "ffb10c669e6f9988b74cb50fc979c39476e30afb3002da60a92c8a0b6be6b494",
+      "commit": "009ac41575e0870186e16582ae92c014c34c6ea4"
+    },
+    {
+      "path": "evidence/MC-011-0-1791199455172-node-tests.jsonl",
+      "sha256": "ee20acb30716c3f39b06fb2a86dda61fd47b2c6929c169f08e14f2921d08727d",
+      "commit": "009ac41575e0870186e16582ae92c014c34c6ea4"
+    }
+  ]
+}

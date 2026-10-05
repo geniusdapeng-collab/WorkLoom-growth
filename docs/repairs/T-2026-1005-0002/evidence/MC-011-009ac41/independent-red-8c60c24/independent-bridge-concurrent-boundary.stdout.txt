@@ -1,0 +1,18 @@
+{
+  "sourceCommit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+  "externalOrPaidProvider": false,
+  "observed": [
+    {
+      "prompt": "tenant-a-original-run",
+      "url": "https://tenant-b.example.test/chat/completions",
+      "engine": "tenant-b-model"
+    },
+    {
+      "prompt": "tenant-b-original-run",
+      "url": "https://tenant-b.example.test/chat/completions",
+      "engine": "tenant-b-model"
+    }
+  ],
+  "expected": "Each original native run keeps its own engine/provider/sink after another startRun bridge installation.",
+  "pass": false
+}

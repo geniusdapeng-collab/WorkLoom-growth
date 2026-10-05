@@ -1,0 +1,87 @@
+{
+  "schema": "workloom.independent-source-coverage/v1",
+  "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+  "total_files": 9,
+  "fully_read": 9,
+  "machine_only": 0,
+  "sampled": 0,
+  "unread": 0,
+  "files": [
+    {
+      "file": "packages/video-studio/src/producer-gate.ts",
+      "grade": "A",
+      "lines": 534,
+      "sha256": "552fa65b2d2ddcea6c304f0e03c1c30e0a712538f96ba975194b1643444ed4b6",
+      "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "method": "Complete source read in this round."
+    },
+    {
+      "file": "packages/video-studio/src/quality-evidence.ts",
+      "grade": "A",
+      "lines": 17,
+      "sha256": "906d709d72691b07d005f675975eed18d60693a80ed7838b15e8d0a51eefef0c",
+      "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "method": "Earlier complete semantic read; current identical bytes verified."
+    },
+    {
+      "file": "packages/video-studio/src/shot-intent.ts",
+      "grade": "A",
+      "lines": 12,
+      "sha256": "dd4063d2408cfdfa5985542ad398fdc60f1f01d39adbff59e97fa15aef5189b3",
+      "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "method": "Earlier complete semantic read; current identical bytes verified."
+    },
+    {
+      "file": "packages/video-studio/src/device-policy.ts",
+      "grade": "A",
+      "lines": 217,
+      "sha256": "301e77574bca1438c166cba18f01b38c24c41351b5fb9ec36d5a182e72215a6d",
+      "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "method": "Earlier complete semantic read; current identical bytes verified."
+    },
+    {
+      "file": "packages/video-studio/src/scene-bible.ts",
+      "grade": "A",
+      "lines": 361,
+      "sha256": "46d77d82ff8f198ddebee7db8335523dbf44f472b4fef9cee48a9a31c1bf9c0c",
+      "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "method": "Earlier complete semantic read; current identical bytes verified."
+    },
+    {
+      "file": "packages/video-studio/src/era-profile.ts",
+      "grade": "A",
+      "lines": 69,
+      "sha256": "93354bfab063c1cc513cf4a869ed603b778123e265a54825f4088786aa3d6802",
+      "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "method": "Earlier complete semantic read; current identical bytes verified."
+    },
+    {
+      "file": "bundles/ai-video/connectors/cine-kb-bridge/shot-intent.mjs",
+      "grade": "A",
+      "lines": 294,
+      "sha256": "31a03c0700252cbd384c90c79baa1adff4f1d366396cdbda8501780f3006efb4",
+      "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "method": "Earlier complete semantic read; current identical bytes verified."
+    },
+    {
+      "file": "scripts/native-judge-once.test.mts",
+      "grade": "A",
+      "lines": 48,
+      "sha256": "67268a58ccec498a1087dcf7ad6735473b4cdb77a7b92221bb426985e19baa50",
+      "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "method": "Complete source read in this round."
+    },
+    {
+      "file": "docs/repairs/T-2026-1005-0002.md",
+      "grade": "A",
+      "lines": 31,
+      "sha256": "39ee14ba29cf4471a86b7455daab3ce45ee9df45d338ce1395c310b8ac9b25a5",
+      "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "method": "Complete source read in this round."
+    }
+  ],
+  "exclusions": [
+    "Unchanged surrounding server, renderer, vendor generation internals, full RDAS and production release are outside this narrow MC009 acceptance."
+  ],
+  "source_read_only": true
+}

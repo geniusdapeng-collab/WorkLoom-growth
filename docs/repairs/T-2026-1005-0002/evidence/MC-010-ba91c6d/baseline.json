@@ -1,0 +1,24 @@
+{
+  "schema": "workloom.mine-clear/baseline@1",
+  "task_id": "T-2026-1005-0002",
+  "repo": "growth-native-pipeline",
+  "repo_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
+  "remote": "origin",
+  "audit": {
+    "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+    "branch": "task/T-2026-1005-0002-final",
+    "remote": "origin",
+    "remote_main": "52a600e3f6a9f94c0ea67b4be5f5d713e5d00ddd",
+    "fetched_at": "2026-10-05T10:54:58.568Z",
+    "fetch_status": "success",
+    "dirty_count": 0,
+    "notes": [
+      "本地 HEAD 不是 origin/main 最新（云端 52a600e3 / 本地 8c60c24b）——按 §1.2 先对齐基线"
+    ]
+  },
+  "smoke": {
+    "status": "not-run",
+    "notes": "M0 冒烟：健康检查 + 一条核心业务链路，跑完回填这里"
+  },
+  "created_at": "2026-10-05T10:54:58.600Z"
+}

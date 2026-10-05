@@ -1,0 +1,58 @@
+TAP version 13
+# [pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+# [LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+# Subtest: all native adapter interfaces carry complete restrictions despite custom system prompts
+ok 1 - all native adapter interfaces carry complete restrictions despite custom system prompts
+  ---
+  duration_ms: 11.0115
+  type: 'test'
+  ...
+# Subtest: vendor-owned engine prototype calls inherit the native run limits
+ok 2 - vendor-owned engine prototype calls inherit the native run limits
+  ---
+  duration_ms: 3.282
+  type: 'test'
+  ...
+# Subtest: routed primary/fast calls retain restrictions, timeout and model billing traces
+ok 3 - routed primary/fast calls retain restrictions, timeout and model billing traces
+  ---
+  duration_ms: 10.735834
+  type: 'test'
+  ...
+# Subtest: concurrent scopes and later narrative requests do not share source limitations
+ok 4 - concurrent scopes and later narrative requests do not share source limitations
+  ---
+  duration_ms: 0.533584
+  type: 'test'
+  ...
+# Subtest: mutated input cannot change a running restriction snapshot and raw binding changes its hash
+ok 5 - mutated input cannot change a running restriction snapshot and raw binding changes its hash
+  ---
+  duration_ms: 0.200292
+  type: 'test'
+  ...
+# Subtest: missing, malformed and oversized limits stop before the model callback without truncation
+ok 6 - missing, malformed and oversized limits stop before the model callback without truncation
+  ---
+  duration_ms: 0.308625
+  type: 'test'
+  ...
+# Subtest: failed and completed scopes close, preventing detached late model submissions
+ok 7 - failed and completed scopes close, preventing detached late model submissions
+  ---
+  duration_ms: 0.198625
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 183.228625
+
+
+exit_code=0 signal=none error=none
+assertion_validation={"ok":true,"errors":[],"testSummary":{"total":7,"passed":7,"failed":0,"cancelled":0,"skipped":0,"todo":0}}

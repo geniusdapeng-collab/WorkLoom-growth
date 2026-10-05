@@ -1,0 +1,31 @@
+{
+  "schema": "workloom.independent-execution/v1",
+  "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+  "actor": "native-entry-independent-acceptance",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "--import",
+    "tsx",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-judge-extra-boundaries.mts"
+  ],
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-marketing-acceptance-16353a3",
+  "started_at": "2026-10-05T10:57:59.099205+00:00",
+  "finished_at": "2026-10-05T10:57:59.269178+00:00",
+  "exit_code": 0,
+  "external_or_paid_provider": false,
+  "environment_keys": [
+    "HOME",
+    "PATH",
+    "WORKLOOM_ASSERTION_MODULE_ROOT",
+    "WL_FFMPEG",
+    "WL_FFPROBE"
+  ],
+  "stdout": {
+    "path": "independent-judge-extra-boundaries.stdout.txt",
+    "sha256": "1ac3bfb40f57ff3ffea7659fb2f7403aa5e7d7ba1f98d19457ebae59eab23bcf"
+  },
+  "stderr": {
+    "path": "independent-judge-extra-boundaries.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

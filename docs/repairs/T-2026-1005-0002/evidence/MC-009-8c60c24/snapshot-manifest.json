@@ -1,0 +1,132 @@
+{
+  "schema": "workloom.immutable-evidence-snapshot/v1",
+  "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+  "ledger_sha256": "1d83ab6371be606c7fe33872f0e63a3f5e328659dbec345137ab3a2b9a5e62dc",
+  "files": [
+    {
+      "path": "evidence/MC-009-0-1791197697612-node-tests.jsonl",
+      "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a"
+    },
+    {
+      "path": "evidence/MC-009-0-1791197697612.txt",
+      "sha256": "9ef069e988f1e8680bf23769a6608974e10da9b93928cd07bf2bbc7d33f4a564"
+    },
+    {
+      "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+      "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a"
+    },
+    {
+      "path": "evidence/MC-009-0-1791197879411.txt",
+      "sha256": "fd571044adbbb8a8b90a1757a21b72a0fd823122a1747e86a552de2a1ef69fce"
+    },
+    {
+      "path": "evidence-index.json",
+      "sha256": "9aa81c6e18799edcd71a93baf531eb013dd976c6b955499f8a87d0599c0c2a97"
+    },
+    {
+      "path": "independent-acceptance-receipt.json",
+      "sha256": "a2510d5fb8aab303dbc0bac6185225a6496a323ba30fe4b25893d295e38bce00"
+    },
+    {
+      "path": "independent-acceptance-report.json",
+      "sha256": "0b3767fd81414d48fbd936dfbfbd8c932e90cfb11b8e96905f3b589a30cdf740"
+    },
+    {
+      "path": "independent-acceptance.md",
+      "sha256": "9ecaa21a3e96c49dbad86136aabba98184526257d7c5fe26e5bd225fc9035298"
+    },
+    {
+      "path": "independent-acceptance.run.json",
+      "sha256": "03289b9cdfd9e3ed012f440e089be90b724c361d5b07927af9d3c8bf0f736d4a"
+    },
+    {
+      "path": "independent-acceptance.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "independent-acceptance.stdout.txt",
+      "sha256": "2b8477b5369467e1a92ec153d89349b01c8899707a8f6558427cf0c31be487bd"
+    },
+    {
+      "path": "independent-archive-validation.json",
+      "sha256": "8cb07f55e4abecfd4791b856363c749e2da1720ea4734c2cfb33315ed82bb6f5"
+    },
+    {
+      "path": "independent-gate.run.json",
+      "sha256": "b04bc221a70ca575d5c23b7e49bb1b851b62d3dc86530ff601a3d943e9e0004c"
+    },
+    {
+      "path": "independent-gate.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "independent-gate.stdout.txt",
+      "sha256": "434eef9d662fc7ce00b8ad1f342c91bbca244438e157d91091f603280c5d8320"
+    },
+    {
+      "path": "independent-judge-extra-boundaries.mts",
+      "sha256": "c5aa004ad20b1aa201127c00c7601de7bc709ba0723da4eebfa9af529d59ab4a"
+    },
+    {
+      "path": "independent-judge-extra-boundaries.run.json",
+      "sha256": "2e8f222ea3bcadd50efc3832610bae527804b5353a13ff6308703573bea3c57e"
+    },
+    {
+      "path": "independent-judge-extra-boundaries.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "independent-judge-extra-boundaries.stdout.txt",
+      "sha256": "1ac3bfb40f57ff3ffea7659fb2f7403aa5e7d7ba1f98d19457ebae59eab23bcf"
+    },
+    {
+      "path": "independent-red-5fe2333/independent-facts-denial.mts",
+      "sha256": "9a2dbeca6d73439f617f0c915543f1848f6eea660171ac231cdc06f5c956ade7"
+    },
+    {
+      "path": "independent-red-5fe2333/independent-facts-denial.run.json",
+      "sha256": "f0f99f0a434f3d6f1173fdb536e8ba3a3bce7034f1c5302e7bfc17b4757f022a"
+    },
+    {
+      "path": "independent-red-5fe2333/independent-facts-denial.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "independent-red-5fe2333/independent-facts-denial.stdout.txt",
+      "sha256": "a5b9fc4e63d5f26bedd7fa70ae3c6d138c2b51a3cde6cbe7c8223d216e2e56fa"
+    },
+    {
+      "path": "independent-red-ed500ab/independent-judge-extra-boundaries.mts",
+      "sha256": "c5aa004ad20b1aa201127c00c7601de7bc709ba0723da4eebfa9af529d59ab4a"
+    },
+    {
+      "path": "independent-red-ed500ab/independent-judge-extra-boundaries.run.json",
+      "sha256": "887600471db09dbd161a79f82c27a61784d5f427717bc5333cfe8023db581621"
+    },
+    {
+      "path": "independent-red-ed500ab/independent-judge-extra-boundaries.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "independent-red-ed500ab/independent-judge-extra-boundaries.stdout.txt",
+      "sha256": "06f494914d3d7b339051e02df4a49acd1488984fe76fea8c5b507f935b4e7075"
+    },
+    {
+      "path": "independent-source-coverage.json",
+      "sha256": "13f693534fdf66b419d0e29c867b058a03840ca3264b09441cef6eb02b14f76c"
+    },
+    {
+      "path": "ledger.json",
+      "sha256": "1d83ab6371be606c7fe33872f0e63a3f5e328659dbec345137ab3a2b9a5e62dc"
+    },
+    {
+      "path": "runs/MC-009-0-1791197697612.json",
+      "sha256": "ccacfe5028285a9fd4cb28a02a18b7d91306d63137875ee51412f2fcf74f50cd"
+    },
+    {
+      "path": "runs/MC-009-0-1791197879411.json",
+      "sha256": "0239c769356d6d3ec22aa465cb635ef080fbbee511398bf23d6d46d9892807a1"
+    }
+  ],
+  "note": "Exact original files; source commit/actor/time are not rewritten to the documentation commit. Hashes are integrity records, not digital signatures."
+}

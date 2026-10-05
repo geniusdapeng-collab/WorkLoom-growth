@@ -1,0 +1,45 @@
+{
+  "schema": "workloom.independent-acceptance-receipt/v1",
+  "card_id": "MC-009",
+  "actor": "native-entry-independent-acceptance",
+  "session_source": "/root/native_entry_acceptance",
+  "role": "acceptance",
+  "repair_actor": "root-judge-single-decision-repair",
+  "source_head": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+  "source_tree": "ef50b439e9d1b8bd59789645105356d142d8dc77",
+  "source_read_only": true,
+  "working_tree_dirty": false,
+  "outcome": "pass",
+  "official_run": {
+    "path": "runs/MC-009-0-1791197879411.json",
+    "sha256": "0239c769356d6d3ec22aa465cb635ef080fbbee511398bf23d6d46d9892807a1",
+    "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+  },
+  "official_summary": {
+    "total": 13,
+    "passed": 13,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "independent_boundary_summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "same_fixture_as_ed500ab": true
+  },
+  "counts_note": "Five supplemental rows overlap checked-in contracts and are not five additional unique production behaviors. Official thirteen test definitions include facts/prompt subchecks.",
+  "gate": {
+    "ledger": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-marketing-acceptance-16353a3/outputs/mine-clear/T-2026-1005-0002/judge-once-8c60c24/ledger.json",
+    "ok": true,
+    "errors": []
+  },
+  "ledger": {
+    "path": "ledger.json",
+    "sha256": "1d83ab6371be606c7fe33872f0e63a3f5e328659dbec345137ab3a2b9a5e62dc"
+  },
+  "production_verified": false,
+  "external_or_paid_provider": false,
+  "receipt_authenticity": "Process record, raw bytes, source commit and role provenance; not a cryptographic actor signature."
+}

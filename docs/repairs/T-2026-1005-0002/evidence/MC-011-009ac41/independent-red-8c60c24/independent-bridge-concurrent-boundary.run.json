@@ -1,0 +1,29 @@
+{
+  "schema": "workloom.independent-execution/v1",
+  "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+  "working_tree_dirty": false,
+  "actor": "native-entry-independent-acceptance",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "--import",
+    "tsx",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-bridge-concurrent-boundary.mts"
+  ],
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-marketing-acceptance-16353a3",
+  "started_at": "2026-10-05T11:07:21.483818+00:00",
+  "finished_at": "2026-10-05T11:07:21.822411+00:00",
+  "exit_code": 1,
+  "external_or_paid_provider": false,
+  "stdout": {
+    "path": "independent-bridge-concurrent-boundary.stdout.txt",
+    "sha256": "7d81ecad1cf86ed3ec81d318fef165c2e1b01ebe27921187e035e64933a0ba73"
+  },
+  "stderr": {
+    "path": "independent-bridge-concurrent-boundary.stderr.txt",
+    "sha256": "fd1cc38186f76311266f5cf7e0c42af3104777ba2277d3a1aae141f2824168c3"
+  },
+  "mts": {
+    "path": "independent-bridge-concurrent-boundary.mts",
+    "sha256": "1a93a3930ddbb92e85e55eba05e04157b2f1733dd5c17a55b2aadfa9d13caa29"
+  }
+}

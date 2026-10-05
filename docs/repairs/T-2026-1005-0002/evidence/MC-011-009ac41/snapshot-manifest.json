@@ -1,0 +1,64 @@
+{
+  "schema": "workloom.immutable-evidence-snapshot/v1",
+  "source_commit": "009ac41575e0870186e16582ae92c014c34c6ea4",
+  "ledger_sha256": "ff166ef944be4bd385e06ef8280e08b01534d3095c3ebd207f8df752325ae505",
+  "files": [
+    {
+      "path": "baseline.json",
+      "sha256": "e8b72e25a77b5b246a874ccb8f96218e64cbcc0c6f9ae4e275db4b5420b4f8bf"
+    },
+    {
+      "path": "card-MC-011.json",
+      "sha256": "529b89841e26ceee223ecc953f38d7d5ad28df21362943b1f08e63db76cf4713"
+    },
+    {
+      "path": "evidence/MC-011-0-1791199455172-node-tests.jsonl",
+      "sha256": "ee20acb30716c3f39b06fb2a86dda61fd47b2c6929c169f08e14f2921d08727d"
+    },
+    {
+      "path": "evidence/MC-011-0-1791199455172.txt",
+      "sha256": "ffb10c669e6f9988b74cb50fc979c39476e30afb3002da60a92c8a0b6be6b494"
+    },
+    {
+      "path": "evidence-index.json",
+      "sha256": "04896b5d514602d987aad5cd76cc65f67a1b4dbedb13a6a53c386882b0ca987b"
+    },
+    {
+      "path": "handoff-red.json",
+      "sha256": "75b04a9336d75aeb90e0b9128c189339e98ea750005ec55f0344d45d577376ed"
+    },
+    {
+      "path": "independent-red-8c60c24/independent-bridge-concurrent-boundary.mts",
+      "sha256": "1a93a3930ddbb92e85e55eba05e04157b2f1733dd5c17a55b2aadfa9d13caa29"
+    },
+    {
+      "path": "independent-red-8c60c24/independent-bridge-concurrent-boundary.run.json",
+      "sha256": "d0b1dc599ef590b6256c265f0e68bbe5ea11b52f7a56bf6b134fea20468567fd"
+    },
+    {
+      "path": "independent-red-8c60c24/independent-bridge-concurrent-boundary.stderr.txt",
+      "sha256": "fd1cc38186f76311266f5cf7e0c42af3104777ba2277d3a1aae141f2824168c3"
+    },
+    {
+      "path": "independent-red-8c60c24/independent-bridge-concurrent-boundary.stdout.txt",
+      "sha256": "7d81ecad1cf86ed3ec81d318fef165c2e1b01ebe27921187e035e64933a0ba73"
+    },
+    {
+      "path": "integration-green-2.json",
+      "sha256": "7ae5bbf5c8b34cdea18b1dbe85d26fa91445f4a9042fcefd3491dfec242c7800"
+    },
+    {
+      "path": "integration-green.json",
+      "sha256": "84ba2597565b33b21b15edcd702ab944060f949b09db948093474315d5f8e804"
+    },
+    {
+      "path": "ledger.json",
+      "sha256": "ff166ef944be4bd385e06ef8280e08b01534d3095c3ebd207f8df752325ae505"
+    },
+    {
+      "path": "runs/MC-011-0-1791199455172.json",
+      "sha256": "91418f89a1a045a61624aeb8b8d20a78ba623fe71b59fe4c12f9f4200cde5713"
+    }
+  ],
+  "note": "Exact original files; source commit/actor/time are not rewritten to the documentation commit. Hashes are integrity records, not digital signatures."
+}

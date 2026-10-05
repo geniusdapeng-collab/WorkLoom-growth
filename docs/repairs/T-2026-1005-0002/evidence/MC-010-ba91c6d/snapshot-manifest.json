@@ -1,0 +1,40 @@
+{
+  "schema": "workloom.immutable-evidence-snapshot/v1",
+  "source_commit": "ba91c6d49a6584e522f19ddedc705c23cfbf8be1",
+  "ledger_sha256": "2b7458143b759baee272a6406175f309a93d8899f95ead124b90f54dc56ec4e5",
+  "files": [
+    {
+      "path": "baseline.json",
+      "sha256": "7effb1aaa25ad099bf617a210350d06112b3b561ff8afa17c2890c271b747770"
+    },
+    {
+      "path": "card-MC-010.json",
+      "sha256": "de797b229807ad937cf935113834db717e053699b4039860868568a0426e1e73"
+    },
+    {
+      "path": "evidence/MC-010-0-1791198581063-node-tests.jsonl",
+      "sha256": "ee20acb30716c3f39b06fb2a86dda61fd47b2c6929c169f08e14f2921d08727d"
+    },
+    {
+      "path": "evidence/MC-010-0-1791198581063.txt",
+      "sha256": "f6b48312c2fb46dcb9da9f49d435c325aa237bdaf0f9069633298e91543d3ec0"
+    },
+    {
+      "path": "evidence-index.json",
+      "sha256": "a9531c7da942909bd6f5e638748cb36e583765511ab5e07f6f95a4ffc5a35a00"
+    },
+    {
+      "path": "integration-green.json",
+      "sha256": "d6e6faf98f408828fffdb5438b5125722c33b864010a23f9ddae375300563bb2"
+    },
+    {
+      "path": "ledger.json",
+      "sha256": "2b7458143b759baee272a6406175f309a93d8899f95ead124b90f54dc56ec4e5"
+    },
+    {
+      "path": "runs/MC-010-0-1791198581063.json",
+      "sha256": "d96631f5373c6896b97dd1e2a50306887a96ca5555f5f433760189b13a453254"
+    }
+  ],
+  "note": "Exact original files; source commit/actor/time are not rewritten to the documentation commit. Hashes are integrity records, not digital signatures."
+}

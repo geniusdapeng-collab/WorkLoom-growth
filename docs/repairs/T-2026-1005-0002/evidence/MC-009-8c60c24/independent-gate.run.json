@@ -1,0 +1,35 @@
+{
+  "schema": "workloom.independent-execution/v1",
+  "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+  "actor": "native-entry-independent-acceptance",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "scripts/delivery/mine-clear.mjs",
+    "gate",
+    "--ledger",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-marketing-acceptance-16353a3/outputs/mine-clear/T-2026-1005-0002/judge-once-8c60c24/ledger.json",
+    "--repo",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-marketing-acceptance-16353a3",
+    "--json"
+  ],
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-marketing-acceptance-16353a3",
+  "started_at": "2026-10-05T10:57:59.912515+00:00",
+  "finished_at": "2026-10-05T10:58:00.177369+00:00",
+  "exit_code": 0,
+  "external_or_paid_provider": false,
+  "environment_keys": [
+    "HOME",
+    "PATH",
+    "WORKLOOM_ASSERTION_MODULE_ROOT",
+    "WL_FFMPEG",
+    "WL_FFPROBE"
+  ],
+  "stdout": {
+    "path": "independent-gate.stdout.txt",
+    "sha256": "434eef9d662fc7ce00b8ad1f342c91bbca244438e157d91091f603280c5d8320"
+  },
+  "stderr": {
+    "path": "independent-gate.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

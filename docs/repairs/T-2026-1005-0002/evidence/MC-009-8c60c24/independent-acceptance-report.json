@@ -1,0 +1,476 @@
+{
+  "schema": "workloom.independent-acceptance-report/v1",
+  "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+  "coverage": {
+    "schema": "workloom.independent-source-coverage/v1",
+    "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+    "total_files": 9,
+    "fully_read": 9,
+    "machine_only": 0,
+    "sampled": 0,
+    "unread": 0,
+    "files": [
+      {
+        "file": "packages/video-studio/src/producer-gate.ts",
+        "grade": "A",
+        "lines": 534,
+        "sha256": "552fa65b2d2ddcea6c304f0e03c1c30e0a712538f96ba975194b1643444ed4b6",
+        "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+        "method": "Complete source read in this round."
+      },
+      {
+        "file": "packages/video-studio/src/quality-evidence.ts",
+        "grade": "A",
+        "lines": 17,
+        "sha256": "906d709d72691b07d005f675975eed18d60693a80ed7838b15e8d0a51eefef0c",
+        "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+        "method": "Earlier complete semantic read; current identical bytes verified."
+      },
+      {
+        "file": "packages/video-studio/src/shot-intent.ts",
+        "grade": "A",
+        "lines": 12,
+        "sha256": "dd4063d2408cfdfa5985542ad398fdc60f1f01d39adbff59e97fa15aef5189b3",
+        "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+        "method": "Earlier complete semantic read; current identical bytes verified."
+      },
+      {
+        "file": "packages/video-studio/src/device-policy.ts",
+        "grade": "A",
+        "lines": 217,
+        "sha256": "301e77574bca1438c166cba18f01b38c24c41351b5fb9ec36d5a182e72215a6d",
+        "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+        "method": "Earlier complete semantic read; current identical bytes verified."
+      },
+      {
+        "file": "packages/video-studio/src/scene-bible.ts",
+        "grade": "A",
+        "lines": 361,
+        "sha256": "46d77d82ff8f198ddebee7db8335523dbf44f472b4fef9cee48a9a31c1bf9c0c",
+        "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+        "method": "Earlier complete semantic read; current identical bytes verified."
+      },
+      {
+        "file": "packages/video-studio/src/era-profile.ts",
+        "grade": "A",
+        "lines": 69,
+        "sha256": "93354bfab063c1cc513cf4a869ed603b778123e265a54825f4088786aa3d6802",
+        "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+        "method": "Earlier complete semantic read; current identical bytes verified."
+      },
+      {
+        "file": "bundles/ai-video/connectors/cine-kb-bridge/shot-intent.mjs",
+        "grade": "A",
+        "lines": 294,
+        "sha256": "31a03c0700252cbd384c90c79baa1adff4f1d366396cdbda8501780f3006efb4",
+        "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+        "method": "Earlier complete semantic read; current identical bytes verified."
+      },
+      {
+        "file": "scripts/native-judge-once.test.mts",
+        "grade": "A",
+        "lines": 48,
+        "sha256": "67268a58ccec498a1087dcf7ad6735473b4cdb77a7b92221bb426985e19baa50",
+        "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+        "method": "Complete source read in this round."
+      },
+      {
+        "file": "docs/repairs/T-2026-1005-0002.md",
+        "grade": "A",
+        "lines": 31,
+        "sha256": "39ee14ba29cf4471a86b7455daab3ce45ee9df45d338ce1395c310b8ac9b25a5",
+        "source_commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+        "method": "Complete source read in this round."
+      }
+    ],
+    "exclusions": [
+      "Unchanged surrounding server, renderer, vendor generation internals, full RDAS and production release are outside this narrow MC009 acceptance."
+    ],
+    "source_read_only": true
+  },
+  "receipt": {
+    "schema": "workloom.independent-acceptance-receipt/v1",
+    "card_id": "MC-009",
+    "actor": "native-entry-independent-acceptance",
+    "session_source": "/root/native_entry_acceptance",
+    "role": "acceptance",
+    "repair_actor": "root-judge-single-decision-repair",
+    "source_head": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+    "source_tree": "ef50b439e9d1b8bd59789645105356d142d8dc77",
+    "source_read_only": true,
+    "working_tree_dirty": false,
+    "outcome": "pass",
+    "official_run": {
+      "path": "runs/MC-009-0-1791197879411.json",
+      "sha256": "0239c769356d6d3ec22aa465cb635ef080fbbee511398bf23d6d46d9892807a1",
+      "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+    },
+    "official_summary": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "independent_boundary_summary": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "same_fixture_as_ed500ab": true
+    },
+    "counts_note": "Five supplemental rows overlap checked-in contracts and are not five additional unique production behaviors. Official thirteen test definitions include facts/prompt subchecks.",
+    "gate": {
+      "ledger": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-marketing-acceptance-16353a3/outputs/mine-clear/T-2026-1005-0002/judge-once-8c60c24/ledger.json",
+      "ok": true,
+      "errors": []
+    },
+    "ledger": {
+      "path": "ledger.json",
+      "sha256": "1d83ab6371be606c7fe33872f0e63a3f5e328659dbec345137ab3a2b9a5e62dc"
+    },
+    "production_verified": false,
+    "external_or_paid_provider": false,
+    "receipt_authenticity": "Process record, raw bytes, source commit and role provenance; not a cryptographic actor signature."
+  },
+  "findings": [
+    {
+      "grade": "A",
+      "finding": "parseJudgeJson accepts only complete JSON or a complete balanced json fence, scans validated object keys by decoded key value, and rejects duplicates. reviewStage has no model format repair path.",
+      "source": "packages/video-studio/src/producer-gate.ts:278,482"
+    },
+    {
+      "grade": "B",
+      "finding": "Original explicit denial and all four newly failing duplicate/fence boundaries now stay unverified with exactly one transport invocation. Official MC009 thirteen definitions and gate exit 0.",
+      "source": "runs/MC-009-0-1791197879411.json"
+    }
+  ],
+  "test_cases": [
+    {
+      "suite": "official-MC009",
+      "name": "explicit denial with malformed suggestions stops after one judge call",
+      "precondition": "Actual isolated reviewStage, local facts fixture; deterministic checks empty; injected transport returns supplied original raw decision first and approving decision if called again.",
+      "steps": "Execute checked-in Node test. Unsafe cases each run in facts and prompt domains; safe coercion/fence controls use facts.",
+      "expected": "Unsafe input remains denied or unverified after one request. Safe local coercion preserves exact decision/score; complete valid fence passes without extra request.",
+      "actual": "pass",
+      "evidence": {
+        "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+        "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a",
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "official-MC009",
+      "name": "low score with malformed issues stops after one judge call",
+      "precondition": "Actual isolated reviewStage, local facts fixture; deterministic checks empty; injected transport returns supplied original raw decision first and approving decision if called again.",
+      "steps": "Execute checked-in Node test. Unsafe cases each run in facts and prompt domains; safe coercion/fence controls use facts.",
+      "expected": "Unsafe input remains denied or unverified after one request. Safe local coercion preserves exact decision/score; complete valid fence passes without extra request.",
+      "actual": "pass",
+      "evidence": {
+        "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+        "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a",
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "official-MC009",
+      "name": "malformed positive cannot gain qualification from another answer stops after one judge call",
+      "precondition": "Actual isolated reviewStage, local facts fixture; deterministic checks empty; injected transport returns supplied original raw decision first and approving decision if called again.",
+      "steps": "Execute checked-in Node test. Unsafe cases each run in facts and prompt domains; safe coercion/fence controls use facts.",
+      "expected": "Unsafe input remains denied or unverified after one request. Safe local coercion preserves exact decision/score; complete valid fence passes without extra request.",
+      "actual": "pass",
+      "evidence": {
+        "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+        "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a",
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "official-MC009",
+      "name": "unknown decision cannot be synthesized stops after one judge call",
+      "precondition": "Actual isolated reviewStage, local facts fixture; deterministic checks empty; injected transport returns supplied original raw decision first and approving decision if called again.",
+      "steps": "Execute checked-in Node test. Unsafe cases each run in facts and prompt domains; safe coercion/fence controls use facts.",
+      "expected": "Unsafe input remains denied or unverified after one request. Safe local coercion preserves exact decision/score; complete valid fence passes without extra request.",
+      "actual": "pass",
+      "evidence": {
+        "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+        "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a",
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "official-MC009",
+      "name": "truncated negative JSON cannot be rewritten stops after one judge call",
+      "precondition": "Actual isolated reviewStage, local facts fixture; deterministic checks empty; injected transport returns supplied original raw decision first and approving decision if called again.",
+      "steps": "Execute checked-in Node test. Unsafe cases each run in facts and prompt domains; safe coercion/fence controls use facts.",
+      "expected": "Unsafe input remains denied or unverified after one request. Safe local coercion preserves exact decision/score; complete valid fence passes without extra request.",
+      "actual": "pass",
+      "evidence": {
+        "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+        "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a",
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "official-MC009",
+      "name": "non-JSON text cannot hide rejection behind a positive object stops after one judge call",
+      "precondition": "Actual isolated reviewStage, local facts fixture; deterministic checks empty; injected transport returns supplied original raw decision first and approving decision if called again.",
+      "steps": "Execute checked-in Node test. Unsafe cases each run in facts and prompt domains; safe coercion/fence controls use facts.",
+      "expected": "Unsafe input remains denied or unverified after one request. Safe local coercion preserves exact decision/score; complete valid fence passes without extra request.",
+      "actual": "pass",
+      "evidence": {
+        "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+        "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a",
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "official-MC009",
+      "name": "duplicate decision keys cannot overwrite a denial stops after one judge call",
+      "precondition": "Actual isolated reviewStage, local facts fixture; deterministic checks empty; injected transport returns supplied original raw decision first and approving decision if called again.",
+      "steps": "Execute checked-in Node test. Unsafe cases each run in facts and prompt domains; safe coercion/fence controls use facts.",
+      "expected": "Unsafe input remains denied or unverified after one request. Safe local coercion preserves exact decision/score; complete valid fence passes without extra request.",
+      "actual": "pass",
+      "evidence": {
+        "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+        "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a",
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "official-MC009",
+      "name": "escaped duplicate decision keys cannot overwrite a denial stops after one judge call",
+      "precondition": "Actual isolated reviewStage, local facts fixture; deterministic checks empty; injected transport returns supplied original raw decision first and approving decision if called again.",
+      "steps": "Execute checked-in Node test. Unsafe cases each run in facts and prompt domains; safe coercion/fence controls use facts.",
+      "expected": "Unsafe input remains denied or unverified after one request. Safe local coercion preserves exact decision/score; complete valid fence passes without extra request.",
+      "actual": "pass",
+      "evidence": {
+        "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+        "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a",
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "official-MC009",
+      "name": "duplicate scores cannot overwrite a low score stops after one judge call",
+      "precondition": "Actual isolated reviewStage, local facts fixture; deterministic checks empty; injected transport returns supplied original raw decision first and approving decision if called again.",
+      "steps": "Execute checked-in Node test. Unsafe cases each run in facts and prompt domains; safe coercion/fence controls use facts.",
+      "expected": "Unsafe input remains denied or unverified after one request. Safe local coercion preserves exact decision/score; complete valid fence passes without extra request.",
+      "actual": "pass",
+      "evidence": {
+        "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+        "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a",
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "official-MC009",
+      "name": "an unclosed code fence is not a complete verdict stops after one judge call",
+      "precondition": "Actual isolated reviewStage, local facts fixture; deterministic checks empty; injected transport returns supplied original raw decision first and approving decision if called again.",
+      "steps": "Execute checked-in Node test. Unsafe cases each run in facts and prompt domains; safe coercion/fence controls use facts.",
+      "expected": "Unsafe input remains denied or unverified after one request. Safe local coercion preserves exact decision/score; complete valid fence passes without extra request.",
+      "actual": "pass",
+      "evidence": {
+        "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+        "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a",
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "official-MC009",
+      "name": "an unmatched closing fence is not a complete verdict stops after one judge call",
+      "precondition": "Actual isolated reviewStage, local facts fixture; deterministic checks empty; injected transport returns supplied original raw decision first and approving decision if called again.",
+      "steps": "Execute checked-in Node test. Unsafe cases each run in facts and prompt domains; safe coercion/fence controls use facts.",
+      "expected": "Unsafe input remains denied or unverified after one request. Safe local coercion preserves exact decision/score; complete valid fence passes without extra request.",
+      "actual": "pass",
+      "evidence": {
+        "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+        "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a",
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "official-MC009",
+      "name": "unambiguous local coercion preserves a negative score and decision",
+      "precondition": "Actual isolated reviewStage, local facts fixture; deterministic checks empty; injected transport returns supplied original raw decision first and approving decision if called again.",
+      "steps": "Execute checked-in Node test. Unsafe cases each run in facts and prompt domains; safe coercion/fence controls use facts.",
+      "expected": "Unsafe input remains denied or unverified after one request. Safe local coercion preserves exact decision/score; complete valid fence passes without extra request.",
+      "actual": "pass",
+      "evidence": {
+        "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+        "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a",
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "official-MC009",
+      "name": "legal fenced JSON and unambiguous positive fields need no extra model",
+      "precondition": "Actual isolated reviewStage, local facts fixture; deterministic checks empty; injected transport returns supplied original raw decision first and approving decision if called again.",
+      "steps": "Execute checked-in Node test. Unsafe cases each run in facts and prompt domains; safe coercion/fence controls use facts.",
+      "expected": "Unsafe input remains denied or unverified after one request. Safe local coercion preserves exact decision/score; complete valid fence passes without extra request.",
+      "actual": "pass",
+      "evidence": {
+        "path": "evidence/MC-009-0-1791197879411-node-tests.jsonl",
+        "sha256": "7b3bdc397ad2e7c5e7e9b9b404d352b287314d4b23b0d6ae0a8e024ff20d910a",
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "unchanged-independent-red-fixture",
+      "name": "original-explicit-denial-malformed-suggestions",
+      "precondition": "Same independent fixture bytes used at ed500ab; complete local source artifact and injected transport.",
+      "steps": "Call actual reviewStage facts with original malformed denial, duplicate decisions, Unicode duplicate decisions, opening-only fence, or closing-only fence; count transport invocations.",
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "actual": {
+        "pass": true,
+        "calls": 1,
+        "approved": false,
+        "status": "unverified",
+        "reason": "评审结果结构非法；禁止通过模型重试改写裁决"
+      },
+      "evidence": {
+        "path": "independent-judge-extra-boundaries.stdout.txt",
+        "sha256": "1ac3bfb40f57ff3ffea7659fb2f7403aa5e7d7ba1f98d19457ebae59eab23bcf"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "unchanged-independent-red-fixture",
+      "name": "duplicate-decision-erases-denial",
+      "precondition": "Same independent fixture bytes used at ed500ab; complete local source artifact and injected transport.",
+      "steps": "Call actual reviewStage facts with original malformed denial, duplicate decisions, Unicode duplicate decisions, opening-only fence, or closing-only fence; count transport invocations.",
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "actual": {
+        "pass": true,
+        "calls": 1,
+        "approved": false,
+        "status": "unverified",
+        "reason": "评审JSON包含重复字段 approved；原始裁决有歧义，禁止覆盖或重判"
+      },
+      "evidence": {
+        "path": "independent-judge-extra-boundaries.stdout.txt",
+        "sha256": "1ac3bfb40f57ff3ffea7659fb2f7403aa5e7d7ba1f98d19457ebae59eab23bcf"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "unchanged-independent-red-fixture",
+      "name": "duplicate-escaped-decision-erases-denial",
+      "precondition": "Same independent fixture bytes used at ed500ab; complete local source artifact and injected transport.",
+      "steps": "Call actual reviewStage facts with original malformed denial, duplicate decisions, Unicode duplicate decisions, opening-only fence, or closing-only fence; count transport invocations.",
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "actual": {
+        "pass": true,
+        "calls": 1,
+        "approved": false,
+        "status": "unverified",
+        "reason": "评审JSON包含重复字段 approved；原始裁决有歧义，禁止覆盖或重判"
+      },
+      "evidence": {
+        "path": "independent-judge-extra-boundaries.stdout.txt",
+        "sha256": "1ac3bfb40f57ff3ffea7659fb2f7403aa5e7d7ba1f98d19457ebae59eab23bcf"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "unchanged-independent-red-fixture",
+      "name": "fence-opening-without-closing",
+      "precondition": "Same independent fixture bytes used at ed500ab; complete local source artifact and injected transport.",
+      "steps": "Call actual reviewStage facts with original malformed denial, duplicate decisions, Unicode duplicate decisions, opening-only fence, or closing-only fence; count transport invocations.",
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "actual": {
+        "pass": true,
+        "calls": 1,
+        "approved": false,
+        "status": "unverified",
+        "reason": "评审结果不是合法完整JSON；禁止通过模型重试改写裁决"
+      },
+      "evidence": {
+        "path": "independent-judge-extra-boundaries.stdout.txt",
+        "sha256": "1ac3bfb40f57ff3ffea7659fb2f7403aa5e7d7ba1f98d19457ebae59eab23bcf"
+      },
+      "grade": "B"
+    },
+    {
+      "suite": "unchanged-independent-red-fixture",
+      "name": "fence-closing-without-opening",
+      "precondition": "Same independent fixture bytes used at ed500ab; complete local source artifact and injected transport.",
+      "steps": "Call actual reviewStage facts with original malformed denial, duplicate decisions, Unicode duplicate decisions, opening-only fence, or closing-only fence; count transport invocations.",
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "actual": {
+        "pass": true,
+        "calls": 1,
+        "approved": false,
+        "status": "unverified",
+        "reason": "评审结果不是合法完整JSON；禁止通过模型重试改写裁决"
+      },
+      "evidence": {
+        "path": "independent-judge-extra-boundaries.stdout.txt",
+        "sha256": "1ac3bfb40f57ff3ffea7659fb2f7403aa5e7d7ba1f98d19457ebae59eab23bcf"
+      },
+      "grade": "B"
+    }
+  ],
+  "closure": {
+    "completed": [
+      "Fixed-source independent original counterexample replay",
+      "Full changed source and direct contract reading",
+      "Official MC009 acceptance and gate",
+      "Raw evidence hashes and archive copy verification"
+    ],
+    "not_completed": [
+      "Whole final candidate acceptance awaits MC010 and final SHA.",
+      "No external model, production film, media probe or release was performed."
+    ],
+    "autonomous_additions": [
+      "Full narrow report and role/hash receipt so this result is reviewable and traceable."
+    ],
+    "assumptions": [
+      "Injected transport contracts verify local parser behavior only."
+    ],
+    "confidence": "High for narrow local parsing contracts; production success is not asserted.",
+    "recommended_review": [
+      "Original ed500ab red fixture versus current green result",
+      "producer-gate decoded duplicate key scanner"
+    ]
+  },
+  "self_check": {
+    "entire_authorized_narrow_scope": true,
+    "no_unnecessary_user_questions": true,
+    "evidence_grades_accurate": true,
+    "ready_for_line_review": true
+  }
+}

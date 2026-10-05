@@ -1,0 +1,57 @@
+TAP version 13
+# [pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+# Subtest: interleaved native vendor interfaces retain provider, options and complete source restrictions
+ok 1 - interleaved native vendor interfaces retain provider, options and complete source restrictions
+  ---
+  duration_ms: 13.3785
+  type: 'test'
+  ...
+# Subtest: concurrent routed vendor requests preserve each tenant sink and primary/fast billing tier
+ok 2 - concurrent routed vendor requests preserve each tenant sink and primary/fast billing tier
+  ---
+  duration_ms: 13.480542
+  type: 'test'
+  ...
+# Subtest: fixed bridge rejects every unscoped interface without contacting any provider
+ok 3 - fixed bridge rejects every unscoped interface without contacting any provider
+  ---
+  duration_ms: 0.390458
+  type: 'test'
+  ...
+# Subtest: nested native tasks restore the parent engine after child failure
+ok 4 - nested native tasks restore the parent engine after child failure
+  ---
+  duration_ms: 0.415625
+  type: 'test'
+  ...
+# Subtest: completed and failed run scopes reject detached late submissions
+ok 5 - completed and failed run scopes reject detached late submissions
+  ---
+  duration_ms: 0.165125
+  type: 'test'
+  ...
+# Subtest: a response arriving after its detached run closes cannot resume the native chain
+ok 6 - a response arriving after its detached run closes cannot resume the native chain
+  ---
+  duration_ms: 0.183875
+  type: 'test'
+  ...
+# Subtest: a replaced dispatcher prevents task entry and does not silently route to another engine
+ok 7 - a replaced dispatcher prevents task entry and does not silently route to another engine
+  ---
+  duration_ms: 0.082
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 177.169417
+
+
+exit_code=0 signal=none error=none
+assertion_validation={"ok":true,"errors":[],"testSummary":{"total":7,"passed":7,"failed":0,"cancelled":0,"skipped":0,"todo":0}}

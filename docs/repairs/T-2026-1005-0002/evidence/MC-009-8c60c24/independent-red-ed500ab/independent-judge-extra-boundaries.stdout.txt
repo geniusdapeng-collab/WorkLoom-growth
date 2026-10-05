@@ -1,0 +1,180 @@
+{
+  "sourceCommit": "ed500abca2ef957ba40cf2585d726238dc540976",
+  "externalOrPaidProvider": false,
+  "results": [
+    {
+      "name": "original-explicit-denial-malformed-suggestions",
+      "sourceCommit": "ed500abca2ef957ba40cf2585d726238dc540976",
+      "raw": "{\"approved\":false,\"score\":10,\"issues\":[\"原文不支持\"],\"suggestions\":[false],\"reason\":\"否定主张不可用\"}",
+      "calls": 1,
+      "actual": {
+        "stage": "facts",
+        "status": "unverified",
+        "approved": false,
+        "score": 0,
+        "hardFailures": [],
+        "issues": [
+          "评审结果结构非法；禁止通过模型重试改写裁决"
+        ],
+        "suggestions": [
+          "补齐有效证据或修复评审组件后重跑本环节"
+        ],
+        "rerun": true,
+        "via": "fallback",
+        "model": "injected-judge",
+        "ms": 9,
+        "reason": "评审结果结构非法；禁止通过模型重试改写裁决",
+        "degraded": true,
+        "evidence": [
+          {
+            "path": "/tmp/independent-judge-boundary-7l4QEb/facts.json",
+            "sha256": "2fd0ead757269f6052c9abe050ae827554db124948ef219ea4cdb78ced143567",
+            "scope": "complete-text"
+          }
+        ]
+      },
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "pass": true
+    },
+    {
+      "name": "duplicate-decision-erases-denial",
+      "sourceCommit": "ed500abca2ef957ba40cf2585d726238dc540976",
+      "raw": "{\"approved\":false,\"score\":10,\"approved\":true,\"score\":96,\"issues\":[],\"suggestions\":[],\"reason\":\"两组相互冲突裁决\"}",
+      "calls": 1,
+      "actual": {
+        "stage": "facts",
+        "status": "passed",
+        "approved": true,
+        "score": 96,
+        "hardFailures": [],
+        "issues": [],
+        "suggestions": [],
+        "rerun": false,
+        "via": "llm",
+        "model": "injected-judge",
+        "ms": 0,
+        "reason": "两组相互冲突裁决",
+        "degraded": false,
+        "evidence": [
+          {
+            "path": "/tmp/independent-judge-boundary-7l4QEb/facts.json",
+            "sha256": "2fd0ead757269f6052c9abe050ae827554db124948ef219ea4cdb78ced143567",
+            "scope": "complete-text"
+          }
+        ]
+      },
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "pass": false
+    },
+    {
+      "name": "duplicate-escaped-decision-erases-denial",
+      "sourceCommit": "ed500abca2ef957ba40cf2585d726238dc540976",
+      "raw": "{\"approved\":false,\"\\u0061pproved\":true,\"score\":96,\"issues\":[],\"suggestions\":[],\"reason\":\"重复决策键\"}",
+      "calls": 1,
+      "actual": {
+        "stage": "facts",
+        "status": "passed",
+        "approved": true,
+        "score": 96,
+        "hardFailures": [],
+        "issues": [],
+        "suggestions": [],
+        "rerun": false,
+        "via": "llm",
+        "model": "injected-judge",
+        "ms": 0,
+        "reason": "重复决策键",
+        "degraded": false,
+        "evidence": [
+          {
+            "path": "/tmp/independent-judge-boundary-7l4QEb/facts.json",
+            "sha256": "2fd0ead757269f6052c9abe050ae827554db124948ef219ea4cdb78ced143567",
+            "scope": "complete-text"
+          }
+        ]
+      },
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "pass": false
+    },
+    {
+      "name": "fence-opening-without-closing",
+      "sourceCommit": "ed500abca2ef957ba40cf2585d726238dc540976",
+      "raw": "```json\n{\"approved\":true,\"score\":96,\"issues\":[],\"suggestions\":[],\"reason\":\"通过\"}",
+      "calls": 1,
+      "actual": {
+        "stage": "facts",
+        "status": "passed",
+        "approved": true,
+        "score": 96,
+        "hardFailures": [],
+        "issues": [],
+        "suggestions": [],
+        "rerun": false,
+        "via": "llm",
+        "model": "injected-judge",
+        "ms": 0,
+        "reason": "通过",
+        "degraded": false,
+        "evidence": [
+          {
+            "path": "/tmp/independent-judge-boundary-7l4QEb/facts.json",
+            "sha256": "2fd0ead757269f6052c9abe050ae827554db124948ef219ea4cdb78ced143567",
+            "scope": "complete-text"
+          }
+        ]
+      },
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "pass": false
+    },
+    {
+      "name": "fence-closing-without-opening",
+      "sourceCommit": "ed500abca2ef957ba40cf2585d726238dc540976",
+      "raw": "{\"approved\":true,\"score\":96,\"issues\":[],\"suggestions\":[],\"reason\":\"通过\"}\n```",
+      "calls": 1,
+      "actual": {
+        "stage": "facts",
+        "status": "passed",
+        "approved": true,
+        "score": 96,
+        "hardFailures": [],
+        "issues": [],
+        "suggestions": [],
+        "rerun": false,
+        "via": "llm",
+        "model": "injected-judge",
+        "ms": 0,
+        "reason": "通过",
+        "degraded": false,
+        "evidence": [
+          {
+            "path": "/tmp/independent-judge-boundary-7l4QEb/facts.json",
+            "sha256": "2fd0ead757269f6052c9abe050ae827554db124948ef219ea4cdb78ced143567",
+            "scope": "complete-text"
+          }
+        ]
+      },
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "pass": false
+    }
+  ]
+}

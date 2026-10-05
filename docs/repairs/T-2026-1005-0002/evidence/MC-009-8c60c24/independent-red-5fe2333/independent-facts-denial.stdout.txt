@@ -1,0 +1,34 @@
+{
+  "sourceCommit": "5fe23333a8bb20e53c269f0568dd8589c2941b98",
+  "test": "explicit semantic denial with malformed optional suggestion",
+  "calls": 2,
+  "verdict": {
+    "stage": "facts",
+    "status": "passed",
+    "approved": true,
+    "score": 96,
+    "hardFailures": [],
+    "issues": [],
+    "suggestions": [],
+    "rerun": false,
+    "via": "llm",
+    "model": "injected-judge",
+    "ms": 9,
+    "reason": "格式修复后通过",
+    "degraded": false,
+    "evidence": [
+      {
+        "path": "/private/tmp/independent-facts-denial-kv6n2e/facts.json",
+        "sha256": "54a30760a6daaa2e9c0487405404c7625f6cb88def3d6ab5fc20a23a4088bd56",
+        "scope": "complete-text"
+      }
+    ]
+  },
+  "repairMessage": "把下面这份评审结论**只整理成结构**，不得新增或改变任何事实、分数与结论：\n只输出 JSON：{\"approved\":true|false,\"score\":0-100,\"issues\":[\"...\"],\"suggestions\":[\"...\"],\"reason\":\"结论\"}\n\n{\"approved\":false,\"score\":10,\"issues\":[\"原文不支持\"],\"suggestions\":[false],\"reason\":\"否定主张不能使用\"}",
+  "expected": {
+    "calls": 1,
+    "approved": false,
+    "status": "failed-or-unverified"
+  },
+  "externalOrPaidProvider": false
+}

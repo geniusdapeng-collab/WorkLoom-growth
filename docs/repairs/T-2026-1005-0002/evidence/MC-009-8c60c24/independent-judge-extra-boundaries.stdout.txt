@@ -1,0 +1,196 @@
+{
+  "sourceCommit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+  "externalOrPaidProvider": false,
+  "results": [
+    {
+      "name": "original-explicit-denial-malformed-suggestions",
+      "sourceCommit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "raw": "{\"approved\":false,\"score\":10,\"issues\":[\"原文不支持\"],\"suggestions\":[false],\"reason\":\"否定主张不可用\"}",
+      "calls": 1,
+      "actual": {
+        "stage": "facts",
+        "status": "unverified",
+        "approved": false,
+        "score": 0,
+        "hardFailures": [],
+        "issues": [
+          "评审结果结构非法；禁止通过模型重试改写裁决"
+        ],
+        "suggestions": [
+          "补齐有效证据或修复评审组件后重跑本环节"
+        ],
+        "rerun": true,
+        "via": "fallback",
+        "model": "injected-judge",
+        "ms": 9,
+        "reason": "评审结果结构非法；禁止通过模型重试改写裁决",
+        "degraded": true,
+        "evidence": [
+          {
+            "path": "/tmp/independent-judge-boundary-UMQNwt/facts.json",
+            "sha256": "2fd0ead757269f6052c9abe050ae827554db124948ef219ea4cdb78ced143567",
+            "scope": "complete-text"
+          }
+        ]
+      },
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "pass": true
+    },
+    {
+      "name": "duplicate-decision-erases-denial",
+      "sourceCommit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "raw": "{\"approved\":false,\"score\":10,\"approved\":true,\"score\":96,\"issues\":[],\"suggestions\":[],\"reason\":\"两组相互冲突裁决\"}",
+      "calls": 1,
+      "actual": {
+        "stage": "facts",
+        "status": "unverified",
+        "approved": false,
+        "score": 0,
+        "hardFailures": [],
+        "issues": [
+          "评审JSON包含重复字段 approved；原始裁决有歧义，禁止覆盖或重判"
+        ],
+        "suggestions": [
+          "补齐有效证据或修复评审组件后重跑本环节"
+        ],
+        "rerun": true,
+        "via": "fallback",
+        "model": "injected-judge",
+        "ms": 0,
+        "reason": "评审JSON包含重复字段 approved；原始裁决有歧义，禁止覆盖或重判",
+        "degraded": true,
+        "evidence": [
+          {
+            "path": "/tmp/independent-judge-boundary-UMQNwt/facts.json",
+            "sha256": "2fd0ead757269f6052c9abe050ae827554db124948ef219ea4cdb78ced143567",
+            "scope": "complete-text"
+          }
+        ]
+      },
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "pass": true
+    },
+    {
+      "name": "duplicate-escaped-decision-erases-denial",
+      "sourceCommit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "raw": "{\"approved\":false,\"\\u0061pproved\":true,\"score\":96,\"issues\":[],\"suggestions\":[],\"reason\":\"重复决策键\"}",
+      "calls": 1,
+      "actual": {
+        "stage": "facts",
+        "status": "unverified",
+        "approved": false,
+        "score": 0,
+        "hardFailures": [],
+        "issues": [
+          "评审JSON包含重复字段 approved；原始裁决有歧义，禁止覆盖或重判"
+        ],
+        "suggestions": [
+          "补齐有效证据或修复评审组件后重跑本环节"
+        ],
+        "rerun": true,
+        "via": "fallback",
+        "model": "injected-judge",
+        "ms": 1,
+        "reason": "评审JSON包含重复字段 approved；原始裁决有歧义，禁止覆盖或重判",
+        "degraded": true,
+        "evidence": [
+          {
+            "path": "/tmp/independent-judge-boundary-UMQNwt/facts.json",
+            "sha256": "2fd0ead757269f6052c9abe050ae827554db124948ef219ea4cdb78ced143567",
+            "scope": "complete-text"
+          }
+        ]
+      },
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "pass": true
+    },
+    {
+      "name": "fence-opening-without-closing",
+      "sourceCommit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "raw": "```json\n{\"approved\":true,\"score\":96,\"issues\":[],\"suggestions\":[],\"reason\":\"通过\"}",
+      "calls": 1,
+      "actual": {
+        "stage": "facts",
+        "status": "unverified",
+        "approved": false,
+        "score": 0,
+        "hardFailures": [],
+        "issues": [
+          "评审结果不是合法完整JSON；禁止通过模型重试改写裁决"
+        ],
+        "suggestions": [
+          "补齐有效证据或修复评审组件后重跑本环节"
+        ],
+        "rerun": true,
+        "via": "fallback",
+        "model": "injected-judge",
+        "ms": 0,
+        "reason": "评审结果不是合法完整JSON；禁止通过模型重试改写裁决",
+        "degraded": true,
+        "evidence": [
+          {
+            "path": "/tmp/independent-judge-boundary-UMQNwt/facts.json",
+            "sha256": "2fd0ead757269f6052c9abe050ae827554db124948ef219ea4cdb78ced143567",
+            "scope": "complete-text"
+          }
+        ]
+      },
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "pass": true
+    },
+    {
+      "name": "fence-closing-without-opening",
+      "sourceCommit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "raw": "{\"approved\":true,\"score\":96,\"issues\":[],\"suggestions\":[],\"reason\":\"通过\"}\n```",
+      "calls": 1,
+      "actual": {
+        "stage": "facts",
+        "status": "unverified",
+        "approved": false,
+        "score": 0,
+        "hardFailures": [],
+        "issues": [
+          "评审结果不是合法完整JSON；禁止通过模型重试改写裁决"
+        ],
+        "suggestions": [
+          "补齐有效证据或修复评审组件后重跑本环节"
+        ],
+        "rerun": true,
+        "via": "fallback",
+        "model": "injected-judge",
+        "ms": 0,
+        "reason": "评审结果不是合法完整JSON；禁止通过模型重试改写裁决",
+        "degraded": true,
+        "evidence": [
+          {
+            "path": "/tmp/independent-judge-boundary-UMQNwt/facts.json",
+            "sha256": "2fd0ead757269f6052c9abe050ae827554db124948ef219ea4cdb78ced143567",
+            "scope": "complete-text"
+          }
+        ]
+      },
+      "expected": {
+        "calls": 1,
+        "approved": false,
+        "status": "failed-or-unverified"
+      },
+      "pass": true
+    }
+  ]
+}

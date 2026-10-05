@@ -1,0 +1,28 @@
+{
+  "schema": "workloom.independent-observation-run/v1",
+  "source_commit": "ed500abca2ef957ba40cf2585d726238dc540976",
+  "actor": "native-entry-independent-acceptance",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "--import",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-marketing-acceptance-16353a3/node_modules/tsx/dist/loader.mjs",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-judge-extra-boundaries.mts"
+  ],
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30",
+  "started_at": "2026-10-05T10:51:14.870770+00:00",
+  "finished_at": "2026-10-05T10:51:15.083814+00:00",
+  "exit_code": 1,
+  "external_or_paid_provider": false,
+  "fixture_source": {
+    "path": "independent-judge-extra-boundaries.mts",
+    "sha256": "c5aa004ad20b1aa201127c00c7601de7bc709ba0723da4eebfa9af529d59ab4a"
+  },
+  "stdout": {
+    "path": "independent-judge-extra-boundaries.stdout.txt",
+    "sha256": "06f494914d3d7b339051e02df4a49acd1488984fe76fea8c5b507f935b4e7075"
+  },
+  "stderr": {
+    "path": "independent-judge-extra-boundaries.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "schema": "workloom.mine-clear/ledger@1",
+  "task_id": "T-2026-1005-0002",
+  "repo": "growth-native-pipeline",
+  "repo_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
+  "title": "Native engine and accounting scope isolation",
+  "created_at": "2026-10-05T11:12:39.165Z",
+  "updated_at": "2026-10-05T11:24:15.726Z",
+  "baseline": {
+    "audit": {
+      "commit": "ba91c6d49a6584e522f19ddedc705c23cfbf8be1",
+      "branch": "task/T-2026-1005-0002-final",
+      "remote": "origin",
+      "fetched_at": "2026-10-05T11:12:39.107Z",
+      "fetch_status": "success",
+      "notes": "本地 HEAD 不是 origin/main 最新（云端 52a600e3 / 本地 ba91c6d4）——按 §1.2 先对齐基线"
+    },
+    "repair": {
+      "commit": "009ac41575e0870186e16582ae92c014c34c6ea4",
+      "reverified_problem_ids": []
+    },
+    "acceptance": {
+      "commit": null,
+      "is_descendant_of_repair": null
+    }
+  },
+  "environment": {
+    "kind": "local-preview",
+    "notes": ""
+  },
+  "invariants": [
+    {
+      "id": "INV-1",
+      "text": "租户边界覆盖数据库 RLS、运行时上下文、事件、缓存和外部连接器。",
+      "source": "AGENTS.md#4.1"
+    },
+    {
+      "id": "INV-2",
+      "text": "经营事件、审批和关键回执只增不改；纠正通过新事件表达，不静默覆盖证据。",
+      "source": "AGENTS.md#4.2"
+    },
+    {
+      "id": "INV-3",
+      "text": "所有外部或变更性动作及其子调用，统一经过权限、PII、围栏和审批链路。",
+      "source": "AGENTS.md#4.3"
+    },
+    {
+      "id": "INV-4",
+      "text": "涉钱、敏感数据、群发、公开发布、交易和破坏性变更必须按高风险处理并由人审批。",
+      "source": "AGENTS.md#4.4"
+    },
+    {
+      "id": "INV-5",
+      "text": "没有真实回执就不能标记完成；mock、模拟和体验模式在数据结构与界面上都要明确区分。",
+      "source": "AGENTS.md#4.5"
+    },
+    {
+      "id": "INV-6",
+      "text": "客户原始经营数据不得上行；蜂群只接受白名单化、最小化、匿名化且可审计的元数据或派生经验。",
+      "source": "AGENTS.md#4.6"
+    },
+    {
+      "id": "INV-7",
+      "text": "租户覆盖层只能收紧围栏，不能放宽平台不可变红线。",
+      "source": "AGENTS.md#4.7"
+    },
+    {
+      "id": "INV-8",
+      "text": "模型、提示词、技能、bundle、策略和热更新必须先评测再灰度，且始终可回滚。",
+      "source": "AGENTS.md#4.8"
+    },
+    {
+      "id": "INV-9",
+      "text": "platform-ops、平台账户运营和平台秘密只属于 Andromeda。",
+      "source": "AGENTS.md#4.9"
+    },
+    {
+      "id": "INV-10",
+      "text": "Tiger 在获得单独的合规审查和用户明确授权前，只能模拟或纸面交易。",
+      "source": "AGENTS.md#4.10"
+    },
+    {
+      "id": "INV-11",
+      "text": "令牌、密码、API key、私钥、客户凭证和私密客户数据不得进入源码、文档、上下文、提示词、日志或提交。",
+      "source": "AGENTS.md#4.11"
+    },
+    {
+      "id": "INV-12",
+      "text": "个性化与行业扩展不得形成公共机制的第二事实源。",
+      "source": "AGENTS.md#4.12"
+    }
+  ],
+  "cards": [
+    {
+      "id": "MC-011",
+      "kind": "problem",
+      "level": "L3",
+      "severity": "P1",
+      "batch": 0,
+      "state": "fixed",
+      "title": "Global vendor engine bridge crosses concurrent native run provider and billing identities",
+      "evidence": [
+        {
+          "type": "code",
+          "ref": "packages/video-studio/src/llm-adapter.ts:376@ba91c6d49a6584e522f19ddedc705c23cfbf8be1",
+          "sha256": "2608319bc3a0acc254c9a126e768e07e1fd26e94901310ba9411e75eac0d0906",
+          "note": "Independent 8c fixture reproduced both original run requests sent to tenant-B engine; ba91 still has same global closures. Native handoff restriction test at ba91 also fails after vendor run returns."
+        }
+      ],
+      "root_cause": {
+        "file": "packages/video-studio/src/llm-adapter.ts",
+        "line": 376,
+        "commit": "ba91c6d49a6584e522f19ddedc705c23cfbf8be1",
+        "symbol": "installVendorEngineBridge"
+      },
+      "trigger_path": "Concurrent startRun A/B replaces shared vendor prototype with B closure; A uses B provider/sink. Native handoff starts after VideoStudio restriction scope closes.",
+      "assertions": [
+        {
+          "kind": "property",
+          "given": "Concurrent native vendor requests, direct/routed transports, nested runs, custom structured options, absent/closed/tampered scope",
+          "expect": "Each run keeps its own engine/provider/billing sink; no-scope, late and tampered dispatcher calls perform zero external submissions; all adapter options and source limits persist through native handoff.",
+          "command": "node --import tsx --test scripts/native-engine-scope.test.mts",
+          "exec": {
+            "file": "node",
+            "args": [
+              "--import",
+              "tsx",
+              "--test",
+              "scripts/native-engine-scope.test.mts"
+            ]
+          },
+          "last_result": "pass",
+          "run": {
+            "path": "runs/MC-011-0-1791199455172.json",
+            "sha256": "91418f89a1a045a61624aeb8b8d20a78ba623fe71b59fe4c12f9f4200cde5713",
+            "commit": "009ac41575e0870186e16582ae92c014c34c6ea4"
+          },
+          "evidence": {
+            "path": "evidence/MC-011-0-1791199455172.txt",
+            "sha256": "ffb10c669e6f9988b74cb50fc979c39476e30afb3002da60a92c8a0b6be6b494",
+            "commit": "009ac41575e0870186e16582ae92c014c34c6ea4"
+          }
+        }
+      ],
+      "fix_plan": "Install only fixed vendor dispatchers, route through AsyncLocalStorage with active run engine and closed lifecycle. Native task wraps full runner, and marketing limits cover post-vendor handoff. Correct reasonStructured three-argument forwarding.",
+      "blast_radius": "Native preproduction model calls and billing sink scopes; no vendor source writes, token changes, parallel pipeline or media resubmissions.",
+      "conflict_paths": [
+        "packages/video-studio/src/llm-adapter.ts",
+        "packages/video-studio/src/studio.ts",
+        "apps/server/src/video/studio-worker.ts",
+        "apps/server/src/video/studio-worker.test.ts",
+        "scripts/tools/data-pipeline-run.mts",
+        "scripts/native-source-restrictions.test.mts",
+        "scripts/native-engine-scope.test.mts"
+      ],
+      "regression": {
+        "command": "node --import tsx --test scripts/native-engine-scope.test.mts"
+      },
+      "rollback": "Revert scoped dispatcher commit; keep current native archives; stop concurrent production rather than routing through another identity.",
+      "notes": "Source-use prompt propagation does not prove semantic compliance; final system qualification is unchanged. Independent acceptance remains separate from repair.",
+      "verified_by": null,
+      "verified_at": null,
+      "verification_evidence": null,
+      "last_assertion_attempt": {
+        "actor": "native-video-mechanism-repair",
+        "role": "repair",
+        "result": "pass",
+        "at": "2026-10-05T11:24:15.168Z",
+        "commit": "009ac41575e0870186e16582ae92c014c34c6ea4",
+        "finished_at": "2026-10-05T11:24:15.726Z"
+      },
+      "fixed_by": "native-video-mechanism-repair"
+    }
+  ],
+  "gates": []
+}

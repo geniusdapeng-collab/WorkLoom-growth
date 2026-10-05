@@ -1,0 +1,92 @@
+TAP version 13
+# Subtest: explicit denial with malformed suggestions stops after one judge call
+ok 1 - explicit denial with malformed suggestions stops after one judge call
+  ---
+  duration_ms: 12.104042
+  type: 'test'
+  ...
+# Subtest: low score with malformed issues stops after one judge call
+ok 2 - low score with malformed issues stops after one judge call
+  ---
+  duration_ms: 1.346041
+  type: 'test'
+  ...
+# Subtest: malformed positive cannot gain qualification from another answer stops after one judge call
+ok 3 - malformed positive cannot gain qualification from another answer stops after one judge call
+  ---
+  duration_ms: 1.055666
+  type: 'test'
+  ...
+# Subtest: unknown decision cannot be synthesized stops after one judge call
+ok 4 - unknown decision cannot be synthesized stops after one judge call
+  ---
+  duration_ms: 1.06675
+  type: 'test'
+  ...
+# Subtest: truncated negative JSON cannot be rewritten stops after one judge call
+ok 5 - truncated negative JSON cannot be rewritten stops after one judge call
+  ---
+  duration_ms: 0.933708
+  type: 'test'
+  ...
+# Subtest: non-JSON text cannot hide rejection behind a positive object stops after one judge call
+ok 6 - non-JSON text cannot hide rejection behind a positive object stops after one judge call
+  ---
+  duration_ms: 0.691084
+  type: 'test'
+  ...
+# Subtest: duplicate decision keys cannot overwrite a denial stops after one judge call
+ok 7 - duplicate decision keys cannot overwrite a denial stops after one judge call
+  ---
+  duration_ms: 0.748791
+  type: 'test'
+  ...
+# Subtest: escaped duplicate decision keys cannot overwrite a denial stops after one judge call
+ok 8 - escaped duplicate decision keys cannot overwrite a denial stops after one judge call
+  ---
+  duration_ms: 0.814833
+  type: 'test'
+  ...
+# Subtest: duplicate scores cannot overwrite a low score stops after one judge call
+ok 9 - duplicate scores cannot overwrite a low score stops after one judge call
+  ---
+  duration_ms: 0.821209
+  type: 'test'
+  ...
+# Subtest: an unclosed code fence is not a complete verdict stops after one judge call
+ok 10 - an unclosed code fence is not a complete verdict stops after one judge call
+  ---
+  duration_ms: 0.793292
+  type: 'test'
+  ...
+# Subtest: an unmatched closing fence is not a complete verdict stops after one judge call
+ok 11 - an unmatched closing fence is not a complete verdict stops after one judge call
+  ---
+  duration_ms: 0.709625
+  type: 'test'
+  ...
+# Subtest: unambiguous local coercion preserves a negative score and decision
+ok 12 - unambiguous local coercion preserves a negative score and decision
+  ---
+  duration_ms: 0.672
+  type: 'test'
+  ...
+# Subtest: legal fenced JSON and unambiguous positive fields need no extra model
+ok 13 - legal fenced JSON and unambiguous positive fields need no extra model
+  ---
+  duration_ms: 0.385166
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 136.149916
+
+
+exit_code=0 signal=none error=none
+assertion_validation={"ok":true,"errors":[],"testSummary":{"total":13,"passed":13,"failed":0,"cancelled":0,"skipped":0,"todo":0}}

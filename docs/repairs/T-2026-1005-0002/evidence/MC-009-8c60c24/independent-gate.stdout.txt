@@ -1,0 +1,5 @@
+{
+  "ledger": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-marketing-acceptance-16353a3/outputs/mine-clear/T-2026-1005-0002/judge-once-8c60c24/ledger.json",
+  "ok": true,
+  "errors": []
+}

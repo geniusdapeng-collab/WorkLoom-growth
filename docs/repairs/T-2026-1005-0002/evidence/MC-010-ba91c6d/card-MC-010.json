@@ -1,0 +1,59 @@
+{
+  "id": "MC-010",
+  "kind": "problem",
+  "level": "L3",
+  "severity": "P1",
+  "batch": 0,
+  "state": "open",
+  "title": "Verified product usage restrictions do not reach creative model calls",
+  "evidence": [
+    {
+      "type": "code",
+      "ref": "packages/video-studio/src/studio.ts:429@8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "sha256": "64560b35ba64ef7d088573f6c10fc4dee0dfa8ef0713a9d09606a12c4f751813",
+      "note": "Host passes only verified raw/hash/query. Generator consumes brief/cards, losing source restrictions. Four actual VideoStudio integration cases first fail."
+    }
+  ],
+  "root_cause": {
+    "file": "packages/video-studio/src/studio.ts",
+    "line": 429,
+    "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+    "symbol": "runPreproduction"
+  },
+  "trigger_path": "G1 passed source restrictions -> verifiedRaw without restrictions -> creative/insight/PRD model calls ignore original use limits -> final gate rejects late",
+  "assertions": [
+    {
+      "kind": "property",
+      "given": "Real model adapter interfaces including native vendor prototype bridge, direct and routed transports, concurrent task scopes, complete source restrictions",
+      "expect": "Every call receives the full source restrictions; custom system prompt cannot omit them; unrelated/narrative/concurrent runs do not inherit them; malformed limits and overflow stop rather than truncate.",
+      "command": "node --import tsx --test scripts/native-source-restrictions.test.mts",
+      "exec": {
+        "file": "node",
+        "args": [
+          "--import",
+          "tsx",
+          "--test",
+          "scripts/native-source-restrictions.test.mts"
+        ]
+      },
+      "last_result": "not-run"
+    }
+  ],
+  "fix_plan": "Bind full restriction list hash to raw hash in host-only verified input; validate before vendor construction; AsyncLocalStorage scope appends full limits to all adapter interfaces including vendor-owned engines. Final source qualification remains independent.",
+  "blast_radius": "Marketing native model input and attested host config; no manual creative decisions, vendor mutation, media retry, source profile changes or added fact authority.",
+  "conflict_paths": [
+    "apps/server/src/video/studio-worker.ts",
+    "apps/server/src/video/studio-worker.test.ts",
+    "packages/video-studio/src/studio.ts",
+    "packages/video-studio/src/studio.test.ts",
+    "packages/video-studio/src/llm-adapter.ts",
+    "packages/video-studio/src/source-restrictions.ts",
+    "packages/video-studio/src/index.ts",
+    "scripts/native-source-restrictions.test.mts"
+  ],
+  "regression": {
+    "command": "node --import tsx --test scripts/native-source-restrictions.test.mts"
+  },
+  "rollback": "Revert scoped source restriction propagation; preserve native facts and original archives; do not reuse downstream qualification.",
+  "notes": "MC008 restriction qualification remains, MC010 ensures generator consumes limits before creative work. Prompt propagation is not proof that every generated claim complies; final system review still required."
+}

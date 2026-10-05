@@ -1,0 +1,58 @@
+{
+  "id": "MC-011",
+  "kind": "problem",
+  "level": "L3",
+  "severity": "P1",
+  "batch": 0,
+  "state": "open",
+  "title": "Global vendor engine bridge crosses concurrent native run provider and billing identities",
+  "evidence": [
+    {
+      "type": "code",
+      "ref": "packages/video-studio/src/llm-adapter.ts:376@ba91c6d49a6584e522f19ddedc705c23cfbf8be1",
+      "sha256": "2608319bc3a0acc254c9a126e768e07e1fd26e94901310ba9411e75eac0d0906",
+      "note": "Independent 8c fixture reproduced both original run requests sent to tenant-B engine; ba91 still has same global closures. Native handoff restriction test at ba91 also fails after vendor run returns."
+    }
+  ],
+  "root_cause": {
+    "file": "packages/video-studio/src/llm-adapter.ts",
+    "line": 376,
+    "commit": "ba91c6d49a6584e522f19ddedc705c23cfbf8be1",
+    "symbol": "installVendorEngineBridge"
+  },
+  "trigger_path": "Concurrent startRun A/B replaces shared vendor prototype with B closure; A uses B provider/sink. Native handoff starts after VideoStudio restriction scope closes.",
+  "assertions": [
+    {
+      "kind": "property",
+      "given": "Concurrent native vendor requests, direct/routed transports, nested runs, custom structured options, absent/closed/tampered scope",
+      "expect": "Each run keeps its own engine/provider/billing sink; no-scope, late and tampered dispatcher calls perform zero external submissions; all adapter options and source limits persist through native handoff.",
+      "command": "node --import tsx --test scripts/native-engine-scope.test.mts",
+      "exec": {
+        "file": "node",
+        "args": [
+          "--import",
+          "tsx",
+          "--test",
+          "scripts/native-engine-scope.test.mts"
+        ]
+      },
+      "last_result": "not-run"
+    }
+  ],
+  "fix_plan": "Install only fixed vendor dispatchers, route through AsyncLocalStorage with active run engine and closed lifecycle. Native task wraps full runner, and marketing limits cover post-vendor handoff. Correct reasonStructured three-argument forwarding.",
+  "blast_radius": "Native preproduction model calls and billing sink scopes; no vendor source writes, token changes, parallel pipeline or media resubmissions.",
+  "conflict_paths": [
+    "packages/video-studio/src/llm-adapter.ts",
+    "packages/video-studio/src/studio.ts",
+    "apps/server/src/video/studio-worker.ts",
+    "apps/server/src/video/studio-worker.test.ts",
+    "scripts/tools/data-pipeline-run.mts",
+    "scripts/native-source-restrictions.test.mts",
+    "scripts/native-engine-scope.test.mts"
+  ],
+  "regression": {
+    "command": "node --import tsx --test scripts/native-engine-scope.test.mts"
+  },
+  "rollback": "Revert scoped dispatcher commit; keep current native archives; stop concurrent production rather than routing through another identity.",
+  "notes": "Source-use prompt propagation does not prove semantic compliance; final system qualification is unchanged. Independent acceptance remains separate from repair."
+}

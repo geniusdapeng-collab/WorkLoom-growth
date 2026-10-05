@@ -1,0 +1,31 @@
+{
+  "schema": "workloom.independent-observation-run/v1",
+  "source_commit": "5fe23333a8bb20e53c269f0568dd8589c2941b98",
+  "actor": "native-entry-independent-acceptance",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "--import",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-marketing-acceptance-16353a3/node_modules/tsx/dist/loader.mjs",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-facts-rejection-boundary.mts"
+  ],
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30",
+  "started_at": "2026-10-05T10:42:51.487130+00:00",
+  "finished_at": "2026-10-05T10:42:51.622278+00:00",
+  "exit_code": 0,
+  "expected": "Explicit facts denial must stop after one supplier response, even if an auxiliary field has invalid shape",
+  "actual": "two calls and passed/approved true",
+  "outcome": "failed-boundary",
+  "external_or_paid_provider": false,
+  "fixture_source": {
+    "path": "independent-facts-denial.mts",
+    "sha256": "9a2dbeca6d73439f617f0c915543f1848f6eea660171ac231cdc06f5c956ade7"
+  },
+  "stdout": {
+    "path": "independent-facts-denial.stdout.txt",
+    "sha256": "a5b9fc4e63d5f26bedd7fa70ae3c6d138c2b51a3cde6cbe7c8223d216e2e56fa"
+  },
+  "stderr": {
+    "path": "independent-facts-denial.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

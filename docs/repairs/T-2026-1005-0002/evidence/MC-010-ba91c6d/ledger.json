@@ -1,0 +1,177 @@
+{
+  "schema": "workloom.mine-clear/ledger@1",
+  "task_id": "T-2026-1005-0002",
+  "repo": "growth-native-pipeline",
+  "repo_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
+  "title": "",
+  "created_at": "2026-10-05T10:54:58.600Z",
+  "updated_at": "2026-10-05T11:09:41.608Z",
+  "baseline": {
+    "audit": {
+      "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+      "branch": "task/T-2026-1005-0002-final",
+      "remote": "origin",
+      "fetched_at": "2026-10-05T10:54:58.568Z",
+      "fetch_status": "success",
+      "notes": "本地 HEAD 不是 origin/main 最新（云端 52a600e3 / 本地 8c60c24b）——按 §1.2 先对齐基线"
+    },
+    "repair": {
+      "commit": "ba91c6d49a6584e522f19ddedc705c23cfbf8be1",
+      "reverified_problem_ids": []
+    },
+    "acceptance": {
+      "commit": null,
+      "is_descendant_of_repair": null
+    }
+  },
+  "environment": {
+    "kind": "client-runtime",
+    "notes": ""
+  },
+  "invariants": [
+    {
+      "id": "INV-1",
+      "text": "租户边界覆盖数据库 RLS、运行时上下文、事件、缓存和外部连接器。",
+      "source": "AGENTS.md#4.1"
+    },
+    {
+      "id": "INV-2",
+      "text": "经营事件、审批和关键回执只增不改；纠正通过新事件表达，不静默覆盖证据。",
+      "source": "AGENTS.md#4.2"
+    },
+    {
+      "id": "INV-3",
+      "text": "所有外部或变更性动作及其子调用，统一经过权限、PII、围栏和审批链路。",
+      "source": "AGENTS.md#4.3"
+    },
+    {
+      "id": "INV-4",
+      "text": "涉钱、敏感数据、群发、公开发布、交易和破坏性变更必须按高风险处理并由人审批。",
+      "source": "AGENTS.md#4.4"
+    },
+    {
+      "id": "INV-5",
+      "text": "没有真实回执就不能标记完成；mock、模拟和体验模式在数据结构与界面上都要明确区分。",
+      "source": "AGENTS.md#4.5"
+    },
+    {
+      "id": "INV-6",
+      "text": "客户原始经营数据不得上行；蜂群只接受白名单化、最小化、匿名化且可审计的元数据或派生经验。",
+      "source": "AGENTS.md#4.6"
+    },
+    {
+      "id": "INV-7",
+      "text": "租户覆盖层只能收紧围栏，不能放宽平台不可变红线。",
+      "source": "AGENTS.md#4.7"
+    },
+    {
+      "id": "INV-8",
+      "text": "模型、提示词、技能、bundle、策略和热更新必须先评测再灰度，且始终可回滚。",
+      "source": "AGENTS.md#4.8"
+    },
+    {
+      "id": "INV-9",
+      "text": "platform-ops、平台账户运营和平台秘密只属于 Andromeda。",
+      "source": "AGENTS.md#4.9"
+    },
+    {
+      "id": "INV-10",
+      "text": "Tiger 在获得单独的合规审查和用户明确授权前，只能模拟或纸面交易。",
+      "source": "AGENTS.md#4.10"
+    },
+    {
+      "id": "INV-11",
+      "text": "令牌、密码、API key、私钥、客户凭证和私密客户数据不得进入源码、文档、上下文、提示词、日志或提交。",
+      "source": "AGENTS.md#4.11"
+    },
+    {
+      "id": "INV-12",
+      "text": "个性化与行业扩展不得形成公共机制的第二事实源。",
+      "source": "AGENTS.md#4.12"
+    }
+  ],
+  "cards": [
+    {
+      "id": "MC-010",
+      "kind": "problem",
+      "level": "L3",
+      "severity": "P1",
+      "batch": 0,
+      "state": "fixed",
+      "title": "Verified product usage restrictions do not reach creative model calls",
+      "evidence": [
+        {
+          "type": "code",
+          "ref": "packages/video-studio/src/studio.ts:429@8c60c24b77693e1a7aea660607a6fb86f028748b",
+          "sha256": "64560b35ba64ef7d088573f6c10fc4dee0dfa8ef0713a9d09606a12c4f751813",
+          "note": "Host passes only verified raw/hash/query. Generator consumes brief/cards, losing source restrictions. Four actual VideoStudio integration cases first fail."
+        }
+      ],
+      "root_cause": {
+        "file": "packages/video-studio/src/studio.ts",
+        "line": 429,
+        "commit": "8c60c24b77693e1a7aea660607a6fb86f028748b",
+        "symbol": "runPreproduction"
+      },
+      "trigger_path": "G1 passed source restrictions -> verifiedRaw without restrictions -> creative/insight/PRD model calls ignore original use limits -> final gate rejects late",
+      "assertions": [
+        {
+          "kind": "property",
+          "given": "Real model adapter interfaces including native vendor prototype bridge, direct and routed transports, concurrent task scopes, complete source restrictions",
+          "expect": "Every call receives the full source restrictions; custom system prompt cannot omit them; unrelated/narrative/concurrent runs do not inherit them; malformed limits and overflow stop rather than truncate.",
+          "command": "node --import tsx --test scripts/native-source-restrictions.test.mts",
+          "exec": {
+            "file": "node",
+            "args": [
+              "--import",
+              "tsx",
+              "--test",
+              "scripts/native-source-restrictions.test.mts"
+            ]
+          },
+          "last_result": "pass",
+          "run": {
+            "path": "runs/MC-010-0-1791198581063.json",
+            "sha256": "d96631f5373c6896b97dd1e2a50306887a96ca5555f5f433760189b13a453254",
+            "commit": "ba91c6d49a6584e522f19ddedc705c23cfbf8be1"
+          },
+          "evidence": {
+            "path": "evidence/MC-010-0-1791198581063.txt",
+            "sha256": "f6b48312c2fb46dcb9da9f49d435c325aa237bdaf0f9069633298e91543d3ec0",
+            "commit": "ba91c6d49a6584e522f19ddedc705c23cfbf8be1"
+          }
+        }
+      ],
+      "fix_plan": "Bind full restriction list hash to raw hash in host-only verified input; validate before vendor construction; AsyncLocalStorage scope appends full limits to all adapter interfaces including vendor-owned engines. Final source qualification remains independent.",
+      "blast_radius": "Marketing native model input and attested host config; no manual creative decisions, vendor mutation, media retry, source profile changes or added fact authority.",
+      "conflict_paths": [
+        "apps/server/src/video/studio-worker.ts",
+        "apps/server/src/video/studio-worker.test.ts",
+        "packages/video-studio/src/studio.ts",
+        "packages/video-studio/src/studio.test.ts",
+        "packages/video-studio/src/llm-adapter.ts",
+        "packages/video-studio/src/source-restrictions.ts",
+        "packages/video-studio/src/index.ts",
+        "scripts/native-source-restrictions.test.mts"
+      ],
+      "regression": {
+        "command": "node --import tsx --test scripts/native-source-restrictions.test.mts"
+      },
+      "rollback": "Revert scoped source restriction propagation; preserve native facts and original archives; do not reuse downstream qualification.",
+      "notes": "MC008 restriction qualification remains, MC010 ensures generator consumes limits before creative work. Prompt propagation is not proof that every generated claim complies; final system review still required.",
+      "verified_by": null,
+      "verified_at": null,
+      "verification_evidence": null,
+      "last_assertion_attempt": {
+        "actor": "native-video-mechanism-repair",
+        "role": "repair",
+        "result": "pass",
+        "at": "2026-10-05T11:09:41.061Z",
+        "commit": "ba91c6d49a6584e522f19ddedc705c23cfbf8be1",
+        "finished_at": "2026-10-05T11:09:41.608Z"
+      },
+      "fixed_by": "native-video-mechanism-repair"
+    }
+  ],
+  "gates": []
+}
