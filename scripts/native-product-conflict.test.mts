@@ -16,7 +16,7 @@ async function fixture(profile: any) {
     contentType: "application/json", assetUrls: [], redirectChain: [], policy: deriveProductSourcePolicy(profile) };
 }
 const profile = () => ({ schemaVersion: "workloom.product-archive/v1", displayName: "台式自助机", model: "M1",
-  aliases: ["台式自助机", "M1", "M2"], variants: [{ model: "M1" }, { model: "M2" }],
+  aliases: ["台式自助机", "M1", "M2"], variants: [{ model: "M1", name: "单屏版" }, { model: "M2", name: "双屏版" }],
   source: { extraction: { verified: false }, disclaimer: "仅当前客户项目使用" },
   specs: { features: ["支持一键退房"], parameters: [{ name: "型号", value: "M1", source: "page 2" }, { name: "型号", value: "M2", source: "page 2" }] } });
 const data = (source: any, model = true) => ({ payload: { identity: { name: "台式自助机", ...(model ? { model: "M1" } : {}),
@@ -60,4 +60,14 @@ test("selecting a conflicting identity model records one denial and performs no 
     llm: { reason: async () => { calls++; return { success: true, data: data(source) }; } },
     persistAttempt: async (record: any) => { records.push(record); } }), /PRODUCT_CLAIM_BLOCKED/);
   assert.equal(calls, 1); assert.equal(records.length, 1); assert.equal(records[0].validation.ok, false);
+});
+test("version-qualified conflicts cannot reselect the base model through aliases or variant names", async () => {
+  const original = profile();
+  original.specs.parameters[0]!.value = "M1单屏版"; original.specs.parameters[1]!.value = "M1双屏版";
+  original.aliases = ["台式自助机", "M1"]; original.variants = [{ model: "M1", name: "M1" }];
+  const source = await fixture(original), { validateStageFacts } = await factsModule();
+  for (const pointer of ["/aliases/1", "/variants/0/name"]) {
+    const value = data(source); value.citations[2]!.sourcePointer = pointer;
+    assert.throws(() => validateStageFacts("A1", value, [source]), /PRODUCT_CLAIM_BLOCKED/);
+  }
 });

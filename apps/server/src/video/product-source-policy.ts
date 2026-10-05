@@ -48,11 +48,17 @@ export function deriveProductSourcePolicy(profile: RecordValue): ProductSourcePo
   if (modelConflicts.length) {
     // A repeated identity leaf is not an independent clarification of conflicting model parameters.
     // Keep every original byte, but omit this optional claim before spending a support-review call.
-    const modelValues = new Set(modelConflicts.flatMap(conflict => conflict.values.map(value => normalized(value).toLowerCase())));
+    const variants = Array.isArray(profile.variants) ? profile.variants : [];
+    const modelValues = new Set([
+      ...modelConflicts.flatMap(conflict => conflict.values),
+      ...(string(profile.model) ? [profile.model as string] : []),
+      ...variants.filter(object).map(variant => string(variant.model)).filter((value): value is string => value !== undefined),
+    ].map(value => normalized(value).toLowerCase()));
     const reason = "型号参数存在不同值或版本限定；独立原文澄清前不能经身份字段或别名重新选择型号主张";
     if (string(profile.model)) blocked.set("/model", reason);
-    for (const [index, variant] of (Array.isArray(profile.variants) ? profile.variants : []).entries()) {
+    for (const [index, variant] of variants.entries()) {
       if (object(variant) && string(variant.model)) blocked.set(`/variants/${index}/model`, reason);
+      if (object(variant) && string(variant.name) && modelValues.has(normalized(variant.name).toLowerCase())) blocked.set(`/variants/${index}/name`, reason);
     }
     for (const [index, alias] of (Array.isArray(profile.aliases) ? profile.aliases : []).entries()) {
       if (typeof alias === "string" && modelValues.has(normalized(alias).toLowerCase())) blocked.set(`/aliases/${index}`, reason);
