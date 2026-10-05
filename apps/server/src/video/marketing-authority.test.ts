@@ -128,7 +128,7 @@ describe("营销事实宿主完整执行", () => {
     if (["expired", "claim-offset", "restrictions", "missing-exchange", "exchange-scope"].includes(kind)) {
       if (kind === "expired") prepared.bundle.collectedAt = new Date(Date.now() - 25 * 3600_000).toISOString();
       else if (kind === "claim-offset") prepared.bundle.stages[0]!.facts.claims[0]!.quoteStart++;
-      else prepared.bundle.restrictions.pop();
+      else if (kind === "restrictions") prepared.bundle.restrictions.pop();
       const text = canonicalRenderJson(prepared.bundle); await writeFile(path.join(root, saved.ref), text); hash = renderSha256(text);
     }
     await expect(verifyMarketingFacts({ root, ref: saved.ref, sha256: hash, scope: expectedScope, shots: requestedShots })).rejects.toThrow();
