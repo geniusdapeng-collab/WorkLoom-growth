@@ -1,0 +1,14 @@
+{
+  "source_commit": "3e1b860bc66638ee1d80c9a36756ddcfff816999",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "--import",
+    "tsx",
+    "--test",
+    "scripts/native-judge-reasoning-budget.test.mts"
+  ],
+  "exit_code": 1,
+  "source_modified": false,
+  "fixture_untracked": true,
+  "observed_at": "2026-10-05T14:18:42.459585+00:00"
+}

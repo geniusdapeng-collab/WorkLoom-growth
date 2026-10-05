@@ -1,0 +1,18 @@
+{
+  "runtime": "client-runtime/r11",
+  "project": "VID-1011",
+  "stage": "A1",
+  "model": "deepseek-flash",
+  "endpoint": "https://api.deepseek.com/chat/completions",
+  "http_status": 200,
+  "finish_reason": "length",
+  "visible_content_bytes": 0,
+  "max_tokens": 8192,
+  "completion_tokens": 8192,
+  "reasoning_tokens": 8192,
+  "prompt_tokens": 4433,
+  "response_sha256": "a212503e6ded543f733f39d6fd10900f6cb4209c37dc93dec3a0338f1521dadd",
+  "source_commit": "18c1c1549a70bb5b757fe345c588dbfee767c3ae",
+  "source_equivalent_to": "3e1b860bc66638ee1d80c9a36756ddcfff816999",
+  "public_cli_media_submissions": 0
+}

@@ -1,0 +1,66 @@
+✖ official DeepSeek thinking models preserve high reasoning with a bounded64K total output budget (10.686375ms)
+✔ unknown models and endpoints retain their generic budget and receive no DeepSeek-only fields (2.399625ms)
+✖ length, aborted and filtered responses cannot qualify even if their visible JSON looks complete (1.032875ms)
+✔ completed negative verdict still stops once with its original score and decision (1.038791ms)
+✖ concurrent known and generic providers cannot leak reasoning options across projects (1.538542ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 2
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 145.846417
+
+✖ failing tests:
+
+test at scripts/native-judge-reasoning-budget.test.mts:1:1673
+✖ official DeepSeek thinking models preserve high reasoning with a bounded64K total output budget (10.686375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  8192 !== 65536
+  
+      at TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-judge-reasoning-budget.test.mts:26:53)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 8192,
+    expected: 65536,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/native-judge-reasoning-budget.test.mts:1:2788
+✖ length, aborted and filtered responses cannot qualify even if their visible JSON looks complete (1.032875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-judge-reasoning-budget.test.mts:41:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/native-judge-reasoning-budget.test.mts:1:3777
+✖ concurrent known and generic providers cannot leak reasoning options across projects (1.538542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  8192 !== 65536
+  
+      at TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-judge-reasoning-budget.test.mts:52:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 8192,
+    expected: 65536,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

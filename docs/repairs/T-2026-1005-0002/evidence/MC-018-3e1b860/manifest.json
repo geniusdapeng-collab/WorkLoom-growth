@@ -1,0 +1,18 @@
+[
+  {
+    "path": "real-failure-metadata.json",
+    "sha256": "91b7370f215f9fee83157716e40cbad3c5fdd98cd36d46c92bc9d2113d81b686"
+  },
+  {
+    "path": "run.json",
+    "sha256": "81fb933d48b385f85693756a4e840bd350d18da166ddf1a0ba1d0775c655d0f4"
+  },
+  {
+    "path": "stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "stdout.txt",
+    "sha256": "ca51f3dffd7f2182d796b729173adfb9e9feb6a74b453f4a91e8f50750efb9ae"
+  }
+]

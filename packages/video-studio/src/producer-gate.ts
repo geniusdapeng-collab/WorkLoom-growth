@@ -528,7 +528,15 @@ export async function reviewStage(options: ProducerGateOptions): Promise<Produce
         `只输出一个完整 JSON 对象，字段类型必须符合此 JSON Schema：${JSON.stringify(JUDGE_RESULT_SCHEMA)}`,
         '合法格式示例：{"approved":false,"score":0,"issues":["缺少支持此主张的证据"],"suggestions":["补齐证据"],"reason":"无法核实"}。示例只规定格式；批准、分数与问题必须按本次实际证据独立判断，不照抄示例结论。'
       ].join("\n") }, ...textContent, ...encoded.slice(batch * batchSize, Math.min(artifactImages, (batch + 1) * batchSize)).flat(), ...encoded.slice(artifactImages).flat()];
-      const request = { model: llm.model, messages: [{ role: "user", content }], temperature: 0.2, max_tokens: 8192, response_format: { type: "json_object" } };
+      // Official thinking models share their generation budget with reasoning. The 8K
+      // generic cap can leave no visible verdict; preserve high reasoning, do not rescore.
+      // Unknown models and proxy endpoints retain the provider-neutral request contract.
+      const officialDeepSeekThinking = new URL(llm.baseUrl).hostname === "api.deepseek.com"
+        && (llm.model === "deepseek-flash" || llm.model === "deepseek-v4-pro");
+      const generationOptions = officialDeepSeekThinking
+        ? { thinking: { type: "enabled" }, reasoning_effort: "high", max_tokens: 65536 }
+        : { temperature: 0.2, max_tokens: 8192 };
+      const request = { model: llm.model, messages: [{ role: "user", content }], ...generationOptions, response_format: { type: "json_object" } };
       const requestBody = JSON.stringify(request), endpoint = `${llm.baseUrl}/chat/completions`, requestedAt = new Date().toISOString();
       const res = await (options.fetchImpl ?? fetch)(`${llm.baseUrl}/chat/completions`, {
         method: "POST", headers: { "content-type": "application/json", authorization: `Bearer ${llm.apiKey}` },
@@ -554,7 +562,11 @@ export async function reviewStage(options: ProducerGateOptions): Promise<Produce
         } catch (error) { throw new Error(`评审原响应归档失败：${error instanceof Error ? redact(error.message) : redact(String(error))}`); }
       }
       if (!res.ok) throw new Error(`HTTP ${res.status} ${redact(rawBody.slice(0, 160))}`);
-      const raw = JSON.parse(rawBody).choices?.[0]?.message?.content;
+      const choice = JSON.parse(rawBody).choices?.[0];
+      if (choice?.finish_reason !== undefined && choice.finish_reason !== "stop") {
+        throw new Error(`评审模型未完整结束：finish_reason=${String(choice.finish_reason)}；保留原响应，禁止重判`);
+      }
+      const raw = choice?.message?.content;
       if (typeof raw !== "string") throw new Error("评审模型缺少文本结果");
       const json = parseJudgeJson(raw);
       // Local coercion is lossless. An ambiguous response cannot obtain a new approval or score.
