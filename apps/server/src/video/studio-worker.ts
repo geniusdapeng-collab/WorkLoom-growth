@@ -415,6 +415,7 @@ function portraitConfig(metadata?: Record<string, unknown>, assets?: NativeVideo
     requireCharacterDescription: true,
     retries: 0,
     existingAssets: assets?.portraits ?? [],
+    archiveOnly: (assets?.portraits.length ?? 0) > 0,
   };
 }
 

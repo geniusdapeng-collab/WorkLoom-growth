@@ -117,6 +117,8 @@ export interface PortraitRuntimeOptions {
   retries?: number;
   /** Host-resolved current archive bytes. Caller metadata cannot supply these file receipts. */
   existingAssets?: ExistingPortraitAsset[];
+  /** Explicit archive selection must never turn a new/renamed task into a paid portrait generation. */
+  archiveOnly?: boolean;
 }
 
 export interface ReferenceSearchStageLike {
@@ -232,6 +234,8 @@ export function createPortraitRuntime(options: PortraitRuntimeOptions): Portrait
   } = options;
   safeComponent(projectId, "projectId");
   if (!model?.trim() || !apiKey?.trim()) throw new Error("PORTRAIT_CONFIG_INVALID: 缺model/apiKey");
+  if (options.archiveOnly !== undefined && typeof options.archiveOnly !== "boolean") throw new Error("PORTRAIT_CONFIG_INVALID: archiveOnly必须为布尔值");
+  if (options.archiveOnly && (!Array.isArray(options.existingAssets) || options.existingAssets.length === 0)) throw new Error("PORTRAIT_CONFIG_INVALID: 只复用档案模式缺少受控档案");
   if (!Number.isInteger(maxReferenceImages) || maxReferenceImages < 1 || maxReferenceImages > 4) throw new Error("PORTRAIT_CONFIG_INVALID: maxReferenceImages必须为1..4");
   if (!Number.isInteger(retries) || retries < 0 || retries > 5 || !Number.isFinite(timeoutMs) || timeoutMs <= 0 || timeoutMs > 900_000) throw new Error("PORTRAIT_CONFIG_INVALID: 重试次数或超时非法");
   const fetchImpl = options.fetchImpl ?? fetch;
@@ -488,6 +492,9 @@ export function createPortraitRuntime(options: PortraitRuntimeOptions): Portrait
 
   async function apiRender(task: PortraitTask, baseImage?: string | null): Promise<string> {
     if (!record(task)) throw new Error("PORTRAIT_TASK_INVALID: 任务必须为对象");
+    if (options.archiveOnly && (typeof task.archiveAssetId !== "string" || !task.archiveAssetId.trim())) {
+      throw new Error("PORTRAIT_ARCHIVE_REQUIRED: 已明确选定现有档案，当前角色或商品没有受控档案绑定；禁止新出图");
+    }
     const sourceHash = shotIntentHash(task);
     const angleRaw = String(task.angle || task.view || "view");
     const kind = task.productId || task.productName || task.view ? "product" : "character";
