@@ -44,6 +44,21 @@ export function deriveProductSourcePolicy(profile: RecordValue): ProductSourcePo
     for (const pointer of pointers) blocked.set(pointer, `同名参数「${name}」有不同值或版本限定；未经独立原文澄清禁止选择任一值`);
     restrictions.push(`同名参数「${name}」存在不同值或版本限定，禁止将这些参数任一值用作已核实规格；完整来源保留所有值供复核。`);
   }
+  const modelConflicts = conflicts.filter(conflict => /^(?:型号|机型|model|modelnumber)$/i.test(normalized(conflict.name)));
+  if (modelConflicts.length) {
+    // A repeated identity leaf is not an independent clarification of conflicting model parameters.
+    // Keep every original byte, but omit this optional claim before spending a support-review call.
+    const modelValues = new Set(modelConflicts.flatMap(conflict => conflict.values.map(value => normalized(value).toLowerCase())));
+    const reason = "型号参数存在不同值或版本限定；独立原文澄清前不能经身份字段或别名重新选择型号主张";
+    if (string(profile.model)) blocked.set("/model", reason);
+    for (const [index, variant] of (Array.isArray(profile.variants) ? profile.variants : []).entries()) {
+      if (object(variant) && string(variant.model)) blocked.set(`/variants/${index}/model`, reason);
+    }
+    for (const [index, alias] of (Array.isArray(profile.aliases) ? profile.aliases : []).entries()) {
+      if (typeof alias === "string" && modelValues.has(normalized(alias).toLowerCase())) blocked.set(`/aliases/${index}`, reason);
+    }
+    restrictions.push("型号冲突时，/model、/variants/*/model 及与冲突值相同的 aliases 也不可作为已核实型号；商品档案 ID 和查询线索仅用于定位来源，不是宣传事实。省略这些可选主张，其他明确支持的独立主张仍须逐条审核。");
+  }
   if (blocked.size) restrictions.push("blockedFields 中的参数不得进入创意、字幕、台词或画面暗示；其他主张仍须逐条通过原文支持审核。");
   return { schemaVersion: "workloom.product-source-policy/v1", extractionVerified: typeof extraction.verified === "boolean" ? extraction.verified : null,
     restrictions: [...new Set(restrictions)], conflicts, blockedFields: [...blocked].map(([pointer, reason]) => ({ pointer, reason })) };
