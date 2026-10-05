@@ -89,7 +89,7 @@ describe("营销事实宿主完整执行", () => {
     await expect(finalizeMarketingFacts(prepared, [{ ...shots[0]!, prompt: "全市场第一，零噪音" }], env)).rejects.toThrow("MARKETING_PROMPT_FACTS_REJECTED");
     await expect(readFile(path.join(root, `${prepared.prefix}-facts.json`))).rejects.toMatchObject({ code: "ENOENT" });
   });
-  it.each(["raw", "text", "review", "extraction", "prompt", "fields", "scope", "attempt", "expired", "claim-offset"])("%s变化不能复用营销事实资格", async kind => {
+  it.each(["raw", "text", "review", "extraction", "prompt", "fields", "scope", "attempt", "expired", "claim-offset", "restrictions"])("%s变化不能复用营销事实资格", async kind => {
     const prepared = await prepare(), saved = await finalizeMarketingFacts(prepared, shots, env); let hash = saved.sha256;
     const requestedShots = structuredClone(shots), expectedScope = { ...scope };
     if (["raw", "text", "review"].includes(kind)) {
@@ -101,9 +101,10 @@ describe("营销事实宿主完整执行", () => {
     if (kind === "fields") requestedShots[0]!.fields.规格 = "99 档";
     if (kind === "scope") expectedScope.tenantId = "other";
     if (kind === "attempt") expectedScope.attempt = 2;
-    if (kind === "expired" || kind === "claim-offset") {
+    if (kind === "expired" || kind === "claim-offset" || kind === "restrictions") {
       if (kind === "expired") prepared.bundle.collectedAt = new Date(Date.now() - 25 * 3600_000).toISOString();
-      else prepared.bundle.stages[0]!.facts.claims[0]!.quoteStart++;
+      else if (kind === "claim-offset") prepared.bundle.stages[0]!.facts.claims[0]!.quoteStart++;
+      else prepared.bundle.restrictions.pop();
       const text = canonicalRenderJson(prepared.bundle); await writeFile(path.join(root, saved.ref), text); hash = renderSha256(text);
     }
     await expect(verifyMarketingFacts({ root, ref: saved.ref, sha256: hash, scope: expectedScope, shots: requestedShots })).rejects.toThrow();

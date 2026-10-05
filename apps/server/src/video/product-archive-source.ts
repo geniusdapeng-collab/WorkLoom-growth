@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
 import type { SourceSnapshot } from "./marketing-source-fetcher.js";
+import { deriveProductSourcePolicy } from "./product-source-policy.js";
 
 const library = fileURLToPath(new URL("../../../../bundles/ai-video/library/products/", import.meta.url));
 const hash = (bytes: string | Buffer): string => createHash("sha256").update(bytes).digest("hex");
@@ -42,5 +43,6 @@ export async function loadProductArchiveSource(productId: string, root = library
   return { rawBytes, profile, photos, productQuery: { name: profile.displayName,
     ...(typeof profile.brand === "string" ? { brand: profile.brand } : {}), ...(typeof profile.model === "string" ? { model: profile.model } : {}) },
     snapshot: { sourceId: `SRC-${hash(`${finalUrl}\n${rawSha256}`).slice(0, 24)}`, requestedUrl: finalUrl, finalUrl, redirectChain: [],
-      fetchedAt: new Date().toISOString(), contentType: "application/json; charset=utf-8", rawSha256, textSha256: hash(text), bytes: rawBytes.length, text, assetUrls } };
+      fetchedAt: new Date().toISOString(), contentType: "application/json; charset=utf-8", rawSha256, textSha256: hash(text), bytes: rawBytes.length, text, assetUrls,
+      policy: deriveProductSourcePolicy(profile) } };
 }

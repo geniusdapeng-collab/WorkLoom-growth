@@ -5,6 +5,7 @@ import { request as httpsRequest } from "node:https";
 import { isIP } from "node:net";
 import { brotliDecompressSync, gunzipSync, inflateSync } from "node:zlib";
 import { createHash } from "node:crypto";
+import type { ProductSourcePolicy } from "./product-source-policy.js";
 
 export const SOURCE_MAX_BYTES = 2 * 1024 * 1024;
 export const SOURCE_MAX_TEXT_CHARS = 24_000;
@@ -12,6 +13,7 @@ export interface SourceSnapshot {
   sourceId: string; requestedUrl: string; finalUrl: string; redirectChain: string[];
   fetchedAt: string; contentType: string; rawSha256: string; textSha256: string;
   bytes: number; text: string; assetUrls: string[];
+  policy?: ProductSourcePolicy;
 }
 export interface SourceResponse { status: number; headers: IncomingHttpHeaders; body: Buffer }
 export type SourceResolver = (hostname: string) => Promise<Array<{ address: string; family: number }>>;

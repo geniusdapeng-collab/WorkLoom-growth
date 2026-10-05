@@ -3,6 +3,7 @@ import { z } from "zod";
 import type { SourceSnapshot } from "./marketing-source-fetcher.js";
 import type { IntelStage } from "./data-mining-executor.js";
 import { canonicalRenderJson, renderSha256 } from "./gen/compiled-request.js";
+import { validateProductClaimSource } from "./product-source-policy.js";
 
 const text = z.string().trim().min(1).max(8000);
 const url = z.string().url().max(8192);
@@ -25,6 +26,7 @@ const a3 = z.object({ competitors: z.array(z.object({ name: text, price_band: te
 }).strict()).max(3), adjacent_notes: z.array(z.unknown()).max(0).optional() }).strict();
 export const extractionSchema = z.object({ payload: z.unknown(), citations: z.array(z.object({
   pointer: z.string().min(1).max(500), sourceId: z.string().min(1).max(100), quote: z.string().min(1).max(6000),
+  sourcePointer: z.string().min(1).max(500).optional(),
 }).strict()).max(200), noEvidenceReason: text.optional() }).strict();
 /** 模型合同从实际校验器生成，避免说明文档漏列字段、约束与 additionalProperties。 */
 export function stageExtractionJsonSchema(stage: IntelStage): Record<string, unknown> {
@@ -33,6 +35,7 @@ export function stageExtractionJsonSchema(stage: IntelStage): Record<string, unk
 export interface ClaimEvidence {
   claimId: string; stage: IntelStage; pointer: string; value: string | number | boolean;
   sourceId: string; textSha256: string; quote: string; quoteStart: number; quoteEnd: number;
+  sourcePointer?: string;
   status: "source-bound";
 }
 export interface ValidatedStageFacts {
@@ -66,13 +69,16 @@ export function validateStageFacts(stage: IntelStage, raw: unknown, sources: Sou
     if (!source || renderSha256(source.text) !== source.textSha256) throw new Error("MARKETING_CITATION_INVALID：主张引用的正文不可核实");
     const quoteStart = source.text.indexOf(citation.quote);
     if (quoteStart < 0) throw new Error("MARKETING_CITATION_INVALID：引文不是保存正文的连续原文");
+    const sourcePointer = validateProductClaimSource(source, citation);
     const value = leaves.get(citation.pointer)!;
     if (stage === "A2" && /^\/reviews\/\d+\/text$/.test(citation.pointer) && (typeof value !== "string" || !citation.quote.includes(value))) {
       throw new Error("MARKETING_REVIEW_PARAPHRASED：用户评价必须保留原话，不能改写后宣称引文");
     }
     covered.add(citation.pointer);
-    claims.push({ claimId: `CL-${renderSha256(canonicalRenderJson({ stage, pointer: citation.pointer, value, sourceId: source.sourceId, quote: citation.quote })).slice(0, 24)}`,
+    claims.push({ claimId: `CL-${renderSha256(canonicalRenderJson({ stage, pointer: citation.pointer, value, sourceId: source.sourceId, quote: citation.quote,
+      ...(sourcePointer ? { sourcePointer } : {}) })).slice(0, 24)}`,
       stage, pointer: citation.pointer, value, sourceId: source.sourceId, textSha256: source.textSha256,
+      ...(sourcePointer ? { sourcePointer } : {}),
       quote: citation.quote, quoteStart, quoteEnd: quoteStart + citation.quote.length, status: "source-bound" });
   }
   const missing = [...leaves.keys()].filter(pointer => !covered.has(pointer));
@@ -110,7 +116,7 @@ export function validateStageFacts(stage: IntelStage, raw: unknown, sources: Sou
 /** 复读已归档的原始payload/citations，不能把落盘“通过”字段当证据。 */
 export function revalidateStageFacts(facts: ValidatedStageFacts, sources: SourceSnapshot[]): void {
   const checked = validateStageFacts(facts.stage, { payload: facts.payload, citations: facts.claims.map(claim => ({
-    pointer: claim.pointer, sourceId: claim.sourceId, quote: claim.quote,
+    pointer: claim.pointer, sourceId: claim.sourceId, quote: claim.quote, ...(claim.sourcePointer ? { sourcePointer: claim.sourcePointer } : {}),
   })), ...(facts.noEvidenceReason ? { noEvidenceReason: facts.noEvidenceReason } : {}) }, sources);
   if (canonicalRenderJson(checked) !== canonicalRenderJson(facts)) throw new Error("MARKETING_FACTS_CHANGED：原始主张、引证位置或状态与档案不一致");
 }
