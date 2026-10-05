@@ -19,6 +19,7 @@ import { existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, resolve as resolvePath } from "node:path";
 import { fileURLToPath } from "node:url";
+import { currentSourceRestrictionPrompt } from "./source-restrictions.js";
 
 export interface LLMReasonOptions {
   model?: string;
@@ -105,6 +106,8 @@ export class WorkloomLLMEngine {
   }
 
   private async callChat(prompt: string, opts: LLMReasonOptions): Promise<LLMReasonResult> {
+    const systemPrompt = (opts.systemPrompt ?? (opts.forceJson
+      ? "你是一个严格输出 JSON 的助手。除合法 JSON 外不要输出任何额外文字。" : "你是一个可靠的助手。")) + currentSourceRestrictionPrompt();
     // v3.0 收口：router 注入 → 经 routeSmart（场景 preproduction；fastModel 快速调用强制 L1）
     if (this.cfg.router) {
       const scene = this.cfg.router.scene ?? "preproduction";
@@ -118,10 +121,7 @@ export class WorkloomLLMEngine {
             messages: [
               {
                 role: "system",
-                content: opts.systemPrompt
-                  ?? (opts.forceJson
-                    ? "你是一个严格输出 JSON 的助手。除合法 JSON 外不要输出任何额外文字。"
-                    : "你是一个可靠的助手。"),
+                content: systemPrompt,
               },
               { role: "user", content: prompt },
             ],
@@ -150,11 +150,7 @@ export class WorkloomLLMEngine {
       messages: [
         {
           role: "system",
-          content:
-            opts.systemPrompt ??
-            (opts.forceJson
-              ? "你是一个严格输出 JSON 的助手。除合法 JSON 外不要输出任何额外文字。"
-              : "你是一个可靠的助手。")
+          content: systemPrompt
         },
         { role: "user", content: prompt }
       ],

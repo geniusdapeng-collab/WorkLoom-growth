@@ -36,6 +36,7 @@ import {
 } from "./vendor-compat.js";
 import { AUDIO_DISCIPLINE_CLAUSE, AUDIO_NEGATIVE_TERMS } from "./shot-spec.js";
 import { loadDurationRules } from "./duration-rules.js";
+import { runWithSourceRestrictions, sourceRestrictionsHash } from "./source-restrictions.js";
 
 /** vendor 引擎暴露的最小结构（HyperrealitySystem 实例方法） */
 interface HyperrealitySystemLike {
@@ -136,7 +137,8 @@ export interface StudioConfig {
     storeRoot?: string;
     staleAfterDays?: number;
     /** 仅服务宿主在完整来源/G1通过后装配；浏览器metadata中的同名字段没有权限。 */
-    verifiedRaw?: { projectId: string; rawJson: string; sha256: string; productQuery: Record<string, unknown> };
+    verifiedRaw?: { projectId: string; rawJson: string; sha256: string; productQuery: Record<string, unknown>;
+      restrictions: string[]; restrictionsSha256: string };
   };
 }
 
@@ -197,6 +199,9 @@ export class VideoStudio {
         || Object.keys(verified.productQuery).some(key => !["name", "brand", "category", "model"].includes(key))) {
         throw new Error("MARKETING_G1_REQUIRED：商品查询必须来自本次已审事实包");
       }
+      if (sourceRestrictionsHash(verified.sha256, verified.restrictions) !== verified.restrictionsSha256) {
+        throw new Error("MARKETING_RESTRICTIONS_REQUIRED：用途限制未绑定本次已审事实包");
+      }
       metadata.dataMining = structuredClone(verified.productQuery);
       verifiedRaw = parsed;
     }
@@ -235,7 +240,7 @@ export class VideoStudio {
       return verdict;
     };
 
-    return runWithConfirmationHandler(handler, async () => {
+    const execute = () => runWithConfirmationHandler(handler, async () => {
       const disposers: Array<() => void> = [];
       const keep = (dispose: () => void): void => { disposers.push(dispose); };
       let runFailure: { error: unknown } | undefined;
@@ -520,5 +525,6 @@ export class VideoStudio {
         }
       }
     });
+    return runWithSourceRestrictions(input.isMarketing ? verified!.restrictions : [], execute);
   }
 }

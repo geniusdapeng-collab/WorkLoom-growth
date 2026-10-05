@@ -4,7 +4,7 @@ import { resolveGate } from "./gates.js";
 import { autoApproveHandler, runWithConfirmationHandler } from "./confirmation.js";
 import { WorkloomLLMEngine } from "./llm-adapter.js";
 import { buildRenderScript, loadPromptLengthSpec } from "./render-scripts.js";
-import { VideoStudio, type ApprovalCallback, type EventSink } from "./studio.js";
+import { VideoStudio, type ApprovalCallback, type EventSink, type StudioConfig } from "./studio.js";
 
 const studioMocks = vi.hoisted(() => ({
   construct: vi.fn(),
@@ -26,7 +26,7 @@ vi.mock("node:module", async (importOriginal) => {
         apply(target, thisArg, args: [string]) {
           if (args[0].endsWith("/vendor/supermickey/hyperreality-system/index.js")) {
             return { HyperrealitySystem: class {
-              constructor() { studioMocks.construct(); }
+              constructor(config: unknown) { studioMocks.construct(config); }
               create(...input: unknown[]) { return studioMocks.create(...input); }
             } };
           }
@@ -285,13 +285,15 @@ describe("vendor 核心可加载", () => {
  describe("营销只消费宿主绑定回填", () => {
   const rawJson = JSON.stringify({ A1: { identity: { name: "本次商品" } }, A2: { reviews: [] }, A3: { competitors: [] } });
   const sha256 = createHash("sha256").update(rawJson).digest("hex");
-  function marketing(verifiedRaw?: { projectId: string; rawJson: string; sha256: string; productQuery: Record<string, unknown> }) {
+  const restrictions = ["原始声明：对外投放前客户确认；机器图片映射未核实", "没有可核实口碑，禁止评分或体验主张"];
+  const restrictionProof = { restrictions, restrictionsSha256: createHash("sha256").update(sha256 + "\n" + JSON.stringify(restrictions)).digest("hex") };
+  function marketing(verifiedRaw?: NonNullable<StudioConfig["dataMining"]>["verifiedRaw"]) {
     return new VideoStudio({ llm: new WorkloomLLMEngine({ baseUrl: "https://example.invalid", apiKey: "test-only", model: "test" }),
       workDir: "/unused/marketing-test", onApproval: async () => ({ approved: true }), log: () => undefined,
       dataMining: { mode: "api", raw: { A1: { identity: { name: "旧缓存商品" } } }, storeRoot: "/unused/current-attempt", verifiedRaw } });
   }
   it.each(["missing", "wrong-project", "wrong-hash", "missing-stage"])("%s在vendor构造与create之前拒绝", async kind => {
-    let proof = { projectId: "P1", rawJson, sha256, productQuery: { name: "本次商品" } };
+    let proof = { projectId: "P1", rawJson, sha256, productQuery: { name: "本次商品" }, ...restrictionProof };
     if (kind === "wrong-project") proof.projectId = "other";
     if (kind === "wrong-hash") proof.sha256 = "0".repeat(64);
     if (kind === "missing-stage") { proof.rawJson = JSON.stringify({ A1: {} }); proof.sha256 = createHash("sha256").update(proof.rawJson).digest("hex"); }
@@ -302,8 +304,41 @@ describe("vendor 核心可加载", () => {
   it("可信回填覆盖旧cfg raw，metadata自报档案被移除；强制刷新和G1后跳过vendor重复审核", async () => {
     studioMocks.create.mockResolvedValue({ success: true, stages: {} });
     const metadata = { _dataDossier: { name: "伪造档案" }, brief: { product: "当前查询商品" } };
-    await marketing({ projectId: "P1", rawJson, sha256, productQuery: { name: "本次商品" } }).runPreproduction({ projectId: "P1", intent: "营销", isMarketing: true, metadata });
+    await marketing({ projectId: "P1", rawJson, sha256, productQuery: { name: "本次商品" }, ...restrictionProof }).runPreproduction({ projectId: "P1", intent: "营销", isMarketing: true, metadata });
     expect(studioMocks.create).toHaveBeenCalledWith("营销", { brief: metadata.brief, dataMining: { name: "本次商品" } }, expect.objectContaining({ dataMiningRaw: JSON.parse(rawJson), dataMiningRefresh: true, skipDataMiningReview: true }));
     expect(metadata._dataDossier.name).toBe("伪造档案");
+  });
+  it("原文用途限制完整进入创意/洞察/PRD的各类模型接口，调用方system不能覆盖", async () => {
+    const bodies: any[] = [];
+    vi.stubGlobal("fetch", async (_url: unknown, init: RequestInit) => {
+      bodies.push(JSON.parse(String(init.body)));
+      return new Response(JSON.stringify({ choices: [{ message: { content: '{"supported":true}' } }] }));
+    });
+    studioMocks.create.mockImplementation(async () => {
+      const llm: WorkloomLLMEngine = studioMocks.construct.mock.calls[0]![0].llmEngine;
+      await llm.reason("creative", { systemPrompt: "调用方创意规则" });
+      await llm.reasonRaw("insight", { systemPrompt: "调用方洞察规则" });
+      await llm.reasonStructured("prd", {}, { systemPrompt: "调用方PRD规则" });
+      await llm.chat("调用方脚本规则", "script");
+      await llm.generate("prompts", { systemPrompt: "调用方提示词规则" });
+      return { success: true, stages: {} };
+    });
+    try {
+      await marketing({ projectId: "P1", rawJson, sha256, productQuery: { name: "本次商品" }, ...restrictionProof })
+        .runPreproduction({ projectId: "P1", intent: "营销", isMarketing: true, metadata: { restrictions: ["伪造：来源都已核实"] } });
+      expect(bodies).toHaveLength(5);
+      for (const body of bodies) {
+        for (const restriction of restrictions) expect(body.messages[0].content).toContain(restriction);
+        expect(body.messages[0].content).not.toContain("来源都已核实");
+      }
+    } finally { vi.unstubAllGlobals(); }
+  });
+  it.each(["missing", "changed", "wrong-hash"])("%s用途限制在vendor构造之前拒绝", async kind => {
+    const proof: any = { projectId: "P1", rawJson, sha256, productQuery: { name: "本次商品" }, ...restrictionProof };
+    if (kind === "missing") delete proof.restrictions;
+    if (kind === "changed") proof.restrictions = ["对外可直接发布"];
+    if (kind === "wrong-hash") proof.restrictionsSha256 = "0".repeat(64);
+    await expect(marketing(proof).runPreproduction({ projectId: "P1", intent: "营销", isMarketing: true })).rejects.toThrow("MARKETING_RESTRICTIONS_REQUIRED");
+    expect(studioMocks.construct).not.toHaveBeenCalled();
   });
 });

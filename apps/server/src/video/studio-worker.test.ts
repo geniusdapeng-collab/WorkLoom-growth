@@ -117,7 +117,7 @@ beforeEach(() => {
   doubles.nextAttempt = 0;
   doubles.studioConfigs.length = 0;
   doubles.prepare.mockReset().mockImplementation(async ({ scope, root }) => ({
-    bundle: { rawSha256: "a".repeat(64), productQuery: { name: "本次商品" } }, raw: { A1: {}, A2: {}, A3: {} },
+    bundle: { rawSha256: "a".repeat(64), productQuery: { name: "本次商品" }, restrictions: ["客户投放前确认；机器映射未核实"] }, raw: { A1: {}, A2: {}, A3: {} },
     prefix: `stages/preproduction/attempt-${scope.attempt}.marketing`,
     storeRoot: path.join(root, `stages/preproduction/attempt-${scope.attempt}.marketing-dossier`),
     g1Content: JSON.stringify({ facts: { schemaVersion: "workloom.marketing-facts/v1", stages: [1, 2, 3], sources: [1], optionalValue: null }, scope }),
@@ -525,6 +525,8 @@ describe("预生产原始结果与诚实终态", () => {
     expect(doubles.finalize).toHaveBeenCalledWith(expect.anything(), [{ shotId: "SC-1", prompt: "01.【场景】窗边桌面", fields: { scene: "窗边桌面" } }]);
     expect(await archiveOutput(projectId, 1)).toMatchObject({ marketingFactsRef: "stages/preproduction/attempt-1.marketing-facts.json", marketingFactsSha256: "b".repeat(64) });
     expect(doubles.studioConfigs[0]?.dataMining.verifiedRaw.projectId).toBe(projectId);
+    expect(doubles.studioConfigs[0]?.dataMining.verifiedRaw.restrictions).toEqual(["客户投放前确认；机器映射未核实"]);
+    expect(doubles.studioConfigs[0]?.dataMining.verifiedRaw.restrictionsSha256).toMatch(/^[a-f0-9]{64}$/);
   });
   it.each(["source", "g1", "unverified-proof", "unbound-proof"])("%s未核实不执行vendor或终态事实审核", async kind => {
     if (kind === "source") doubles.prepare.mockRejectedValue(new Error("MARKETING_A1_UNVERIFIED"));

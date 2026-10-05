@@ -23,6 +23,7 @@ import {
   buildNativeFilmSource,
   planNativeFilmHandoff,
   WorkloomLLMEngine,
+  sourceRestrictionsHash,
   ArchiveStore,
   StageRunner,
   auditScenePolicy,
@@ -787,7 +788,9 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
             }
             const studio = new VideoStudio({ ...studioConfig, ...(marketing ? { dataMining: {
               mode: "api", storeRoot: marketing.storeRoot, refresh: true,
-              verifiedRaw: { projectId: input.projectId, rawJson: canonicalRenderJson(marketing.raw), sha256: marketing.bundle.rawSha256, productQuery: marketing.bundle.productQuery },
+              verifiedRaw: { projectId: input.projectId, rawJson: canonicalRenderJson(marketing.raw), sha256: marketing.bundle.rawSha256,
+                productQuery: marketing.bundle.productQuery, restrictions: [...marketing.bundle.restrictions],
+                restrictionsSha256: sourceRestrictionsHash(marketing.bundle.rawSha256, marketing.bundle.restrictions) },
             } } : {}) });
             /**
              * 传入 runInput（而不是 input）：它带上了本轮的片型选型结论与注入指引，
