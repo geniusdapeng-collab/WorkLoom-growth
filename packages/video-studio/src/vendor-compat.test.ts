@@ -959,6 +959,14 @@ const events = [];
 let installedAtCreate = false;
 let fail = false;
 entry.HyperrealitySystem = class OfflineSystem {
+ constructor() {
+  this.requirementDiscoveryEngine = {
+   discover: async () => { throw new Error("C1 fixture must not run requirement discovery"); },
+   generateMarkdown: () => { throw new Error("C1 fixture must not render requirement discovery"); }
+  };
+ }
+ _convertDiscoveryToRequirementList() { throw new Error("C1 fixture must not convert requirements"); }
+ _renderRequirementContract() { throw new Error("C1 fixture must not render requirement contracts"); }
  async create() {
   installedAtCreate = installedAtCreate || listSharedBridges().some(x => x.key === "phase3-fusion-policy-v1");
   const output = await makePhase({}, fail ? { canAfford: () => false } : {}).execute(makeState());

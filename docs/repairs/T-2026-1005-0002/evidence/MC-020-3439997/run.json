@@ -1,0 +1,42 @@
+{
+  "schema": "workloom.independent-execution/v1",
+  "name": "requirement-mutation-tsx-red",
+  "source_commit": "3439997f07723f99918741bf15496e597be31e6d",
+  "source_dirty": false,
+  "role": "acceptance",
+  "actor": "native-entry-independent-acceptance",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-reporter=tap",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-requirement-mutation-boundaries.mts"
+  ],
+  "environment": {
+    "HOME": "/Users/mac",
+    "PATH": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "WORKLOOM_ASSERTION_MODULE_ROOT": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-marketing-acceptance-16353a3"
+  },
+  "started_at": "2026-10-05T15:23:56.133129+00:00",
+  "finished_at": "2026-10-05T15:23:56.444598+00:00",
+  "exit_code": 1,
+  "external_or_paid_provider": false,
+  "local_media": false,
+  "stdout": {
+    "path": "stdout.txt",
+    "sha256": "54d771abfb25a55105fd6f2a8509e2203ce6281effbd9ec1cc73076d05f6956e"
+  },
+  "stderr": {
+    "path": "stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "fixture": {
+    "path": "original-red.mts",
+    "sha256": "cd2ebee6f3f5d86ea5d29d2afcbf1d501589d252694ac1cd32c752de3e313db9"
+  },
+  "source_file": {
+    "path": "packages/video-studio/src/native-requirement-contract.ts",
+    "sha256": "488894c7961c0babc7304e2fdb0a5ad73266172a6c47227109e7e55bac216e4c"
+  }
+}

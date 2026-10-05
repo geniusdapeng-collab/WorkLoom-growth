@@ -1,0 +1,50 @@
+TAP version 13
+# [ProcessGuard] 实例 default 安装完成（含SIGTERM/SIGINT处理）
+# ⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+#  人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+#  配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+# DURATION_MUTATION_OBSERVATION {"calls":1,"targetDuration":31,"nativeSceneDuration":30,"scriptEngineDuration":31}
+# UPSTREAM_MUTATION_OBSERVATION {"calls":1,"currentDescription":"已改变为另一份需求","compiledUpstream":"女创始人抬手调节摄像头角度","accepted":true}
+# Subtest: mutable converted duration cannot change the G3 contract and downstream ScriptEngine metadata
+not ok 1 - mutable converted duration cannot change the G3 contract and downstream ScriptEngine metadata
+  ---
+  duration_ms: 2.118458
+  type: 'test'
+  location: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-requirement-mutation-boundaries.mts:1:3493'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-requirement-mutation-boundaries.mts:49:12)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: upstream data changed while the compiler awaits cannot bind old source text to new input
+not ok 2 - upstream data changed while the compiler awaits cannot bind old source text to new input
+  ---
+  duration_ms: 0.308167
+  type: 'test'
+  location: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-requirement-mutation-boundaries.mts:2:137'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-requirement-mutation-boundaries.mts:60:12)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 268.620083

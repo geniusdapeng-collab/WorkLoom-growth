@@ -25,6 +25,7 @@ interface System {
   };
   _convertDiscoveryToRequirementList(discovery: Json, fields: Json): Json | Promise<Json>;
   _renderRequirementContract(intent: string, metadata: Json, requirements: Json, discovery: Json): string;
+  requirementListBuilder?: { toScriptEngineMetadata(requirements: Json): Json };
 }
 interface Citation { sourceId: string; quote: string }
 interface Actor extends Citation { name: string; role: "protagonist" | "supporting"; description?: string; id?: string }
@@ -32,6 +33,25 @@ interface Prop extends Citation { name: string }
 interface Action extends Citation { description: string }
 interface Scene { label: string; duration: number; purpose: string; keyElements: string[]; native: Json }
 interface Contract { schema: string; sourceSha256: string; sources: Record<string, string>; characters: Actor[]; props: Prop[]; actions: Action[]; scenes: Scene[]; noHumanActors: boolean }
+
+// These are the only native create() extensions made between conversion and script consumption.
+const nativeExtensions = new Set(["creativeIntensity", "emotionProfile", "contentConstraints"]);
+function authorityHash(requirements: Json): string {
+  return hash(Object.fromEntries(Object.entries(requirements).filter(([key]) => !nativeExtensions.has(key))));
+}
+function freezeTree(value: unknown): void {
+  if (value && typeof value === "object" && !Object.isFrozen(value)) {
+    for (const child of Object.values(value)) freezeTree(child);
+    Object.freeze(value);
+  }
+}
+function protectAuthority(requirements: Json): void {
+  for (const key of Object.keys(requirements)) {
+    if (nativeExtensions.has(key)) continue;
+    freezeTree(requirements[key]);
+    Object.defineProperty(requirements, key, { writable: false, configurable: false });
+  }
+}
 
 function sceneNodes(discovery: Json): Scene[] {
   if (!object(discovery.sceneStructure) || !Array.isArray(discovery.sceneStructure.scenes)) fail("洞察缺少原生场景结构");
@@ -131,19 +151,41 @@ export function installNativeRequirementContractBridge(value: unknown, options: 
     || typeof system._convertDiscoveryToRequirementList !== "function" || typeof system._renderRequirementContract !== "function") fail("vendor缺少原生需求转换接口");
   const original = { discover: engine.discover, generateMarkdown: engine.generateMarkdown,
     convert: system._convertDiscoveryToRequirementList, render: system._renderRequirementContract };
-  const snapshots = new WeakMap<Json, { fieldsSha: string; discoverySha: string; contractSha: string; requirements: Json }>();
+  const builder = system.requirementListBuilder, originalMetadata = builder?.toScriptEngineMetadata;
+  if (builder && typeof originalMetadata !== "function") fail("原生剧本元数据接口缺失");
+  const contextHash = () => hash({ intent: options.intent, archives: options.archives ?? { characters: [], products: [] }, brief: options.brief ?? {} });
+  const originalContextSha = contextHash();
+  const context: NativeRequirementBridgeOptions = { ...options, archives: structuredClone(options.archives ?? { characters: [], products: [] }), brief: structuredClone(options.brief ?? {}) };
+  freezeTree(context.archives); freezeTree(context.brief);
+  const snapshots = new WeakMap<Json, { fields: Json; fieldsSha: string; discoverySha: string; requirementsSha: string; requirements: Json }>();
+  const requirementSources = new WeakMap<Json, Json>();
   let active = true;
   const ensureActive = () => { if (!active) fail("原生需求作用域已结束"); };
+  const ensureSources = (fields: Json, fieldsSha: string, discovery?: Json, discoverySha?: string) => {
+    ensureActive();
+    if (originalContextSha !== contextHash() || fieldsSha !== hash(fields)
+      || (discovery && discoverySha !== hash(discovery))) fail("原生编译期间来源或档案已改变");
+  };
+  const ensureSnapshot = (discovery: Json) => {
+    const snapshot = snapshots.get(discovery);
+    if (!snapshot) fail("不接受未编译、降级或异版本洞察");
+    ensureSources(snapshot.fields, snapshot.fieldsSha, discovery, snapshot.discoverySha);
+    if (snapshot.requirementsSha !== authorityHash(snapshot.requirements)) fail("已编译需求权威字段已改变");
+    return snapshot;
+  };
   const discover = async function(this: System["requirementDiscoveryEngine"], fields: Json): Promise<Json> {
-    ensureActive(); const discovery = await original.discover.call(this, fields); ensureActive();
+    ensureActive(); if (!object(fields)) fail("原生输入不是完整字段对象");
+    const fieldsSha = hash(fields); ensureSources(fields, fieldsSha);
+    const discovery = await original.discover.call(this, fields); ensureSources(fields, fieldsSha);
     if (!object(discovery)) fail("原生需求洞察没有完整结果");
-    const converted = await original.convert.call(system, discovery, fields); ensureActive();
+    const discoverySha = hash(discovery);
+    const converted = await original.convert.call(system, discovery, fields); ensureSources(fields, fieldsSha, discovery, discoverySha);
     if (!object(converted)) fail("原生制作画像未完成");
-    const contract = await compile(discovery, fields, options); ensureActive();
-    const requirements = { ...converted, characters: contract.characters,
+    const contract = await compile(structuredClone(discovery), structuredClone(fields), context); ensureSources(fields, fieldsSha, discovery, discoverySha);
+    const requirements = { ...structuredClone(converted), characters: contract.characters,
       structure: { opening: contract.scenes[0]!.purpose, scenes: contract.scenes.slice(1, -1).map(scene => scene.native), ending: contract.scenes.at(-1)!.purpose },
       _nativeRequirementContract: contract };
-    const brief = options.brief ?? {};
+    const brief = context.brief ?? {};
     if (brief.duration !== undefined) {
       if (typeof brief.duration !== "number" || !Number.isFinite(brief.duration) || brief.duration <= 0) fail("原生Brief时长无效");
       if (Math.abs(contract.scenes.reduce((sum, scene) => sum + scene.duration, 0) - brief.duration) > 0.05) fail("完整原生场景时长与已确认Brief不守恒");
@@ -151,36 +193,47 @@ export function installNativeRequirementContractBridge(value: unknown, options: 
     }
     if (typeof brief.aspectRatio === "string") Object.assign(requirements, { aspectRatio: brief.aspectRatio });
     if (typeof brief.platform === "string") Object.assign(requirements, { platform: brief.platform });
-    snapshots.set(discovery, { fieldsSha: hash(fields), discoverySha: hash(discovery), contractSha: hash(contract), requirements });
+    protectAuthority(requirements);
+    snapshots.set(discovery, { fields, fieldsSha, discoverySha, requirementsSha: authorityHash(requirements), requirements });
+    requirementSources.set(requirements, discovery);
     return discovery;
   };
   const convert = function(discovery: Json, fields: Json): Json {
-    ensureActive(); const snapshot = snapshots.get(discovery);
-    if (!snapshot || snapshot.fieldsSha !== hash(fields) || snapshot.discoverySha !== hash(discovery)) fail("不接受未编译、降级或异版本洞察");
+    ensureActive(); const snapshot = ensureSnapshot(discovery);
+    if (snapshot.fieldsSha !== hash(fields)) fail("不接受未编译、降级或异版本洞察");
     return snapshot.requirements;
   };
   const render = function(_intent: string, _metadata: Json, requirements: Json, discovery: Json): string {
-    ensureActive(); const snapshot = snapshots.get(discovery);
-    if (!snapshot || snapshot.requirements !== requirements || snapshot.discoverySha !== hash(discovery)
-      || snapshot.contractSha !== hash(requirements._nativeRequirementContract)) fail("G3契约与本次转换结果不一致");
+    ensureActive(); const snapshot = ensureSnapshot(discovery);
+    if (snapshot.requirements !== requirements) fail("G3契约与本次转换结果不一致");
     return markdown(requirements._nativeRequirementContract as Contract, requirements, discovery);
   };
   const generateMarkdown = function(this: System["requirementDiscoveryEngine"], discovery: Json): string {
-    ensureActive();
+    ensureActive(); ensureSnapshot(discovery);
     // Remove only known manual-response template lines; preserve the complete native insight body.
     return original.generateMarkdown.call(this, discovery)
       .replace("## 三、最终业务需求确认", "## 三、本次 G3 系统审查\n\n待系统裁决；人工只验收最终成片。")
       .split("\n").filter(line => !/^□ (?:以上清单确认无误|需要修改：)/u.test(line) && !/^\*\*请回复：确认 \/ 修改：xxx \/ 重新生成\*\*/u.test(line)).join("\n");
   };
+  const toMetadata = function(this: NonNullable<System["requirementListBuilder"]>, requirements: Json): Json {
+    ensureActive(); const discovery = requirementSources.get(requirements);
+    if (!discovery) fail("剧本不能消费未绑定的需求对象");
+    ensureSnapshot(discovery);
+    // The approved authority stays immutable; downstream enrichment receives its own ordinary JSON.
+    return originalMetadata!.call(this, structuredClone(requirements));
+  };
   engine.discover = discover; engine.generateMarkdown = generateMarkdown;
   system._convertDiscoveryToRequirementList = convert; system._renderRequirementContract = render;
+  if (builder) builder.toScriptEngineMetadata = toMetadata;
   return () => {
     if (!active) return;
     active = false;
     const conflict = engine.discover !== discover || engine.generateMarkdown !== generateMarkdown
-      || system._convertDiscoveryToRequirementList !== convert || system._renderRequirementContract !== render;
+      || system._convertDiscoveryToRequirementList !== convert || system._renderRequirementContract !== render
+      || (builder && (system.requirementListBuilder !== builder || builder.toScriptEngineMetadata !== toMetadata));
     engine.discover = original.discover; engine.generateMarkdown = original.generateMarkdown;
     system._convertDiscoveryToRequirementList = original.convert; system._renderRequirementContract = original.render;
+    if (builder) builder.toScriptEngineMetadata = originalMetadata!;
     if (conflict) fail("需求实例桥被外部替换，清理后拒绝宣称成功");
   };
 }
