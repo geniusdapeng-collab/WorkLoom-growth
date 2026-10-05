@@ -1,0 +1,127 @@
+✖ malformed judge and HTTP responses are archived before rejection, with no second decision (12.043917ms)
+✖ schema and valid JSON example constrain field types without retrying a negative verdict (1.6205ms)
+✖ credential echoes are redacted from archival bytes while original response hash remains exact (1.685916ms)
+✖ archive write failure refuses even a positive model answer and never rescores (2.029792ms)
+✖ concurrent project exchanges keep separate request, response and evidence identities (1.327375ms)
+✖ source mutation during archival cannot acquire positive qualification (0.689167ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 0
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 197.817
+
+✖ failing tests:
+
+test at scripts/native-judge-exchange.test.mts:1:1938
+✖ malformed judge and HTTP responses are archived before rejection, with no second decision (12.043917ms)
+  AssertionError [ERR_ASSERTION]: original raw response must survive invalid JSON/shape/HTTP
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-judge-exchange.test.mts:35:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/native-judge-exchange.test.mts:1:2761
+✖ schema and valid JSON example constrain field types without retrying a negative verdict (1.6205ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /true\|false|0-100/. Input:
+  
+  '你是视频监制。项目 P-exchange，环节 facts，证据批次 1/1。\n' +
+    '1. 逐主张对照保存的完整来源、引文与实际值；否定、限定、型号、数字及单位必须相符\n' +
+    '2. 仅判断已提取主张的支持关系；未选字段的冲突应记录并限制使用，不使无关主张自动通过或自动失败\n' +
+    '3. 来源限制与未核实提示必须保留；引文存在不等于语义支持，不能核实授权或生成后的画面质量\n' +
+    '只核验实际收到的完整原文与逐主张证据；缺证据必须拒绝，不能从常识补事实。\n' +
+    '- [json] /var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/judge-exchange-2sKxg5/facts.json\n' +
+    '确定性检查（含失败与不适用）：\n' +
+    '\n' +
+    '只核验当前提取的事实主张及完整来源限制；不评估生成后的画面质量或素材授权。\n' +
+    '只输出 JSON: {"approved":true|false,"score":0-100,"issues":[],"suggestions":[],"reason":"结论"}'
+  
+      at TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-judge-exchange.test.mts:44:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '你是视频监制。项目 P-exchange，环节 facts，证据批次 1/1。\n1. 逐主张对照保存的完整来源、引文与实际值；否定、限定、型号、数字及单位必须相符\n2. 仅判断已提取主张的支持关系；未选字段的冲突应记录并限制使用，不使无关主张自动通过或自动失败\n3. 来源限制与未核实提示必须保留；引文存在不等于语义支持，不能核实授权或生成后的画面质量\n只核验实际收到的完整原文与逐主张证据；缺证据必须拒绝，不能从常识补事实。\n- [json] /var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/judge-exchange-2sKxg5/facts.json\n确定性检查（含失败与不适用）：\n\n只核验当前提取的事实主张及完整来源限制；不评估生成后的画面质量或素材授权。\n只输出 JSON: {"approved":true|false,"score":0-100,"issues":[],"suggestions":[],"reason":"结论"}',
+    expected: /true\|false|0-100/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }
+
+test at scripts/native-judge-exchange.test.mts:1:3500
+✖ credential echoes are redacted from archival bytes while original response hash remains exact (1.685916ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-judge-exchange.test.mts:53:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/native-judge-exchange.test.mts:1:4087
+✖ archive write failure refuses even a positive model answer and never rescores (2.029792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-judge-exchange.test.mts:60:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/native-judge-exchange.test.mts:1:4546
+✖ concurrent project exchanges keep separate request, response and evidence identities (1.327375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-judge-exchange.test.mts:66:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/native-judge-exchange.test.mts:1:5178
+✖ source mutation during archival cannot acquire positive qualification (0.689167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-judge-exchange.test.mts:73:40)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

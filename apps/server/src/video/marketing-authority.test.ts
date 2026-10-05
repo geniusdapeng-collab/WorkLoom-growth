@@ -39,6 +39,22 @@ async function prepare(options: { noSearch?: boolean; noAux?: boolean; badQuote?
 }
 const shots = [{ shotId: "S1", prompt: "窗边展示星野 F3 风扇，字幕说明风量 9 档。", fields: { 场景: "窗边", 产品: "星野 F3", 规格: "9 档" } }];
 describe("营销事实宿主完整执行", () => {
+  it("非法裁决先保存原始HTTP回包到当前作用域，单次拒绝且不继续后站", async () => {
+    const raw = JSON.stringify({ choices: [{ message: { content: JSON.stringify({ approved: false, score: 10, issues: [], suggestions: [false], reason: "原文不支持" }) }, finish_reason: "stop" }], usage: { total_tokens: 37 } });
+    vi.stubGlobal("fetch", vi.fn(async () => { modelCalls.push("invalid-original"); return new Response(raw); }));
+    await expect(prepare()).rejects.toThrow("MARKETING_SUPPORT_REJECTED");
+    expect(modelCalls).toHaveLength(1); expect(extractionCalls).toHaveLength(1);
+    const record = JSON.parse(await readFile(path.join(root, "stages/preproduction/attempt-1.marketing-A1.judge-exchange-1.json"), "utf8"));
+    expect(record.scope).toEqual(scope); expect(record.response.body).toBe(raw); expect(record.response.sha256).toBe(renderSha256(raw));
+    expect(record.requestSha256).toBe(renderSha256(record.requestBody)); expect(record.response.status).toBe(200);
+    expect(record.stage).toBe("facts");
+  });
+  it("原响应路径被占用时归档失败并停止，不用后续通过覆盖它", async () => {
+    const file = path.join(root, "stages/preproduction/attempt-1.marketing-A1.judge-exchange-1.json");
+    const { mkdir } = await import("node:fs/promises"); await mkdir(path.dirname(file), { recursive: true }); await writeFile(file, "existing-original", { flag: "wx" });
+    await expect(prepare()).rejects.toThrow("原响应归档失败"); expect(modelCalls).toHaveLength(1);
+    expect(await readFile(file, "utf8")).toBe("existing-original");
+  });
   it("结构错误只校正一次，保留两次模型原回包；再次完整验证原文与所有事实后才进审核", async () => {
     const prepared = await prepare({ malformedFirst: true });
     const attempts = prepared.bundle.stages[0]!.extractionAttempts!;
@@ -89,7 +105,7 @@ describe("营销事实宿主完整执行", () => {
     await expect(finalizeMarketingFacts(prepared, [{ ...shots[0]!, prompt: "全市场第一，零噪音" }], env)).rejects.toThrow("MARKETING_PROMPT_FACTS_REJECTED");
     await expect(readFile(path.join(root, `${prepared.prefix}-facts.json`))).rejects.toMatchObject({ code: "ENOENT" });
   });
-  it.each(["raw", "text", "review", "extraction", "prompt", "fields", "scope", "attempt", "expired", "claim-offset", "restrictions"])("%s变化不能复用营销事实资格", async kind => {
+  it.each(["raw", "text", "review", "extraction", "judge-exchange", "prompt-exchange", "missing-exchange", "exchange-scope", "prompt", "fields", "scope", "attempt", "expired", "claim-offset", "restrictions"])("%s变化不能复用营销事实资格", async kind => {
     const prepared = await prepare(), saved = await finalizeMarketingFacts(prepared, shots, env); let hash = saved.sha256;
     const requestedShots = structuredClone(shots), expectedScope = { ...scope };
     if (["raw", "text", "review"].includes(kind)) {
@@ -97,11 +113,19 @@ describe("营销事实宿主完整执行", () => {
       await writeFile(path.join(root, file), "changed");
     }
     if (kind === "extraction") await writeFile(path.join(root, prepared.bundle.stages[0]!.extractionAttempts![0]!.ref), "changed");
+    if (kind === "judge-exchange" || kind === "prompt-exchange") await writeFile(path.join(root,
+      kind === "judge-exchange" ? `${prepared.prefix}-A1.judge-exchange-1.json` : `${prepared.prefix}-shot-1.judge-exchange-1.json`), "changed");
+    if (kind === "missing-exchange") prepared.bundle.stages[0]!.review!.verdict.evidence = prepared.bundle.stages[0]!.review!.verdict.evidence!.filter(item => item.scope !== "judge-model-exchange");
+    if (kind === "exchange-scope") {
+      const file = path.join(root, `${prepared.prefix}-A1.judge-exchange-1.json`), record = JSON.parse(await readFile(file, "utf8"));
+      record.scope.tenantId = "other"; const text = canonicalRenderJson(record); await writeFile(file, text);
+      prepared.bundle.stages[0]!.review!.verdict.evidence!.find(item => item.scope === "judge-model-exchange")!.sha256 = renderSha256(text);
+    }
     if (kind === "prompt") requestedShots[0]!.prompt += "未审主张";
     if (kind === "fields") requestedShots[0]!.fields.规格 = "99 档";
     if (kind === "scope") expectedScope.tenantId = "other";
     if (kind === "attempt") expectedScope.attempt = 2;
-    if (kind === "expired" || kind === "claim-offset" || kind === "restrictions") {
+    if (["expired", "claim-offset", "restrictions", "missing-exchange", "exchange-scope"].includes(kind)) {
       if (kind === "expired") prepared.bundle.collectedAt = new Date(Date.now() - 25 * 3600_000).toISOString();
       else if (kind === "claim-offset") prepared.bundle.stages[0]!.facts.claims[0]!.quoteStart++;
       else prepared.bundle.restrictions.pop();

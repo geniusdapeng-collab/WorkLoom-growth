@@ -1,0 +1,28 @@
+{
+  "source_commit": "98f04d290e712eb04b8237868ba4057973affcdc",
+  "source_modified": false,
+  "test_fixture_untracked": true,
+  "external_calls": 0,
+  "files": [
+    {
+      "path": "fixture.mts",
+      "sha256": "c7cf8c8b2531d5fcdb4fd8ec3c0b0450a82f1a642522e46eed54569c15a10a8d",
+      "bytes": 6136
+    },
+    {
+      "path": "run.json",
+      "sha256": "46c5863800c20572d47b93adafa3ece234e975d46e2f4629b30b78ea21f664dd",
+      "bytes": 386
+    },
+    {
+      "path": "stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "stdout.txt",
+      "sha256": "4ce859d985171f29ff3a904998cffc8d790faced64c435b243b0aeb7dab153e8",
+      "bytes": 7049
+    }
+  ]
+}

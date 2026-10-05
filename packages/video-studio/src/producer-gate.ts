@@ -159,6 +159,23 @@ export interface ProducerReviewContract {
   shots: Array<{ shotId: string; intent: ReturnType<typeof normalizeShotIntent>; constraints: string[] }>;
 }
 
+/** Exact single HTTP exchange, before parsing. Credentials are omitted or redacted. */
+export interface ProducerModelExchange {
+  schemaVersion: "workloom.producer-model-exchange/v1";
+  stage: ProducerStage;
+  projectId: string;
+  batch: number;
+  batches: number;
+  requestedAt: string;
+  receivedAt: string;
+  endpoint: string;
+  request: Record<string, unknown>;
+  requestBody: string;
+  requestSha256: string;
+  requestRedacted: boolean;
+  response: { status: number; ok: boolean; body: string; sha256: string; redacted: boolean };
+}
+
 /**
  * 单次评审上下文预算（字符）：`options.context` 与结构化合同正文之和的上限。
  *
@@ -225,6 +242,8 @@ export interface ProducerGateOptions {
   env?: Record<string, string | undefined>;
   fetchImpl?: typeof fetch;
   log?: (line: string) => void;
+  /** Persist original exchange once before HTTP/JSON/shape validation; failure refuses qualification. */
+  onModelExchange?: (exchange: ProducerModelExchange) => Promise<{ path: string; sha256: string }>;
   /**
    * 评审图压缩器（2026-09-24 三轮审计）：送审图大于预算时调用，返回压缩后的图片路径（失败返回 null）。
    * 默认实现用 ffmpeg 缩到 720 宽 JPEG；测试注入替身，避免单测依赖 ffmpeg。
@@ -314,6 +333,14 @@ function parseJudgeJson(raw: string): unknown {
 }
 
 type JudgeResult = { approved: boolean; score: number; issues: string[]; suggestions: string[]; reason: string };
+const JUDGE_RESULT_SCHEMA = {
+  type: "object", additionalProperties: false,
+  required: ["approved", "score", "issues", "suggestions", "reason"],
+  properties: {
+    approved: { type: "boolean" }, score: { type: "number", minimum: 0, maximum: 100 },
+    issues: { type: "array", items: { type: "string" } }, suggestions: { type: "array", items: { type: "string" } }, reason: { type: "string" },
+  },
+};
 
 /**
  * 评审结果结构归一（2026-09-28 T1 真机：10 镜逐镜监制有 2 镜返回"结构非法"）。
@@ -408,6 +435,8 @@ export async function reviewStage(options: ProducerGateOptions): Promise<Produce
   if (options.deterministic.some((c) => c.hard && (c.status === "unverified" || (c.status !== "not_applicable" && c.pass !== true)))) return reject("必需质量检查未验证");
   const llm = resolveProducerLlm(options.env ?? process.env);
   if (!llm) return reject("无可用评审模型；降级只能预览，不能作为合格交付", "fallback");
+  const redact = (text: string) => text.split(llm.apiKey).join("[REDACTED_CREDENTIAL]")
+    .split(JSON.stringify(llm.apiKey).slice(1, -1)).join("[REDACTED_CREDENTIAL]");
   const minScore = options.minScore ?? 70;
   if (!Number.isFinite(minScore) || minScore < 0 || minScore > 100) return reject("评审分数阈值非法");
   const tempPaths: string[] = [];
@@ -496,22 +525,43 @@ export async function reviewStage(options: ProducerGateOptions): Promise<Produce
         "确定性检查（含失败与不适用）：", ...options.deterministic.map((c) => `${c.id}: ${c.status ?? (c.pass ? "passed" : "failed")} ${c.detail}`),
         context,
         ...(stage === "facts" ? [] : ["结构化原镜头合同优先于通用rubric；只对实际适用项目评审，不得把合同当产物质量证明。"]), contractText,
-        '只输出 JSON: {"approved":true|false,"score":0-100,"issues":[],"suggestions":[],"reason":"结论"}'
+        `只输出一个完整 JSON 对象，字段类型必须符合此 JSON Schema：${JSON.stringify(JUDGE_RESULT_SCHEMA)}`,
+        '合法格式示例：{"approved":false,"score":0,"issues":["缺少支持此主张的证据"],"suggestions":["补齐证据"],"reason":"无法核实"}。示例只规定格式；批准、分数与问题必须按本次实际证据独立判断，不照抄示例结论。'
       ].join("\n") }, ...textContent, ...encoded.slice(batch * batchSize, Math.min(artifactImages, (batch + 1) * batchSize)).flat(), ...encoded.slice(artifactImages).flat()];
+      const request = { model: llm.model, messages: [{ role: "user", content }], temperature: 0.2, max_tokens: 8192, response_format: { type: "json_object" } };
+      const requestBody = JSON.stringify(request), endpoint = `${llm.baseUrl}/chat/completions`, requestedAt = new Date().toISOString();
       const res = await (options.fetchImpl ?? fetch)(`${llm.baseUrl}/chat/completions`, {
         method: "POST", headers: { "content-type": "application/json", authorization: `Bearer ${llm.apiKey}` },
-        body: JSON.stringify({ model: llm.model, messages: [{ role: "user", content }], temperature: 0.2, response_format: { type: "json_object" } }),
+        body: requestBody,
         signal: AbortSignal.timeout(180_000)
       });
       const rawBody = await res.text();
-      if (!res.ok) throw new Error(`HTTP ${res.status} ${rawBody.slice(0, 160)}`);
+      if (options.onModelExchange) {
+        // No Authorization headers. Strip URL credentials/query parameters as well as exact key echoes.
+        const publicEndpoint = new URL(endpoint); publicEndpoint.username = ""; publicEndpoint.password = ""; publicEndpoint.search = ""; publicEndpoint.hash = "";
+        const redactedRequest = redact(requestBody), redactedResponse = redact(rawBody);
+        const exchange: ProducerModelExchange = {
+          schemaVersion: "workloom.producer-model-exchange/v1", stage, projectId: options.projectId, batch: batch + 1, batches,
+          requestedAt, receivedAt: new Date().toISOString(), endpoint: redact(publicEndpoint.toString()),
+          request: JSON.parse(redactedRequest), requestBody: redactedRequest, requestSha256: createHash("sha256").update(requestBody).digest("hex"), requestRedacted: requestBody !== redactedRequest,
+          response: { status: res.status, ok: res.ok, body: redactedResponse, sha256: createHash("sha256").update(rawBody).digest("hex"), redacted: rawBody !== redactedResponse },
+        };
+        try {
+          const saved = await options.onModelExchange(exchange);
+          if (!saved || typeof saved.path !== "string" || !/^[a-f0-9]{64}$/.test(saved.sha256)
+            || createHash("sha256").update(readFileSync(saved.path)).digest("hex") !== saved.sha256) throw new Error("归档文件或摘要无效");
+          evidence.push({ ...saved, scope: "judge-model-exchange" });
+        } catch (error) { throw new Error(`评审原响应归档失败：${error instanceof Error ? redact(error.message) : redact(String(error))}`); }
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status} ${redact(rawBody.slice(0, 160))}`);
       const raw = JSON.parse(rawBody).choices?.[0]?.message?.content;
       if (typeof raw !== "string") throw new Error("评审模型缺少文本结果");
       const json = parseJudgeJson(raw);
       // Local coercion is lossless. An ambiguous response cannot obtain a new approval or score.
       const normalizedResult = coerceJudgeResult(json);
       if (!normalizedResult) throw new Error("评审结果结构非法；禁止通过模型重试改写裁决");
-      answers.push(normalizedResult);
+      answers.push({ ...normalizedResult, reason: redact(normalizedResult.reason),
+        issues: normalizedResult.issues.map(redact), suggestions: normalizedResult.suggestions.map(redact) });
     }
     for (const item of evidence) {
       const currentHash = createHash("sha256").update(readFileSync(item.path)).digest("hex");
@@ -524,7 +574,7 @@ export async function reviewStage(options: ProducerGateOptions): Promise<Produce
       rerun: !approved, via: "llm", model: llm.model, ms: Date.now() - started,
       reason: answers.map((a) => a.reason).join("；") + (approved ? "" : `（所有证据批次需通过且评分≥${minScore}）`), degraded: false, evidence };
   } catch (err) {
-    return reject(err instanceof Error ? err.message : String(err), "fallback", llm.model);
+    return reject(redact(err instanceof Error ? err.message : String(err)), "fallback", llm.model);
   } finally {
     for (const path of tempPaths) {
       try { rmSync(path, { recursive: true, force: true }); }

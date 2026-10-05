@@ -1,0 +1,14 @@
+{
+  "source_commit": "98f04d290e712eb04b8237868ba4057973affcdc",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "--import",
+    "tsx",
+    "--test",
+    "scripts/native-judge-exchange.test.mts"
+  ],
+  "exit_code": 1,
+  "source_modified": false,
+  "fixture_untracked": true,
+  "observed_at": "2026-10-05T13:53:11.505872+00:00"
+}
