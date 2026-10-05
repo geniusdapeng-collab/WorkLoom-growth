@@ -147,13 +147,13 @@ test("approved PRD reaches the actual ScriptEngine parser and adapter with curre
   const { requirements, prd } = await approved(f), input = metadata(f, requirements, prd);
   const result = await f.system.scriptEngine.process(f.fields._originalStoryText, input);
   assert.equal(result.adapted.config._metadata._prd, prd); assert.equal(result.blueprint.meta._metadata._prd, prd);
-  assert.equal(result.adapted.characters[0].id, f.character.id); assert.equal(result.adapted.characters[0].name, f.character.name);
+  assert.equal(result.adapted.characters[0].character_id, f.character.id); assert.equal(result.adapted.characters[0].name, f.character.name);
   assert.deepEqual(result.blueprint.character_system.characters[0].visual_anchor.reference_images, Object.values(f.files).map((file: any) => file.path));
-  assert.equal(input.target_duration, 30); assert.equal(input.aspectRatio, "9:16"); assert.equal(input.target_platform, "wechat-channels");
+  assert.equal(input.target_duration, 30); assert.equal(input.aspectRatio, "9:16"); assert.deepEqual(input.target_platform, ["wechat-channels"]);
 }));
 test("actual native PortraitStudio plans all existing accepted views without manufacturing new image tasks", () => scoped({}, async f => {
   const { requirements, prd } = await approved(f), result = await f.system.scriptEngine.process(f.fields._originalStoryText, metadata(f, requirements, prd));
-  const plan = await withNativePortraitArchives(f.archives.portraits, async () => new PortraitStudio({}).plan({ blueprint: result.adapted, prd }));
+  const plan = await withNativePortraitArchives(f.archives.portraits, async () => new PortraitStudio({}).plan({ characters: result.blueprint.character_system.characters, blueprint: result.adapted, prd }));
   assert.equal(plan.characterTasks.length, 1); assert.equal(plan.characterTasks[0].source, "controlled-existing-archive");
   assert.deepEqual(plan.characterTasks[0].portraits.map((p: any) => p.angle), angles);
 }));
