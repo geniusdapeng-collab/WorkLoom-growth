@@ -1,0 +1,56 @@
+{
+  "schema": "workloom.independent-execution/v1",
+  "name": "independent-native-integration",
+  "source_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "packages/video-studio/node_modules/vitest/vitest.mjs",
+    "run",
+    "packages/video-studio/src/studio.test.ts",
+    "apps/server/src/video/studio-worker.test.ts",
+    "apps/server/src/video/gate-policy.test.ts",
+    "packages/video-studio/src/portrait-archive-bridge.test.ts",
+    "--exclude",
+    "**/dist-payload/**",
+    "--testTimeout",
+    "30000",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/outputs/mine-clear/T-2026-1006-0001/independent-19fff17/independent-native-vitest.json"
+  ],
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+  "started_at": "2026-10-05T19:18:52.768840+00:00",
+  "finished_at": "2026-10-05T19:18:55.746401+00:00",
+  "exit_code": 0,
+  "environment_keys": [
+    "HOME",
+    "PATH",
+    "WORKLOOM_ASSERTION_MODULE_ROOT",
+    "NATIVE_ACCEPTANCE_REPO_ROOT",
+    "NATIVE_PRD_SOURCE_ROOT",
+    "WL_FFMPEG",
+    "WL_FFPROBE"
+  ],
+  "environment_values": {
+    "HOME": "/Users/mac",
+    "PATH": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "WORKLOOM_ASSERTION_MODULE_ROOT": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+    "NATIVE_ACCEPTANCE_REPO_ROOT": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+    "NATIVE_PRD_SOURCE_ROOT": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+    "WL_FFMPEG": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/no-media-operation/ffmpeg-disabled",
+    "WL_FFPROBE": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/no-media-operation/ffprobe-disabled"
+  },
+  "external_or_paid_provider": false,
+  "media_creation_allowed": false,
+  "environment_claim": "local-preview",
+  "stdout": {
+    "path": "independent-native-integration.stdout.txt",
+    "sha256": "4dc8dd01d0f609b2a93f579cd1613b67e7d0b2a24d0fcf79b9ce5bb3e1867d84"
+  },
+  "stderr": {
+    "path": "independent-native-integration.stderr.txt",
+    "sha256": "71c244d4ea766ff19b883566eed5e877c351342a6ad999258ce4d864663ed5ee"
+  }
+}

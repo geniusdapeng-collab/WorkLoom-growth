@@ -1,0 +1,143 @@
+{
+  "schema": "workloom.independent-acceptance-report/v1",
+  "source_commit": "98776805f108105a6f5891f1bb3f700331848c78",
+  "previous_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "generated_at": "2026-10-05T19:45:02.714993+00:00",
+  "status": "MC023-rebound-current987-verified-local-preview",
+  "coverage": {
+    "path": "independent-source-coverage.json",
+    "sha256": "7c33cad22df255c129748543750dd9c2759b51bb4f4ac117ff80fcb1e6ca5857"
+  },
+  "official_run": {
+    "path": "runs/MC-023-0-1791229077985.json",
+    "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+    "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+  },
+  "official_summary": {
+    "total": 39,
+    "passed": 39,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "current_test_counts": {
+    "official39": 39,
+    "c1_selected": 1,
+    "total_executed_definitions": 40,
+    "c1_filtered_pending": 30
+  },
+  "inherited19_only": {
+    "source_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+    "not_current_execution": true,
+    "required_condition": "All production source bytes unchanged by complete5322 tracked-byte comparison.",
+    "source_equality": {
+      "path": "source-byte-rebinding.json",
+      "sha256": "29627a01268bc9473294f391818c829d3783e79d02b4070beaa7d9543318866a"
+    },
+    "receipt": {
+      "path": "historical/independent-19fff17/independent-acceptance-receipt.json",
+      "sha256": "b5f287bc3fd7c4ca4a4294092c377f8817a719953c0700aa52dd66805c8096a3"
+    },
+    "formal39": 39,
+    "requirement_regression16": 16,
+    "independent_boundaries11": 11,
+    "affected_vitest91": 91,
+    "types_builds": "Definition counts; do not treat overlapping source properties as157 different production behaviors. Repair actor39 cases are separate and not counted again.",
+    "report": {
+      "path": "historical/independent-19fff17/independent-acceptance-report.json",
+      "sha256": "6fc56621937388960b9389d6a273b73544c5cd41108abaaa66d3fd7fd4276a03"
+    },
+    "manifest": {
+      "path": "historical/independent-19fff17/independent-archive-manifest.json",
+      "sha256": "d179e546fe44b126a4f28d6925a67943607724a538c0bf6c261345d6d18a6019"
+    }
+  },
+  "handoff": {
+    "path": "handoff.json",
+    "sha256": "2d0bf72a7addf289e5adb72cce8506777284d36cc2f188348cbb5e4592a68091"
+  },
+  "findings": [
+    {
+      "grade": "A",
+      "claim": "Changed C1 fixture now instantiates actual native PRDGenerator, ScriptEngine and original confirmation method; it checks8 per-instance wrappers installed and restored around success and budget failure.",
+      "source": "packages/video-studio/src/vendor-compat.test.ts:951-1015"
+    },
+    {
+      "grade": "B",
+      "claim": "Only vendor-compat.test.ts differs across current987 and sealed19 tracked source/archive set; production source bytes are unchanged.",
+      "evidence": "source-byte-rebinding.json"
+    },
+    {
+      "grade": "B",
+      "claim": "Current official39/39 source-authority assertions plus C1 exact1/1 passed; gate/handoff/postgate all actual0.30 filtered C1 definitions do not contribute coverage.",
+      "evidence": "independent-test-cases.json"
+    },
+    {
+      "grade": "C",
+      "claim": "Scoped compatibility source retains shared Phase3 installation through the historical entry and cleanup; whole2053-line compatibility file remains targeted coverage.",
+      "source": "packages/video-studio/src/vendor-compat.ts:770-790/1754-2053"
+    },
+    {
+      "grade": "D",
+      "claim": "No current production G4 score, visual approval, real portrait execution, complete film or release result is claimed. Current source-contract green is local-preview only."
+    }
+  ],
+  "attempt_history": {
+    "path": "independent-attempt-history.json",
+    "sha256": "474d833241a65d0a4adb3b8a254ed377daad7c03cc45304f9a926f3e73bb4ed0"
+  },
+  "case_details": {
+    "path": "independent-test-cases.json",
+    "sha256": "9830baf79eb366dad2471367d4ef0bfc5df2d8270c3106a7aa68b35138b6c700"
+  },
+  "closure": {
+    "completed": [
+      "Current exact987 source rebind and full5322 tracked bytes.",
+      "Current MC02339/39 plus C1 selected1/1.",
+      "Actual original-directory gate/handoff/postgate0.",
+      "Immutable19 receipt/history preserved and new current source-bound seal."
+    ],
+    "not_covered": [
+      "30 filtered C1 definitions; unrelated broad suites/old22 not re-executed.",
+      "Original live models/visuals/media/services/PG/runtime/release belong to coordinator, outside acceptance authorization."
+    ],
+    "autonomous_additions": [
+      "Existing-directory guard rejection preserved without overwriting successful evidence.",
+      "Prior complete bundle copied as exact-byte historical provenance so old inherited checks retain their own SHA."
+    ],
+    "assumptions": [
+      "Only test fixture changed, so old production evidence remains attached to19 and is supported by exact current source byte equality; it is not relabeled987 execution."
+    ],
+    "confidence": "High for explicitly executed local contracts and byte/actor/baseline integrity; no inference about current production quality.",
+    "recommended_review": [
+      "Actual current run and original observer destination.",
+      "C1 full fixture and30filtered list.",
+      "Source equality and inherited19source/receipt boundaries."
+    ]
+  },
+  "selfcheck": [
+    {
+      "question": "Covered entire authorized MC023 rebind and C1 target scope, with excluded scope declared.",
+      "answer": "yes"
+    },
+    {
+      "question": "Completed autonomous necessary work without unnecessary user questions.",
+      "answer": "yes"
+    },
+    {
+      "question": "Claims and code references have accurate A/B/C/D evidence grades.",
+      "answer": "yes"
+    },
+    {
+      "question": "Source-bound raw evidence and exclusions withstand detailed engineering review.",
+      "answer": "yes"
+    }
+  ],
+  "environment_claim": "local-preview",
+  "production_claim": false,
+  "product_source_modified_by_acceptance": false,
+  "old19_evidence_modified": false
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "workloom.independent-attempt-history/v1",
+  "source_commit": "98776805f108105a6f5891f1bb3f700331848c78",
+  "history": [
+    {
+      "grade": "B",
+      "kind": "Immutable19 prior acceptance and preserved failures",
+      "source_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+      "evidence": {
+        "path": "historical/independent-19fff17/independent-attempt-history.json",
+        "sha256": "6af4dcf6fb4dd2997fe8b0a6e239fff0c8696dafb9132ca0921e0016929427db"
+      },
+      "actual": "Prior39/16/11/91 plus first failed independent fixture and helper failures remain exact source-bound history."
+    },
+    {
+      "grade": "B",
+      "kind": "Current repair run",
+      "source_commit": "98776805f108105a6f5891f1bb3f700331848c78",
+      "actor": "native-video-mechanism-coordinator",
+      "evidence": {
+        "path": "runs/MC-023-0-1791228796510.json",
+        "sha256": "71dd301c9aee6c0d50108aa5b16d38608692b5dd3557e8281e5a6dce26925d2b"
+      },
+      "actual": "Current39/39 repair green copied as repair-role evidence; separate from independent39 and not counted twice."
+    },
+    {
+      "grade": "B",
+      "kind": "Current independent run",
+      "source_commit": "98776805f108105a6f5891f1bb3f700331848c78",
+      "evidence": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      },
+      "actual": "Current39/39 official independent run0."
+    },
+    {
+      "grade": "B",
+      "kind": "Relaunch guard rejection",
+      "evidence": {
+        "path": "environment/relaunch-guard-rejection.json",
+        "sha256": "24d815dd7f13d154eeae7a272a573068584b8bcbeb7c0d765cdae2e5571977b8"
+      },
+      "actual": "Helper refused existing completed evidence directory before running tests; preserved successful run and verified contents."
+    }
+  ]
+}

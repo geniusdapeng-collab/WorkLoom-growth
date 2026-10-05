@@ -1,0 +1,2244 @@
+{
+  "schema": "workloom.independent-test-cases/v1",
+  "source_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+  "definition_count": 157,
+  "cases": [
+    {
+      "suite": "MC023 official native contract",
+      "name": "native five-agent PRD binds the exact selected CEO attributes and current portrait path",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Current selected CEO profile/eight distinct controlled receipts and compiled G3.",
+      "steps": "Generate through all five native processors.",
+      "expected": "Exact archive ID/name/age/appearance/wardrobe/front path; no new portrait request.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "native agent2 and agent3 prompts receive the complete archive identity, authorization and every original photo hash",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Same complete profile, authorization and all eight receipts.",
+      "steps": "Capture existing agent2/agent3 prompts.",
+      "expected": "Both prompts contain complete source authority and every receipt hash.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "PRD positioning, duration, aspect and summary consume the same G3 authority",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Native inferred22s/16:9 and explicit G3 Brief30s/9:16/wechat.",
+      "steps": "Generate PRD and native summary.",
+      "expected": "Positioning and summary use approved G3 values.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "production quality and acceptance use the strictest original threshold, including score aliases",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Original production and acceptance metrics have unequal valid thresholds.",
+      "steps": "Generate PRD and inspect canonical plus Score aliases.",
+      "expected": "Each metric uses the maximum original legal threshold.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "subtitle delivery is verifiable and matches the original full-chain default sidecar mode",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Existing renderer default is sidecar.",
+      "steps": "Generate PRD and verify original default source.",
+      "expected": "Sidecar SRT/ASS/VTT, unburned master, soft track and validation requirement remain contract fields.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "G4 markdown carries full profile, all eight original receipts, unified delivery and system-only review",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Generated same-instance PRD with current controlled receipts.",
+      "steps": "Render complete Markdown and confirm using a response substitute.",
+      "expected": "Full profiles/all eight receipts/delivery appear; intermediate manual-response template removed.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "native creative core, complete scenes, shot mapping and dialogue remain byte-equivalent",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Fixed native creative/scenes/shot-map/dialogue model response.",
+      "steps": "Generate bound PRD and deep compare native fields.",
+      "expected": "Creative, scenes, mapping and dialogue remain equal to native response.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "approved PRD reaches the actual ScriptEngine parser and adapter with current portraits and exact requirements",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Same-instance PRD accepted by fixture G4.",
+      "steps": "Call actual builder, ScriptEngine generator/parser/adapter.",
+      "expected": "Both output metadata retain exact PRD object, current actor ID/name/portraits and G3 positioning.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "actual native PortraitStudio plans all existing accepted views without manufacturing new image tasks",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Actual native parsed character system and scoped controlled archives.",
+      "steps": "Call PortraitStudio.plan with production-shaped context.characters.",
+      "expected": "One task plans all eight original archive angles; this is planning, not image execution.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "native output renaming the selected CEO fails rather than guessing a singleton identity",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Model response names selected CEO as Lin.",
+      "steps": "Generate PRD.",
+      "expected": "Reject inconsistent name; no singleton identity guess.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "selected profile changed while native PRD agent awaits invalidates its source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Valid complete G3 source before native agent await.",
+      "steps": "Change selected profile age during that await, then resume generation.",
+      "expected": "Reject changed authority before returning a generated PRD.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "explicit Brief changed while native PRD agent awaits invalidates its source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Valid complete G3 source before native agent await.",
+      "steps": "Change explicit Brief platform during that await, then resume generation.",
+      "expected": "Reject changed authority before returning a generated PRD.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "original discovery changed while native PRD agent awaits invalidates its source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Valid complete G3 source before native agent await.",
+      "steps": "Change discovery scene purpose during that await, then resume generation.",
+      "expected": "Reject changed authority before returning a generated PRD.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "original input changed while native PRD agent awaits invalidates its source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Valid complete G3 source before native agent await.",
+      "steps": "Change original input theme during that await, then resume generation.",
+      "expected": "Reject changed authority before returning a generated PRD.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "current portrait bytes changed while native PRD agent awaits invalidates its source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Valid complete G3 source before native agent await.",
+      "steps": "Change current front portrait bytes during that await, then resume generation.",
+      "expected": "Reject changed authority before returning a generated PRD.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "missing or mutated controlled portrait receipts fail before native agent generation",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Selected profile lacks its side receipt.",
+      "steps": "Generate PRD and inspect captured agent calls.",
+      "expected": "Reject before either native agent model callback.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "unapproved PRD cannot enter actual native ScriptEngine",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Generated PRD has never passed fixture G4.",
+      "steps": "Pass it into actual ScriptEngine.",
+      "expected": "Reject unapproved same-instance PRD.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "minimal fallback and a clone of an approved PRD cannot impersonate the G4-owned instance",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "One approved source PRD exists.",
+      "steps": "Substitute native minimal fallback and structured clone.",
+      "expected": "Both replacements reject; public equal bytes cannot replace the owned object.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "G4 rejection leaves no approved PRD for downstream consumption",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Generated PRD and same Markdown.",
+      "steps": "Return G4 approved=false then call ScriptEngine.",
+      "expected": "G4 stays rejected and ScriptEngine rejects.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "an approved G4 with suggestions cannot silently regenerate a different unreviewed PRD",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "G4 substitute reports approved=true with nonempty suggestions.",
+      "steps": "Confirm same generated PRD.",
+      "expected": "Reject a path that would regenerate an unreviewed version.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "altered PRD or different Markdown cannot borrow the generated G4 source seal",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Generated PRD and its exact Markdown.",
+      "steps": "Change Markdown; separately change creativeHook.",
+      "expected": "Neither altered source can borrow the approval seal.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "source changes during actual G4 await cannot retain approval",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Generated same-source PRD.",
+      "steps": "Change Brief duration while G4 awaits.",
+      "expected": "Reject after await; no approved PRD retained.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "source changes during the actual ScriptEngine await invalidate its output",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved same-source PRD.",
+      "steps": "Change selected profile name during actual script processing.",
+      "expected": "Reject returned output after await.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "mutable native script metadata description cannot bypass the complete G3/G4 source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD and ordinary mutable native metadata copy.",
+      "steps": "Change description before actual ScriptEngine consumption and count model callbacks.",
+      "expected": "Reject before any ScriptGenerator model callback.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "mutable native script metadata character_id alias cannot bypass the complete G3/G4 source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD and ordinary mutable native metadata copy.",
+      "steps": "Change character_id alias before actual ScriptEngine consumption and count model callbacks.",
+      "expected": "Reject before any ScriptGenerator model callback.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "mutable native script metadata portraitPaths cannot bypass the complete G3/G4 source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD and ordinary mutable native metadata copy.",
+      "steps": "Change portraitPaths before actual ScriptEngine consumption and count model callbacks.",
+      "expected": "Reject before any ScriptGenerator model callback.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "mutable native script metadata internal PRD override cannot bypass the complete G3/G4 source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD and ordinary mutable native metadata copy.",
+      "steps": "Change internal PRD override before actual ScriptEngine consumption and count model callbacks.",
+      "expected": "Reject before any ScriptGenerator model callback.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "mutable native script metadata internal aspect override cannot bypass the complete G3/G4 source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD and ordinary mutable native metadata copy.",
+      "steps": "Change internal aspect override before actual ScriptEngine consumption and count model callbacks.",
+      "expected": "Reject before any ScriptGenerator model callback.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "reusing one physical image for multiple named angles cannot impersonate complete accepted views",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Distinct current receipts initially represent complete angles.",
+      "steps": "Reuse front physical file as side.",
+      "expected": "Reject duplicate physical file before agent prompts.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "nested native metadata changed during actual ScriptGenerator await cannot override the approved aspect",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD and valid nested metadata9:16/creative0.85.",
+      "steps": "Change nested aspect to16:9 during actual generator model await.",
+      "expected": "Reject changed nested source and wrong output aspect.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "stable native internal metadata can extend creative intensity while preserving the approved aspect",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD with stable nested aspect and native creativeIntensity0.85.",
+      "steps": "Process actual ScriptEngine without mutation.",
+      "expected": "Keep both output aspects9:16 and stable creative extension0.85.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "duplicate selected identities are rejected without picking the first profile",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Valid selected archive.",
+      "steps": "Add an exact duplicate selected profile.",
+      "expected": "Reject duplicate identity without picking the first.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "invalid native quality thresholds are rejected instead of replaced by looser defaults",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Native production constraints initially valid.",
+      "steps": "Return visual quality threshold1.4 from agent4.",
+      "expected": "Reject invalid original threshold without lowering it.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "two independent native instances keep their own contracts when one scope finishes",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Two separately bound actual native systems.",
+      "steps": "Generate/confirm in parallel; dispose first; process second; later use closed captured method.",
+      "expected": "Second retains its source; closed method rejects.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "external instance bridge replacement is detected and original methods are restored",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Active instance bridge.",
+      "steps": "Externally replace generate then dispose.",
+      "expected": "Detect conflict and restore original methods before throwing.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "a legacy narrative without selected archives preserves its native characters and scenes",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "No selected archives.",
+      "steps": "Generate native narrative PRD.",
+      "expected": "Preserve native character system and scenes.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "G4 image evidence is the complete original-byte receipt list, never a text-only assertion",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Eight complete current receipt files.",
+      "steps": "Read evidence projection.",
+      "expected": "All eight exact original receipts include same subject identity and bytes.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "native vendor generator, agents and script source bytes remain unchanged by scoped adapters",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Immutable vendor source files.",
+      "steps": "Hash before and after bound generation/approval.",
+      "expected": "Native generator/orchestrator/script source bytes unchanged.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "actual native BaseAgent PARSE retry retains every source byte after its ordinary prompt shrink",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Actual BaseAgent with first provider response PARSE failure.",
+      "steps": "Use native retry/shrink then second valid response; capture both requests.",
+      "expected": "Each request includes the entire identical current authority JSON.",
+      "actual": "pass; clean current39/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "converted duration, platform, aspect and profile cannot diverge from the G3 and actual ScriptEngine contract",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Frozen compiled G3 authority.",
+      "steps": "Attempt duration/platform/aspect/profile/descriptor writes.",
+      "expected": "Writes reject; actual builder still uses original30s.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "selected actors, full scenes and source citations cannot be replaced after conversion",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Frozen actor/scenes/citations.",
+      "steps": "Attempt nested replacement and array extension.",
+      "expected": "Authority remains source-bound.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "input changed during contract model await is rejected rather than binding old sources to new input",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Original input before contract callback await.",
+      "steps": "Mutate input while compilation awaits.",
+      "expected": "Reject input drift.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "input changed during native discovery is rejected before profile or contract calls",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Original input before discovery awaits.",
+      "steps": "Mutate during discovery.",
+      "expected": "Reject before profile/compiler callbacks.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "discovery changed during native async conversion is rejected before contract compilation",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Discovery before conversion await.",
+      "steps": "Mutate scene purpose during conversion.",
+      "expected": "Reject before compiler callback.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "trusted archive, brief and intent changes during await cannot replace entry source authority",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Trusted archives/Brief/intent/discovery.",
+      "steps": "Mutate each while compilation awaits.",
+      "expected": "Each changed source rejects.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "legitimate native creative, emotion and content extensions remain usable with protected authority",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Frozen approved source.",
+      "steps": "Add permitted creative/emotion/content fields.",
+      "expected": "Keep native permitted extensions without weakening authority.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "finished native scope rejects a compiler result returning after cleanup",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Active compiler callback.",
+      "steps": "Dispose scope before callback resolves.",
+      "expected": "Late result rejects.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "changed input after compilation cannot consume its earlier converted authority",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Already compiled source.",
+      "steps": "Mutate original input then consume conversion/render.",
+      "expected": "Both reject stale binding.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "actual native metadata consumption validates authority and returns an independent mutable downstream copy",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Source-bound builder and frozen source.",
+      "steps": "Create mutable downstream copy; mutate copy and submit forged source.",
+      "expected": "Copy does not mutate source; forged source rejects.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "native discovery returns a resolved requirement object before the vendor's synchronous conversion call",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Original async conversion implementation.",
+      "steps": "Await wrapped discovery then invoke synchronous consumer.",
+      "expected": "Consumer receives resolved object and G3 profile30s.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "current archive actor reaches G3 and the actual native ScriptEngine metadata without guessing identity",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Selected complete CEO profile.",
+      "steps": "Render G3 and call actual builder metadata.",
+      "expected": "Keep identity, wardrobe and duration.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "full scene purposes, source-backed props and actions survive conversion without keyword fragments",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Complete original scene purposes/props/actions.",
+      "steps": "Compile and render.",
+      "expected": "Keep original text and full source-backed semantic objects.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "invented sources, unrelated quotes and missing selected actors stop before G3",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Valid quote/schema before independent mutations.",
+      "steps": "Invent source, use unrelated quote, or remove selected actor.",
+      "expected": "Each rejects before G3.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "conversion fallback cannot consume an uncompiled or different discovery object",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "One compiled discovery object.",
+      "steps": "Call conversion with new equal-shaped discovery.",
+      "expected": "Reject foreign/uncompiled object.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "existing requirement regressions",
+      "name": "concurrent native instances retain their own actors, sources and conversion caches",
+      "source": "scripts/native-requirement-{binding,contract}.test.mts",
+      "preconditions": "Two source-bound instances.",
+      "steps": "Discover concurrently; dispose one and consume the other; try foreign discovery.",
+      "expected": "Isolation persists and foreign source rejects.",
+      "actual": "pass; current16/16 Node execution, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "independent-requirement-regression.run.json",
+        "sha256": "9bc5ebd1fe7ebced838ad7f564020a6695d6d66b3086c325af22fa233966e634"
+      }
+    },
+    {
+      "suite": "independent supplemental boundaries",
+      "name": "independent actual native two-character PRD, parser and production-shaped PortraitStudio keep both identities and sixteen current views",
+      "source": "independent-native-prd-extra-retry.mts",
+      "preconditions": "Two differently named selected profiles and sixteen distinct synthetic receipt files.",
+      "steps": "Use actual native PRD/ScriptEngine/parser/adapter and context.characters planning.",
+      "expected": "Correct character_id/name output; unique task name matching; each planned angle carries accurate archiveAssetId and pending/null execution fields.",
+      "actual": "pass; current11/11; original invalid planning-field expectation attempt preserved10/1",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-prd-extra-retry.run.json",
+        "sha256": "75f0409aac64407744fb5f627166fd57d33b043d339b5cb8d14d60abf90c426d"
+      }
+    },
+    {
+      "suite": "independent supplemental boundaries",
+      "name": "independent selected same-name profiles with different IDs fail before native agent prompts",
+      "source": "independent-native-prd-extra-retry.mts",
+      "preconditions": "Two selected IDs with the same selected name.",
+      "steps": "Generate through native contract.",
+      "expected": "Reject before native agent prompts.",
+      "actual": "pass; current11/11; original invalid planning-field expectation attempt preserved10/1",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-prd-extra-retry.run.json",
+        "sha256": "75f0409aac64407744fb5f627166fd57d33b043d339b5cb8d14d60abf90c426d"
+      }
+    },
+    {
+      "suite": "independent supplemental boundaries",
+      "name": "independent a selected profile cannot be dropped by an empty native character output",
+      "source": "independent-native-prd-extra-retry.mts",
+      "preconditions": "One selected profile.",
+      "steps": "Return empty native character output.",
+      "expected": "Reject dropped selected actor.",
+      "actual": "pass; current11/11; original invalid planning-field expectation attempt preserved10/1",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-prd-extra-retry.run.json",
+        "sha256": "75f0409aac64407744fb5f627166fd57d33b043d339b5cb8d14d60abf90c426d"
+      }
+    },
+    {
+      "suite": "independent supplemental boundaries",
+      "name": "independent a native ID naming the other selected archive cannot be rebound by matching only its name",
+      "source": "independent-native-prd-extra-retry.mts",
+      "preconditions": "Two selected profiles.",
+      "steps": "Return first actor name with second selected ID.",
+      "expected": "Reject contradictory ID/name pairing.",
+      "actual": "pass; current11/11; original invalid planning-field expectation attempt preserved10/1",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-prd-extra-retry.run.json",
+        "sha256": "75f0409aac64407744fb5f627166fd57d33b043d339b5cb8d14d60abf90c426d"
+      }
+    },
+    {
+      "suite": "independent supplemental boundaries",
+      "name": "independent foreign-instance approved PRDs cannot be consumed by another actual ScriptEngine",
+      "source": "independent-native-prd-extra-retry.mts",
+      "preconditions": "Two separately generated and fixture-approved instances.",
+      "steps": "Submit first approved PRD to second ScriptEngine.",
+      "expected": "Reject foreign instance.",
+      "actual": "pass; current11/11; original invalid planning-field expectation attempt preserved10/1",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-prd-extra-retry.run.json",
+        "sha256": "75f0409aac64407744fb5f627166fd57d33b043d339b5cb8d14d60abf90c426d"
+      }
+    },
+    {
+      "suite": "independent supplemental boundaries",
+      "name": "independent a non-front original photo changed during actual G4 await invalidates approval",
+      "source": "independent-native-prd-extra-retry.mts",
+      "preconditions": "Generated PRD with current eight receipts.",
+      "steps": "Mutate back photo bytes during G4 await.",
+      "expected": "Reject stale source after await.",
+      "actual": "pass; current11/11; original invalid planning-field expectation attempt preserved10/1",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-prd-extra-retry.run.json",
+        "sha256": "75f0409aac64407744fb5f627166fd57d33b043d339b5cb8d14d60abf90c426d"
+      }
+    },
+    {
+      "suite": "independent supplemental boundaries",
+      "name": "independent a non-front original photo changed during actual ScriptEngine await invalidates output",
+      "source": "independent-native-prd-extra-retry.mts",
+      "preconditions": "Fixture-approved PRD with current eight receipts.",
+      "steps": "Mutate handDetail bytes during actual script await.",
+      "expected": "Reject returned stale output.",
+      "actual": "pass; current11/11; original invalid planning-field expectation attempt preserved10/1",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-prd-extra-retry.run.json",
+        "sha256": "75f0409aac64407744fb5f627166fd57d33b043d339b5cb8d14d60abf90c426d"
+      }
+    },
+    {
+      "suite": "independent supplemental boundaries",
+      "name": "independent G4 native confirmation exceptions leave the PRD unapproved",
+      "source": "independent-native-prd-extra-retry.mts",
+      "preconditions": "Generated PRD.",
+      "steps": "Throw native G4 transport exception then call ScriptEngine.",
+      "expected": "Keep original exception and reject unapproved downstream.",
+      "actual": "pass; current11/11; original invalid planning-field expectation attempt preserved10/1",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-prd-extra-retry.run.json",
+        "sha256": "75f0409aac64407744fb5f627166fd57d33b043d339b5cb8d14d60abf90c426d"
+      }
+    },
+    {
+      "suite": "independent supplemental boundaries",
+      "name": "independent changed complete character description cannot borrow unchanged G3 identity keys before actual ScriptEngine consumption",
+      "source": "independent-native-prd-extra-retry.mts",
+      "preconditions": "Approved PRD and mutable metadata preserving ID/name/role.",
+      "steps": "Replace full description before ScriptEngine.",
+      "expected": "Reject despite unchanged superficial identity keys.",
+      "actual": "pass; current11/11; original invalid planning-field expectation attempt preserved10/1",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-prd-extra-retry.run.json",
+        "sha256": "75f0409aac64407744fb5f627166fd57d33b043d339b5cb8d14d60abf90c426d"
+      }
+    },
+    {
+      "suite": "independent supplemental boundaries",
+      "name": "independent actual BaseAgent PARSE retry keeps every complete source receipt in both model requests",
+      "source": "independent-native-prd-extra-retry.mts",
+      "preconditions": "Actual BaseAgent native retry with first PARSE response.",
+      "steps": "Capture both actual reasonStructured callback requests.",
+      "expected": "Each includes reconstructed full source JSON, all receipt fields and Brief; fragments are insufficient.",
+      "actual": "pass; current11/11; original invalid planning-field expectation attempt preserved10/1",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-prd-extra-retry.run.json",
+        "sha256": "75f0409aac64407744fb5f627166fd57d33b043d339b5cb8d14d60abf90c426d"
+      }
+    },
+    {
+      "suite": "independent supplemental boundaries",
+      "name": "independent nested aspect alias mutation during the actual ScriptGenerator model await cannot change G3 output",
+      "source": "independent-native-prd-extra-retry.mts",
+      "preconditions": "Approved PRD and initially valid nested_metadata.",
+      "steps": "Mutate nested aspect during actual model await.",
+      "expected": "Reject stale nested alias and returned aspect.",
+      "actual": "pass; current11/11; original invalid planning-field expectation attempt preserved10/1",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-prd-extra-retry.run.json",
+        "sha256": "75f0409aac64407744fb5f627166fd57d33b043d339b5cb8d14d60abf90c426d"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "native existing portrait archive reuses exact accepted bytes and records provenance without any provider call",
+      "source": "packages/video-studio/src/portrait-archive-bridge.test.ts",
+      "preconditions": "Actual archive matcher and portrait runtime; temporary byte files and injected failing fetch callback; local synthetic copy only.",
+      "steps": "Execute the complete currently read test definition: reuses exact accepted bytes and records provenance without any provider call",
+      "expected": "reuses exact accepted bytes and records provenance without any provider call; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 11.435374999999965ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "native existing portrait archive rejects unknown or changed accepted views without generating a substitute",
+      "source": "packages/video-studio/src/portrait-archive-bridge.test.ts",
+      "preconditions": "Actual archive matcher and portrait runtime; temporary byte files and injected failing fetch callback; local synthetic copy only.",
+      "steps": "Execute the complete currently read test definition: rejects unknown or changed accepted views without generating a substitute",
+      "expected": "rejects unknown or changed accepted views without generating a substitute; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.689707999999996ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "native existing portrait archive resolves identity by registered names and rejects ambiguous aliases",
+      "source": "packages/video-studio/src/portrait-archive-bridge.test.ts",
+      "preconditions": "Actual archive matcher and portrait runtime; temporary byte files and injected failing fetch callback; local synthetic copy only.",
+      "steps": "Execute the complete currently read test definition: resolves identity by registered names and rejects ambiguous aliases",
+      "expected": "resolves identity by registered names and rejects ambiguous aliases; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.8204589999999712ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "native existing portrait archive never retries an unknown charged POST even with an old retry setting",
+      "source": "packages/video-studio/src/portrait-archive-bridge.test.ts",
+      "preconditions": "Actual archive matcher and portrait runtime; temporary byte files and injected failing fetch callback; local synthetic copy only.",
+      "steps": "Execute the complete currently read test definition: never retries an unknown charged POST even with an old retry setting",
+      "expected": "never retries an unknown charged POST even with an old retry setting; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 2.689458000000002ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "gates 映射 vendor 确认门 type 映射到业务门",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: vendor 确认门 type 映射到业务门",
+      "expected": "vendor 确认门 type 映射到业务门; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.6224580000000515ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "确认门桥 作用域内可读取批准，退出后固定分发器拒绝无作用域调用",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: 作用域内可读取批准，退出后固定分发器拒绝无作用域调用",
+      "expected": "作用域内可读取批准，退出后固定分发器拒绝无作用域调用; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.5097079999999323ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "VideoStudio 确认作用域与装配清理 两条真实 studio 运行交错确认，项目与事件不串线",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: 两条真实 studio 运行交错确认，项目与事件不串线",
+      "expected": "两条真实 studio 运行交错确认，项目与事件不串线; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 3.0809999999999036ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "VideoStudio 确认作用域与装配清理 install 失败也逆序清理所有已装桥并关闭确认作用域",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: install 失败也逆序清理所有已装桥并关闭确认作用域",
+      "expected": "install 失败也逆序清理所有已装桥并关闭确认作用域; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.9954579999999851ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "VideoStudio 确认作用域与装配清理 constructor 失败也逆序清理所有已装桥并关闭确认作用域",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: constructor 失败也逆序清理所有已装桥并关闭确认作用域",
+      "expected": "constructor 失败也逆序清理所有已装桥并关闭确认作用域; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.35320899999999256ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "VideoStudio 确认作用域与装配清理 started 失败也逆序清理所有已装桥并关闭确认作用域",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: started 失败也逆序清理所有已装桥并关闭确认作用域",
+      "expected": "started 失败也逆序清理所有已装桥并关闭确认作用域; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.3360420000000204ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "VideoStudio 确认作用域与装配清理 create 失败也逆序清理所有已装桥并关闭确认作用域",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: create 失败也逆序清理所有已装桥并关闭确认作用域",
+      "expected": "create 失败也逆序清理所有已装桥并关闭确认作用域; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.2846670000000131ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "VideoStudio 确认作用域与装配清理 approval 失败也逆序清理所有已装桥并关闭确认作用域",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: approval 失败也逆序清理所有已装桥并关闭确认作用域",
+      "expected": "approval 失败也逆序清理所有已装桥并关闭确认作用域; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.2843750000000682ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "VideoStudio 确认作用域与装配清理 一个桥清理失败仍尝试其余清理，并保留运行与清理两个错误",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: 一个桥清理失败仍尝试其余清理，并保留运行与清理两个错误",
+      "expected": "一个桥清理失败仍尝试其余清理，并保留运行与清理两个错误; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.2630419999999276ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "VideoStudio 确认作用域与装配清理 成功路径也逆序清理，返回原始业务结果",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: 成功路径也逆序清理，返回原始业务结果",
+      "expected": "成功路径也逆序清理，返回原始业务结果; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.20841700000005403ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "LLM 适配器 从环境变量构建：缺变量返回 null",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: 从环境变量构建：缺变量返回 null",
+      "expected": "从环境变量构建：缺变量返回 null; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.08304199999997763ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "LLM 适配器 JSON 提取容错：围栏/前后噪声",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: JSON 提取容错：围栏/前后噪声",
+      "expected": "JSON 提取容错：围栏/前后噪声; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.13858299999992596ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "LLM 适配器 vendor 期望的引擎助手：_extractJsonObject / getStats / close 齐备",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: vendor 期望的引擎助手：_extractJsonObject / getStats / close 齐备",
+      "expected": "vendor 期望的引擎助手：_extractJsonObject / getStats / close 齐备; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.4653329999999869ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "渲染脚本 从 vendor 读取长度口径（唯一真源）",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: 从 vendor 读取长度口径（唯一真源）",
+      "expected": "从 vendor 读取长度口径（唯一真源）; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.31512500000008ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "渲染脚本 生成 MD 脚本：序号+独立行排版 + 口径校验",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: 生成 MD 脚本：序号+独立行排版 + 口径校验",
+      "expected": "生成 MD 脚本：序号+独立行排版 + 口径校验; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.2611249999999927ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "vendor 核心可加载 HyperrealitySystem 在真实 node 进程内可加载",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: HyperrealitySystem 在真实 node 进程内可加载",
+      "expected": "HyperrealitySystem 在真实 node 进程内可加载; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 100.09462499999995ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "营销只消费宿主绑定回填 missing在vendor构造与create之前拒绝",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: missing在vendor构造与create之前拒绝",
+      "expected": "missing在vendor构造与create之前拒绝; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.373958000000016ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "营销只消费宿主绑定回填 wrong-project在vendor构造与create之前拒绝",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: wrong-project在vendor构造与create之前拒绝",
+      "expected": "wrong-project在vendor构造与create之前拒绝; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.12020800000004783ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "营销只消费宿主绑定回填 wrong-hash在vendor构造与create之前拒绝",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: wrong-hash在vendor构造与create之前拒绝",
+      "expected": "wrong-hash在vendor构造与create之前拒绝; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.12941699999998946ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "营销只消费宿主绑定回填 missing-stage在vendor构造与create之前拒绝",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: missing-stage在vendor构造与create之前拒绝",
+      "expected": "missing-stage在vendor构造与create之前拒绝; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.13204099999995833ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "营销只消费宿主绑定回填 可信回填覆盖旧cfg raw，metadata自报档案被移除；强制刷新和G1后跳过vendor重复审核",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: 可信回填覆盖旧cfg raw，metadata自报档案被移除；强制刷新和G1后跳过vendor重复审核",
+      "expected": "可信回填覆盖旧cfg raw，metadata自报档案被移除；强制刷新和G1后跳过vendor重复审核; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.1352500000000418ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "营销只消费宿主绑定回填 原文用途限制完整进入创意/洞察/PRD的各类模型接口，调用方system不能覆盖",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: 原文用途限制完整进入创意/洞察/PRD的各类模型接口，调用方system不能覆盖",
+      "expected": "原文用途限制完整进入创意/洞察/PRD的各类模型接口，调用方system不能覆盖; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 3.3072499999999536ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "营销只消费宿主绑定回填 missing用途限制在vendor构造之前拒绝",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: missing用途限制在vendor构造之前拒绝",
+      "expected": "missing用途限制在vendor构造之前拒绝; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.19624999999996362ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "营销只消费宿主绑定回填 changed用途限制在vendor构造之前拒绝",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: changed用途限制在vendor构造之前拒绝",
+      "expected": "changed用途限制在vendor构造之前拒绝; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.11000000000001364ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "营销只消费宿主绑定回填 wrong-hash用途限制在vendor构造之前拒绝",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: wrong-hash用途限制在vendor构造之前拒绝",
+      "expected": "wrong-hash用途限制在vendor构造之前拒绝; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.22904200000004948ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "营销只消费宿主绑定回填 原生30秒需求进入实际vendor Brief覆盖器，G2收到30秒而非生成器推导的22秒",
+      "source": "packages/video-studio/src/studio.test.ts",
+      "preconditions": "Actual VideoStudio/confirmation/source scopes; native execution and shared installs are explicit substitutes; no provider is real.",
+      "steps": "Execute the complete currently read test definition: 原生30秒需求进入实际vendor Brief覆盖器，G2收到30秒而非生成器推导的22秒",
+      "expected": "原生30秒需求进入实际vendor Brief覆盖器，G2收到30秒而非生成器推导的22秒; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 59.184875000000034ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "服务预生产 G5/G7 G7 是文字预生产收口，不错误调用要求成片和听音回执的 master",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: G7 是文字预生产收口，不错误调用要求成片和听音回执的 master",
+      "expected": "G7 是文字预生产收口，不错误调用要求成片和听音回执的 master; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.7880420000000186ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "服务预生产 G5/G7 只把实际读取的本项目四角度图片送审",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: 只把实际读取的本项目四角度图片送审",
+      "expected": "只把实际读取的本项目四角度图片送审; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.6489589999999907ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "服务预生产 G5/G7 missing-angle 证据失败关闭",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: missing-angle 证据失败关闭",
+      "expected": "missing-angle 证据失败关闭; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.0521660000000566ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "服务预生产 G5/G7 empty 证据失败关闭",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: empty 证据失败关闭",
+      "expected": "empty 证据失败关闭; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.9613749999999754ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "服务预生产 G5/G7 other-project 证据失败关闭",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: other-project 证据失败关闭",
+      "expected": "other-project 证据失败关闭; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.8315000000000055ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "服务预生产 G5/G7 escape 证据失败关闭",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: escape 证据失败关闭",
+      "expected": "escape 证据失败关闭; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.9564580000001115ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "服务预生产 G5/G7 symlink 证据失败关闭",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: symlink 证据失败关闭",
+      "expected": "symlink 证据失败关闭; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.0210830000000897ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "服务预生产 G5/G7 pending 证据失败关闭",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: pending 证据失败关闭",
+      "expected": "pending 证据失败关闭; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.8417499999999336ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "服务预生产 G5/G7 count 证据失败关闭",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: count 证据失败关闭",
+      "expected": "count 证据失败关闭; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.2402090000000499ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "服务预生产 G5/G7 不适用需要本次明确无任务及剧本角色数零；空图本身不构成 N/A",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: 不适用需要本次明确无任务及剧本角色数零；空图本身不构成 N/A",
+      "expected": "不适用需要本次明确无任务及剧本角色数零；空图本身不构成 N/A; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.5736249999999927ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "最终成片由人类验收，中间流程由系统检查 G5 定妆照属于系统事实检查",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: G5 定妆照属于系统事实检查",
+      "expected": "G5 定妆照属于系统事实检查; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.18295799999998508ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "最终成片由人类验收，中间流程由系统检查 渲染默认由原生资格与预算放行，显式暂停开关仍能停止付费",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: 渲染默认由原生资格与预算放行，显式暂停开关仍能停止付费",
+      "expected": "渲染默认由原生资格与预算放行，显式暂停开关仍能停止付费; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.17887499999994816ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "最终成片由人类验收，中间流程由系统检查 人类验收清单逐张列出定妆照文件与指纹（放行前可核对原图）",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: 人类验收清单逐张列出定妆照文件与指纹（放行前可核对原图）",
+      "expected": "人类验收清单逐张列出定妆照文件与指纹（放行前可核对原图）; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.7386249999999563ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "营销G1允许合法JSON空值，拒绝仅摘要或旧自报档案",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: 营销G1允许合法JSON空值，拒绝仅摘要或旧自报档案",
+      "expected": "营销G1允许合法JSON空值，拒绝仅摘要或旧自报档案; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.3722500000000082ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "G4完整原生PRD与受控档案实物 实际reviewStage一批发送完整正文及所有8张原图；原回包分数不改",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: 实际reviewStage一批发送完整正文及所有8张原图；原回包分数不改",
+      "expected": "实际reviewStage一批发送完整正文及所有8张原图；原回包分数不改; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 6.234291999999982ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "G4完整原生PRD与受控档案实物 missing-angle不能用文字替代当前实物",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: missing-angle不能用文字替代当前实物",
+      "expected": "missing-angle不能用文字替代当前实物; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.7266659999999092ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "G4完整原生PRD与受控档案实物 changed-bytes不能用文字替代当前实物",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: changed-bytes不能用文字替代当前实物",
+      "expected": "changed-bytes不能用文字替代当前实物; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.440499999999929ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "G4完整原生PRD与受控档案实物 wrong-hash不能用文字替代当前实物",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: wrong-hash不能用文字替代当前实物",
+      "expected": "wrong-hash不能用文字替代当前实物; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.3275409999999965ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "G4完整原生PRD与受控档案实物 wrong-name不能用文字替代当前实物",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: wrong-name不能用文字替代当前实物",
+      "expected": "wrong-name不能用文字替代当前实物; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.259958000000097ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "G4完整原生PRD与受控档案实物 symlink不能用文字替代当前实物",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: symlink不能用文字替代当前实物",
+      "expected": "symlink不能用文字替代当前实物; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.3436659999999847ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "G4完整原生PRD与受控档案实物 absent-photos不能用文字替代当前实物",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: absent-photos不能用文字替代当前实物",
+      "expected": "absent-photos不能用文字替代当前实物; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.3109580000000278ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "G4完整原生PRD与受控档案实物 missing回执不能放行G4",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: missing回执不能放行G4",
+      "expected": "missing回执不能放行G4; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 2.273916999999983ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "G4完整原生PRD与受控档案实物 wrong-scope回执不能放行G4",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: wrong-scope回执不能放行G4",
+      "expected": "wrong-scope回执不能放行G4; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.9923750000000382ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "G4完整原生PRD与受控档案实物 wrong-hash回执不能放行G4",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: wrong-hash回执不能放行G4",
+      "expected": "wrong-hash回执不能放行G4; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 2.129791999999952ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "G4完整原生PRD与受控档案实物 changed-during-review回执不能放行G4",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: changed-during-review回执不能放行G4",
+      "expected": "changed-during-review回执不能放行G4; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 1.6448329999999487ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "G4完整原生PRD与受控档案实物 没有选档的原生叙事保持素材规划，不虚构受控照片",
+      "source": "apps/server/src/video/gate-policy.test.ts",
+      "preconditions": "Actual deterministic gate/evidence helpers and reviewStage; temporary image-header byte fixtures and injected fetch response, never visual/face approval.",
+      "steps": "Execute the complete currently read test definition: 没有选档的原生叙事保持素材规划，不虚构受控照片",
+      "expected": "没有选档的原生叙事保持素材规划，不虚构受控照片; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.22612500000002456ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 建项目之前拦截显式未知片型，未触及数据库和供应商",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 建项目之前拦截显式未知片型，未触及数据库和供应商",
+      "expected": "建项目之前拦截显式未知片型，未触及数据库和供应商; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 5.8622910000000275ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 分流器加工出的 brief 不充当客户原始选型证据",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 分流器加工出的 brief 不充当客户原始选型证据",
+      "expected": "分流器加工出的 brief 不充当客户原始选型证据; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 26.696459000000004ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 原始需求选出的 T1 进入建档事件、routeMeta、供应商入参与分镜/提示词包",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 原始需求选出的 T1 进入建档事件、routeMeta、供应商入参与分镜/提示词包",
+      "expected": "原始需求选出的 T1 进入建档事件、routeMeta、供应商入参与分镜/提示词包; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 15.589207999999985ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 供应商返回不合规镜头表时报告落档并在渲染前打回",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 供应商返回不合规镜头表时报告落档并在渲染前打回",
+      "expected": "供应商返回不合规镜头表时报告落档并在渲染前打回; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 22.61633299999994ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 既有项目补跑重新选型并留下 routeMeta 变更事件",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 既有项目补跑重新选型并留下 routeMeta 变更事件",
+      "expected": "既有项目补跑重新选型并留下 routeMeta 变更事件; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 22.961874999999964ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 显式 VM_PRODUCER_RETRY=1 时才恢复有限重试；成功结果保留 stages.dataMining 驱动商品投影",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 显式 VM_PRODUCER_RETRY=1 时才恢复有限重试；成功结果保留 stages.dataMining 驱动商品投影",
+      "expected": "显式 VM_PRODUCER_RETRY=1 时才恢复有限重试；成功结果保留 stages.dataMining 驱动商品投影; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 12.739749999999958ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 默认：监制打回即停，不自动重跑（不再把 AI 打回变成重复烧钱）",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 默认：监制打回即停，不自动重跑（不再把 AI 打回变成重复烧钱）",
+      "expected": "默认：监制打回即停，不自动重跑（不再把 AI 打回变成重复烧钱）; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 12.446374999999989ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 业务软失败不得显示 finished",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 业务软失败不得显示 finished",
+      "expected": "业务软失败不得显示 finished; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 12.629333999999972ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 vendor 抛错保留原始错误，仍释放资源并写失败档案",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: vendor 抛错保留原始错误，仍释放资源并写失败档案",
+      "expected": "vendor 抛错保留原始错误，仍释放资源并写失败档案; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 12.470916999999872ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 归档输出写入失败时，不因已取得 rawResult 而伪称成功",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 归档输出写入失败时，不因已取得 rawResult 而伪称成功",
+      "expected": "归档输出写入失败时，不因已取得 rawResult 而伪称成功; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 13.24629200000004ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 禁止关闭生产档案，拒绝发生在供应商与租约调用之前",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 禁止关闭生产档案，拒绝发生在供应商与租约调用之前",
+      "expected": "禁止关闭生产档案，拒绝发生在供应商与租约调用之前; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.8521660000001248ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 租约 busy 不会无锁执行，并清理已安装的桥",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 租约 busy 不会无锁执行，并清理已安装的桥",
+      "expected": "租约 busy 不会无锁执行，并清理已安装的桥; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 12.720000000000027ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 租约 error 不会无锁执行，并清理已安装的桥",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 租约 error 不会无锁执行，并清理已安装的桥",
+      "expected": "租约 error 不会无锁执行，并清理已安装的桥; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 12.231500000000096ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 项目/档案初始化 missing 时不执行并释放租约",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 项目/档案初始化 missing 时不执行并释放租约",
+      "expected": "项目/档案初始化 missing 时不执行并释放租约; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 13.125291999999945ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 项目/档案初始化 error 时不执行并释放租约",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 项目/档案初始化 error 时不执行并释放租约",
+      "expected": "项目/档案初始化 error 时不执行并释放租约; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 11.542541999999912ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 项目/档案初始化 archive 时不执行并释放租约",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 项目/档案初始化 archive 时不执行并释放租约",
+      "expected": "项目/档案初始化 archive 时不执行并释放租约; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 13.928291999999828ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 完成回执未核实不投影商品也不自动重试",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 完成回执未核实不投影商品也不自动重试",
+      "expected": "完成回执未核实不投影商品也不自动重试; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 10.978166000000101ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 解锁和日志清理抛错仍清理绑定桥并写终态",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 解锁和日志清理抛错仍清理绑定桥并写终态",
+      "expected": "解锁和日志清理抛错仍清理绑定桥并写终态; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 11.200624999999945ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 失败原因兼容已有 failures 与 errorMessage，空消息回退且限制长度",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 失败原因兼容已有 failures 与 errorMessage，空消息回退且限制长度",
+      "expected": "失败原因兼容已有 failures 与 errorMessage，空消息回退且限制长度; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 0.24558400000000802ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 叙事成功档案保留本次六门证据；G5没有人物时明确不适用，G7使用prompt",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 叙事成功档案保留本次六门证据；G5没有人物时明确不适用，G7使用prompt",
+      "expected": "叙事成功档案保留本次六门证据；G5没有人物时明确不适用，G7使用prompt; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 13.323750000000018ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 只有vendor自报成功但没有本次服务门回执，叙事档案不得done",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 只有vendor自报成功但没有本次服务门回执，叙事档案不得done",
+      "expected": "只有vendor自报成功但没有本次服务门回执，叙事档案不得done; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 10.336041999999907ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "预生产原始结果与诚实终态 定妆照只完成计划却缺实际图片时，G5 事实核验先行失败关闭（不占用人类时间、不调 AI 评审）",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 定妆照只完成计划却缺实际图片时，G5 事实核验先行失败关闭（不占用人类时间、不调 AI 评审）",
+      "expected": "定妆照只完成计划却缺实际图片时，G5 事实核验先行失败关闭（不占用人类时间、不调 AI 评审）; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 11.949207999999999ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "实际宿主G4档案接线（供应商和PG边界替身，不授予整片资格） 图像模型未启用时仍把完整受控档案与全部8张原图送G4，生产配置没有丢授权作用域",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 图像模型未启用时仍把完整受控档案与全部8张原图送G4，生产配置没有丢授权作用域",
+      "expected": "图像模型未启用时仍把完整受控档案与全部8张原图送G4，生产配置没有丢授权作用域; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 14.558415999999852ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "实际宿主G4档案接线（供应商和PG边界替身，不授予整片资格） missing-image-proof使真实onApproval拒绝自报通过",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: missing-image-proof使真实onApproval拒绝自报通过",
+      "expected": "missing-image-proof使真实onApproval拒绝自报通过; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 13.26320899999996ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "实际宿主G4档案接线（供应商和PG边界替身，不授予整片资格） wrong-image-scope使真实onApproval拒绝自报通过",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: wrong-image-scope使真实onApproval拒绝自报通过",
+      "expected": "wrong-image-scope使真实onApproval拒绝自报通过; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 12.849249999999984ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "实际宿主G4档案接线（供应商和PG边界替身，不授予整片资格） changed-during-review使真实onApproval拒绝自报通过",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: changed-during-review使真实onApproval拒绝自报通过",
+      "expected": "changed-during-review使真实onApproval拒绝自报通过; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 12.757583000000068ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "宿主营销G1必须先于vendor 真实权限守卫允许本次内部裁决落账，系统事件归因保持一致",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 真实权限守卫允许本次内部裁决落账，系统事件归因保持一致",
+      "expected": "真实权限守卫允许本次内部裁决落账，系统事件归因保持一致; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 32.34225000000015ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "宿主营销G1必须先于vendor 内部裁决写入失败仍终止，保留失败回执与回滚",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 内部裁决写入失败仍终止，保留失败回执与回滚",
+      "expected": "内部裁决写入失败仍终止，保留失败回执与回滚; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 11.257417000000032ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "宿主营销G1必须先于vendor vendor 返回后原生交接编译仍消费完整本次用途限制，结束后不泄漏",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: vendor 返回后原生交接编译仍消费完整本次用途限制，结束后不泄漏",
+      "expected": "vendor 返回后原生交接编译仍消费完整本次用途限制，结束后不泄漏; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 12.802249999999958ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "宿主营销G1必须先于vendor 当前attempt事实G1通过后才调用vendor，最终完整镜头审核写回事实引用",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 当前attempt事实G1通过后才调用vendor，最终完整镜头审核写回事实引用",
+      "expected": "当前attempt事实G1通过后才调用vendor，最终完整镜头审核写回事实引用; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 11.885042000000112ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "宿主营销G1必须先于vendor source未核实不执行vendor或终态事实审核",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: source未核实不执行vendor或终态事实审核",
+      "expected": "source未核实不执行vendor或终态事实审核; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 12.89754199999993ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "宿主营销G1必须先于vendor g1未核实不执行vendor或终态事实审核",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: g1未核实不执行vendor或终态事实审核",
+      "expected": "g1未核实不执行vendor或终态事实审核; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 12.439959000000044ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "宿主营销G1必须先于vendor unverified-proof未核实不执行vendor或终态事实审核",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: unverified-proof未核实不执行vendor或终态事实审核",
+      "expected": "unverified-proof未核实不执行vendor或终态事实审核; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 13.498125000000073ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "宿主营销G1必须先于vendor unbound-proof未核实不执行vendor或终态事实审核",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: unbound-proof未核实不执行vendor或终态事实审核",
+      "expected": "unbound-proof未核实不执行vendor或终态事实审核; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 12.341083000000026ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    },
+    {
+      "suite": "affected integration",
+      "name": "宿主营销G1必须先于vendor 最终事实审核失败时不写done、不投影商品，保留失败原因",
+      "source": "apps/server/src/video/studio-worker.test.ts",
+      "preconditions": "Actual startRun/StageRunner/ArchiveStore and temporary files; PG, vendor/model/media boundary substitutes; selected G4 profile fixtures use current receipt bytes.",
+      "steps": "Execute the complete currently read test definition: 最终事实审核失败时不写done、不投影商品，保留失败原因",
+      "expected": "最终事实审核失败时不写done、不投影商品，保留失败原因; source-defined assertions must hold without changing runtime guards.",
+      "actual": "passed; 12.724249999999984ms; no skipped/pending case",
+      "grade": "B",
+      "execution": {
+        "path": "independent-native-vitest.json",
+        "sha256": "f5d976bdd5d86d8f150b218c90f57d491f669fd27e8f6bf8ac6da7352fb3a7c9"
+      }
+    }
+  ]
+}

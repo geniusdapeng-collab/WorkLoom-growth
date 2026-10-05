@@ -1,0 +1,3477 @@
+[ProcessGuard] 实例 default 安装完成（含SIGTERM/SIGINT处理）
+⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+ 人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+ 配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ScriptGenerator] 使用LLMEngine (fixture-model)
+[PRDGenerator] 🚀 开始生成 PRD...
+[PRDGenerator] Step 1/5: 产品定义...
+[PRDGenerator] Step 2/5: 创意方向（LLM）...
+[PRDGenerator] Step 3/5: 制作规格（LLM）...
+[PRDGenerator] Step 4/5: 约束合成...
+[PRDGenerator] Step 5/5: 交付标准...
+[PRDGenerator] 🔍 结构校验...
+[PRDGenerator] ✅ PRD 生成完成，耗时 4ms
+
+--- 📋 PRD 产品需求文档确认 ---
+# 产品需求文档（PRD）
+
+> 项目：台式双屏自助机 | 版本：1.0.0
+
+---
+
+## 摘要
+
+| 项目 | 内容 |
+|------|------|
+| 类型 | 商业广告 / 商业广告 |
+| 时长 | 30 秒 |
+| 平台 | wechat-channels |
+| 场景 | 1 场景 / 4 预估镜头 |
+| 角色 | 客户方CEO, 受控前台员工 |
+
+**核心钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+
+---
+
+## 📖 用户原始输入（创作素材源）
+
+> 以下原始素材是用户提供的故事蓝本，剧本生成和提示词设计必须以此为核心依据：
+
+客户原始需求完整保留。
+
+
+---
+
+## 1. 项目定义
+
+- **项目名称**：台式双屏自助机
+- **项目 ID**：804d888a-e3ef-40a6-8af7-a3b6e117fd42
+- **版本**：1.0.0
+- **创建时间**：2026-10-05T19:18:52.027Z
+
+## 2. 产品定位
+
+- **视频类型**：商业广告
+- **类型细分**：商业广告
+- **目标平台**：wechat-channels
+- **目标时长**：30 秒
+- **画幅**：9:16
+- **分辨率**：4K
+- **帧率**：30fps
+
+## 3. 创意核心
+
+- **核心主题**：原生创意：小机身撑起大前台
+- **创意钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+- **情绪弧线**：setup→climax→resolution
+- **关键信息**：- P0: 自助入住，前台从容
+- **反转/高潮**：原生反转
+- **结尾类型**：闭合式
+
+## 4. 视觉规格
+
+- **主要风格**：电影级写实
+- **色彩**：主色调 深蓝，强调色 暖白，情绪 从容
+- **光照**：原生柔和侧光
+- **镜头语言**：原生稳定推进
+- **纹理质量**：写实
+- **参考**：实际酒店前台
+- **特效**：无
+
+## 5. 音频规格
+
+- **音乐风格**：原生音乐说明
+- **音效设计**：原生环境音说明
+- **配音策略**：旁白+对白
+- **音频情绪**：从容
+- **参考**：无
+
+## 6. 角色系统
+
+
+### 客户方CEO (主角)
+
+- **年龄段**：三十岁上下
+- **外貌**：{"face":"受控五官描述"}
+- **性格**：{"speechRate":"平稳","demeanor":"从容"}
+- **服装**：{"outfit":"受控商务装"}
+- **一致性要求**：跨镜头一致；属性与本次已选档案 demo-character 一致，复用已验收原图，不生成新定妆照
+
+
+### 受控前台员工 (主角)
+
+- **年龄段**：三十岁上下
+- **外貌**：{"face":"受控五官描述"}
+- **性格**：{"speechRate":"平稳","demeanor":"从容"}
+- **服装**：{"outfit":"受控商务装"}
+- **一致性要求**：跨镜头一致；属性与本次已选档案 controlled-second-actor 一致，复用已验收原图，不生成新定妆照
+
+
+## 7. 场景规划
+
+
+### SC01（第 1 场，30 秒）
+
+- **目的**：原生场景目的
+- **情绪节点**：climax
+- **设定**：原生酒店场景
+- **时间**：上午
+- **道具**：台式双屏自助机
+- **视觉要求**：原生视觉要求
+- **音频要求**：原生音频要求
+- **台词**：原生台词不得由桥重写。
+- **预估镜头**：4 个（wide → medium → close-up）
+
+
+## 8. 制作约束
+
+- **技术约束**：- 保持视觉风格一致性
+- **业务约束**：- 既有事实红线必须保留
+- **禁止元素**：- 负面信息
+- 政治敏感
+- 暴力内容
+- **质量阈值**：视觉 0.8 / 音频 0.75 / 叙事 0.85 / 一致性 0.75
+- **模型能力**：复杂度 moderate，策略 textual-description
+
+## 9. 受众定位
+
+- **主要受众**：25-50 岁，all
+- **兴趣标签**：酒店经营
+- **消费能力**：medium
+- **情绪触发**：从容
+- **内容期望**：可信
+
+## 10. 参考案例
+
+- **影片**：未指定
+- **广告**：无
+- **风格**：未指定
+
+## 11. 交付标准
+
+### 交付物
+- [必] **video_master**：MP4/H.265, 4K
+- [选] **audio_stems**：分轨音频
+- [必] **prompt_log**：完整Prompt审计日志
+- [必] **subtitle_delivery**：{"mode":"sidecar","formats":["srt","ass","vtt"],"masterBurnedIn":false,"softSubtitleTrack":true,"requireTimelineValidation":true,"source":"scripts/tools/full-chain-film.mts:subtitle/mux"}
+
+### 验收标准
+- 视觉质量：0.8
+- 音频质量：0.75
+- 叙事质量：0.85
+- 一致性：0.75
+
+### 输出格式
+- 视频编码：H.265
+- 音频编码：AAC
+- 容器：MP4
+
+### 降级预案
+- **触发**：任一统一质量阈值未达标：{"visual":0.8,"audio":0.75,"narrative":0.85,"consistency":0.75}
+- **动作**：降低视觉复杂度，使用 simpler prompt，减少特效需求
+- **预期产出**：原生动作仅可调整制作复杂度，统一质量阈值保持；未达标不能宣称交付通过
+
+---
+
+
+> PRD 生成耗时：未记录ms
+
+
+## 宿主原生PRD来源合同（完整当前档案与实物回执）
+
+{
+  "schema": "workloom.native-prd-contract/v1",
+  "sourceSha256": "c178ac384a509012eea12ee11546e4846a48d497d57bc09c13dd9e9e871ef9da",
+  "requirementSourceSha256": "47ca7c535ad456fc5794dbb1d15550842c33f2f2ed2f63b7a195969103badd80",
+  "archives": {
+    "characters": [
+      {
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "kind": "authorized-real",
+        "identity": {
+          "gender": "female",
+          "age": "三十岁上下",
+          "role": "公司CEO"
+        },
+        "appearance": {
+          "face": "受控五官描述"
+        },
+        "wardrobe": {
+          "outfit": "受控商务装"
+        },
+        "persona": {
+          "speechRate": "平稳",
+          "demeanor": "从容"
+        },
+        "authorization": {
+          "consented": true,
+          "scope": "internal-film",
+          "evidence": "asset://fixture-real-person"
+        },
+        "certified": {
+          "identity": "source-profile"
+        }
+      },
+      {
+        "id": "controlled-second-actor",
+        "name": "受控前台员工",
+        "kind": "authorized-real",
+        "identity": {
+          "gender": "female",
+          "age": "三十岁上下",
+          "role": "前台员工"
+        },
+        "appearance": {
+          "face": "受控五官描述"
+        },
+        "wardrobe": {
+          "outfit": "受控商务装"
+        },
+        "persona": {
+          "speechRate": "平稳",
+          "demeanor": "从容"
+        },
+        "authorization": {
+          "consented": true,
+          "scope": "internal-film",
+          "evidence": "asset://fixture-real-person"
+        },
+        "certified": {
+          "identity": "source-profile"
+        }
+      }
+    ],
+    "products": [],
+    "portraits": [
+      {
+        "kind": "character",
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "aliases": [
+          "客户已选CEO"
+        ],
+        "files": {
+          "front": {
+            "path": "/tmp/native-prd-contract-tA671i/front.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/front.png",
+            "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+            "bytes": 2048
+          },
+          "threeQuarter": {
+            "path": "/tmp/native-prd-contract-tA671i/threeQuarter.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/threeQuarter.png",
+            "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+            "bytes": 2048
+          },
+          "closeup": {
+            "path": "/tmp/native-prd-contract-tA671i/closeup.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/closeup.png",
+            "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+            "bytes": 2048
+          },
+          "side": {
+            "path": "/tmp/native-prd-contract-tA671i/side.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/side.png",
+            "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+            "bytes": 2048
+          },
+          "back": {
+            "path": "/tmp/native-prd-contract-tA671i/back.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/back.png",
+            "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+            "bytes": 2048
+          },
+          "actionPose": {
+            "path": "/tmp/native-prd-contract-tA671i/actionPose.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/actionPose.png",
+            "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+            "bytes": 2048
+          },
+          "emotionCloseup": {
+            "path": "/tmp/native-prd-contract-tA671i/emotionCloseup.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/emotionCloseup.png",
+            "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+            "bytes": 2048
+          },
+          "handDetail": {
+            "path": "/tmp/native-prd-contract-tA671i/handDetail.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/handDetail.png",
+            "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+            "bytes": 2048
+          }
+        }
+      },
+      {
+        "kind": "character",
+        "id": "controlled-second-actor",
+        "name": "受控前台员工",
+        "aliases": [
+          "受控第二人物"
+        ],
+        "files": {
+          "front": {
+            "path": "/tmp/native-prd-contract-tA671i/second-front.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/second-front.png",
+            "sha256": "b10e5b5ad8476432893171d16fec2edd8c0680ef37351ad3ca7aa0c21c5f9999",
+            "bytes": 2048
+          },
+          "threeQuarter": {
+            "path": "/tmp/native-prd-contract-tA671i/second-threeQuarter.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/second-threeQuarter.png",
+            "sha256": "18b423094a1956209d0c777bbae92a8b7cf74f17739df7db4b72bf932df7cd51",
+            "bytes": 2048
+          },
+          "closeup": {
+            "path": "/tmp/native-prd-contract-tA671i/second-closeup.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/second-closeup.png",
+            "sha256": "3e2e87448d8ed8a8cfeebc62d0201f3119648832d0030e228376d0826c4dd02c",
+            "bytes": 2048
+          },
+          "side": {
+            "path": "/tmp/native-prd-contract-tA671i/second-side.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/second-side.png",
+            "sha256": "32090522b93f6c897f40a4920361f5078fcccf9bbcbae10a513d2e4e41ef3882",
+            "bytes": 2048
+          },
+          "back": {
+            "path": "/tmp/native-prd-contract-tA671i/second-back.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/second-back.png",
+            "sha256": "c6158fa9d16dea15011f87715429ac0d54493686db7319836139a3ed6b094d1c",
+            "bytes": 2048
+          },
+          "actionPose": {
+            "path": "/tmp/native-prd-contract-tA671i/second-actionPose.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/second-actionPose.png",
+            "sha256": "46ababd0fda4ec95ccef9f49cde6ae9441bff36ea2167018694e9c78ce49c934",
+            "bytes": 2048
+          },
+          "emotionCloseup": {
+            "path": "/tmp/native-prd-contract-tA671i/second-emotionCloseup.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/second-emotionCloseup.png",
+            "sha256": "d410920ee063ba42d0c6ad61ca42fd1bf2c026c101a7e38678b2172ca4b4077c",
+            "bytes": 2048
+          },
+          "handDetail": {
+            "path": "/tmp/native-prd-contract-tA671i/second-handDetail.png",
+            "realPath": "/private/tmp/native-prd-contract-tA671i/second-handDetail.png",
+            "sha256": "a8ef449923555a03d8ed0f266681d18a3c363b89e8a7fea61502047ea6f06cb1",
+            "bytes": 2048
+          }
+        }
+      }
+    ]
+  },
+  "portraits": [
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "front",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/front.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/front.png",
+        "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "threeQuarter",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/threeQuarter.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/threeQuarter.png",
+        "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "closeup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/closeup.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/closeup.png",
+        "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "side",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/side.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/side.png",
+        "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "back",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/back.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/back.png",
+        "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "actionPose",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/actionPose.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/actionPose.png",
+        "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "emotionCloseup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/emotionCloseup.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/emotionCloseup.png",
+        "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "handDetail",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/handDetail.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/handDetail.png",
+        "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "controlled-second-actor",
+      "name": "受控前台员工",
+      "angle": "front",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/second-front.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/second-front.png",
+        "sha256": "b10e5b5ad8476432893171d16fec2edd8c0680ef37351ad3ca7aa0c21c5f9999",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "controlled-second-actor",
+      "name": "受控前台员工",
+      "angle": "threeQuarter",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/second-threeQuarter.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/second-threeQuarter.png",
+        "sha256": "18b423094a1956209d0c777bbae92a8b7cf74f17739df7db4b72bf932df7cd51",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "controlled-second-actor",
+      "name": "受控前台员工",
+      "angle": "closeup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/second-closeup.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/second-closeup.png",
+        "sha256": "3e2e87448d8ed8a8cfeebc62d0201f3119648832d0030e228376d0826c4dd02c",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "controlled-second-actor",
+      "name": "受控前台员工",
+      "angle": "side",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/second-side.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/second-side.png",
+        "sha256": "32090522b93f6c897f40a4920361f5078fcccf9bbcbae10a513d2e4e41ef3882",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "controlled-second-actor",
+      "name": "受控前台员工",
+      "angle": "back",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/second-back.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/second-back.png",
+        "sha256": "c6158fa9d16dea15011f87715429ac0d54493686db7319836139a3ed6b094d1c",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "controlled-second-actor",
+      "name": "受控前台员工",
+      "angle": "actionPose",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/second-actionPose.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/second-actionPose.png",
+        "sha256": "46ababd0fda4ec95ccef9f49cde6ae9441bff36ea2167018694e9c78ce49c934",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "controlled-second-actor",
+      "name": "受控前台员工",
+      "angle": "emotionCloseup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/second-emotionCloseup.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/second-emotionCloseup.png",
+        "sha256": "d410920ee063ba42d0c6ad61ca42fd1bf2c026c101a7e38678b2172ca4b4077c",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "controlled-second-actor",
+      "name": "受控前台员工",
+      "angle": "handDetail",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-tA671i/second-handDetail.png",
+        "realPath": "/private/tmp/native-prd-contract-tA671i/second-handDetail.png",
+        "sha256": "a8ef449923555a03d8ed0f266681d18a3c363b89e8a7fea61502047ea6f06cb1",
+        "bytes": 2048
+      }
+    }
+  ],
+  "positioning": {
+    "productType": "商业广告",
+    "genre": "商业广告",
+    "targetPlatform": "wechat-channels",
+    "targetDuration": 30,
+    "aspectRatio": "9:16",
+    "resolution": "4K",
+    "frameRate": 30
+  },
+  "qualityThresholds": {
+    "visual": 0.8,
+    "audio": 0.75,
+    "narrative": 0.85,
+    "consistency": 0.75
+  },
+  "subtitleDelivery": {
+    "mode": "sidecar",
+    "formats": [
+      "srt",
+      "ass",
+      "vtt"
+    ],
+    "masterBurnedIn": false,
+    "softSubtitleTrack": true,
+    "requireTimelineValidation": true,
+    "source": "scripts/tools/full-chain-film.mts:subtitle/mux"
+  }
+}
+
+本次G4系统检查完整原生PRD及当前受控原图；人工只验收最终成片。文件散列只证明本次字节，真人身份与素材用途仍以原档案和授权作用域为准。未达标拒绝，不降低统一质量阈值、不以文字自称审美通过。
+
+
+---
+   ✅ PRD 已确认
+[ScriptEngine v1.0.0] 开始处理: 台式双屏自助机
+[ScriptEngine] 意图解析完成: commercial
+[ScriptEngine] CreativeIntensity 接入完成: intensity=0.72 (L4)
+[ScriptGenerator] 开始生成剧本: 台式双屏自助机
+[ScriptGenerator] 角色覆盖完成: 客户方CEO, 受控前台员工（已替换所有场景角色引用和身份描述）
+[ScriptGenerator] 时长对齐完成: 目标 30s, 实际 30s, 1 个场景
+[ScriptGenerator] 剧本生成完成: f1a8b921-7851-4cbf-a537-7a3b4b280701, 1 场景
+[ScriptEngine] 剧本校验: 失败 (78分)
+[ScriptEngine] 校验报告已保存: /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/vendor/supermickey/hyperreality-system/output/script-validation-report.json
+[Adapter] 适配剧本: 原生剧本
+[Adapter] 适配完成: 1 场景, 2 角色
+[ScriptEngine] 修复计划: 4 项
+[ScriptEngine] 处理完成: 1 场景, 2 角色
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ScriptGenerator] 使用LLMEngine (fixture-model)
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ScriptGenerator] 使用LLMEngine (fixture-model)
+[PRDGenerator] 🚀 开始生成 PRD...
+[PRDGenerator] Step 1/5: 产品定义...
+[PRDGenerator] Step 2/5: 创意方向（LLM）...
+[PRDGenerator] Step 3/5: 制作规格（LLM）...
+[PRDGenerator] Step 4/5: 约束合成...
+[PRDGenerator] Step 5/5: 交付标准...
+[PRDGenerator] 🔍 结构校验...
+[PRDGenerator] ✅ PRD 生成完成，耗时 1ms
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ScriptGenerator] 使用LLMEngine (fixture-model)
+[PRDGenerator] 🚀 开始生成 PRD...
+[PRDGenerator] Step 1/5: 产品定义...
+[PRDGenerator] Step 2/5: 创意方向（LLM）...
+[PRDGenerator] Step 3/5: 制作规格（LLM）...
+[PRDGenerator] Step 4/5: 约束合成...
+[PRDGenerator] Step 5/5: 交付标准...
+[PRDGenerator] 🔍 结构校验...
+[PRDGenerator] ✅ PRD 生成完成，耗时 4ms
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ScriptGenerator] 使用LLMEngine (fixture-model)
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ScriptGenerator] 使用LLMEngine (fixture-model)
+[PRDGenerator] 🚀 开始生成 PRD...
+[PRDGenerator] Step 1/5: 产品定义...
+[PRDGenerator] Step 2/5: 创意方向（LLM）...
+[PRDGenerator] 🚀 开始生成 PRD...
+[PRDGenerator] Step 1/5: 产品定义...
+[PRDGenerator] Step 2/5: 创意方向（LLM）...
+[PRDGenerator] Step 3/5: 制作规格（LLM）...
+[PRDGenerator] Step 3/5: 制作规格（LLM）...
+[PRDGenerator] Step 4/5: 约束合成...
+[PRDGenerator] Step 5/5: 交付标准...
+[PRDGenerator] 🔍 结构校验...
+[PRDGenerator] ✅ PRD 生成完成，耗时 4ms
+[PRDGenerator] Step 4/5: 约束合成...
+[PRDGenerator] Step 5/5: 交付标准...
+[PRDGenerator] 🔍 结构校验...
+[PRDGenerator] ✅ PRD 生成完成，耗时 3ms
+
+--- 📋 PRD 产品需求文档确认 ---
+# 产品需求文档（PRD）
+
+> 项目：台式双屏自助机 | 版本：1.0.0
+
+---
+
+## 摘要
+
+| 项目 | 内容 |
+|------|------|
+| 类型 | 商业广告 / 商业广告 |
+| 时长 | 30 秒 |
+| 平台 | wechat-channels |
+| 场景 | 1 场景 / 4 预估镜头 |
+| 角色 | 客户方CEO |
+
+**核心钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+
+---
+
+## 📖 用户原始输入（创作素材源）
+
+> 以下原始素材是用户提供的故事蓝本，剧本生成和提示词设计必须以此为核心依据：
+
+客户原始需求完整保留。
+
+
+---
+
+## 1. 项目定义
+
+- **项目名称**：台式双屏自助机
+- **项目 ID**：c5726d1f-7ebb-495f-b019-24b178658863
+- **版本**：1.0.0
+- **创建时间**：2026-10-05T19:18:52.073Z
+
+## 2. 产品定位
+
+- **视频类型**：商业广告
+- **类型细分**：商业广告
+- **目标平台**：wechat-channels
+- **目标时长**：30 秒
+- **画幅**：9:16
+- **分辨率**：4K
+- **帧率**：30fps
+
+## 3. 创意核心
+
+- **核心主题**：原生创意：小机身撑起大前台
+- **创意钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+- **情绪弧线**：setup→climax→resolution
+- **关键信息**：- P0: 自助入住，前台从容
+- **反转/高潮**：原生反转
+- **结尾类型**：闭合式
+
+## 4. 视觉规格
+
+- **主要风格**：电影级写实
+- **色彩**：主色调 深蓝，强调色 暖白，情绪 从容
+- **光照**：原生柔和侧光
+- **镜头语言**：原生稳定推进
+- **纹理质量**：写实
+- **参考**：实际酒店前台
+- **特效**：无
+
+## 5. 音频规格
+
+- **音乐风格**：原生音乐说明
+- **音效设计**：原生环境音说明
+- **配音策略**：旁白+对白
+- **音频情绪**：从容
+- **参考**：无
+
+## 6. 角色系统
+
+
+### 客户方CEO (主角)
+
+- **年龄段**：三十岁上下
+- **外貌**：{"face":"受控五官描述"}
+- **性格**：{"speechRate":"平稳","demeanor":"从容"}
+- **服装**：{"outfit":"受控商务装"}
+- **一致性要求**：跨镜头一致；属性与本次已选档案 demo-character 一致，复用已验收原图，不生成新定妆照
+
+
+## 7. 场景规划
+
+
+### SC01（第 1 场，30 秒）
+
+- **目的**：原生场景目的
+- **情绪节点**：climax
+- **设定**：原生酒店场景
+- **时间**：上午
+- **道具**：台式双屏自助机
+- **视觉要求**：原生视觉要求
+- **音频要求**：原生音频要求
+- **台词**：原生台词不得由桥重写。
+- **预估镜头**：4 个（wide → medium → close-up）
+
+
+## 8. 制作约束
+
+- **技术约束**：- 保持视觉风格一致性
+- **业务约束**：- 既有事实红线必须保留
+- **禁止元素**：- 负面信息
+- 政治敏感
+- 暴力内容
+- **质量阈值**：视觉 0.8 / 音频 0.75 / 叙事 0.85 / 一致性 0.75
+- **模型能力**：复杂度 moderate，策略 textual-description
+
+## 9. 受众定位
+
+- **主要受众**：25-50 岁，all
+- **兴趣标签**：酒店经营
+- **消费能力**：medium
+- **情绪触发**：从容
+- **内容期望**：可信
+
+## 10. 参考案例
+
+- **影片**：未指定
+- **广告**：无
+- **风格**：未指定
+
+## 11. 交付标准
+
+### 交付物
+- [必] **video_master**：MP4/H.265, 4K
+- [选] **audio_stems**：分轨音频
+- [必] **prompt_log**：完整Prompt审计日志
+- [必] **subtitle_delivery**：{"mode":"sidecar","formats":["srt","ass","vtt"],"masterBurnedIn":false,"softSubtitleTrack":true,"requireTimelineValidation":true,"source":"scripts/tools/full-chain-film.mts:subtitle/mux"}
+
+### 验收标准
+- 视觉质量：0.8
+- 音频质量：0.75
+- 叙事质量：0.85
+- 一致性：0.75
+
+### 输出格式
+- 视频编码：H.265
+- 音频编码：AAC
+- 容器：MP4
+
+### 降级预案
+- **触发**：任一统一质量阈值未达标：{"visual":0.8,"audio":0.75,"narrative":0.85,"consistency":0.75}
+- **动作**：降低视觉复杂度，使用 simpler prompt，减少特效需求
+- **预期产出**：原生动作仅可调整制作复杂度，统一质量阈值保持；未达标不能宣称交付通过
+
+---
+
+
+> PRD 生成耗时：未记录ms
+
+
+## 宿主原生PRD来源合同（完整当前档案与实物回执）
+
+{
+  "schema": "workloom.native-prd-contract/v1",
+  "sourceSha256": "9888dda9fd7969acd13bbec27ba26fa91caef0f41599698e55738fa45224b1ab",
+  "requirementSourceSha256": "3327f266a1eca33a5e2b955880d2232efa7b661894fc89560cce50bed827b5c3",
+  "archives": {
+    "characters": [
+      {
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "kind": "authorized-real",
+        "identity": {
+          "gender": "female",
+          "age": "三十岁上下",
+          "role": "公司CEO"
+        },
+        "appearance": {
+          "face": "受控五官描述"
+        },
+        "wardrobe": {
+          "outfit": "受控商务装"
+        },
+        "persona": {
+          "speechRate": "平稳",
+          "demeanor": "从容"
+        },
+        "authorization": {
+          "consented": true,
+          "scope": "internal-film",
+          "evidence": "asset://fixture-real-person"
+        },
+        "certified": {
+          "identity": "source-profile"
+        }
+      }
+    ],
+    "products": [],
+    "portraits": [
+      {
+        "kind": "character",
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "aliases": [
+          "客户已选CEO"
+        ],
+        "files": {
+          "front": {
+            "path": "/tmp/native-prd-contract-shfHxS/front.png",
+            "realPath": "/private/tmp/native-prd-contract-shfHxS/front.png",
+            "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+            "bytes": 2048
+          },
+          "threeQuarter": {
+            "path": "/tmp/native-prd-contract-shfHxS/threeQuarter.png",
+            "realPath": "/private/tmp/native-prd-contract-shfHxS/threeQuarter.png",
+            "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+            "bytes": 2048
+          },
+          "closeup": {
+            "path": "/tmp/native-prd-contract-shfHxS/closeup.png",
+            "realPath": "/private/tmp/native-prd-contract-shfHxS/closeup.png",
+            "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+            "bytes": 2048
+          },
+          "side": {
+            "path": "/tmp/native-prd-contract-shfHxS/side.png",
+            "realPath": "/private/tmp/native-prd-contract-shfHxS/side.png",
+            "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+            "bytes": 2048
+          },
+          "back": {
+            "path": "/tmp/native-prd-contract-shfHxS/back.png",
+            "realPath": "/private/tmp/native-prd-contract-shfHxS/back.png",
+            "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+            "bytes": 2048
+          },
+          "actionPose": {
+            "path": "/tmp/native-prd-contract-shfHxS/actionPose.png",
+            "realPath": "/private/tmp/native-prd-contract-shfHxS/actionPose.png",
+            "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+            "bytes": 2048
+          },
+          "emotionCloseup": {
+            "path": "/tmp/native-prd-contract-shfHxS/emotionCloseup.png",
+            "realPath": "/private/tmp/native-prd-contract-shfHxS/emotionCloseup.png",
+            "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+            "bytes": 2048
+          },
+          "handDetail": {
+            "path": "/tmp/native-prd-contract-shfHxS/handDetail.png",
+            "realPath": "/private/tmp/native-prd-contract-shfHxS/handDetail.png",
+            "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+            "bytes": 2048
+          }
+        }
+      }
+    ]
+  },
+  "portraits": [
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "front",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-shfHxS/front.png",
+        "realPath": "/private/tmp/native-prd-contract-shfHxS/front.png",
+        "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "threeQuarter",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-shfHxS/threeQuarter.png",
+        "realPath": "/private/tmp/native-prd-contract-shfHxS/threeQuarter.png",
+        "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "closeup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-shfHxS/closeup.png",
+        "realPath": "/private/tmp/native-prd-contract-shfHxS/closeup.png",
+        "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "side",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-shfHxS/side.png",
+        "realPath": "/private/tmp/native-prd-contract-shfHxS/side.png",
+        "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "back",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-shfHxS/back.png",
+        "realPath": "/private/tmp/native-prd-contract-shfHxS/back.png",
+        "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "actionPose",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-shfHxS/actionPose.png",
+        "realPath": "/private/tmp/native-prd-contract-shfHxS/actionPose.png",
+        "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "emotionCloseup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-shfHxS/emotionCloseup.png",
+        "realPath": "/private/tmp/native-prd-contract-shfHxS/emotionCloseup.png",
+        "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "handDetail",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-shfHxS/handDetail.png",
+        "realPath": "/private/tmp/native-prd-contract-shfHxS/handDetail.png",
+        "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+        "bytes": 2048
+      }
+    }
+  ],
+  "positioning": {
+    "productType": "商业广告",
+    "genre": "商业广告",
+    "targetPlatform": "wechat-channels",
+    "targetDuration": 30,
+    "aspectRatio": "9:16",
+    "resolution": "4K",
+    "frameRate": 30
+  },
+  "qualityThresholds": {
+    "visual": 0.8,
+    "audio": 0.75,
+    "narrative": 0.85,
+    "consistency": 0.75
+  },
+  "subtitleDelivery": {
+    "mode": "sidecar",
+    "formats": [
+      "srt",
+      "ass",
+      "vtt"
+    ],
+    "masterBurnedIn": false,
+    "softSubtitleTrack": true,
+    "requireTimelineValidation": true,
+    "source": "scripts/tools/full-chain-film.mts:subtitle/mux"
+  }
+}
+
+本次G4系统检查完整原生PRD及当前受控原图；人工只验收最终成片。文件散列只证明本次字节，真人身份与素材用途仍以原档案和授权作用域为准。未达标拒绝，不降低统一质量阈值、不以文字自称审美通过。
+
+
+---
+
+--- 📋 PRD 产品需求文档确认 ---
+# 产品需求文档（PRD）
+
+> 项目：台式双屏自助机 | 版本：1.0.0
+
+---
+
+## 摘要
+
+| 项目 | 内容 |
+|------|------|
+| 类型 | 商业广告 / 商业广告 |
+| 时长 | 30 秒 |
+| 平台 | wechat-channels |
+| 场景 | 1 场景 / 4 预估镜头 |
+| 角色 | 客户方CEO |
+
+**核心钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+
+---
+
+## 📖 用户原始输入（创作素材源）
+
+> 以下原始素材是用户提供的故事蓝本，剧本生成和提示词设计必须以此为核心依据：
+
+客户原始需求完整保留。
+
+
+---
+
+## 1. 项目定义
+
+- **项目名称**：台式双屏自助机
+- **项目 ID**：88cad336-967b-4b04-b463-8fbce94f557a
+- **版本**：1.0.0
+- **创建时间**：2026-10-05T19:18:52.074Z
+
+## 2. 产品定位
+
+- **视频类型**：商业广告
+- **类型细分**：商业广告
+- **目标平台**：wechat-channels
+- **目标时长**：30 秒
+- **画幅**：9:16
+- **分辨率**：4K
+- **帧率**：30fps
+
+## 3. 创意核心
+
+- **核心主题**：原生创意：小机身撑起大前台
+- **创意钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+- **情绪弧线**：setup→climax→resolution
+- **关键信息**：- P0: 自助入住，前台从容
+- **反转/高潮**：原生反转
+- **结尾类型**：闭合式
+
+## 4. 视觉规格
+
+- **主要风格**：电影级写实
+- **色彩**：主色调 深蓝，强调色 暖白，情绪 从容
+- **光照**：原生柔和侧光
+- **镜头语言**：原生稳定推进
+- **纹理质量**：写实
+- **参考**：实际酒店前台
+- **特效**：无
+
+## 5. 音频规格
+
+- **音乐风格**：原生音乐说明
+- **音效设计**：原生环境音说明
+- **配音策略**：旁白+对白
+- **音频情绪**：从容
+- **参考**：无
+
+## 6. 角色系统
+
+
+### 客户方CEO (主角)
+
+- **年龄段**：三十岁上下
+- **外貌**：{"face":"受控五官描述"}
+- **性格**：{"speechRate":"平稳","demeanor":"从容"}
+- **服装**：{"outfit":"受控商务装"}
+- **一致性要求**：跨镜头一致；属性与本次已选档案 demo-character 一致，复用已验收原图，不生成新定妆照
+
+
+## 7. 场景规划
+
+
+### SC01（第 1 场，30 秒）
+
+- **目的**：原生场景目的
+- **情绪节点**：climax
+- **设定**：原生酒店场景
+- **时间**：上午
+- **道具**：台式双屏自助机
+- **视觉要求**：原生视觉要求
+- **音频要求**：原生音频要求
+- **台词**：原生台词不得由桥重写。
+- **预估镜头**：4 个（wide → medium → close-up）
+
+
+## 8. 制作约束
+
+- **技术约束**：- 保持视觉风格一致性
+- **业务约束**：- 既有事实红线必须保留
+- **禁止元素**：- 负面信息
+- 政治敏感
+- 暴力内容
+- **质量阈值**：视觉 0.8 / 音频 0.75 / 叙事 0.85 / 一致性 0.75
+- **模型能力**：复杂度 moderate，策略 textual-description
+
+## 9. 受众定位
+
+- **主要受众**：25-50 岁，all
+- **兴趣标签**：酒店经营
+- **消费能力**：medium
+- **情绪触发**：从容
+- **内容期望**：可信
+
+## 10. 参考案例
+
+- **影片**：未指定
+- **广告**：无
+- **风格**：未指定
+
+## 11. 交付标准
+
+### 交付物
+- [必] **video_master**：MP4/H.265, 4K
+- [选] **audio_stems**：分轨音频
+- [必] **prompt_log**：完整Prompt审计日志
+- [必] **subtitle_delivery**：{"mode":"sidecar","formats":["srt","ass","vtt"],"masterBurnedIn":false,"softSubtitleTrack":true,"requireTimelineValidation":true,"source":"scripts/tools/full-chain-film.mts:subtitle/mux"}
+
+### 验收标准
+- 视觉质量：0.8
+- 音频质量：0.75
+- 叙事质量：0.85
+- 一致性：0.75
+
+### 输出格式
+- 视频编码：H.265
+- 音频编码：AAC
+- 容器：MP4
+
+### 降级预案
+- **触发**：任一统一质量阈值未达标：{"visual":0.8,"audio":0.75,"narrative":0.85,"consistency":0.75}
+- **动作**：降低视觉复杂度，使用 simpler prompt，减少特效需求
+- **预期产出**：原生动作仅可调整制作复杂度，统一质量阈值保持；未达标不能宣称交付通过
+
+---
+
+
+> PRD 生成耗时：未记录ms
+
+
+## 宿主原生PRD来源合同（完整当前档案与实物回执）
+
+{
+  "schema": "workloom.native-prd-contract/v1",
+  "sourceSha256": "95f9aaf60e0652bfe42381ffd023531085ba435e757ad8b3e0e730ac5fc9b0fc",
+  "requirementSourceSha256": "b8f229266b313352592a43446efdccdf8596e39528101184f1bde07adf68d191",
+  "archives": {
+    "characters": [
+      {
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "kind": "authorized-real",
+        "identity": {
+          "gender": "female",
+          "age": "三十岁上下",
+          "role": "公司CEO"
+        },
+        "appearance": {
+          "face": "受控五官描述"
+        },
+        "wardrobe": {
+          "outfit": "受控商务装"
+        },
+        "persona": {
+          "speechRate": "平稳",
+          "demeanor": "从容"
+        },
+        "authorization": {
+          "consented": true,
+          "scope": "internal-film",
+          "evidence": "asset://fixture-real-person"
+        },
+        "certified": {
+          "identity": "source-profile"
+        }
+      }
+    ],
+    "products": [],
+    "portraits": [
+      {
+        "kind": "character",
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "aliases": [
+          "客户已选CEO"
+        ],
+        "files": {
+          "front": {
+            "path": "/tmp/native-prd-contract-U0rNBc/front.png",
+            "realPath": "/private/tmp/native-prd-contract-U0rNBc/front.png",
+            "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+            "bytes": 2048
+          },
+          "threeQuarter": {
+            "path": "/tmp/native-prd-contract-U0rNBc/threeQuarter.png",
+            "realPath": "/private/tmp/native-prd-contract-U0rNBc/threeQuarter.png",
+            "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+            "bytes": 2048
+          },
+          "closeup": {
+            "path": "/tmp/native-prd-contract-U0rNBc/closeup.png",
+            "realPath": "/private/tmp/native-prd-contract-U0rNBc/closeup.png",
+            "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+            "bytes": 2048
+          },
+          "side": {
+            "path": "/tmp/native-prd-contract-U0rNBc/side.png",
+            "realPath": "/private/tmp/native-prd-contract-U0rNBc/side.png",
+            "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+            "bytes": 2048
+          },
+          "back": {
+            "path": "/tmp/native-prd-contract-U0rNBc/back.png",
+            "realPath": "/private/tmp/native-prd-contract-U0rNBc/back.png",
+            "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+            "bytes": 2048
+          },
+          "actionPose": {
+            "path": "/tmp/native-prd-contract-U0rNBc/actionPose.png",
+            "realPath": "/private/tmp/native-prd-contract-U0rNBc/actionPose.png",
+            "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+            "bytes": 2048
+          },
+          "emotionCloseup": {
+            "path": "/tmp/native-prd-contract-U0rNBc/emotionCloseup.png",
+            "realPath": "/private/tmp/native-prd-contract-U0rNBc/emotionCloseup.png",
+            "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+            "bytes": 2048
+          },
+          "handDetail": {
+            "path": "/tmp/native-prd-contract-U0rNBc/handDetail.png",
+            "realPath": "/private/tmp/native-prd-contract-U0rNBc/handDetail.png",
+            "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+            "bytes": 2048
+          }
+        }
+      }
+    ]
+  },
+  "portraits": [
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "front",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-U0rNBc/front.png",
+        "realPath": "/private/tmp/native-prd-contract-U0rNBc/front.png",
+        "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "threeQuarter",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-U0rNBc/threeQuarter.png",
+        "realPath": "/private/tmp/native-prd-contract-U0rNBc/threeQuarter.png",
+        "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "closeup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-U0rNBc/closeup.png",
+        "realPath": "/private/tmp/native-prd-contract-U0rNBc/closeup.png",
+        "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "side",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-U0rNBc/side.png",
+        "realPath": "/private/tmp/native-prd-contract-U0rNBc/side.png",
+        "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "back",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-U0rNBc/back.png",
+        "realPath": "/private/tmp/native-prd-contract-U0rNBc/back.png",
+        "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "actionPose",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-U0rNBc/actionPose.png",
+        "realPath": "/private/tmp/native-prd-contract-U0rNBc/actionPose.png",
+        "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "emotionCloseup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-U0rNBc/emotionCloseup.png",
+        "realPath": "/private/tmp/native-prd-contract-U0rNBc/emotionCloseup.png",
+        "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "handDetail",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-U0rNBc/handDetail.png",
+        "realPath": "/private/tmp/native-prd-contract-U0rNBc/handDetail.png",
+        "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+        "bytes": 2048
+      }
+    }
+  ],
+  "positioning": {
+    "productType": "商业广告",
+    "genre": "商业广告",
+    "targetPlatform": "wechat-channels",
+    "targetDuration": 30,
+    "aspectRatio": "9:16",
+    "resolution": "4K",
+    "frameRate": 30
+  },
+  "qualityThresholds": {
+    "visual": 0.8,
+    "audio": 0.75,
+    "narrative": 0.85,
+    "consistency": 0.75
+  },
+  "subtitleDelivery": {
+    "mode": "sidecar",
+    "formats": [
+      "srt",
+      "ass",
+      "vtt"
+    ],
+    "masterBurnedIn": false,
+    "softSubtitleTrack": true,
+    "requireTimelineValidation": true,
+    "source": "scripts/tools/full-chain-film.mts:subtitle/mux"
+  }
+}
+
+本次G4系统检查完整原生PRD及当前受控原图；人工只验收最终成片。文件散列只证明本次字节，真人身份与素材用途仍以原档案和授权作用域为准。未达标拒绝，不降低统一质量阈值、不以文字自称审美通过。
+
+
+---
+   ✅ PRD 已确认
+   ✅ PRD 已确认
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ScriptGenerator] 使用LLMEngine (fixture-model)
+[PRDGenerator] 🚀 开始生成 PRD...
+[PRDGenerator] Step 1/5: 产品定义...
+[PRDGenerator] Step 2/5: 创意方向（LLM）...
+[PRDGenerator] Step 3/5: 制作规格（LLM）...
+[PRDGenerator] Step 4/5: 约束合成...
+[PRDGenerator] Step 5/5: 交付标准...
+[PRDGenerator] 🔍 结构校验...
+[PRDGenerator] ✅ PRD 生成完成，耗时 1ms
+
+--- 📋 PRD 产品需求文档确认 ---
+# 产品需求文档（PRD）
+
+> 项目：台式双屏自助机 | 版本：1.0.0
+
+---
+
+## 摘要
+
+| 项目 | 内容 |
+|------|------|
+| 类型 | 商业广告 / 商业广告 |
+| 时长 | 30 秒 |
+| 平台 | wechat-channels |
+| 场景 | 1 场景 / 4 预估镜头 |
+| 角色 | 客户方CEO |
+
+**核心钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+
+---
+
+## 📖 用户原始输入（创作素材源）
+
+> 以下原始素材是用户提供的故事蓝本，剧本生成和提示词设计必须以此为核心依据：
+
+客户原始需求完整保留。
+
+
+---
+
+## 1. 项目定义
+
+- **项目名称**：台式双屏自助机
+- **项目 ID**：c6e92751-ccc8-4a18-a8e7-19592fcf622f
+- **版本**：1.0.0
+- **创建时间**：2026-10-05T19:18:52.087Z
+
+## 2. 产品定位
+
+- **视频类型**：商业广告
+- **类型细分**：商业广告
+- **目标平台**：wechat-channels
+- **目标时长**：30 秒
+- **画幅**：9:16
+- **分辨率**：4K
+- **帧率**：30fps
+
+## 3. 创意核心
+
+- **核心主题**：原生创意：小机身撑起大前台
+- **创意钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+- **情绪弧线**：setup→climax→resolution
+- **关键信息**：- P0: 自助入住，前台从容
+- **反转/高潮**：原生反转
+- **结尾类型**：闭合式
+
+## 4. 视觉规格
+
+- **主要风格**：电影级写实
+- **色彩**：主色调 深蓝，强调色 暖白，情绪 从容
+- **光照**：原生柔和侧光
+- **镜头语言**：原生稳定推进
+- **纹理质量**：写实
+- **参考**：实际酒店前台
+- **特效**：无
+
+## 5. 音频规格
+
+- **音乐风格**：原生音乐说明
+- **音效设计**：原生环境音说明
+- **配音策略**：旁白+对白
+- **音频情绪**：从容
+- **参考**：无
+
+## 6. 角色系统
+
+
+### 客户方CEO (主角)
+
+- **年龄段**：三十岁上下
+- **外貌**：{"face":"受控五官描述"}
+- **性格**：{"speechRate":"平稳","demeanor":"从容"}
+- **服装**：{"outfit":"受控商务装"}
+- **一致性要求**：跨镜头一致；属性与本次已选档案 demo-character 一致，复用已验收原图，不生成新定妆照
+
+
+## 7. 场景规划
+
+
+### SC01（第 1 场，30 秒）
+
+- **目的**：原生场景目的
+- **情绪节点**：climax
+- **设定**：原生酒店场景
+- **时间**：上午
+- **道具**：台式双屏自助机
+- **视觉要求**：原生视觉要求
+- **音频要求**：原生音频要求
+- **台词**：原生台词不得由桥重写。
+- **预估镜头**：4 个（wide → medium → close-up）
+
+
+## 8. 制作约束
+
+- **技术约束**：- 保持视觉风格一致性
+- **业务约束**：- 既有事实红线必须保留
+- **禁止元素**：- 负面信息
+- 政治敏感
+- 暴力内容
+- **质量阈值**：视觉 0.8 / 音频 0.75 / 叙事 0.85 / 一致性 0.75
+- **模型能力**：复杂度 moderate，策略 textual-description
+
+## 9. 受众定位
+
+- **主要受众**：25-50 岁，all
+- **兴趣标签**：酒店经营
+- **消费能力**：medium
+- **情绪触发**：从容
+- **内容期望**：可信
+
+## 10. 参考案例
+
+- **影片**：未指定
+- **广告**：无
+- **风格**：未指定
+
+## 11. 交付标准
+
+### 交付物
+- [必] **video_master**：MP4/H.265, 4K
+- [选] **audio_stems**：分轨音频
+- [必] **prompt_log**：完整Prompt审计日志
+- [必] **subtitle_delivery**：{"mode":"sidecar","formats":["srt","ass","vtt"],"masterBurnedIn":false,"softSubtitleTrack":true,"requireTimelineValidation":true,"source":"scripts/tools/full-chain-film.mts:subtitle/mux"}
+
+### 验收标准
+- 视觉质量：0.8
+- 音频质量：0.75
+- 叙事质量：0.85
+- 一致性：0.75
+
+### 输出格式
+- 视频编码：H.265
+- 音频编码：AAC
+- 容器：MP4
+
+### 降级预案
+- **触发**：任一统一质量阈值未达标：{"visual":0.8,"audio":0.75,"narrative":0.85,"consistency":0.75}
+- **动作**：降低视觉复杂度，使用 simpler prompt，减少特效需求
+- **预期产出**：原生动作仅可调整制作复杂度，统一质量阈值保持；未达标不能宣称交付通过
+
+---
+
+
+> PRD 生成耗时：未记录ms
+
+
+## 宿主原生PRD来源合同（完整当前档案与实物回执）
+
+{
+  "schema": "workloom.native-prd-contract/v1",
+  "sourceSha256": "c60fa253e100b66d505819f5ae66b385c07882457f7e571c8b9f74cfa6fb2991",
+  "requirementSourceSha256": "12711c56ffe7b8e18ee7c0c112d5c68447d437f90012e98f6fb91bd19d88af2d",
+  "archives": {
+    "characters": [
+      {
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "kind": "authorized-real",
+        "identity": {
+          "gender": "female",
+          "age": "三十岁上下",
+          "role": "公司CEO"
+        },
+        "appearance": {
+          "face": "受控五官描述"
+        },
+        "wardrobe": {
+          "outfit": "受控商务装"
+        },
+        "persona": {
+          "speechRate": "平稳",
+          "demeanor": "从容"
+        },
+        "authorization": {
+          "consented": true,
+          "scope": "internal-film",
+          "evidence": "asset://fixture-real-person"
+        },
+        "certified": {
+          "identity": "source-profile"
+        }
+      }
+    ],
+    "products": [],
+    "portraits": [
+      {
+        "kind": "character",
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "aliases": [
+          "客户已选CEO"
+        ],
+        "files": {
+          "front": {
+            "path": "/tmp/native-prd-contract-0qcVzf/front.png",
+            "realPath": "/private/tmp/native-prd-contract-0qcVzf/front.png",
+            "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+            "bytes": 2048
+          },
+          "threeQuarter": {
+            "path": "/tmp/native-prd-contract-0qcVzf/threeQuarter.png",
+            "realPath": "/private/tmp/native-prd-contract-0qcVzf/threeQuarter.png",
+            "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+            "bytes": 2048
+          },
+          "closeup": {
+            "path": "/tmp/native-prd-contract-0qcVzf/closeup.png",
+            "realPath": "/private/tmp/native-prd-contract-0qcVzf/closeup.png",
+            "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+            "bytes": 2048
+          },
+          "side": {
+            "path": "/tmp/native-prd-contract-0qcVzf/side.png",
+            "realPath": "/private/tmp/native-prd-contract-0qcVzf/side.png",
+            "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+            "bytes": 2048
+          },
+          "back": {
+            "path": "/tmp/native-prd-contract-0qcVzf/back.png",
+            "realPath": "/private/tmp/native-prd-contract-0qcVzf/back.png",
+            "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+            "bytes": 2048
+          },
+          "actionPose": {
+            "path": "/tmp/native-prd-contract-0qcVzf/actionPose.png",
+            "realPath": "/private/tmp/native-prd-contract-0qcVzf/actionPose.png",
+            "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+            "bytes": 2048
+          },
+          "emotionCloseup": {
+            "path": "/tmp/native-prd-contract-0qcVzf/emotionCloseup.png",
+            "realPath": "/private/tmp/native-prd-contract-0qcVzf/emotionCloseup.png",
+            "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+            "bytes": 2048
+          },
+          "handDetail": {
+            "path": "/tmp/native-prd-contract-0qcVzf/handDetail.png",
+            "realPath": "/private/tmp/native-prd-contract-0qcVzf/handDetail.png",
+            "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+            "bytes": 2048
+          }
+        }
+      }
+    ]
+  },
+  "portraits": [
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "front",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-0qcVzf/front.png",
+        "realPath": "/private/tmp/native-prd-contract-0qcVzf/front.png",
+        "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "threeQuarter",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-0qcVzf/threeQuarter.png",
+        "realPath": "/private/tmp/native-prd-contract-0qcVzf/threeQuarter.png",
+        "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "closeup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-0qcVzf/closeup.png",
+        "realPath": "/private/tmp/native-prd-contract-0qcVzf/closeup.png",
+        "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "side",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-0qcVzf/side.png",
+        "realPath": "/private/tmp/native-prd-contract-0qcVzf/side.png",
+        "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "back",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-0qcVzf/back.png",
+        "realPath": "/private/tmp/native-prd-contract-0qcVzf/back.png",
+        "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "actionPose",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-0qcVzf/actionPose.png",
+        "realPath": "/private/tmp/native-prd-contract-0qcVzf/actionPose.png",
+        "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "emotionCloseup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-0qcVzf/emotionCloseup.png",
+        "realPath": "/private/tmp/native-prd-contract-0qcVzf/emotionCloseup.png",
+        "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "handDetail",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-0qcVzf/handDetail.png",
+        "realPath": "/private/tmp/native-prd-contract-0qcVzf/handDetail.png",
+        "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+        "bytes": 2048
+      }
+    }
+  ],
+  "positioning": {
+    "productType": "商业广告",
+    "genre": "商业广告",
+    "targetPlatform": "wechat-channels",
+    "targetDuration": 30,
+    "aspectRatio": "9:16",
+    "resolution": "4K",
+    "frameRate": 30
+  },
+  "qualityThresholds": {
+    "visual": 0.8,
+    "audio": 0.75,
+    "narrative": 0.85,
+    "consistency": 0.75
+  },
+  "subtitleDelivery": {
+    "mode": "sidecar",
+    "formats": [
+      "srt",
+      "ass",
+      "vtt"
+    ],
+    "masterBurnedIn": false,
+    "softSubtitleTrack": true,
+    "requireTimelineValidation": true,
+    "source": "scripts/tools/full-chain-film.mts:subtitle/mux"
+  }
+}
+
+本次G4系统检查完整原生PRD及当前受控原图；人工只验收最终成片。文件散列只证明本次字节，真人身份与素材用途仍以原档案和授权作用域为准。未达标拒绝，不降低统一质量阈值、不以文字自称审美通过。
+
+
+---
+   ✅ PRD 已确认
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ScriptGenerator] 使用LLMEngine (fixture-model)
+[PRDGenerator] 🚀 开始生成 PRD...
+[PRDGenerator] Step 1/5: 产品定义...
+[PRDGenerator] Step 2/5: 创意方向（LLM）...
+[PRDGenerator] Step 3/5: 制作规格（LLM）...
+[PRDGenerator] Step 4/5: 约束合成...
+[PRDGenerator] Step 5/5: 交付标准...
+[PRDGenerator] 🔍 结构校验...
+[PRDGenerator] ✅ PRD 生成完成，耗时 1ms
+
+--- 📋 PRD 产品需求文档确认 ---
+# 产品需求文档（PRD）
+
+> 项目：台式双屏自助机 | 版本：1.0.0
+
+---
+
+## 摘要
+
+| 项目 | 内容 |
+|------|------|
+| 类型 | 商业广告 / 商业广告 |
+| 时长 | 30 秒 |
+| 平台 | wechat-channels |
+| 场景 | 1 场景 / 4 预估镜头 |
+| 角色 | 客户方CEO |
+
+**核心钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+
+---
+
+## 📖 用户原始输入（创作素材源）
+
+> 以下原始素材是用户提供的故事蓝本，剧本生成和提示词设计必须以此为核心依据：
+
+客户原始需求完整保留。
+
+
+---
+
+## 1. 项目定义
+
+- **项目名称**：台式双屏自助机
+- **项目 ID**：df941e2c-38ff-42f5-8eea-15a8e062fdea
+- **版本**：1.0.0
+- **创建时间**：2026-10-05T19:18:52.093Z
+
+## 2. 产品定位
+
+- **视频类型**：商业广告
+- **类型细分**：商业广告
+- **目标平台**：wechat-channels
+- **目标时长**：30 秒
+- **画幅**：9:16
+- **分辨率**：4K
+- **帧率**：30fps
+
+## 3. 创意核心
+
+- **核心主题**：原生创意：小机身撑起大前台
+- **创意钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+- **情绪弧线**：setup→climax→resolution
+- **关键信息**：- P0: 自助入住，前台从容
+- **反转/高潮**：原生反转
+- **结尾类型**：闭合式
+
+## 4. 视觉规格
+
+- **主要风格**：电影级写实
+- **色彩**：主色调 深蓝，强调色 暖白，情绪 从容
+- **光照**：原生柔和侧光
+- **镜头语言**：原生稳定推进
+- **纹理质量**：写实
+- **参考**：实际酒店前台
+- **特效**：无
+
+## 5. 音频规格
+
+- **音乐风格**：原生音乐说明
+- **音效设计**：原生环境音说明
+- **配音策略**：旁白+对白
+- **音频情绪**：从容
+- **参考**：无
+
+## 6. 角色系统
+
+
+### 客户方CEO (主角)
+
+- **年龄段**：三十岁上下
+- **外貌**：{"face":"受控五官描述"}
+- **性格**：{"speechRate":"平稳","demeanor":"从容"}
+- **服装**：{"outfit":"受控商务装"}
+- **一致性要求**：跨镜头一致；属性与本次已选档案 demo-character 一致，复用已验收原图，不生成新定妆照
+
+
+## 7. 场景规划
+
+
+### SC01（第 1 场，30 秒）
+
+- **目的**：原生场景目的
+- **情绪节点**：climax
+- **设定**：原生酒店场景
+- **时间**：上午
+- **道具**：台式双屏自助机
+- **视觉要求**：原生视觉要求
+- **音频要求**：原生音频要求
+- **台词**：原生台词不得由桥重写。
+- **预估镜头**：4 个（wide → medium → close-up）
+
+
+## 8. 制作约束
+
+- **技术约束**：- 保持视觉风格一致性
+- **业务约束**：- 既有事实红线必须保留
+- **禁止元素**：- 负面信息
+- 政治敏感
+- 暴力内容
+- **质量阈值**：视觉 0.8 / 音频 0.75 / 叙事 0.85 / 一致性 0.75
+- **模型能力**：复杂度 moderate，策略 textual-description
+
+## 9. 受众定位
+
+- **主要受众**：25-50 岁，all
+- **兴趣标签**：酒店经营
+- **消费能力**：medium
+- **情绪触发**：从容
+- **内容期望**：可信
+
+## 10. 参考案例
+
+- **影片**：未指定
+- **广告**：无
+- **风格**：未指定
+
+## 11. 交付标准
+
+### 交付物
+- [必] **video_master**：MP4/H.265, 4K
+- [选] **audio_stems**：分轨音频
+- [必] **prompt_log**：完整Prompt审计日志
+- [必] **subtitle_delivery**：{"mode":"sidecar","formats":["srt","ass","vtt"],"masterBurnedIn":false,"softSubtitleTrack":true,"requireTimelineValidation":true,"source":"scripts/tools/full-chain-film.mts:subtitle/mux"}
+
+### 验收标准
+- 视觉质量：0.8
+- 音频质量：0.75
+- 叙事质量：0.85
+- 一致性：0.75
+
+### 输出格式
+- 视频编码：H.265
+- 音频编码：AAC
+- 容器：MP4
+
+### 降级预案
+- **触发**：任一统一质量阈值未达标：{"visual":0.8,"audio":0.75,"narrative":0.85,"consistency":0.75}
+- **动作**：降低视觉复杂度，使用 simpler prompt，减少特效需求
+- **预期产出**：原生动作仅可调整制作复杂度，统一质量阈值保持；未达标不能宣称交付通过
+
+---
+
+
+> PRD 生成耗时：未记录ms
+
+
+## 宿主原生PRD来源合同（完整当前档案与实物回执）
+
+{
+  "schema": "workloom.native-prd-contract/v1",
+  "sourceSha256": "58de1167468754b589c379d0c17dc251dbb9e2846bfb034358724d3e36fc2b26",
+  "requirementSourceSha256": "1d847764ece323911fb46e2d89b4676d9b79fdf28e86622afbacf58b9811a291",
+  "archives": {
+    "characters": [
+      {
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "kind": "authorized-real",
+        "identity": {
+          "gender": "female",
+          "age": "三十岁上下",
+          "role": "公司CEO"
+        },
+        "appearance": {
+          "face": "受控五官描述"
+        },
+        "wardrobe": {
+          "outfit": "受控商务装"
+        },
+        "persona": {
+          "speechRate": "平稳",
+          "demeanor": "从容"
+        },
+        "authorization": {
+          "consented": true,
+          "scope": "internal-film",
+          "evidence": "asset://fixture-real-person"
+        },
+        "certified": {
+          "identity": "source-profile"
+        }
+      }
+    ],
+    "products": [],
+    "portraits": [
+      {
+        "kind": "character",
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "aliases": [
+          "客户已选CEO"
+        ],
+        "files": {
+          "front": {
+            "path": "/tmp/native-prd-contract-bHPyiV/front.png",
+            "realPath": "/private/tmp/native-prd-contract-bHPyiV/front.png",
+            "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+            "bytes": 2048
+          },
+          "threeQuarter": {
+            "path": "/tmp/native-prd-contract-bHPyiV/threeQuarter.png",
+            "realPath": "/private/tmp/native-prd-contract-bHPyiV/threeQuarter.png",
+            "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+            "bytes": 2048
+          },
+          "closeup": {
+            "path": "/tmp/native-prd-contract-bHPyiV/closeup.png",
+            "realPath": "/private/tmp/native-prd-contract-bHPyiV/closeup.png",
+            "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+            "bytes": 2048
+          },
+          "side": {
+            "path": "/tmp/native-prd-contract-bHPyiV/side.png",
+            "realPath": "/private/tmp/native-prd-contract-bHPyiV/side.png",
+            "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+            "bytes": 2048
+          },
+          "back": {
+            "path": "/tmp/native-prd-contract-bHPyiV/back.png",
+            "realPath": "/private/tmp/native-prd-contract-bHPyiV/back.png",
+            "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+            "bytes": 2048
+          },
+          "actionPose": {
+            "path": "/tmp/native-prd-contract-bHPyiV/actionPose.png",
+            "realPath": "/private/tmp/native-prd-contract-bHPyiV/actionPose.png",
+            "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+            "bytes": 2048
+          },
+          "emotionCloseup": {
+            "path": "/tmp/native-prd-contract-bHPyiV/emotionCloseup.png",
+            "realPath": "/private/tmp/native-prd-contract-bHPyiV/emotionCloseup.png",
+            "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+            "bytes": 2048
+          },
+          "handDetail": {
+            "path": "/tmp/native-prd-contract-bHPyiV/handDetail.png",
+            "realPath": "/private/tmp/native-prd-contract-bHPyiV/handDetail.png",
+            "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+            "bytes": 2048
+          }
+        }
+      }
+    ]
+  },
+  "portraits": [
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "front",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-bHPyiV/front.png",
+        "realPath": "/private/tmp/native-prd-contract-bHPyiV/front.png",
+        "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "threeQuarter",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-bHPyiV/threeQuarter.png",
+        "realPath": "/private/tmp/native-prd-contract-bHPyiV/threeQuarter.png",
+        "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "closeup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-bHPyiV/closeup.png",
+        "realPath": "/private/tmp/native-prd-contract-bHPyiV/closeup.png",
+        "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "side",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-bHPyiV/side.png",
+        "realPath": "/private/tmp/native-prd-contract-bHPyiV/side.png",
+        "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "back",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-bHPyiV/back.png",
+        "realPath": "/private/tmp/native-prd-contract-bHPyiV/back.png",
+        "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "actionPose",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-bHPyiV/actionPose.png",
+        "realPath": "/private/tmp/native-prd-contract-bHPyiV/actionPose.png",
+        "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "emotionCloseup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-bHPyiV/emotionCloseup.png",
+        "realPath": "/private/tmp/native-prd-contract-bHPyiV/emotionCloseup.png",
+        "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "handDetail",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-bHPyiV/handDetail.png",
+        "realPath": "/private/tmp/native-prd-contract-bHPyiV/handDetail.png",
+        "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+        "bytes": 2048
+      }
+    }
+  ],
+  "positioning": {
+    "productType": "商业广告",
+    "genre": "商业广告",
+    "targetPlatform": "wechat-channels",
+    "targetDuration": 30,
+    "aspectRatio": "9:16",
+    "resolution": "4K",
+    "frameRate": 30
+  },
+  "qualityThresholds": {
+    "visual": 0.8,
+    "audio": 0.75,
+    "narrative": 0.85,
+    "consistency": 0.75
+  },
+  "subtitleDelivery": {
+    "mode": "sidecar",
+    "formats": [
+      "srt",
+      "ass",
+      "vtt"
+    ],
+    "masterBurnedIn": false,
+    "softSubtitleTrack": true,
+    "requireTimelineValidation": true,
+    "source": "scripts/tools/full-chain-film.mts:subtitle/mux"
+  }
+}
+
+本次G4系统检查完整原生PRD及当前受控原图；人工只验收最终成片。文件散列只证明本次字节，真人身份与素材用途仍以原档案和授权作用域为准。未达标拒绝，不降低统一质量阈值、不以文字自称审美通过。
+
+
+---
+   ✅ PRD 已确认
+[ScriptEngine v1.0.0] 开始处理: 台式双屏自助机
+[ScriptEngine] 意图解析完成: commercial
+[ScriptEngine] CreativeIntensity 接入完成: intensity=0.72 (L4)
+[ScriptGenerator] 开始生成剧本: 台式双屏自助机
+[ScriptGenerator] 角色覆盖完成: 客户方CEO（已替换所有场景角色引用和身份描述）
+[ScriptGenerator] 时长对齐完成: 目标 30s, 实际 30s, 1 个场景
+[ScriptGenerator] 剧本生成完成: 133dbe7d-664b-4ad2-bff9-cf3020b92779, 1 场景
+[ScriptEngine] 剧本校验: 失败 (81分)
+[ScriptEngine] 校验报告已保存: /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/vendor/supermickey/hyperreality-system/output/script-validation-report.json
+[Adapter] 适配剧本: 原生剧本
+[Adapter] 适配完成: 1 场景, 1 角色
+[ScriptEngine] 修复计划: 3 项
+[ScriptEngine] 处理完成: 1 场景, 1 角色
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ScriptGenerator] 使用LLMEngine (fixture-model)
+[PRDGenerator] 🚀 开始生成 PRD...
+[PRDGenerator] Step 1/5: 产品定义...
+[PRDGenerator] Step 2/5: 创意方向（LLM）...
+[PRDGenerator] Step 3/5: 制作规格（LLM）...
+[PRDGenerator] Step 4/5: 约束合成...
+[PRDGenerator] Step 5/5: 交付标准...
+[PRDGenerator] 🔍 结构校验...
+[PRDGenerator] ✅ PRD 生成完成，耗时 1ms
+
+--- 📋 PRD 产品需求文档确认 ---
+# 产品需求文档（PRD）
+
+> 项目：台式双屏自助机 | 版本：1.0.0
+
+---
+
+## 摘要
+
+| 项目 | 内容 |
+|------|------|
+| 类型 | 商业广告 / 商业广告 |
+| 时长 | 30 秒 |
+| 平台 | wechat-channels |
+| 场景 | 1 场景 / 4 预估镜头 |
+| 角色 | 客户方CEO |
+
+**核心钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+
+---
+
+## 📖 用户原始输入（创作素材源）
+
+> 以下原始素材是用户提供的故事蓝本，剧本生成和提示词设计必须以此为核心依据：
+
+客户原始需求完整保留。
+
+
+---
+
+## 1. 项目定义
+
+- **项目名称**：台式双屏自助机
+- **项目 ID**：12f8106c-40dd-42a4-920a-8f01d5ed12d4
+- **版本**：1.0.0
+- **创建时间**：2026-10-05T19:18:52.101Z
+
+## 2. 产品定位
+
+- **视频类型**：商业广告
+- **类型细分**：商业广告
+- **目标平台**：wechat-channels
+- **目标时长**：30 秒
+- **画幅**：9:16
+- **分辨率**：4K
+- **帧率**：30fps
+
+## 3. 创意核心
+
+- **核心主题**：原生创意：小机身撑起大前台
+- **创意钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+- **情绪弧线**：setup→climax→resolution
+- **关键信息**：- P0: 自助入住，前台从容
+- **反转/高潮**：原生反转
+- **结尾类型**：闭合式
+
+## 4. 视觉规格
+
+- **主要风格**：电影级写实
+- **色彩**：主色调 深蓝，强调色 暖白，情绪 从容
+- **光照**：原生柔和侧光
+- **镜头语言**：原生稳定推进
+- **纹理质量**：写实
+- **参考**：实际酒店前台
+- **特效**：无
+
+## 5. 音频规格
+
+- **音乐风格**：原生音乐说明
+- **音效设计**：原生环境音说明
+- **配音策略**：旁白+对白
+- **音频情绪**：从容
+- **参考**：无
+
+## 6. 角色系统
+
+
+### 客户方CEO (主角)
+
+- **年龄段**：三十岁上下
+- **外貌**：{"face":"受控五官描述"}
+- **性格**：{"speechRate":"平稳","demeanor":"从容"}
+- **服装**：{"outfit":"受控商务装"}
+- **一致性要求**：跨镜头一致；属性与本次已选档案 demo-character 一致，复用已验收原图，不生成新定妆照
+
+
+## 7. 场景规划
+
+
+### SC01（第 1 场，30 秒）
+
+- **目的**：原生场景目的
+- **情绪节点**：climax
+- **设定**：原生酒店场景
+- **时间**：上午
+- **道具**：台式双屏自助机
+- **视觉要求**：原生视觉要求
+- **音频要求**：原生音频要求
+- **台词**：原生台词不得由桥重写。
+- **预估镜头**：4 个（wide → medium → close-up）
+
+
+## 8. 制作约束
+
+- **技术约束**：- 保持视觉风格一致性
+- **业务约束**：- 既有事实红线必须保留
+- **禁止元素**：- 负面信息
+- 政治敏感
+- 暴力内容
+- **质量阈值**：视觉 0.8 / 音频 0.75 / 叙事 0.85 / 一致性 0.75
+- **模型能力**：复杂度 moderate，策略 textual-description
+
+## 9. 受众定位
+
+- **主要受众**：25-50 岁，all
+- **兴趣标签**：酒店经营
+- **消费能力**：medium
+- **情绪触发**：从容
+- **内容期望**：可信
+
+## 10. 参考案例
+
+- **影片**：未指定
+- **广告**：无
+- **风格**：未指定
+
+## 11. 交付标准
+
+### 交付物
+- [必] **video_master**：MP4/H.265, 4K
+- [选] **audio_stems**：分轨音频
+- [必] **prompt_log**：完整Prompt审计日志
+- [必] **subtitle_delivery**：{"mode":"sidecar","formats":["srt","ass","vtt"],"masterBurnedIn":false,"softSubtitleTrack":true,"requireTimelineValidation":true,"source":"scripts/tools/full-chain-film.mts:subtitle/mux"}
+
+### 验收标准
+- 视觉质量：0.8
+- 音频质量：0.75
+- 叙事质量：0.85
+- 一致性：0.75
+
+### 输出格式
+- 视频编码：H.265
+- 音频编码：AAC
+- 容器：MP4
+
+### 降级预案
+- **触发**：任一统一质量阈值未达标：{"visual":0.8,"audio":0.75,"narrative":0.85,"consistency":0.75}
+- **动作**：降低视觉复杂度，使用 simpler prompt，减少特效需求
+- **预期产出**：原生动作仅可调整制作复杂度，统一质量阈值保持；未达标不能宣称交付通过
+
+---
+
+
+> PRD 生成耗时：未记录ms
+
+
+## 宿主原生PRD来源合同（完整当前档案与实物回执）
+
+{
+  "schema": "workloom.native-prd-contract/v1",
+  "sourceSha256": "21fe093a15ce59c07c08e5d36b20eab30e841ce66dc0afada604f64eb191f577",
+  "requirementSourceSha256": "5dcdbe58e40f8a81aa2f410e545f476282cf5459a0be42c2ae13f85bfdb50ebf",
+  "archives": {
+    "characters": [
+      {
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "kind": "authorized-real",
+        "identity": {
+          "gender": "female",
+          "age": "三十岁上下",
+          "role": "公司CEO"
+        },
+        "appearance": {
+          "face": "受控五官描述"
+        },
+        "wardrobe": {
+          "outfit": "受控商务装"
+        },
+        "persona": {
+          "speechRate": "平稳",
+          "demeanor": "从容"
+        },
+        "authorization": {
+          "consented": true,
+          "scope": "internal-film",
+          "evidence": "asset://fixture-real-person"
+        },
+        "certified": {
+          "identity": "source-profile"
+        }
+      }
+    ],
+    "products": [],
+    "portraits": [
+      {
+        "kind": "character",
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "aliases": [
+          "客户已选CEO"
+        ],
+        "files": {
+          "front": {
+            "path": "/tmp/native-prd-contract-D8GqrK/front.png",
+            "realPath": "/private/tmp/native-prd-contract-D8GqrK/front.png",
+            "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+            "bytes": 2048
+          },
+          "threeQuarter": {
+            "path": "/tmp/native-prd-contract-D8GqrK/threeQuarter.png",
+            "realPath": "/private/tmp/native-prd-contract-D8GqrK/threeQuarter.png",
+            "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+            "bytes": 2048
+          },
+          "closeup": {
+            "path": "/tmp/native-prd-contract-D8GqrK/closeup.png",
+            "realPath": "/private/tmp/native-prd-contract-D8GqrK/closeup.png",
+            "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+            "bytes": 2048
+          },
+          "side": {
+            "path": "/tmp/native-prd-contract-D8GqrK/side.png",
+            "realPath": "/private/tmp/native-prd-contract-D8GqrK/side.png",
+            "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+            "bytes": 2048
+          },
+          "back": {
+            "path": "/tmp/native-prd-contract-D8GqrK/back.png",
+            "realPath": "/private/tmp/native-prd-contract-D8GqrK/back.png",
+            "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+            "bytes": 2048
+          },
+          "actionPose": {
+            "path": "/tmp/native-prd-contract-D8GqrK/actionPose.png",
+            "realPath": "/private/tmp/native-prd-contract-D8GqrK/actionPose.png",
+            "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+            "bytes": 2048
+          },
+          "emotionCloseup": {
+            "path": "/tmp/native-prd-contract-D8GqrK/emotionCloseup.png",
+            "realPath": "/private/tmp/native-prd-contract-D8GqrK/emotionCloseup.png",
+            "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+            "bytes": 2048
+          },
+          "handDetail": {
+            "path": "/tmp/native-prd-contract-D8GqrK/handDetail.png",
+            "realPath": "/private/tmp/native-prd-contract-D8GqrK/handDetail.png",
+            "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+            "bytes": 2048
+          }
+        }
+      }
+    ]
+  },
+  "portraits": [
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "front",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-D8GqrK/front.png",
+        "realPath": "/private/tmp/native-prd-contract-D8GqrK/front.png",
+        "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "threeQuarter",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-D8GqrK/threeQuarter.png",
+        "realPath": "/private/tmp/native-prd-contract-D8GqrK/threeQuarter.png",
+        "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "closeup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-D8GqrK/closeup.png",
+        "realPath": "/private/tmp/native-prd-contract-D8GqrK/closeup.png",
+        "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "side",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-D8GqrK/side.png",
+        "realPath": "/private/tmp/native-prd-contract-D8GqrK/side.png",
+        "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "back",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-D8GqrK/back.png",
+        "realPath": "/private/tmp/native-prd-contract-D8GqrK/back.png",
+        "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "actionPose",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-D8GqrK/actionPose.png",
+        "realPath": "/private/tmp/native-prd-contract-D8GqrK/actionPose.png",
+        "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "emotionCloseup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-D8GqrK/emotionCloseup.png",
+        "realPath": "/private/tmp/native-prd-contract-D8GqrK/emotionCloseup.png",
+        "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "handDetail",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-D8GqrK/handDetail.png",
+        "realPath": "/private/tmp/native-prd-contract-D8GqrK/handDetail.png",
+        "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+        "bytes": 2048
+      }
+    }
+  ],
+  "positioning": {
+    "productType": "商业广告",
+    "genre": "商业广告",
+    "targetPlatform": "wechat-channels",
+    "targetDuration": 30,
+    "aspectRatio": "9:16",
+    "resolution": "4K",
+    "frameRate": 30
+  },
+  "qualityThresholds": {
+    "visual": 0.8,
+    "audio": 0.75,
+    "narrative": 0.85,
+    "consistency": 0.75
+  },
+  "subtitleDelivery": {
+    "mode": "sidecar",
+    "formats": [
+      "srt",
+      "ass",
+      "vtt"
+    ],
+    "masterBurnedIn": false,
+    "softSubtitleTrack": true,
+    "requireTimelineValidation": true,
+    "source": "scripts/tools/full-chain-film.mts:subtitle/mux"
+  }
+}
+
+本次G4系统检查完整原生PRD及当前受控原图；人工只验收最终成片。文件散列只证明本次字节，真人身份与素材用途仍以原档案和授权作用域为准。未达标拒绝，不降低统一质量阈值、不以文字自称审美通过。
+
+
+---
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ScriptGenerator] 使用LLMEngine (fixture-model)
+[PRDGenerator] 🚀 开始生成 PRD...
+[PRDGenerator] Step 1/5: 产品定义...
+[PRDGenerator] Step 2/5: 创意方向（LLM）...
+[PRDGenerator] Step 3/5: 制作规格（LLM）...
+[PRDGenerator] Step 4/5: 约束合成...
+[PRDGenerator] Step 5/5: 交付标准...
+[PRDGenerator] 🔍 结构校验...
+[PRDGenerator] ✅ PRD 生成完成，耗时 1ms
+
+--- 📋 PRD 产品需求文档确认 ---
+# 产品需求文档（PRD）
+
+> 项目：台式双屏自助机 | 版本：1.0.0
+
+---
+
+## 摘要
+
+| 项目 | 内容 |
+|------|------|
+| 类型 | 商业广告 / 商业广告 |
+| 时长 | 30 秒 |
+| 平台 | wechat-channels |
+| 场景 | 1 场景 / 4 预估镜头 |
+| 角色 | 客户方CEO |
+
+**核心钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+
+---
+
+## 📖 用户原始输入（创作素材源）
+
+> 以下原始素材是用户提供的故事蓝本，剧本生成和提示词设计必须以此为核心依据：
+
+客户原始需求完整保留。
+
+
+---
+
+## 1. 项目定义
+
+- **项目名称**：台式双屏自助机
+- **项目 ID**：7336d404-62b1-4912-82a8-926799eaf7a4
+- **版本**：1.0.0
+- **创建时间**：2026-10-05T19:18:52.107Z
+
+## 2. 产品定位
+
+- **视频类型**：商业广告
+- **类型细分**：商业广告
+- **目标平台**：wechat-channels
+- **目标时长**：30 秒
+- **画幅**：9:16
+- **分辨率**：4K
+- **帧率**：30fps
+
+## 3. 创意核心
+
+- **核心主题**：原生创意：小机身撑起大前台
+- **创意钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+- **情绪弧线**：setup→climax→resolution
+- **关键信息**：- P0: 自助入住，前台从容
+- **反转/高潮**：原生反转
+- **结尾类型**：闭合式
+
+## 4. 视觉规格
+
+- **主要风格**：电影级写实
+- **色彩**：主色调 深蓝，强调色 暖白，情绪 从容
+- **光照**：原生柔和侧光
+- **镜头语言**：原生稳定推进
+- **纹理质量**：写实
+- **参考**：实际酒店前台
+- **特效**：无
+
+## 5. 音频规格
+
+- **音乐风格**：原生音乐说明
+- **音效设计**：原生环境音说明
+- **配音策略**：旁白+对白
+- **音频情绪**：从容
+- **参考**：无
+
+## 6. 角色系统
+
+
+### 客户方CEO (主角)
+
+- **年龄段**：三十岁上下
+- **外貌**：{"face":"受控五官描述"}
+- **性格**：{"speechRate":"平稳","demeanor":"从容"}
+- **服装**：{"outfit":"受控商务装"}
+- **一致性要求**：跨镜头一致；属性与本次已选档案 demo-character 一致，复用已验收原图，不生成新定妆照
+
+
+## 7. 场景规划
+
+
+### SC01（第 1 场，30 秒）
+
+- **目的**：原生场景目的
+- **情绪节点**：climax
+- **设定**：原生酒店场景
+- **时间**：上午
+- **道具**：台式双屏自助机
+- **视觉要求**：原生视觉要求
+- **音频要求**：原生音频要求
+- **台词**：原生台词不得由桥重写。
+- **预估镜头**：4 个（wide → medium → close-up）
+
+
+## 8. 制作约束
+
+- **技术约束**：- 保持视觉风格一致性
+- **业务约束**：- 既有事实红线必须保留
+- **禁止元素**：- 负面信息
+- 政治敏感
+- 暴力内容
+- **质量阈值**：视觉 0.8 / 音频 0.75 / 叙事 0.85 / 一致性 0.75
+- **模型能力**：复杂度 moderate，策略 textual-description
+
+## 9. 受众定位
+
+- **主要受众**：25-50 岁，all
+- **兴趣标签**：酒店经营
+- **消费能力**：medium
+- **情绪触发**：从容
+- **内容期望**：可信
+
+## 10. 参考案例
+
+- **影片**：未指定
+- **广告**：无
+- **风格**：未指定
+
+## 11. 交付标准
+
+### 交付物
+- [必] **video_master**：MP4/H.265, 4K
+- [选] **audio_stems**：分轨音频
+- [必] **prompt_log**：完整Prompt审计日志
+- [必] **subtitle_delivery**：{"mode":"sidecar","formats":["srt","ass","vtt"],"masterBurnedIn":false,"softSubtitleTrack":true,"requireTimelineValidation":true,"source":"scripts/tools/full-chain-film.mts:subtitle/mux"}
+
+### 验收标准
+- 视觉质量：0.8
+- 音频质量：0.75
+- 叙事质量：0.85
+- 一致性：0.75
+
+### 输出格式
+- 视频编码：H.265
+- 音频编码：AAC
+- 容器：MP4
+
+### 降级预案
+- **触发**：任一统一质量阈值未达标：{"visual":0.8,"audio":0.75,"narrative":0.85,"consistency":0.75}
+- **动作**：降低视觉复杂度，使用 simpler prompt，减少特效需求
+- **预期产出**：原生动作仅可调整制作复杂度，统一质量阈值保持；未达标不能宣称交付通过
+
+---
+
+
+> PRD 生成耗时：未记录ms
+
+
+## 宿主原生PRD来源合同（完整当前档案与实物回执）
+
+{
+  "schema": "workloom.native-prd-contract/v1",
+  "sourceSha256": "cd081a4147032095372ab4b4dabf06ac0ac1b2f6431a2adce0670416813eb185",
+  "requirementSourceSha256": "ad1c35864b8ee782685e93d0c0087dff161be15aae17ffc7c7e44e5062fa1f9b",
+  "archives": {
+    "characters": [
+      {
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "kind": "authorized-real",
+        "identity": {
+          "gender": "female",
+          "age": "三十岁上下",
+          "role": "公司CEO"
+        },
+        "appearance": {
+          "face": "受控五官描述"
+        },
+        "wardrobe": {
+          "outfit": "受控商务装"
+        },
+        "persona": {
+          "speechRate": "平稳",
+          "demeanor": "从容"
+        },
+        "authorization": {
+          "consented": true,
+          "scope": "internal-film",
+          "evidence": "asset://fixture-real-person"
+        },
+        "certified": {
+          "identity": "source-profile"
+        }
+      }
+    ],
+    "products": [],
+    "portraits": [
+      {
+        "kind": "character",
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "aliases": [
+          "客户已选CEO"
+        ],
+        "files": {
+          "front": {
+            "path": "/tmp/native-prd-contract-yHVwFb/front.png",
+            "realPath": "/private/tmp/native-prd-contract-yHVwFb/front.png",
+            "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+            "bytes": 2048
+          },
+          "threeQuarter": {
+            "path": "/tmp/native-prd-contract-yHVwFb/threeQuarter.png",
+            "realPath": "/private/tmp/native-prd-contract-yHVwFb/threeQuarter.png",
+            "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+            "bytes": 2048
+          },
+          "closeup": {
+            "path": "/tmp/native-prd-contract-yHVwFb/closeup.png",
+            "realPath": "/private/tmp/native-prd-contract-yHVwFb/closeup.png",
+            "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+            "bytes": 2048
+          },
+          "side": {
+            "path": "/tmp/native-prd-contract-yHVwFb/side.png",
+            "realPath": "/private/tmp/native-prd-contract-yHVwFb/side.png",
+            "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+            "bytes": 2048
+          },
+          "back": {
+            "path": "/tmp/native-prd-contract-yHVwFb/back.png",
+            "realPath": "/private/tmp/native-prd-contract-yHVwFb/back.png",
+            "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+            "bytes": 2048
+          },
+          "actionPose": {
+            "path": "/tmp/native-prd-contract-yHVwFb/actionPose.png",
+            "realPath": "/private/tmp/native-prd-contract-yHVwFb/actionPose.png",
+            "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+            "bytes": 2048
+          },
+          "emotionCloseup": {
+            "path": "/tmp/native-prd-contract-yHVwFb/emotionCloseup.png",
+            "realPath": "/private/tmp/native-prd-contract-yHVwFb/emotionCloseup.png",
+            "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+            "bytes": 2048
+          },
+          "handDetail": {
+            "path": "/tmp/native-prd-contract-yHVwFb/handDetail.png",
+            "realPath": "/private/tmp/native-prd-contract-yHVwFb/handDetail.png",
+            "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+            "bytes": 2048
+          }
+        }
+      }
+    ]
+  },
+  "portraits": [
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "front",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-yHVwFb/front.png",
+        "realPath": "/private/tmp/native-prd-contract-yHVwFb/front.png",
+        "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "threeQuarter",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-yHVwFb/threeQuarter.png",
+        "realPath": "/private/tmp/native-prd-contract-yHVwFb/threeQuarter.png",
+        "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "closeup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-yHVwFb/closeup.png",
+        "realPath": "/private/tmp/native-prd-contract-yHVwFb/closeup.png",
+        "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "side",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-yHVwFb/side.png",
+        "realPath": "/private/tmp/native-prd-contract-yHVwFb/side.png",
+        "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "back",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-yHVwFb/back.png",
+        "realPath": "/private/tmp/native-prd-contract-yHVwFb/back.png",
+        "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "actionPose",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-yHVwFb/actionPose.png",
+        "realPath": "/private/tmp/native-prd-contract-yHVwFb/actionPose.png",
+        "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "emotionCloseup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-yHVwFb/emotionCloseup.png",
+        "realPath": "/private/tmp/native-prd-contract-yHVwFb/emotionCloseup.png",
+        "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "handDetail",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-yHVwFb/handDetail.png",
+        "realPath": "/private/tmp/native-prd-contract-yHVwFb/handDetail.png",
+        "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+        "bytes": 2048
+      }
+    }
+  ],
+  "positioning": {
+    "productType": "商业广告",
+    "genre": "商业广告",
+    "targetPlatform": "wechat-channels",
+    "targetDuration": 30,
+    "aspectRatio": "9:16",
+    "resolution": "4K",
+    "frameRate": 30
+  },
+  "qualityThresholds": {
+    "visual": 0.8,
+    "audio": 0.75,
+    "narrative": 0.85,
+    "consistency": 0.75
+  },
+  "subtitleDelivery": {
+    "mode": "sidecar",
+    "formats": [
+      "srt",
+      "ass",
+      "vtt"
+    ],
+    "masterBurnedIn": false,
+    "softSubtitleTrack": true,
+    "requireTimelineValidation": true,
+    "source": "scripts/tools/full-chain-film.mts:subtitle/mux"
+  }
+}
+
+本次G4系统检查完整原生PRD及当前受控原图；人工只验收最终成片。文件散列只证明本次字节，真人身份与素材用途仍以原档案和授权作用域为准。未达标拒绝，不降低统一质量阈值、不以文字自称审美通过。
+
+
+---
+   ✅ PRD 已确认
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ScriptGenerator] 使用LLMEngine (fixture-model)
+[PRDGenerator] 🚀 开始生成 PRD...
+[PRDGenerator] Step 1/5: 产品定义...
+[PRDGenerator] Step 2/5: 创意方向（LLM）...
+[BaseAgent] _callLLM 进入 | perCallTimeout=120000ms maxTokens=12288 retries=2 budget=300000ms ceiling=300000ms
+[BaseAgent] 尝试 1/2 | timeout=120000ms
+[[BaseAgent] attempt 1/2] ✅ 正常完成，耗时≈0ms
+[BaseAgent] 尝试 1/2 失败: LLM引擎返回失败: independent JSON parse failed | type=PARSE | retryable=true
+[BaseAgent] 等待 500ms 后重试...
+✔ independent actual native two-character PRD, parser and production-shaped PortraitStudio keep both identities and sixteen current views (31.362625ms)
+✔ independent selected same-name profiles with different IDs fail before native agent prompts (4.603459ms)
+✔ independent a selected profile cannot be dropped by an empty native character output (4.368083ms)
+✔ independent a native ID naming the other selected archive cannot be rebound by matching only its name (10.075334ms)
+✔ independent foreign-instance approved PRDs cannot be consumed by another actual ScriptEngine (15.294125ms)
+✔ independent a non-front original photo changed during actual G4 await invalidates approval (6.230292ms)
+✔ independent a non-front original photo changed during actual ScriptEngine await invalidates output (8.014791ms)
+✔ independent G4 native confirmation exceptions leave the PRD unapproved (5.795959ms)
+✔ independent changed complete character description cannot borrow unchanged G3 identity keys before actual ScriptEngine consumption (6.759084ms)
+[BaseAgent] Prompt 缩短至 5613 字符
+[BaseAgent] 尝试 2/2 | timeout=120000ms strategy=shrink-prompt
+[[BaseAgent] attempt 2/2] ✅ 正常完成，耗时≈0ms
+[BaseAgent] LLM调用成功 ✓ | 耗时=1ms
+[PRDGenerator] Step 3/5: 制作规格（LLM）...
+[PRDGenerator] Step 4/5: 约束合成...
+[PRDGenerator] Step 5/5: 交付标准...
+[PRDGenerator] 🔍 结构校验...
+[PRDGenerator] ✅ PRD 生成完成，耗时 506ms
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[ScriptGenerator] 使用LLMEngine (fixture-model)
+[PRDGenerator] 🚀 开始生成 PRD...
+[PRDGenerator] Step 1/5: 产品定义...
+[PRDGenerator] Step 2/5: 创意方向（LLM）...
+[PRDGenerator] Step 3/5: 制作规格（LLM）...
+[PRDGenerator] Step 4/5: 约束合成...
+[PRDGenerator] Step 5/5: 交付标准...
+[PRDGenerator] 🔍 结构校验...
+[PRDGenerator] ✅ PRD 生成完成，耗时 5ms
+
+--- 📋 PRD 产品需求文档确认 ---
+# 产品需求文档（PRD）
+
+> 项目：台式双屏自助机 | 版本：1.0.0
+
+---
+
+## 摘要
+
+| 项目 | 内容 |
+|------|------|
+| 类型 | 商业广告 / 商业广告 |
+| 时长 | 30 秒 |
+| 平台 | wechat-channels |
+| 场景 | 1 场景 / 4 预估镜头 |
+| 角色 | 客户方CEO |
+
+**核心钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+
+---
+
+## 📖 用户原始输入（创作素材源）
+
+> 以下原始素材是用户提供的故事蓝本，剧本生成和提示词设计必须以此为核心依据：
+
+客户原始需求完整保留。
+
+
+---
+
+## 1. 项目定义
+
+- **项目名称**：台式双屏自助机
+- **项目 ID**：0af7451f-6650-433f-9b32-abffbf8111e1
+- **版本**：1.0.0
+- **创建时间**：2026-10-05T19:18:52.639Z
+
+## 2. 产品定位
+
+- **视频类型**：商业广告
+- **类型细分**：商业广告
+- **目标平台**：wechat-channels
+- **目标时长**：30 秒
+- **画幅**：9:16
+- **分辨率**：4K
+- **帧率**：30fps
+
+## 3. 创意核心
+
+- **核心主题**：原生创意：小机身撑起大前台
+- **创意钩子**：原生钩子：第一帧前台排队，观众想知道小机器能否解开拥堵
+- **情绪弧线**：setup→climax→resolution
+- **关键信息**：- P0: 自助入住，前台从容
+- **反转/高潮**：原生反转
+- **结尾类型**：闭合式
+
+## 4. 视觉规格
+
+- **主要风格**：电影级写实
+- **色彩**：主色调 深蓝，强调色 暖白，情绪 从容
+- **光照**：原生柔和侧光
+- **镜头语言**：原生稳定推进
+- **纹理质量**：写实
+- **参考**：实际酒店前台
+- **特效**：无
+
+## 5. 音频规格
+
+- **音乐风格**：原生音乐说明
+- **音效设计**：原生环境音说明
+- **配音策略**：旁白+对白
+- **音频情绪**：从容
+- **参考**：无
+
+## 6. 角色系统
+
+
+### 客户方CEO (主角)
+
+- **年龄段**：三十岁上下
+- **外貌**：{"face":"受控五官描述"}
+- **性格**：{"speechRate":"平稳","demeanor":"从容"}
+- **服装**：{"outfit":"受控商务装"}
+- **一致性要求**：跨镜头一致；属性与本次已选档案 demo-character 一致，复用已验收原图，不生成新定妆照
+
+
+## 7. 场景规划
+
+
+### SC01（第 1 场，30 秒）
+
+- **目的**：原生场景目的
+- **情绪节点**：climax
+- **设定**：原生酒店场景
+- **时间**：上午
+- **道具**：台式双屏自助机
+- **视觉要求**：原生视觉要求
+- **音频要求**：原生音频要求
+- **台词**：原生台词不得由桥重写。
+- **预估镜头**：4 个（wide → medium → close-up）
+
+
+## 8. 制作约束
+
+- **技术约束**：- 保持视觉风格一致性
+- **业务约束**：- 既有事实红线必须保留
+- **禁止元素**：- 负面信息
+- 政治敏感
+- 暴力内容
+- **质量阈值**：视觉 0.8 / 音频 0.75 / 叙事 0.85 / 一致性 0.75
+- **模型能力**：复杂度 moderate，策略 textual-description
+
+## 9. 受众定位
+
+- **主要受众**：25-50 岁，all
+- **兴趣标签**：酒店经营
+- **消费能力**：medium
+- **情绪触发**：从容
+- **内容期望**：可信
+
+## 10. 参考案例
+
+- **影片**：未指定
+- **广告**：无
+- **风格**：未指定
+
+## 11. 交付标准
+
+### 交付物
+- [必] **video_master**：MP4/H.265, 4K
+- [选] **audio_stems**：分轨音频
+- [必] **prompt_log**：完整Prompt审计日志
+- [必] **subtitle_delivery**：{"mode":"sidecar","formats":["srt","ass","vtt"],"masterBurnedIn":false,"softSubtitleTrack":true,"requireTimelineValidation":true,"source":"scripts/tools/full-chain-film.mts:subtitle/mux"}
+
+### 验收标准
+- 视觉质量：0.8
+- 音频质量：0.75
+- 叙事质量：0.85
+- 一致性：0.75
+
+### 输出格式
+- 视频编码：H.265
+- 音频编码：AAC
+- 容器：MP4
+
+### 降级预案
+- **触发**：任一统一质量阈值未达标：{"visual":0.8,"audio":0.75,"narrative":0.85,"consistency":0.75}
+- **动作**：降低视觉复杂度，使用 simpler prompt，减少特效需求
+- **预期产出**：原生动作仅可调整制作复杂度，统一质量阈值保持；未达标不能宣称交付通过
+
+---
+
+
+> PRD 生成耗时：未记录ms
+
+
+## 宿主原生PRD来源合同（完整当前档案与实物回执）
+
+{
+  "schema": "workloom.native-prd-contract/v1",
+  "sourceSha256": "8dcaafbeb99105488584adf2b8b7b3740e93c4dcb20e6b51ff6a3c5a997eef97",
+  "requirementSourceSha256": "ce01603cc4e53298d95930f64c3ea5f3ab6bf601c672ef361182f8fc2ef8f3ac",
+  "archives": {
+    "characters": [
+      {
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "kind": "authorized-real",
+        "identity": {
+          "gender": "female",
+          "age": "三十岁上下",
+          "role": "公司CEO"
+        },
+        "appearance": {
+          "face": "受控五官描述"
+        },
+        "wardrobe": {
+          "outfit": "受控商务装"
+        },
+        "persona": {
+          "speechRate": "平稳",
+          "demeanor": "从容"
+        },
+        "authorization": {
+          "consented": true,
+          "scope": "internal-film",
+          "evidence": "asset://fixture-real-person"
+        },
+        "certified": {
+          "identity": "source-profile"
+        }
+      }
+    ],
+    "products": [],
+    "portraits": [
+      {
+        "kind": "character",
+        "id": "demo-character",
+        "name": "客户方CEO",
+        "aliases": [
+          "客户已选CEO"
+        ],
+        "files": {
+          "front": {
+            "path": "/tmp/native-prd-contract-ote4es/front.png",
+            "realPath": "/private/tmp/native-prd-contract-ote4es/front.png",
+            "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+            "bytes": 2048
+          },
+          "threeQuarter": {
+            "path": "/tmp/native-prd-contract-ote4es/threeQuarter.png",
+            "realPath": "/private/tmp/native-prd-contract-ote4es/threeQuarter.png",
+            "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+            "bytes": 2048
+          },
+          "closeup": {
+            "path": "/tmp/native-prd-contract-ote4es/closeup.png",
+            "realPath": "/private/tmp/native-prd-contract-ote4es/closeup.png",
+            "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+            "bytes": 2048
+          },
+          "side": {
+            "path": "/tmp/native-prd-contract-ote4es/side.png",
+            "realPath": "/private/tmp/native-prd-contract-ote4es/side.png",
+            "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+            "bytes": 2048
+          },
+          "back": {
+            "path": "/tmp/native-prd-contract-ote4es/back.png",
+            "realPath": "/private/tmp/native-prd-contract-ote4es/back.png",
+            "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+            "bytes": 2048
+          },
+          "actionPose": {
+            "path": "/tmp/native-prd-contract-ote4es/actionPose.png",
+            "realPath": "/private/tmp/native-prd-contract-ote4es/actionPose.png",
+            "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+            "bytes": 2048
+          },
+          "emotionCloseup": {
+            "path": "/tmp/native-prd-contract-ote4es/emotionCloseup.png",
+            "realPath": "/private/tmp/native-prd-contract-ote4es/emotionCloseup.png",
+            "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+            "bytes": 2048
+          },
+          "handDetail": {
+            "path": "/tmp/native-prd-contract-ote4es/handDetail.png",
+            "realPath": "/private/tmp/native-prd-contract-ote4es/handDetail.png",
+            "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+            "bytes": 2048
+          }
+        }
+      }
+    ]
+  },
+  "portraits": [
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "front",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-ote4es/front.png",
+        "realPath": "/private/tmp/native-prd-contract-ote4es/front.png",
+        "sha256": "7c7d2eb358671b401d2a5e59bf56e7163e16994a170d4788faad9be5d82363b2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "threeQuarter",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-ote4es/threeQuarter.png",
+        "realPath": "/private/tmp/native-prd-contract-ote4es/threeQuarter.png",
+        "sha256": "87c6ef44094279a252bdd25434f8dd51e22ca6d231011229e9be95d9ac7771b7",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "closeup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-ote4es/closeup.png",
+        "realPath": "/private/tmp/native-prd-contract-ote4es/closeup.png",
+        "sha256": "f8f32f68c7ab74ce932713f801e0499f45e1721b69fca6801b97f2ffec39d7f2",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "side",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-ote4es/side.png",
+        "realPath": "/private/tmp/native-prd-contract-ote4es/side.png",
+        "sha256": "a993674df317ad0c76f85c8b2bc9b6465571f5e340d2ed0355154f5a3620ecfe",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "back",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-ote4es/back.png",
+        "realPath": "/private/tmp/native-prd-contract-ote4es/back.png",
+        "sha256": "ce4652a8db510f0cbac3d948b136d0c5282be2ca1ef90468b5e4a041855915e3",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "actionPose",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-ote4es/actionPose.png",
+        "realPath": "/private/tmp/native-prd-contract-ote4es/actionPose.png",
+        "sha256": "711c177b0445095b5d7bad92ed010e39ebacfe6c3943e49ce4108668069f735d",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "emotionCloseup",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-ote4es/emotionCloseup.png",
+        "realPath": "/private/tmp/native-prd-contract-ote4es/emotionCloseup.png",
+        "sha256": "e4fde89f39bc53b90e9935a8015b80dd6e4135485e894094a3517fa250e344ae",
+        "bytes": 2048
+      }
+    },
+    {
+      "kind": "character",
+      "id": "demo-character",
+      "name": "客户方CEO",
+      "angle": "handDetail",
+      "receipt": {
+        "path": "/tmp/native-prd-contract-ote4es/handDetail.png",
+        "realPath": "/private/tmp/native-prd-contract-ote4es/handDetail.png",
+        "sha256": "95095fcf200c405168f8bc405619a1338334c2d4103d3934d66c4bb9a21adf72",
+        "bytes": 2048
+      }
+    }
+  ],
+  "positioning": {
+    "productType": "商业广告",
+    "genre": "商业广告",
+    "targetPlatform": "wechat-channels",
+    "targetDuration": 30,
+    "aspectRatio": "9:16",
+    "resolution": "4K",
+    "frameRate": 30
+  },
+  "qualityThresholds": {
+    "visual": 0.8,
+    "audio": 0.75,
+    "narrative": 0.85,
+    "consistency": 0.75
+  },
+  "subtitleDelivery": {
+    "mode": "sidecar",
+    "formats": [
+      "srt",
+      "ass",
+      "vtt"
+    ],
+    "masterBurnedIn": false,
+    "softSubtitleTrack": true,
+    "requireTimelineValidation": true,
+    "source": "scripts/tools/full-chain-film.mts:subtitle/mux"
+  }
+}
+
+本次G4系统检查完整原生PRD及当前受控原图；人工只验收最终成片。文件散列只证明本次字节，真人身份与素材用途仍以原档案和授权作用域为准。未达标拒绝，不降低统一质量阈值、不以文字自称审美通过。
+
+
+---
+   ✅ PRD 已确认
+[ScriptEngine v1.0.0] 开始处理: 台式双屏自助机
+[ScriptEngine] 意图解析完成: commercial
+[ScriptEngine] CreativeIntensity 接入完成: intensity=0.72 (L4)
+[ScriptGenerator] 开始生成剧本: 台式双屏自助机
+[ScriptGenerator] 角色覆盖完成: 客户方CEO（已替换所有场景角色引用和身份描述）
+[ScriptGenerator] 时长对齐完成: 目标 30s, 实际 30s, 1 个场景
+[ScriptGenerator] 剧本生成完成: 6433e540-73b5-4ded-8c08-5a195e828106, 1 场景
+[ScriptEngine] 剧本校验: 失败 (81分)
+[ScriptEngine] 校验报告已保存: /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/vendor/supermickey/hyperreality-system/output/script-validation-report.json
+[Adapter] 适配剧本: 原生剧本
+[Adapter] 适配完成: 1 场景, 1 角色
+[ScriptEngine] 修复计划: 3 项
+[ScriptEngine] 处理完成: 1 场景, 1 角色
+✔ independent actual BaseAgent PARSE retry keeps every complete source receipt in both model requests (515.125333ms)
+✔ independent nested aspect alias mutation during the actual ScriptGenerator model await cannot change G3 output (27.160084ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 911.23625

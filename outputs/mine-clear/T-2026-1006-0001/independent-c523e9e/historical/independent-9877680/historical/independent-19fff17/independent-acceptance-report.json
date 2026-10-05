@@ -1,0 +1,310 @@
+{
+  "schema": "workloom.independent-acceptance-report/v1",
+  "source_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "generated_at": "2026-10-05T19:28:09.338213+00:00",
+  "status": "MC023-verified-local-preview",
+  "coverage": {
+    "total": 59,
+    "A": 57,
+    "B": 0,
+    "C": 2,
+    "D": 0
+  },
+  "official_run": {
+    "path": "runs/MC-023-0-1791227830151.json",
+    "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+    "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+  },
+  "official_summary": {
+    "total": 39,
+    "passed": 39,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "test_counts": {
+    "official_native": 39,
+    "requirement_regression": 16,
+    "independent_boundary": 11,
+    "affected_vitest": 91,
+    "current_definition_total": 157,
+    "execution_instances_including_preserved_failed_fixture": 168,
+    "skipped_cancelled_todo_final": 0,
+    "interpretation": "Definition counts; do not treat overlapping source properties as157 different production behaviors. Repair actor39 cases are separate and not counted again."
+  },
+  "build_and_typechecks": [
+    {
+      "name": "independent-apps-server-typecheck",
+      "source_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+      "exit_code": 0,
+      "argv": [
+        "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "apps/server/node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "-p",
+        "apps/server/tsconfig.json"
+      ],
+      "stdout": {
+        "path": "independent-apps-server-typecheck.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "independent-apps-server-typecheck.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "independent-packages-industry-contract-build",
+      "source_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+      "exit_code": 0,
+      "argv": [
+        "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "node_modules/typescript/bin/tsc",
+        "-p",
+        "packages/industry-contract/tsconfig.build.json"
+      ],
+      "stdout": {
+        "path": "independent-packages-industry-contract-build.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "independent-packages-industry-contract-build.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "independent-packages-video-studio-build",
+      "source_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+      "exit_code": 1,
+      "argv": [
+        "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "node_modules/typescript/bin/tsc",
+        "-p",
+        "packages/video-studio/tsconfig.build.json"
+      ],
+      "stdout": {
+        "path": "independent-packages-video-studio-build.stdout.txt",
+        "sha256": "bfbd60799a7d7b219df7b14b622b7b1103c841a19848dbd2857cf2608eb6ee60"
+      },
+      "stderr": {
+        "path": "independent-packages-video-studio-build.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "independent-packages-video-studio-typecheck",
+      "source_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+      "exit_code": 0,
+      "argv": [
+        "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "packages/video-studio/node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "-p",
+        "packages/video-studio/tsconfig.json"
+      ],
+      "stdout": {
+        "path": "independent-packages-video-studio-typecheck.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "independent-packages-video-studio-typecheck.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "handoff": {
+    "environment_claim": "local-preview",
+    "closed": 1,
+    "open": 0,
+    "invariants": 12,
+    "actual_original_directory": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/outputs/mine-clear/T-2026-1006-0001/independent-19fff17",
+    "copied_archives_are_not_relocated_gate_executions": true
+  },
+  "findings": [
+    {
+      "grade": "A",
+      "result": "accepted-local-structure",
+      "claim": "Existing five PRD agents and their native retry continue; instance prompts/system content preserve complete G3/archives/current receipts. Selected identity must match unambiguously before archive fields bind.",
+      "source": [
+        "packages/video-studio/src/native-prd-contract.ts:installNativePrdContractBridge/generate/sourceBlock/bind",
+        "vendor/supermickey/hyperreality-system/engines/production-engine/agents/base-agent.js:_callLLM"
+      ]
+    },
+    {
+      "grade": "A",
+      "result": "accepted-local-structure",
+      "claim": "PRD, full Markdown, G4-owned object, complete script character text and nested metadata are checked before and after awaits. Failed/foreign/clone/minimal/suggested/changed versions cannot claim this approval.",
+      "source": [
+        "packages/video-studio/src/native-prd-contract.ts:ensurePrd/confirm/process",
+        "packages/video-studio/src/native-requirement-contract.ts:ensureSnapshot/requirements"
+      ]
+    },
+    {
+      "grade": "A",
+      "result": "accepted-local-structure",
+      "claim": "Host G4 includes every selected original view independently of image-model availability and rechecks matching image-scope receipt and current bytes after review.",
+      "source": [
+        "apps/server/src/video/studio-worker.ts:startRun/onApproval",
+        "apps/server/src/video/gate-policy.ts:prdArchiveGateEvidence/prdArchiveReviewMatches"
+      ]
+    },
+    {
+      "grade": "A",
+      "result": "accepted-local-structure",
+      "claim": "Original legal production/acceptance metrics use their strictest values, including Score aliases. Sidecar fields describe an existing delivery requirement, not an executed subtitle result.",
+      "source": [
+        "packages/video-studio/src/native-prd-contract.ts:bind/threshold/subtitleDelivery"
+      ]
+    },
+    {
+      "grade": "C",
+      "result": "bounded-source-reference",
+      "claim": "Targeted original renderer regions implement default sidecar and softmux; entire renderer is not audited or executed by this card.",
+      "source": [
+        "scripts/tools/full-chain-film.mts:470-530/5500-5550/7195-7260"
+      ]
+    },
+    {
+      "grade": "B",
+      "result": "actual-local-tests",
+      "claim": "39 official native,16 requirement,11 independent boundary and91 affected integration definitions passed; all counts are definitions, not unique production behaviors. Actual first failed own expectation remains archived.",
+      "source": [
+        "independent-test-cases.json",
+        "independent-native-vitest.json",
+        "runs/MC-023-0-1791227830151.json"
+      ]
+    },
+    {
+      "grade": "D",
+      "result": "not-claimed",
+      "claim": "Current live G4 model outcome, human/face/visual quality, actual image execution, full30s film/postproduction and main/directional release outcomes require coordinator runtime and release evidence."
+    }
+  ],
+  "attempt_history": [
+    {
+      "kind": "historical original production rejection",
+      "grade": "B",
+      "source_commit": "9c69b8ca013d1ef67e905dee89303078f208faca",
+      "actual": "VID1014 G4 score45 rejected; full194-line Markdown read earlier, current preserved SHA checked. Coordinator observed; this role did not run that model.",
+      "evidence": {
+        "path": "evidence/VID1014-original-G4_PRD.md",
+        "sha256": "32ab483d48ca969098a79f3bd101e2f9a1e7aef2f84fcc32ee07ae619169e615"
+      }
+    },
+    {
+      "kind": "historical repair-role native source red",
+      "grade": "B",
+      "source_commit": "e0f496c67804b91b7dc44bf72c2c39a6a588381b",
+      "actor": "mc023-prd-authority-repair",
+      "actual": "30 total,5 pass,25 fail; actual1; model/photo fixtures only, not live production.",
+      "evidence": {
+        "path": "historical/original-test-only-red/runs/MC-023-0-1791224837188.json",
+        "sha256": "4d73b2afa524f69986da6c53ee73665930348bed477396a776ce86f4b8f327d5"
+      }
+    },
+    {
+      "kind": "independent executor metadata errors",
+      "grade": "B",
+      "actual": "Before any test: incorrect prepared ledger key then generated output absent Git metadata exclude. Guards rejected. Both own helper corrections retained; product source unchanged.",
+      "evidence": [
+        {
+          "path": "environment/initial-key-preflight-failure.json",
+          "sha256": "a5fda5ec06715777001bab4dd1f6689be3fbdd2d263a024c707585f7b20daad7"
+        },
+        {
+          "path": "environment/evidence-ignore-preflight-failure.json",
+          "sha256": "82ac26a06a486aed708ba506b2c4d99e9eeca9e7aa88cea83c5148e0c5a220ed"
+        }
+      ]
+    },
+    {
+      "kind": "independent environment build assumption",
+      "grade": "B",
+      "actual": "Video source package has no tsconfig.build.json/build script; attempted build TS5058 exit1 retained. Source exports require no video build; correct own package typecheck0.",
+      "evidence": {
+        "path": "independent-packages-video-studio-build.run.json",
+        "sha256": "a6c508c712f1fb2c1a58526704bb3f8974abfa5d07c96e5781f502ebf459de26"
+      }
+    },
+    {
+      "kind": "independent planning fixture expectation correction",
+      "grade": "A+B",
+      "actual": "Original own11 attempt10pass/1fail expected task.characterId equal archive ID and outputFile already executed. Native planner reads id/characterId/name while ScriptEngine emits character_id; exact archiveAssetId binds each planned pending view. No product-source change or relaxation of rejection cases. Corrected own11/11 validates actual planning contract.",
+      "evidence": [
+        {
+          "path": "independent-native-prd-extra.run.json",
+          "sha256": "b1326dc55fef01787abd64e6a2acb6731b4281e362ca67348fe2a9d1caeb060e"
+        },
+        {
+          "path": "independent-native-prd-extra.mts",
+          "sha256": "63d8d76b2f3297379095dd1ec17b62a1b8dd50570d3e2733f4c56c85e522b50e"
+        },
+        {
+          "path": "independent-native-prd-extra-retry.run.json",
+          "sha256": "75f0409aac64407744fb5f627166fd57d33b043d339b5cb8d14d60abf90c426d"
+        },
+        {
+          "path": "independent-native-prd-extra-retry.mts",
+          "sha256": "f1f667daee764bffc08134ba1a440f643b8265548daf3c8ab648568d61ebc6cb"
+        }
+      ],
+      "source_locations": [
+        "vendor/supermickey/hyperreality-system/engines/portrait-studio/character-planner.js:_normalizeCharacters/_buildCharacterTask",
+        "packages/video-studio/src/portrait-archive-bridge.ts:install",
+        "vendor/supermickey/hyperreality-system/index.js:create/portraitCharacters"
+      ]
+    }
+  ],
+  "case_details": "independent-test-cases.json",
+  "closure": {
+    "completed": [
+      "Final clean-source MC023 official acceptance/gate/handoff/postgate; one closed/no open local card.",
+      "Full final11 changed source/test/doc reads plus verified exact-byte carried direct chain.",
+      "Current16 requirement regressions, own11 source boundaries, four suites91 tests, necessary contract build and both actual declared typechecks.",
+      "Independent actor/source-bound raw evidence, failed-attempt preservation and copied-byte sealed reports."
+    ],
+    "not_completed_or_not_covered": [
+      "Current live model/media/PG/service/production film/release work is explicitly outside this independent role.",
+      "Old22 cards are sealed at76d and not rerun; no whole-repository semantic audit claimed.",
+      "First own positive planning expectation is corrected to the actual native planned field contract; original10/1 attempt remains visible."
+    ],
+    "autonomously_added": [
+      "Actual two-selected-actor production-shaped Portrait planning, foreign PRD, non-front photo awaits, confirmation exception, full description, native PARSE retry and nested alias cases prevent superficially complete source claims.",
+      "Owned dependency/source link/copy identity, environment error history and declared package compiler checks make actual source binding reviewable."
+    ],
+    "assumptions": [
+      "Controlled archive/profile resolver and original authorization remain source authority; byte identity is not face/license/visual verification.",
+      "No selected archives preserve the legacy native narrative; default subtitle mode follows existing sidecar."
+    ],
+    "confidence": "High for this local source-authority structure at19fff17 because actual native processors/parser/adapter and negative awaits ran; no confidence claim for current live film/model/release result.",
+    "suggested_review": [
+      "Full-source instance/async checks in native-prd-contract.ts.",
+      "Host G4 original-photo attachments and post-await image-scope receipt re-read.",
+      "Actual official run/Node summary source/actor/hash binding and preserved corrected-fixture history."
+    ]
+  },
+  "selfcheck": [
+    {
+      "yes": true,
+      "item": "Covered the entire authorized MC023 scope and stated partial/uncovered files."
+    },
+    {
+      "yes": true,
+      "item": "Completed autonomous work without shifting routine decisions to the user."
+    },
+    {
+      "yes": true,
+      "item": "Claims have accurate A/B/C/D evidence and actual source/actor/run binding."
+    },
+    {
+      "yes": true,
+      "item": "Final changed code and actual failing/positive boundaries can be reviewed line by line."
+    }
+  ],
+  "production_claim": false,
+  "product_source_modified_by_acceptance": false,
+  "old22_evidence_modified": false
+}

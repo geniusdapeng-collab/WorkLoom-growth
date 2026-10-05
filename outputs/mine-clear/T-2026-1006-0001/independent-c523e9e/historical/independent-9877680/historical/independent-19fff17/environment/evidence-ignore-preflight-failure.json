@@ -1,0 +1,11 @@
+{
+  "schema": "workloom.independent-executor-preflight-failure/v1",
+  "sourceCommit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+  "actualExitCode": 1,
+  "stage": "after repair evidence copy, before first build/test",
+  "reason": "New independent evidence directory was not excluded by Git metadata, so clean guard correctly rejected before any execution. Exact generated evidence path now excluded; tracked source unchanged; initial copied files preserved in scratch.",
+  "ignoreMetadataFile": "/Users/mac/WorkLoom-fleet/WorkLoom-growth/.git/info/exclude",
+  "addedRule": "/outputs/mine-clear/T-2026-1006-0001/independent-19fff17/",
+  "sourceEdits": false,
+  "capturedAt": "2026-10-05T19:16:10.558266+00:00"
+}

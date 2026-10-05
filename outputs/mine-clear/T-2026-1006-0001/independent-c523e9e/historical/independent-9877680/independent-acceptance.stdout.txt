@@ -1,0 +1,17 @@
+{
+  "id": "MC-023",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "result": "pass",
+  "commit": "98776805f108105a6f5891f1bb3f700331848c78",
+  "assertions": [
+    {
+      "result": "pass",
+      "run": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    }
+  ]
+}

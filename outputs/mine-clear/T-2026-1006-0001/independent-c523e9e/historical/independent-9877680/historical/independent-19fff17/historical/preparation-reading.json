@@ -1,0 +1,419 @@
+{
+  "schema": "workloom.independent-source-coverage/v1",
+  "status": "preparation-only-not-final-acceptance",
+  "baseline_source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+  "test_only_source_commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5",
+  "counts": {
+    "A": 37,
+    "B": 0,
+    "C": 1,
+    "D": 0
+  },
+  "total": 38,
+  "source_read_only": true,
+  "files": [
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/prd-generator/prd-generator.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "7a155f4d33d091b94c24ed88416f7b4609c83a286cc7ba43ebfbd87c3a9305a6",
+      "lines": 486,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/prd-generator/agents/agent-1-product-definition.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "0ecfde3dd418bb27eb2548674136c8791cb7243800584a9600280d33304b1006",
+      "lines": 110,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/prd-generator/agents/agent-2-creative-direction.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "7ddf0251fd346e669dd31dcbb6d1d8b97c93b043b442b1b231274bdb0713f45d",
+      "lines": 205,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/prd-generator/agents/agent-3-production-specification.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "288d1d0c0274173db51e65902764d0a9fa1ac038da51d26b6869ce68a43ef300",
+      "lines": 347,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/prd-generator/agents/agent-4-constraint-synthesis.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "3f7ef95ffe824cbd93bc4b8d7bb95cfa3f6f2fa25db0c95c19a2f43939af8678",
+      "lines": 181,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/prd-generator/agents/agent-5-delivery-standard.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "01f82381f2c8ff8f06a477a40332f908221abfe49303851330244f586bf82265",
+      "lines": 197,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/prd-generator/utils/prd-summary.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "60c0d83aa59c888aef6765d4c54963580ef9274a4c16d5c3881ca107914f4c43",
+      "lines": 41,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/prd-generator/validators/cost-quality-alignment.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "b9dace6e0dfce7f0a456c15eafb94ff1d96ddba93209a9b7a21f0a860881ef74",
+      "lines": 79,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/prd-generator/schema/prd-schema-v3.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "3441abe6fb02ff7f4224dd514817bce0c787be996e240d425685272c96e26ad2",
+      "lines": 551,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/script-engine/core/script-blueprint.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "d8aea579823f5dc3203ab8e0a7b08fae188892edb05cb119a576cb76bf6672e1",
+      "lines": 152,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/script-engine/core/script-generator.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "f8bef97ad9445a494b3d5d55c1c0cf2faacf787a55b53d919494a876c97ab777",
+      "lines": 1412,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/script-engine/core/adapter.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "5bd3b1d873de29fc724b4eb3ffcae14b432cc043defbd30859d5c4a6171c227c",
+      "lines": 572,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/script-engine/core/intent-parser.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "74d8cad8eb44ae514ef5578a947ae81b97d54eb92e3a3c08669f20d79c02125b",
+      "lines": 399,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/script-engine/core/script-validator.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "79a5587409f7ba3b8c01ef75e1a983fb49ba34b7a93c6e11959ecccc5a752388",
+      "lines": 751,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/script-engine/core/scene-type-normalizer.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "8dd9416aaa8cd29d6e6606b2881c16a9721241e9ed5a8bded8f4752db5ed18a3",
+      "lines": 185,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/script-engine/index.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "db97de235207cc770d7b05b1f32caeadb623aa0e8311a3fd6f5c7e171d1b1b39",
+      "lines": 301,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/portrait-studio/index.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "10814c2e5c97c5e881c45fc569268c2a50a545ad25b4d66ecbfdd2b1d6ccc789",
+      "lines": 232,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/portrait-studio/character-planner.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "131a497815aa69d949e2646c371fe99ee0d87eeaaf18c52bc57dcd5a30694a20",
+      "lines": 173,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/portrait-studio/portrait-set-builder.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "12ae445df14caf0e94abf237d5459926ab0db28d7139adb5d19c8f83cc432355",
+      "lines": 204,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/portrait-studio/product-branch.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "1ba853b29d3011950145a55bf5cc3cb24d0fb4c759c6c80dab3f481ab96270bb",
+      "lines": 383,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/portrait-studio/angle-catalog.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "d52f5de420286d3e3c37697e5b3f1cc70d890c5276896521f299873d83b06abd",
+      "lines": 220,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/production-engine/agents/base-agent.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "53fa83952a6576a32d1ceab2f67a3e9d42fea2b3e82a081b22dcf1457fdbe778",
+      "lines": 439,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/production-engine/agents/error-classifier.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "89f9bc71a47a823caece841dddb1613e41de53ab40dcbca7fb1cc8b0fcf71a77",
+      "lines": 235,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "packages/video-studio/src/portrait-archive-bridge.ts",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "2ba1c31fc8cbd24df67cd18a6f68fb1f9d04ec445e5917c4dd1e18a2c1e1b4f7",
+      "lines": 57,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "packages/video-studio/src/native-requirement-contract.ts",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "05bb8897c271c36fb39e557adf3e125c8d13fd03f517c81fa3702d0daed397ca",
+      "lines": 239,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "packages/video-studio/src/portrait-decision.ts",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "6846ad0975cafc89d5efc890e4e842b67c63050a815ea5e99c5cad7160436607",
+      "lines": 91,
+      "method": "Complete semantic reading during MC023 preparation, chunked to EOF. No source mutation or current final-candidate claim."
+    },
+    {
+      "file": "packages/video-studio/src/studio.ts",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "9c69b8ca013d1ef67e905dee89303078f208faca",
+      "sha256": "a5a82a556d155a3d6cb63aac8b8bfc796ecd874cfe378b05cdc22794cc0d4777",
+      "lines": 539,
+      "method": "Prior A reading carried only after exact current76d SHA256 byte equality. Final MC023 must re-read changed code or verify unchanged bytes.",
+      "provenance_inventory": "outputs/native-entry-independent-76d7e78/independent-source-coverage.json",
+      "earlier_source_commit": "9c69b8ca013d1ef67e905dee89303078f208faca",
+      "exact_bytes_unchanged": true
+    },
+    {
+      "file": "apps/server/src/video/studio-worker.ts",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "9c69b8ca013d1ef67e905dee89303078f208faca",
+      "sha256": "8d7f3363f70bf43733ed5209a5bfd784bacd502b5ae6e74d6d0c237d4779b424",
+      "lines": 1357,
+      "method": "Prior A reading carried only after exact current76d SHA256 byte equality. Final MC023 must re-read changed code or verify unchanged bytes.",
+      "provenance_inventory": "outputs/native-entry-independent-76d7e78/independent-source-coverage.json",
+      "earlier_source_commit": "9c69b8ca013d1ef67e905dee89303078f208faca",
+      "exact_bytes_unchanged": true
+    },
+    {
+      "file": "apps/server/src/video/gate-policy.ts",
+      "grade": "A",
+      "method": "Prior A reading carried only after exact current76d SHA256 byte equality. Final MC023 must re-read changed code or verify unchanged bytes.",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "e8aae3a55d877a891d38c7d2d5b46079e9bf4785a20e6f4716762b1ad6dceeca",
+      "lines": 227,
+      "earlier_commit": "9a7893682b4ea3b84cc1dde678aac720f0619c6b",
+      "earlier_sha256": "e8aae3a55d877a891d38c7d2d5b46079e9bf4785a20e6f4716762b1ad6dceeca",
+      "exact_bytes_unchanged": true,
+      "reason": null,
+      "provenance_inventory": "outputs/native-entry-independent-76d7e78/independent-source-coverage.json",
+      "earlier_source_commit": "9c69b8ca013d1ef67e905dee89303078f208faca"
+    },
+    {
+      "file": "packages/video-studio/src/producer-gate.ts",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "9a7893682b4ea3b84cc1dde678aac720f0619c6b",
+      "sha256": "b2e79daffe9da2d00b7469ba0cded7178a85c9a52208cbc292cbff8ce497bcc9",
+      "lines": 596,
+      "method": "Prior A reading carried only after exact current76d SHA256 byte equality. Final MC023 must re-read changed code or verify unchanged bytes.",
+      "earlier_sha256": "b2e79daffe9da2d00b7469ba0cded7178a85c9a52208cbc292cbff8ce497bcc9",
+      "earlier_commit": "9a7893682b4ea3b84cc1dde678aac720f0619c6b",
+      "exact_bytes_unchanged": true,
+      "provenance_inventory": "outputs/native-entry-independent-76d7e78/independent-source-coverage.json",
+      "earlier_source_commit": "9c69b8ca013d1ef67e905dee89303078f208faca"
+    },
+    {
+      "file": "packages/video-studio/src/gates.ts",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "98f04d290e712eb04b8237868ba4057973affcdc",
+      "sha256": "5c60cc86122dabc625d7ba523fcb2552d134a154bdb3345a7af021be496ea9ca",
+      "lines": 83,
+      "method": "Prior A reading carried only after exact current76d SHA256 byte equality. Final MC023 must re-read changed code or verify unchanged bytes.",
+      "earlier_sha256": "5c60cc86122dabc625d7ba523fcb2552d134a154bdb3345a7af021be496ea9ca",
+      "earlier_commit": "98f04d290e712eb04b8237868ba4057973affcdc",
+      "exact_bytes_unchanged": true,
+      "provenance_inventory": "outputs/native-entry-independent-76d7e78/independent-source-coverage.json",
+      "earlier_source_commit": "9c69b8ca013d1ef67e905dee89303078f208faca"
+    },
+    {
+      "file": "packages/video-studio/src/portrait-runtime.ts",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "c6eff1a21dae50a50e3a5b3bb47a4eb818d2b60e",
+      "sha256": "419666c6457a641a2ddc36689b0e35fcad05c4a2949329702095a01ae1cef1a7",
+      "lines": 610,
+      "method": "Prior A reading carried only after exact current76d SHA256 byte equality. Final MC023 must re-read changed code or verify unchanged bytes.",
+      "earlier_sha256": "419666c6457a641a2ddc36689b0e35fcad05c4a2949329702095a01ae1cef1a7",
+      "earlier_commit": "c6eff1a21dae50a50e3a5b3bb47a4eb818d2b60e",
+      "exact_bytes_unchanged": true,
+      "provenance_inventory": "outputs/native-entry-independent-76d7e78/independent-source-coverage.json",
+      "earlier_source_commit": "9c69b8ca013d1ef67e905dee89303078f208faca"
+    },
+    {
+      "file": "packages/video-studio/src/character-archive.ts",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "c6eff1a21dae50a50e3a5b3bb47a4eb818d2b60e",
+      "sha256": "5e0c4275c74ab982263df47105885947d800ea9182811b78e560fe9fbcb5d8d0",
+      "lines": 544,
+      "method": "Prior A reading carried only after exact current76d SHA256 byte equality. Final MC023 must re-read changed code or verify unchanged bytes.",
+      "earlier_sha256": "5e0c4275c74ab982263df47105885947d800ea9182811b78e560fe9fbcb5d8d0",
+      "earlier_commit": "c6eff1a21dae50a50e3a5b3bb47a4eb818d2b60e",
+      "exact_bytes_unchanged": true,
+      "provenance_inventory": "outputs/native-entry-independent-76d7e78/independent-source-coverage.json",
+      "earlier_source_commit": "9c69b8ca013d1ef67e905dee89303078f208faca"
+    },
+    {
+      "file": "packages/video-studio/src/llm-adapter.ts",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "87d56dd460a9dffd8141f52c3ad8e89aebb93e094cda34269e13066b94860804",
+      "lines": 409,
+      "method": "Prior A reading carried only after exact current76d SHA256 byte equality. Final MC023 must re-read changed code or verify unchanged bytes.",
+      "earlier_sha256": "87d56dd460a9dffd8141f52c3ad8e89aebb93e094cda34269e13066b94860804",
+      "earlier_commit": "dc3bf7a5549681da4e898af5d1b5dd3a7423f74e",
+      "exact_bytes_unchanged": true,
+      "provenance_inventory": "outputs/native-entry-independent-76d7e78/independent-source-coverage.json",
+      "earlier_source_commit": "9c69b8ca013d1ef67e905dee89303078f208faca"
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/engines/script-engine/core/requirement-list-builder.js",
+      "grade": "A",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "read_at_commit": "3439997f07723f99918741bf15496e597be31e6d",
+      "sha256": "e965e7223ee11e8dbcc96a9fcc71296414bf9dedfaad4e5797298cd8c981350d",
+      "lines": 1113,
+      "method": "Prior A reading carried only after exact current76d SHA256 byte equality. Final MC023 must re-read changed code or verify unchanged bytes.",
+      "sparse_path_present": true,
+      "earlier_commit": "3439997f07723f99918741bf15496e597be31e6d",
+      "exact_bytes_unchanged": true,
+      "earlier_sha256": "e965e7223ee11e8dbcc96a9fcc71296414bf9dedfaad4e5797298cd8c981350d",
+      "provenance_inventory": "outputs/native-entry-independent-76d7e78/independent-source-coverage.json",
+      "earlier_source_commit": "9c69b8ca013d1ef67e905dee89303078f208faca"
+    },
+    {
+      "file": "vendor/supermickey/systems/llm-reasoning-engine.js",
+      "grade": "A",
+      "sha256": "3f06c8edf88ec7351bd7949c06c534c4818411415f88a1106d043f7058abf0d0",
+      "lines": 531,
+      "read_at_commit": "ba91c6d49a6584e522f19ddedc705c23cfbf8be1",
+      "method": "Prior A reading carried only after exact current76d SHA256 byte equality. Final MC023 must re-read changed code or verify unchanged bytes.",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "earlier_sha256": "3f06c8edf88ec7351bd7949c06c534c4818411415f88a1106d043f7058abf0d0",
+      "earlier_commit": "ba91c6d49a6584e522f19ddedc705c23cfbf8be1",
+      "exact_bytes_unchanged": true,
+      "provenance_inventory": "outputs/native-entry-independent-76d7e78/independent-source-coverage.json",
+      "earlier_source_commit": "9c69b8ca013d1ef67e905dee89303078f208faca"
+    },
+    {
+      "file": "vendor/supermickey/hyperreality-system/index.js",
+      "grade": "C",
+      "source_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "sha256": "489171f35ce7cf5fc2cc4387e07380337ea1a574df638533f2b90ed6bd1f86fd",
+      "lines": 4126,
+      "method": "Targeted semantic regions, not whole 4126-line vendor orchestrator.",
+      "regions": [
+        "700-850",
+        "940-1125",
+        "1980-2150",
+        "2750-2925",
+        "2860-2970",
+        "3095-3330",
+        "3420-3570"
+      ],
+      "scope_cut_reason": "Only actual native PRD/G4/Script/Portrait source-authority callsites; unrelated rendering/providers and other vendor flows not fully audited in this single card."
+    },
+    {
+      "file": "scripts/native-prd-contract.test.mts",
+      "grade": "A",
+      "source_commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5",
+      "read_at_commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5",
+      "sha256": "41261970131e71d15bd1330f5c6304e70393d99699060804b7ae9ab0c4080643",
+      "lines": 241,
+      "method": "Full current test-only 529 fixture read; original e0 full read and explicit three-line actual consumer shape correction checked. Not formal green proof."
+    }
+  ],
+  "outside_scope": [
+    "No paid/provider/production-model run, media creation, services or database operation.",
+    "No whole vendor rendering or external-provider audit.",
+    "267-line uncommitted PRD bridge and host diff read separately as provisional, not entered as immutable A source proof; final clean source SHA still pending."
+  ],
+  "fixtures_prepared": "work/native-mc023-extra-preparation.json"
+}

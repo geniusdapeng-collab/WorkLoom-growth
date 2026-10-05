@@ -1,0 +1,81 @@
+{
+  "schema": "workloom.independent-acceptance-receipt/v1",
+  "task_id": "T-2026-1006-0001",
+  "card": "MC-023",
+  "source_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "repair_actor": "mc023-prd-authority-repair",
+  "status": "verified-local-preview",
+  "generated_at": "2026-10-05T19:28:09.338213+00:00",
+  "repair_baseline": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+  "acceptance_baseline": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+  "official_run": {
+    "path": "runs/MC-023-0-1791227830151.json",
+    "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+    "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+  },
+  "official_summary": {
+    "total": 39,
+    "passed": 39,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "acceptance_execution": {
+    "path": "independent-acceptance.run.json",
+    "sha256": "d3813dde5514d4e34639087e67c660cbc1e69a29f2a67173b0938669927eec4a"
+  },
+  "gate_execution": {
+    "path": "independent-gate.run.json",
+    "sha256": "7dc2042c027a6277d072c41335cf1de73f6caaf33802e08febe3806913326fe7"
+  },
+  "handoff_execution": {
+    "path": "independent-handoff.run.json",
+    "sha256": "97ff1c9c6e276208d978c93ac0615dcde19363d9475f6afa051046362388cddb"
+  },
+  "post_handoff_gate": {
+    "path": "independent-gate-after-handoff.run.json",
+    "sha256": "e1ab768163cfbca2afccf123b102c2ffe3a85214a0d81dce574dfa3becd3730b"
+  },
+  "ledger": {
+    "path": "ledger.json",
+    "sha256": "9aa36a10032d299ff645e371b9f986a71f6fdada25ca44330114cb6af0bb6b7e"
+  },
+  "handoff": {
+    "path": "handoff.json",
+    "sha256": "c3985ad8dac5a8eae101260cf771a8f2c9f191ee98cc61fd4ab8240002024a51"
+  },
+  "source_coverage": {
+    "path": "independent-source-coverage.json",
+    "sha256": "3b7675fbd95d36b0ed6a8b4dd4e611e1bf62b6e29f89fa92a8ef5681176311ce"
+  },
+  "case_matrix": {
+    "path": "independent-test-cases.json",
+    "sha256": "5f021b02672be929f2401f9213eb20aa29354784d892505aa7b774d6ebb131f8"
+  },
+  "report": {
+    "path": "independent-acceptance-report.json",
+    "sha256": "6fc56621937388960b9389d6a273b73544c5cd41108abaaa66d3fd7fd4276a03"
+  },
+  "attempt_history": {
+    "path": "independent-attempt-history.json",
+    "sha256": "6af4dcf6fb4dd2997fe8b0a6e239fff0c8696dafb9132ca0921e0016929427db"
+  },
+  "counts": {
+    "official_native": 39,
+    "requirement_regression": 16,
+    "independent_boundary": 11,
+    "affected_vitest": 91,
+    "current_definition_total": 157,
+    "execution_instances_including_preserved_failed_fixture": 168,
+    "skipped_cancelled_todo_final": 0,
+    "interpretation": "Definition counts; do not treat overlapping source properties as157 different production behaviors. Repair actor39 cases are separate and not counted again."
+  },
+  "environment_claim": "local-preview",
+  "production_claim": false,
+  "read_only_product_source": true,
+  "no_real_models_media_pg_services": true,
+  "receipt_description": "Actor/source-bound SHA256 audit receipt; not a cryptographic signature and not live production approval."
+}

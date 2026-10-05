@@ -1,0 +1,38 @@
+stderr | packages/video-studio/src/studio.test.ts
+[pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+
+stderr | apps/server/src/video/gate-policy.test.ts
+[pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+
+[ScriptGenerator] 无法加载LLMEngine: Cannot find module './llm-output-normalizer'
+Require stack:
+- /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/[eval]
+[RenderingEngine] 无法加载现有渲染核心: Cannot find module './prompt-guardian'
+Require stack:
+- /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/[eval]
+[RenderingEngine] 将使用内置模拟模式
+⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+ 人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+ 配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+[ScriptGenerator] 无法加载LLMEngine: Cannot find module './llm-output-normalizer'
+Require stack:
+- /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/[eval]
+[RenderingEngine] 无法加载现有渲染核心: Cannot find module './prompt-guardian'
+Require stack:
+- /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/[eval]
+[RenderingEngine] 将使用内置模拟模式
+⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+ 人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+ 配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+stderr | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 原始需求选出的 T1 进入建档事件、routeMeta、供应商入参与分镜/提示词包
+[archive] 档案身份漂移 ws-test/VID-9000：pipelineKind marketing→narrative（项目身份指纹不一致：档案夹可能被另一代数据库的同名 ID 复用）
+
+stderr | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 解锁和日志清理抛错仍清理绑定桥并写终态
+[studio-worker] 运行清理失败：detach failed
+
+stderr | apps/server/src/video/studio-worker.test.ts > 预生产原始结果与诚实终态 > 解锁和日志清理抛错仍清理绑定桥并写终态
+[studio-worker] 运行清理失败：detach failed；运行清理失败：unlock failed
+
+stderr | apps/server/src/video/studio-worker.test.ts > 宿主营销G1必须先于vendor > 真实权限守卫允许本次内部裁决落账，系统事件归因保持一致
+[pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+

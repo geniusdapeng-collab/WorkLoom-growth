@@ -1,0 +1,13 @@
+{
+  "schema": "workloom.independent-helper-attempt/v1",
+  "source_commit": "98776805f108105a6f5891f1bb3f700331848c78",
+  "actor": "native-entry-independent-acceptance",
+  "grade": "B",
+  "operation": "python3 work/native-mc023-rebind-execution.py",
+  "actual_exit_code": 1,
+  "observed_error": "FileExistsError: independent-9877680 already exists, BASE.mkdir(exist_ok=False) at line22",
+  "reason": "After context recovery, existing successful raw evidence was discovered; helper refused to overwrite it.",
+  "tests_started_in_relaunch": false,
+  "source_modified": false,
+  "raw_type": "Recorded actual tool outcome, not a reconstructed execution log."
+}

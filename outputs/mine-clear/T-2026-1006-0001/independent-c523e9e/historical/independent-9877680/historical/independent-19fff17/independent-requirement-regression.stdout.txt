@@ -1,0 +1,32 @@
+[ProcessGuard] 实例 default 安装完成（含SIGTERM/SIGINT处理）
+⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+ 人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+ 配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+✔ converted duration, platform, aspect and profile cannot diverge from the G3 and actual ScriptEngine contract (2.742792ms)
+✔ selected actors, full scenes and source citations cannot be replaced after conversion (0.498541ms)
+✔ input changed during contract model await is rejected rather than binding old sources to new input (0.269375ms)
+✔ input changed during native discovery is rejected before profile or contract calls (0.111875ms)
+✔ discovery changed during native async conversion is rejected before contract compilation (0.151625ms)
+✔ trusted archive, brief and intent changes during await cannot replace entry source authority (0.612ms)
+✔ legitimate native creative, emotion and content extensions remain usable with protected authority (0.409083ms)
+✔ finished native scope rejects a compiler result returning after cleanup (0.19925ms)
+✔ changed input after compilation cannot consume its earlier converted authority (0.269042ms)
+✔ actual native metadata consumption validates authority and returns an independent mutable downstream copy (0.398125ms)
+[ProcessGuard] 实例 default 安装完成（含SIGTERM/SIGINT处理）
+⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+ 人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+ 配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+✔ native discovery returns a resolved requirement object before the vendor's synchronous conversion call (2.040125ms)
+✔ current archive actor reaches G3 and the actual native ScriptEngine metadata without guessing identity (0.8675ms)
+✔ full scene purposes, source-backed props and actions survive conversion without keyword fragments (0.428167ms)
+✔ invented sources, unrelated quotes and missing selected actors stop before G3 (0.6215ms)
+✔ conversion fallback cannot consume an uncompiled or different discovery object (0.305083ms)
+✔ concurrent native instances retain their own actors, sources and conversion caches (0.540875ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 129.511125

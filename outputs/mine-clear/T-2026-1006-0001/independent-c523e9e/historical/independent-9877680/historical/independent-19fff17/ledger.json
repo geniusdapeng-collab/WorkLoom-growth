@@ -1,0 +1,219 @@
+{
+  "schema": "workloom.mine-clear/ledger@1",
+  "task_id": "T-2026-1006-0001",
+  "repo": "growth-native-pipeline",
+  "repo_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
+  "title": "MC-023 native PRD authority and original portrait evidence",
+  "created_at": "2026-10-05T18:21:00.232Z",
+  "updated_at": "2026-10-05T19:18:58.529Z",
+  "baseline": {
+    "audit": {
+      "commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+      "branch": "task/T-2026-1006-0001",
+      "remote": "origin",
+      "fetched_at": "2026-10-05T18:21:00.188Z",
+      "fetch_status": "success",
+      "notes": "本地 HEAD 不是 origin/main 最新（云端 52a600e3 / 本地 76d7e789）——按 §1.2 先对齐基线"
+    },
+    "repair": {
+      "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+      "reverified_problem_ids": []
+    },
+    "acceptance": {
+      "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+      "is_descendant_of_repair": true
+    }
+  },
+  "environment": {
+    "kind": "local-preview",
+    "notes": ""
+  },
+  "invariants": [
+    {
+      "id": "INV-1",
+      "text": "租户边界覆盖数据库 RLS、运行时上下文、事件、缓存和外部连接器。",
+      "source": "AGENTS.md#4.1"
+    },
+    {
+      "id": "INV-2",
+      "text": "经营事件、审批和关键回执只增不改；纠正通过新事件表达，不静默覆盖证据。",
+      "source": "AGENTS.md#4.2"
+    },
+    {
+      "id": "INV-3",
+      "text": "所有外部或变更性动作及其子调用，统一经过权限、PII、围栏和审批链路。",
+      "source": "AGENTS.md#4.3"
+    },
+    {
+      "id": "INV-4",
+      "text": "涉钱、敏感数据、群发、公开发布、交易和破坏性变更必须按高风险处理并由人审批。",
+      "source": "AGENTS.md#4.4"
+    },
+    {
+      "id": "INV-5",
+      "text": "没有真实回执就不能标记完成；mock、模拟和体验模式在数据结构与界面上都要明确区分。",
+      "source": "AGENTS.md#4.5"
+    },
+    {
+      "id": "INV-6",
+      "text": "客户原始经营数据不得上行；蜂群只接受白名单化、最小化、匿名化且可审计的元数据或派生经验。",
+      "source": "AGENTS.md#4.6"
+    },
+    {
+      "id": "INV-7",
+      "text": "租户覆盖层只能收紧围栏，不能放宽平台不可变红线。",
+      "source": "AGENTS.md#4.7"
+    },
+    {
+      "id": "INV-8",
+      "text": "模型、提示词、技能、bundle、策略和热更新必须先评测再灰度，且始终可回滚。",
+      "source": "AGENTS.md#4.8"
+    },
+    {
+      "id": "INV-9",
+      "text": "platform-ops、平台账户运营和平台秘密只属于 Andromeda。",
+      "source": "AGENTS.md#4.9"
+    },
+    {
+      "id": "INV-10",
+      "text": "Tiger 在获得单独的合规审查和用户明确授权前，只能模拟或纸面交易。",
+      "source": "AGENTS.md#4.10"
+    },
+    {
+      "id": "INV-11",
+      "text": "令牌、密码、API key、私钥、客户凭证和私密客户数据不得进入源码、文档、上下文、提示词、日志或提交。",
+      "source": "AGENTS.md#4.11"
+    },
+    {
+      "id": "INV-12",
+      "text": "个性化与行业扩展不得形成公共机制的第二事实源。",
+      "source": "AGENTS.md#4.12"
+    }
+  ],
+  "cards": [
+    {
+      "id": "MC-023",
+      "kind": "problem",
+      "level": "L3",
+      "severity": "P1",
+      "batch": 2,
+      "state": "verified",
+      "title": "Native PRD loses selected archive identity, G3 positioning and verifiable full-photo delivery authority",
+      "evidence": [
+        {
+          "type": "code",
+          "ref": "vendor/supermickey/hyperreality-system/engines/prd-generator/prd-generator.js:37@76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+          "sha256": "7a155f4d33d091b94c24ed88416f7b4609c83a286cc7ba43ebfbd87c3a9305a6"
+        },
+        {
+          "type": "code",
+          "ref": "packages/video-studio/src/studio.ts:408@76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+          "sha256": "a5a82a556d155a3d6cb63aac8b8bfc796ecd874cfe378b05cdc22794cc0d4777"
+        },
+        {
+          "type": "code",
+          "ref": "apps/server/src/video/studio-worker.ts:624@76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+          "sha256": "8d7f3363f70bf43733ed5209a5bfd784bacd502b5ae6e74d6d0c237d4779b424"
+        },
+        {
+          "type": "receipt",
+          "ref": "evidence/VID1014-original-G4_PRD.md",
+          "sha256": "32ab483d48ca969098a79f3bd101e2f9a1e7aef2f84fcc32ee07ae619169e615",
+          "commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+          "note": "Original actual VID1014 G4 score45 rejected at historical source9c69b8ca013d1ef67e905dee89303078f208faca. Preserved original bytes are evidence carried into current audit76d, not a current runtime claim.",
+          "historical_source_commit": "9c69b8ca013d1ef67e905dee89303078f208faca"
+        }
+      ],
+      "root_cause": {
+        "file": "vendor/supermickey/hyperreality-system/engines/prd-generator/prd-generator.js",
+        "line": 37,
+        "commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
+        "symbol": "PRDGenerator.generate / host G4 onApproval"
+      },
+      "trigger_path": "Actual native VID1014 G1/G2/G3 passed but PRD/G4 renamed selected CEO to Lin/middle-aged, inferred platform generic, kept different quality and acceptance thresholds, omitted subtitle standard and sent only text about accepted portraits. Native PRD ignores host requirement archives, and host G4 receives no controlled photo bytes. No paid image/video submitted.",
+      "assertions": [
+        {
+          "kind": "property",
+          "given": "Actual original five PRD agents with model-only response substitutes, real requirement bridge, full selected profiles/eight portrait receipts, exact G3 Brief, actual ScriptEngine parser/adapter/PortraitStudio, source mutation and unapproved/fallback PRD boundaries",
+          "expect": "Native prompts receive complete source authority; exact selected identity/attributes/current portraits and Brief match G3; quality never lowered; subtitle delivery verifiable; approved G4 owns identical downstream PRD; changed/ambiguous/missing sources or unreviewed PRD fail; original creative/dialogue/scenes/vendor source unchanged.",
+          "command": "node --import tsx --test scripts/native-prd-contract.test.mts",
+          "exec": {
+            "file": "node",
+            "args": [
+              "--import",
+              "tsx",
+              "--test",
+              "scripts/native-prd-contract.test.mts"
+            ]
+          },
+          "last_result": "pass",
+          "run": {
+            "path": "runs/MC-023-0-1791227830151.json",
+            "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+            "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+          },
+          "evidence": {
+            "path": "evidence/MC-023-0-1791227830151.txt",
+            "sha256": "f26f4da1c1548b9f9ff6a374308dfd5c0817381802cd03e8176f84481171719d",
+            "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+          }
+        }
+      ],
+      "fix_plan": "Install a per-instance native PRD adapter using the existing compiled requirement getter. Carry original full selected profiles/portrait receipt evidence into native agent prompts, validate exact identity before deterministic archive field binding, unify strictest existing thresholds, add original sidecar subtitle contract, validate Markdown/G4 ownership and actual ScriptEngine intake/output. Host G4 attaches every original photo byte and requires matching complete review proof. No vendor or gate rubric/threshold edit. Native BaseAgent ordinary PARSE retry remains unchanged; the instance system source is rebuilt in full on every request. ScriptGenerator full source character text and internal metadata aliases are checked before model invocation.",
+      "blast_radius": "Native G3-to-G4-to-ScriptEngine/PortraitStudio contract and host G4 evidence attachments; scoped to original Studio run, legacy no-archive narratives preserved; no DB migration, paid render, new pipeline or hand-written creative source.",
+      "conflict_paths": [
+        "packages/video-studio/src/native-prd-contract.ts",
+        "packages/video-studio/src/native-requirement-contract.ts",
+        "packages/video-studio/src/studio.ts",
+        "packages/video-studio/src/index.ts",
+        "apps/server/src/video/studio-worker.ts",
+        "apps/server/src/video/gate-policy.ts",
+        "scripts/native-prd-contract.test.mts",
+        "docs/repairs/T-2026-1006-0001.md",
+        "apps/server/src/video/gate-policy.test.ts",
+        "apps/server/src/video/studio-worker.test.ts",
+        "packages/video-studio/src/studio.test.ts",
+        "outputs/mine-clear/T-2026-1006-0001/**"
+      ],
+      "regression": {
+        "command": "Real Node native PRD contract plus existing requirement tests, affected host/gate/producer/portrait/studio integrations and package typechecks; distinct acceptance actor follows clean complete source; root actual original-input preproduction/film follows."
+      },
+      "rollback": "Revert only task T-2026-1006-0001 dedicated source repair, keep original rejection and stop unqualified native film.",
+      "notes": "This actor is mc023_prd_authority_repair, repair only; independent parent/acceptance role will run after source clean. Initial audit76d fullsha. Final repair additionally guards complete ScriptGenerator character metadata and every actual BaseAgent retry system source; original red results remain immutable. Current archive is historical until clean HEAD formal repair executes. The clean 93b0469 repair37 pass is historical only: a later actual nested _metadata mutation during ScriptGenerator await red disclosed a gap. Final source adds nested hash/output aspect validation with stable creative extension positive control; official final clean repair must rerun all39. Independent acceptance remains not-run.",
+      "verified_by": "native-entry-independent-acceptance",
+      "verified_at": "2026-10-05T19:17:12.969Z",
+      "verification_evidence": {
+        "path": "runs/MC-023-0-1791227830151.json",
+        "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+      },
+      "last_assertion_attempt": {
+        "actor": "native-entry-independent-acceptance",
+        "role": "acceptance",
+        "result": "pass",
+        "at": "2026-10-05T19:17:10.146Z",
+        "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+        "finished_at": "2026-10-05T19:17:12.969Z"
+      },
+      "fixed_by": "mc023-prd-authority-repair",
+      "last_verification_attempt": {
+        "actor": "native-entry-independent-acceptance",
+        "result": "pass",
+        "at": "2026-10-05T19:17:12.969Z",
+        "runs": [
+          {
+            "path": "runs/MC-023-0-1791227830151.json",
+            "sha256": "a6ff1a06343c98281b6d94725ac868c45d25ff03d58ff81ad0552f4c09f327ef",
+            "commit": "19fff17247c075a2bb6c2bbcd8016db42643f682"
+          }
+        ]
+      }
+    }
+  ],
+  "gates": [],
+  "handoff": {
+    "generated_at": "2026-10-05T19:18:58.528Z",
+    "acceptance_command": "node scripts/acceptance/fleet-run.mjs --repo growth-native-pipeline --env local-preview",
+    "open_problem_ids": []
+  }
+}

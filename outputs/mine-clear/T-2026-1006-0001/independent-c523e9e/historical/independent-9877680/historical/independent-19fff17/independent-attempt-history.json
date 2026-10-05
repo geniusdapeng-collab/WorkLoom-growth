@@ -1,0 +1,79 @@
+{
+  "schema": "workloom.independent-attempt-history/v1",
+  "source_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+  "history": [
+    {
+      "kind": "historical original production rejection",
+      "grade": "B",
+      "source_commit": "9c69b8ca013d1ef67e905dee89303078f208faca",
+      "actual": "VID1014 G4 score45 rejected; full194-line Markdown read earlier, current preserved SHA checked. Coordinator observed; this role did not run that model.",
+      "evidence": {
+        "path": "evidence/VID1014-original-G4_PRD.md",
+        "sha256": "32ab483d48ca969098a79f3bd101e2f9a1e7aef2f84fcc32ee07ae619169e615"
+      }
+    },
+    {
+      "kind": "historical repair-role native source red",
+      "grade": "B",
+      "source_commit": "e0f496c67804b91b7dc44bf72c2c39a6a588381b",
+      "actor": "mc023-prd-authority-repair",
+      "actual": "30 total,5 pass,25 fail; actual1; model/photo fixtures only, not live production.",
+      "evidence": {
+        "path": "historical/original-test-only-red/runs/MC-023-0-1791224837188.json",
+        "sha256": "4d73b2afa524f69986da6c53ee73665930348bed477396a776ce86f4b8f327d5"
+      }
+    },
+    {
+      "kind": "independent executor metadata errors",
+      "grade": "B",
+      "actual": "Before any test: incorrect prepared ledger key then generated output absent Git metadata exclude. Guards rejected. Both own helper corrections retained; product source unchanged.",
+      "evidence": [
+        {
+          "path": "environment/initial-key-preflight-failure.json",
+          "sha256": "a5fda5ec06715777001bab4dd1f6689be3fbdd2d263a024c707585f7b20daad7"
+        },
+        {
+          "path": "environment/evidence-ignore-preflight-failure.json",
+          "sha256": "82ac26a06a486aed708ba506b2c4d99e9eeca9e7aa88cea83c5148e0c5a220ed"
+        }
+      ]
+    },
+    {
+      "kind": "independent environment build assumption",
+      "grade": "B",
+      "actual": "Video source package has no tsconfig.build.json/build script; attempted build TS5058 exit1 retained. Source exports require no video build; correct own package typecheck0.",
+      "evidence": {
+        "path": "independent-packages-video-studio-build.run.json",
+        "sha256": "a6c508c712f1fb2c1a58526704bb3f8974abfa5d07c96e5781f502ebf459de26"
+      }
+    },
+    {
+      "kind": "independent planning fixture expectation correction",
+      "grade": "A+B",
+      "actual": "Original own11 attempt10pass/1fail expected task.characterId equal archive ID and outputFile already executed. Native planner reads id/characterId/name while ScriptEngine emits character_id; exact archiveAssetId binds each planned pending view. No product-source change or relaxation of rejection cases. Corrected own11/11 validates actual planning contract.",
+      "evidence": [
+        {
+          "path": "independent-native-prd-extra.run.json",
+          "sha256": "b1326dc55fef01787abd64e6a2acb6731b4281e362ca67348fe2a9d1caeb060e"
+        },
+        {
+          "path": "independent-native-prd-extra.mts",
+          "sha256": "63d8d76b2f3297379095dd1ec17b62a1b8dd50570d3e2733f4c56c85e522b50e"
+        },
+        {
+          "path": "independent-native-prd-extra-retry.run.json",
+          "sha256": "75f0409aac64407744fb5f627166fd57d33b043d339b5cb8d14d60abf90c426d"
+        },
+        {
+          "path": "independent-native-prd-extra-retry.mts",
+          "sha256": "f1f667daee764bffc08134ba1a440f643b8265548daf3c8ab648568d61ebc6cb"
+        }
+      ],
+      "source_locations": [
+        "vendor/supermickey/hyperreality-system/engines/portrait-studio/character-planner.js:_normalizeCharacters/_buildCharacterTask",
+        "packages/video-studio/src/portrait-archive-bridge.ts:install",
+        "vendor/supermickey/hyperreality-system/index.js:create/portraitCharacters"
+      ]
+    }
+  ]
+}

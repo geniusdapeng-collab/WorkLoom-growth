@@ -1,0 +1,46 @@
+{
+  "schema": "workloom.independent-execution/v1",
+  "name": "independent-packages-industry-contract-build",
+  "source_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "node_modules/typescript/bin/tsc",
+    "-p",
+    "packages/industry-contract/tsconfig.build.json"
+  ],
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+  "started_at": "2026-10-05T19:16:10.720528+00:00",
+  "finished_at": "2026-10-05T19:16:12.378567+00:00",
+  "exit_code": 0,
+  "environment_keys": [
+    "HOME",
+    "PATH",
+    "WORKLOOM_ASSERTION_MODULE_ROOT",
+    "NATIVE_ACCEPTANCE_REPO_ROOT",
+    "NATIVE_PRD_SOURCE_ROOT",
+    "WL_FFMPEG",
+    "WL_FFPROBE"
+  ],
+  "environment_values": {
+    "HOME": "/Users/mac",
+    "PATH": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "WORKLOOM_ASSERTION_MODULE_ROOT": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+    "NATIVE_ACCEPTANCE_REPO_ROOT": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+    "NATIVE_PRD_SOURCE_ROOT": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+    "WL_FFMPEG": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/no-media-operation/ffmpeg-disabled",
+    "WL_FFPROBE": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/no-media-operation/ffprobe-disabled"
+  },
+  "external_or_paid_provider": false,
+  "media_creation_allowed": false,
+  "environment_claim": "local-preview",
+  "stdout": {
+    "path": "independent-packages-industry-contract-build.stdout.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "path": "independent-packages-industry-contract-build.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
