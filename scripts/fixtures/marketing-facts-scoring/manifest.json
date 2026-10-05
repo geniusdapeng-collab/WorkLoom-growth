@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "workloom.mc024-offline-fixture/v1",
+  "environment": "external-preparation-only",
+  "sourceCommit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+  "currentProductionCommit": "c523e9e24300755a6f65c018712ad85c1005838d",
+  "projectId": "VID-1015",
+  "runId": "RUN-edfd69c7",
+  "files": [
+    {
+      "fixture": "actual-a3.review.json",
+      "original": "work/client-runtime/video-work/archive/ws-geo/VID-1015/stages/preproduction/attempt-1.marketing-A3.review.json",
+      "sha256": "5334c64f2a145c0ed788e18387cd80fd453e914b3c314da2e6bb6fdfae0c5884",
+      "bytes": 2121
+    },
+    {
+      "fixture": "actual-a3.judge-exchange-1.json",
+      "original": "work/client-runtime/video-work/archive/ws-geo/VID-1015/stages/preproduction/attempt-1.marketing-A3.judge-exchange-1.json",
+      "sha256": "023e2b206de3ef2f69aca7ecd63f03c862b59574236aaf28dc5a535913c57fd0",
+      "bytes": 17620
+    },
+    {
+      "fixture": "actual-a3.extraction-1.json",
+      "original": "work/client-runtime/video-work/archive/ws-geo/VID-1015/stages/preproduction/attempt-1.marketing-A3.extraction-1.json",
+      "sha256": "e01e4fccfbdc6da46c63cd430f974ae6f77d457abd291909514beb3d39df1f75",
+      "bytes": 10123
+    },
+    {
+      "fixture": "actual-a3.request-body.json",
+      "original": "nested original requestBody",
+      "sha256": "db7a4469da8fe139e0a8507cdaa5a7ebf69876c050b02541c0a087bf02f343ca",
+      "bytes": 5123
+    },
+    {
+      "fixture": "actual-a3.response-body.json",
+      "original": "nested original response.body",
+      "sha256": "b962892e27d3cc97b8c4e10a067318a8a033423ee6c65094f355bc15ad7822df",
+      "bytes": 6031
+    }
+  ],
+  "originalApproved": true,
+  "originalScore": 76,
+  "originalFinishReason": "stop",
+  "notes": [
+    "Copied original bytes; original archive was never rewritten.",
+    "No provider work occurred during fixture preparation.",
+    "These fixtures reproduce the original denial; they cannot make the original run approved."
+  ],
+  "originalPreparationCommit": "98776805f108105a6f5891f1bb3f700331848c78"
+}
