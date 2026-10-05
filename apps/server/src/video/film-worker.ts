@@ -73,6 +73,12 @@ const CHILD_PUBLIC_ENV = new Set(["PATH", "HOME", "TMPDIR", "TEMP", "TMP", "LANG
 export function filmWorkerEnvironment(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
   return Object.fromEntries(Object.entries(env).filter(([key, value]) => CHILD_PUBLIC_ENV.has(key) && value !== undefined));
 }
+/** Project ledger options into the fixed worker's public argument contract. */
+export function filmWorkerJobOptions(job: Pick<FilmJobRow, "options">): Record<string, unknown> {
+  // The source claim is service bookkeeping, not a renderer argument. Preserve it in the ledger;
+  // copy only this projection so other unknown options still fail the worker's strict whitelist.
+  return Object.fromEntries(Object.entries(record(job.options ?? {})).filter(([key]) => key !== "nativeSourceKey"));
+}
 function workerAllows(worker: FilmWorkerRow, method: FilmChannelMethod): boolean {
   return worker.capabilities.includes(method) || worker.capabilities.includes(FILM_CHANNEL_METHOD_COMPONENT[method]!);
 }
@@ -423,7 +429,7 @@ async function runFilmJob(args: {
     workerName: worker.worker_name,
     workerVersion: worker.worker_version,
     stages: job.stages.map(String),
-    options: record(job.options ?? {}),
+    options: filmWorkerJobOptions(job),
     inputRef: job.input_ref,
     inputSha256: job.input_sha256,
     workDir: workReal,

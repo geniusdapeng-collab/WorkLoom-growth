@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { filmWorkerEnvironment, validateFilmChannelScope, validateFilmRenderRequest, startFilmJob } from "./film-worker.js";
-import { FILM_CHANNEL_METHOD_COMPONENT, type FilmChannelRequestFrame } from "@hyperreality/video-studio";
+import { filmWorkerEnvironment, filmWorkerJobOptions, validateFilmChannelScope, validateFilmRenderRequest, startFilmJob } from "./film-worker.js";
+import { FILM_CHANNEL_METHOD_COMPONENT, normalizeNativeFilmJobRequest, normalizeFilmJobRequest, type FilmChannelRequestFrame } from "@hyperreality/video-studio";
 describe("film worker child environment", () => {
   it("rejects caller-authored source documents before opening a database or dispatching any work", async () => {
     await expect(startFilmJob({ scope: { tenantId: "t", workspaceId: "w" }, actor: "human", projectId: "P1",
@@ -9,6 +9,16 @@ describe("film worker child environment", () => {
   it("keeps public local tools while dropping every account, database, model and signing credential", () => {
     const env = filmWorkerEnvironment({ PATH: "/local/bin", WL_FFMPEG: "/local/ffmpeg", SEEDANCE_MODEL: "test-model", LLM_API_KEY: "test-secret", JWT_SECRET: "test-secret", CNB_TOKEN: "test-secret", DATABASE_URL: "test-secret", CUSTOMER_OAUTH_TOKEN: "test-secret", NODE_OPTIONS: "--import arbitrary" });
     expect(env).toEqual({ PATH: "/local/bin", WL_FFMPEG: "/local/ffmpeg", SEEDANCE_MODEL: "test-model" });
+  });
+  it("keeps native source deduplication in the ledger while allowing the actual worker argument contract", () => {
+    const native = normalizeNativeFilmJobRequest(undefined, { aspect: "16:9", "review-policy": "off" });
+    const job = { options: { ...native.options, nativeSourceKey: "run:prompt-digest:source-digest" } };
+    const options = filmWorkerJobOptions(job);
+    expect(() => normalizeFilmJobRequest(native.stages, options)).not.toThrow();
+    expect(options).toEqual(native.options);
+    expect(job.options.nativeSourceKey).toBe("run:prompt-digest:source-digest");
+    expect(options).not.toBe(job.options);
+    expect(() => normalizeFilmJobRequest(native.stages, filmWorkerJobOptions({ options: { ...job.options, arbitraryCode: "bad" } }))).toThrow("不接受");
   });
 });
 

@@ -2,7 +2,12 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import pg from "pg";
 import { createHash, randomBytes } from "node:crypto";
+import { mkdirSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { FullChainFilmWorker, normalizeNativeFilmJobRequest } from "@hyperreality/video-studio";
 import { FilmLedger, filmWorkerId } from "./film-ledger.js";
+import { filmWorkerJobOptions } from "./film-worker.js";
 import type { AppPool } from "./gen/db.js";
 
 const RUN_DB = process.env.RUN_DB_TESTS === "1" && Boolean(process.env.DATABASE_URL) && Boolean(process.env.DATABASE_APP_URL);
@@ -142,5 +147,36 @@ describe.runIf(RUN_DB)("固定影片工位台账活库契约（T-2026-0927-0039�
     const stored = await owner.query("SELECT id FROM film_jobs WHERE tenant_id=$1 AND workspace_id=$2 AND project_id=$3 AND options->>'nativeSourceKey'=$4",
       [scope.tenantId, scope.workspaceId, projectId, key]);
     expect(stored.rows).toHaveLength(1);
+  });
+
+  it("真实账本原生来源认领后，公开参数进入真实工位且没有供应商调用", async () => {
+    const root = realpathSync(mkdtempSync(join(tmpdir(), "film-ledger-worker-")));
+    try {
+      const archive = join(root, "archive"), workDir = join(archive, "stages", "film", "attempt-1");
+      mkdirSync(workDir, { recursive: true });
+      const source = JSON.stringify({ shots: [{ shotId: "SC-01", duration: 6, prompt: "原生完整提示词" }] });
+      writeFileSync(join(archive, "source.json"), source);
+      const native = normalizeNativeFilmJobRequest(undefined, { aspect: "16:9", "review-policy": "off" });
+      const worker = await register(hash("handoff"));
+      const nativeSourceKey = `native-handoff-${suffix}`;
+      const job = await ledger.claimJob({ projectId, workerId: worker.id, runId: `film-handoff-${suffix}`,
+        stages: native.stages, options: native.options, budgetCny: 50, inputRef: "source.json",
+        inputSha256: hash(source), workerEntrySha256: worker.entry_sha256, actor: "MEM-T", nativeSourceKey });
+      expect(job.options.nativeSourceKey).toBe(nativeSourceKey);
+      let networkCalls = 0;
+      const renderer = new FullChainFilmWorker({ jobId: job.id, tenantId: scope.tenantId, workspaceId: scope.workspaceId,
+        projectId, attempt: job.attempt, runId: job.run_id, workerName: worker.worker_name, workerVersion: worker.worker_version,
+        stages: job.stages, options: filmWorkerJobOptions(job), archiveRoot: archive, workDir,
+        inputRef: job.input_ref, inputSha256: job.input_sha256, budgetCny: Number(job.budget_cny),
+        deadlineAt: new Date(Date.now() + 60_000).toISOString(), allowedMethods: ["video.generate"] }, root,
+      { subscribe: () => () => {}, send: () => { networkCalls++; throw new Error("No provider call allowed in handoff test"); } });
+      expect(renderer.args).not.toContain("--native-source-key");
+      expect(renderer.args).toContain("--review-policy");
+      expect(renderer.args).toContain("--max-attempts");
+      expect(networkCalls).toBe(0);
+      renderer.channel.dispose();
+      expect((await ledger.readJob(job.id))?.options.nativeSourceKey).toBe(nativeSourceKey);
+      await ledger.finishJob(job.id, { status: "interrupted", errorMsg: "无付费工位交接契约测试结束" });
+    } finally { rmSync(root, { recursive: true, force: true }); }
   });
 });
