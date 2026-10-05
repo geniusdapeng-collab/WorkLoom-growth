@@ -1,0 +1,13 @@
+{
+  "source_commit": "117a4fa944e3ff706c9f1f0bdc726919addb0799",
+  "source_unchanged": true,
+  "source_sha256": "88e0fead497b05174b02ff2d654b6cacd3216dadf54da4f5f8ccf91ee6f960a3",
+  "test_file": "packages/video-studio/src/studio.test.ts",
+  "test_sha256": "de1335861cbfd1d4f529ab7587576ae74a26717c7185a9f99415f6304dc121f7",
+  "tests_passed": 0,
+  "tests_failed": 1,
+  "original_exit_code_recorded": false,
+  "test_fixture_dirty": true,
+  "failure": "actual vendor-derived duration_sec22 rather than requested30",
+  "external_or_paid_provider": false
+}

@@ -350,4 +350,21 @@ describe("vendor 核心可加载", () => {
     await expect(marketing(proof).runPreproduction({ projectId: "P1", intent: "营销", isMarketing: true })).rejects.toThrow("MARKETING_RESTRICTIONS_REQUIRED");
     expect(studioMocks.construct).not.toHaveBeenCalled();
   });
+  it("原生30秒需求进入实际vendor Brief覆盖器，G2收到30秒而非生成器推导的22秒", async () => {
+    const { execFileSync } = await import("node:child_process");
+    const entry = new URL("../../../vendor/supermickey/hyperreality-system/index.js", import.meta.url).pathname;
+    let theme: { tasks: Array<Record<string, unknown>> };
+    studioMocks.create.mockImplementation(async (_intent: string, metadata: Record<string, unknown>) => {
+      const out = execFileSync(process.execPath, ["-e", `const {HyperrealitySystem}=require(${JSON.stringify(entry)});
+        const theme={tasks:[{duration_sec:22,aspect_ratio:'16:9'}]};
+        HyperrealitySystem.prototype._applyBriefProfile.call({},theme,JSON.parse(process.argv[1]));
+        console.log(JSON.stringify(theme));`, JSON.stringify(metadata)], { encoding: "utf8", timeout: 30_000 });
+      theme = JSON.parse(out.trim().split("\n").at(-1)!);
+      return { success: true, stages: { creativeTheme: { data: theme } } };
+    });
+    await marketing({ projectId: "P1", rawJson, sha256, productQuery: { name: "本次商品" }, ...restrictionProof })
+      .runPreproduction({ projectId: "P1", intent: "制作30秒宣传片\n[需求口径] 时长：30秒；画幅：9:16；平台：wechat-channels", isMarketing: true });
+    expect(theme!.tasks[0]).toMatchObject({ duration_sec: 30, aspect_ratio: "9:16" });
+    expect(theme!.tasks[0]).toHaveProperty("brief_duration_source", "Brief 覆盖（生成器推导 22s → 30s）");
+  });
 });

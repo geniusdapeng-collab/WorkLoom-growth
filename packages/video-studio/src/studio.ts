@@ -37,6 +37,7 @@ import {
 import { AUDIO_DISCIPLINE_CLAUSE, AUDIO_NEGATIVE_TERMS } from "./shot-spec.js";
 import { loadDurationRules } from "./duration-rules.js";
 import { runWithSourceRestrictions, sourceRestrictionsHash } from "./source-restrictions.js";
+import { applyNativeIntentProfile } from "./native-intent-profile.js";
 
 /** vendor 引擎暴露的最小结构（HyperrealitySystem 实例方法） */
 interface HyperrealitySystemLike {
@@ -183,7 +184,7 @@ export class VideoStudio {
    */
   async runPreproduction(input: RunInput): Promise<PreproductionResult> {
     const { cfg } = this;
-    const metadata = structuredClone(input.metadata ?? {});
+    const metadata = applyNativeIntentProfile(input.intent, input.metadata ?? {});
     delete metadata._dataDossier;
     const verified = cfg.dataMining?.verifiedRaw;
     let verifiedRaw: Record<string, unknown> | undefined;
