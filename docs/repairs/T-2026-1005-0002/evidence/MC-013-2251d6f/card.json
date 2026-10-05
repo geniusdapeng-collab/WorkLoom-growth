@@ -1,0 +1,53 @@
+{
+  "id": "MC-013",
+  "kind": "problem",
+  "level": "L2",
+  "severity": "P1",
+  "batch": 0,
+  "state": "unfixed",
+  "title": "Release QUEST gate accepts failed tasks and unrelated historical events",
+  "evidence": [
+    {
+      "type": "code",
+      "ref": "scripts/release-gate.ts:225@7fdb48b80db6472e7f0b2e0647e6e3eab210e718",
+      "sha256": "3dd342996cb63e9036fed74e2f3eb6c6baa39584ea82f66f3c8a4905ef2b7195",
+      "note": "Actual original Q01 and Q02 callbacks both fail contract counterexamples: 0/2, exit1. Live T107 failed after original60s request abort."
+    }
+  ],
+  "root_cause": {
+    "file": "scripts/release-gate.ts",
+    "line": 225,
+    "commit": "7fdb48b80db6472e7f0b2e0647e6e3eab210e718",
+    "symbol": "Q-01 / Q-02"
+  },
+  "trigger_path": "Dispatch returns failed with persisted multistep plan; Q01 checks only plan size/id. Q02 counts any recent workspace session instead of the new thread. Forced alphabetic preset is unrelated to the normal goal route.",
+  "assertions": [
+    {
+      "kind": "property",
+      "given": "One normal QUEST dispatch and exact thread plus failed/paused/queued/errored/unverified/malformed responses, current receipts and matching approval join",
+      "expect": "Reject false completion and unrelated events; retain normal semantic route and finite single request; read current progress, exact session and verified distinct steps; guarded review remains pending and requires usable matching approval snapshot.",
+      "command": "node --import tsx --test scripts/release-gate-quest.test.mts",
+      "exec": {
+        "file": "node",
+        "args": [
+          "--import",
+          "tsx",
+          "--test",
+          "scripts/release-gate-quest.test.mts"
+        ]
+      }
+    }
+  ],
+  "fix_plan": "Extract strict release QUEST proof helper, use normal dispatch route once within measured planner budget, and bind event/approval query to the exact new thread. Never retry dispatch or disable execution bridges/fences.",
+  "blast_radius": "Local experiment release tooling only; no base planner, task execution, approval, customer data or provider behavior change.",
+  "conflict_paths": [
+    "scripts/release-gate.ts",
+    "scripts/tools/release-gate-quest.ts",
+    "scripts/release-gate-quest.test.mts"
+  ],
+  "regression": {
+    "command": "node --import tsx --test scripts/release-gate-quest.test.mts scripts/release-gate-identity.test.mts"
+  },
+  "rollback": "Revert gate helper and wiring; preserve all failed thread/event/approval archives and keep release blocked until valid current receipts exist.",
+  "notes": "Source-only red/green tests do not prove live release chains. Full live gate requires official final-source payload and original native authentication."
+}

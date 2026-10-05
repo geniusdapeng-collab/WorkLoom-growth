@@ -1,0 +1,40 @@
+✖ actual Q01 must reject a failed task even when it has a persisted multistep plan (4.786875ms)
+✖ actual Q02 cannot prove this run with another session's old events (1.266209ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 122.918458
+
+✖ failing tests:
+
+test at work/release-quest-legacy-boundary.mts:1:1182
+✖ actual Q01 must reject a failed task even when it has a persisted multistep plan (4.786875ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/release-quest-legacy-boundary.mts:21:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at work/release-quest-legacy-boundary.mts:1:1525
+✖ actual Q02 cannot prove this run with another session's old events (1.266209ms)
+  AssertionError [ERR_ASSERTION]: the actual query must bind the new thread
+      at TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/release-quest-legacy-boundary.mts:29:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -1,0 +1,50 @@
+TAP version 13
+# Subtest: a conflicting model cannot be selected through model, aliases or variant leaves
+ok 1 - a conflicting model cannot be selected through model, aliases or variant leaves
+  ---
+  duration_ms: 57.387167
+  type: 'test'
+  ...
+# Subtest: omitting the optional conflicting model preserves safe product claims and full original bytes
+ok 2 - omitting the optional conflicting model preserves safe product claims and full original bytes
+  ---
+  duration_ms: 0.810958
+  type: 'test'
+  ...
+# Subtest: a single unambiguous model remains selectable and unrelated aliases remain available
+ok 3 - a single unambiguous model remains selectable and unrelated aliases remain available
+  ---
+  duration_ms: 0.327041
+  type: 'test'
+  ...
+# Subtest: the actual CXZ archive's conflicting optional model is blocked without changing customer data
+ok 4 - the actual CXZ archive's conflicting optional model is blocked without changing customer data
+  ---
+  duration_ms: 7.362542
+  type: 'test'
+  ...
+# Subtest: selecting a conflicting identity model records one denial and performs no format correction
+ok 5 - selecting a conflicting identity model records one denial and performs no format correction
+  ---
+  duration_ms: 3.337333
+  type: 'test'
+  ...
+# Subtest: version-qualified conflicts cannot reselect the base model through aliases or variant names
+ok 6 - version-qualified conflicts cannot reselect the base model through aliases or variant names
+  ---
+  duration_ms: 0.611667
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 134.866292
+
+
+exit_code=0 signal=none error=none
+assertion_validation={"ok":true,"errors":[],"testSummary":{"total":6,"passed":6,"failed":0,"cancelled":0,"skipped":0,"todo":0}}

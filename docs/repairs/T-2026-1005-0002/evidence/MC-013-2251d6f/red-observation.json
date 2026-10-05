@@ -1,0 +1,16 @@
+{
+  "schema": "workloom.actual-red-observation/v1",
+  "commit": "7fdb48b80db6472e7f0b2e0647e6e3eab210e718",
+  "exitCode": 1,
+  "passed": 0,
+  "failed": 2,
+  "fixture": {
+    "path": "original-red.mts",
+    "sha256": "59af451f9515e53a1ac807e91c32c59af14b85e1338350c09de8a3dd68c188b1"
+  },
+  "stdout": {
+    "path": "original-red.stdout.txt",
+    "sha256": "b8d41f5dca08bba02fd24bd09ea9eafc81d1c04a81adc4641607447f4e74ffab"
+  },
+  "notes": "Executed unchanged actual check callbacks at clean source before edits; fixture stubs transport/PG only. Harness load attempts are not product failures."
+}

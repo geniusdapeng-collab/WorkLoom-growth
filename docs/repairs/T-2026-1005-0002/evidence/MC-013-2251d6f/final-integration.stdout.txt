@@ -1,0 +1,12 @@
+
+ RUN  v3.2.7 /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline
+
+ ✓ apps/server/src/video/marketing-facts.test.ts (17 tests) 19ms
+ ✓ apps/server/src/video/product-archive-source.test.ts (5 tests) 49ms
+ ✓ apps/server/src/video/marketing-authority.test.ts (22 tests) 176ms
+
+ Test Files  3 passed (3)
+      Tests  44 passed (44)
+   Start at  20:07:21
+   Duration  1.42s (transform 775ms, setup 0ms, collect 1.60s, tests 245ms, environment 0ms, prepare 142ms)
+

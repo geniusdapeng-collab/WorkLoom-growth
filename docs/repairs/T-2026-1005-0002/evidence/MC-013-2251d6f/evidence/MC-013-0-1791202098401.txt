@@ -1,0 +1,74 @@
+TAP version 13
+# Subtest: dispatch uses normal semantic routing once with a finite planner-compatible budget and reads the exact thread
+ok 1 - dispatch uses normal semantic routing once with a finite planner-compatible budget and reads the exact thread
+  ---
+  duration_ms: 1.640416
+  type: 'test'
+  ...
+# Subtest: failed, paused, queued, running, cancelled, errored and unverified tasks reject before readback without retry
+ok 2 - failed, paused, queued, running, cancelled, errored and unverified tasks reject before readback without retry
+  ---
+  duration_ms: 0.340291
+  type: 'test'
+  ...
+# Subtest: malformed identities, fractional or impossible progress and incomplete completion reject
+ok 3 - malformed identities, fractional or impossible progress and incomplete completion reject
+  ---
+  duration_ms: 0.228833
+  type: 'test'
+  ...
+# Subtest: missing, foreign, stale or inconsistent thread readback rejects
+ok 4 - missing, foreign, stale or inconsistent thread readback rejects
+  ---
+  duration_ms: 0.210125
+  type: 'test'
+  ...
+# Subtest: pending review must have a current matching approval and cannot claim completed progress
+ok 5 - pending review must have a current matching approval and cannot claim completed progress
+  ---
+  duration_ms: 0.208917
+  type: 'test'
+  ...
+# Subtest: transport failures propagate with one dispatch and no automatic resend
+ok 6 - transport failures propagate with one dispatch and no automatic resend
+  ---
+  duration_ms: 0.121041
+  type: 'test'
+  ...
+# Subtest: completed task requires distinct verified step receipts and reports simulated mode honestly
+ok 7 - completed task requires distinct verified step receipts and reports simulated mode honestly
+  ---
+  duration_ms: 0.2685
+  type: 'test'
+  ...
+# Subtest: wrong session, failed receipt, missing mode, error outcome and missing step cannot satisfy event evidence
+ok 8 - wrong session, failed receipt, missing mode, error outcome and missing step cannot satisfy event evidence
+  ---
+  duration_ms: 0.136958
+  type: 'test'
+  ...
+# Subtest: guarded review verifies joined approval, step fingerprint and usable plan without declaring task completion
+ok 9 - guarded review verifies joined approval, step fingerprint and usable plan without declaring task completion
+  ---
+  duration_ms: 0.195375
+  type: 'test'
+  ...
+# Subtest: actual release callbacks bind the new thread and joined approval rather than old workspace event counts
+ok 10 - actual release callbacks bind the new thread and joined approval rather than old workspace event counts
+  ---
+  duration_ms: 64.68775
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 135.702583
+
+
+exit_code=0 signal=none error=none
+assertion_validation={"ok":true,"errors":[],"testSummary":{"total":10,"passed":10,"failed":0,"cancelled":0,"skipped":0,"todo":0}}

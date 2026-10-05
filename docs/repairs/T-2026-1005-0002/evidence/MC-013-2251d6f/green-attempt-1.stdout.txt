@@ -1,0 +1,34 @@
+✔ dispatch uses normal semantic routing once with a finite planner-compatible budget and reads the exact thread (3.336ms)
+✔ failed, paused, queued, running, cancelled, errored and unverified tasks reject before readback without retry (0.359292ms)
+✔ malformed identities, fractional or impossible progress and incomplete completion reject (0.225958ms)
+✔ missing, foreign, stale or inconsistent thread readback rejects (0.187625ms)
+✔ pending review must have a current matching approval and cannot claim completed progress (0.20275ms)
+✔ transport failures propagate with one dispatch and no automatic resend (0.108375ms)
+✔ completed task requires distinct verified step receipts and reports simulated mode honestly (0.261875ms)
+✔ wrong session, failed receipt, missing mode, error outcome and missing step cannot satisfy event evidence (0.136083ms)
+✔ guarded review verifies joined approval, step fingerprint and usable plan without declaring task completion (0.1865ms)
+✖ actual release callbacks bind the new thread and joined approval rather than old workspace event counts (4.60375ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 9
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 146.7835
+
+✖ failing tests:
+
+test at scripts/release-gate-quest.test.mts:1:7298
+✖ actual release callbacks bind the new thread and joined approval rather than old workspace event counts (4.60375ms)
+  evalmachine.<anonymous>:1
+  const fn = async () => {
+  ^
+  
+  SyntaxError: Identifier 'fn' has already been declared
+      at Script.runInContext (node:vm:149:12)
+      at Script.runInNewContext (node:vm:154:17)
+      at runInNewContext (node:vm:310:38)
+      at TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/release-gate-quest.test.mts:96:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

@@ -1,0 +1,18 @@
+✔ dispatch uses normal semantic routing once with a finite planner-compatible budget and reads the exact thread (1.853792ms)
+✔ failed, paused, queued, running, cancelled, errored and unverified tasks reject before readback without retry (0.396792ms)
+✔ malformed identities, fractional or impossible progress and incomplete completion reject (0.3505ms)
+✔ missing, foreign, stale or inconsistent thread readback rejects (0.261542ms)
+✔ pending review must have a current matching approval and cannot claim completed progress (0.228083ms)
+✔ transport failures propagate with one dispatch and no automatic resend (0.116375ms)
+✔ completed task requires distinct verified step receipts and reports simulated mode honestly (0.280916ms)
+✔ wrong session, failed receipt, missing mode, error outcome and missing step cannot satisfy event evidence (0.131959ms)
+✔ guarded review verifies joined approval, step fingerprint and usable plan without declaring task completion (0.193209ms)
+✔ actual release callbacks bind the new thread and joined approval rather than old workspace event counts (4.294708ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 121.70275

@@ -1,0 +1,101 @@
+{
+  "schema": "workloom.historical-evidence-snapshot/v1",
+  "files": [
+    {
+      "path": "baseline.json",
+      "sha256": "92b65ad702ded9c0dbdfe32b480044a7fed81b8f46b8580109b7f4838cbc06f6",
+      "bytes": 877
+    },
+    {
+      "path": "card.json",
+      "sha256": "6e4095e6bd4e3946b139b282651cca03e360172fc0ba46f14d7a4f27b0aa70e2",
+      "bytes": 2732
+    },
+    {
+      "path": "evidence/MC-013-0-1791202098401-node-tests.jsonl",
+      "sha256": "2f75a3d61d84b27648557a8f62534f23399f4090dae8dd6222b5ceff0e0e074e",
+      "bytes": 154
+    },
+    {
+      "path": "evidence/MC-013-0-1791202098401.txt",
+      "sha256": "d5d7a2d709c42034122ed14cb6a2e814a09891aa09574589410b48f0c73d3ed9",
+      "bytes": 2864
+    },
+    {
+      "path": "evidence-index.json",
+      "sha256": "cfe4d1716853c8fc1db8d47a8bce66f8c70ce14dfd2a760231288eb5327570ef",
+      "bytes": 775
+    },
+    {
+      "path": "final-integration.stderr.txt",
+      "sha256": "1ce740872c71507a3c636add200e98854a777378e37fe9341db044b9f8b775d6",
+      "bytes": 163
+    },
+    {
+      "path": "final-integration.stdout.txt",
+      "sha256": "5729b07eb7a35491c52c61fa5a86e90225826612baa8822c19607943ed5617d7",
+      "bytes": 513
+    },
+    {
+      "path": "final-server-typecheck.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "final-server-typecheck.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "green-attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "green-attempt-1.stdout.txt",
+      "sha256": "e24d9e831cad28fcfb1b2f43a96fafbc7befdd5ed7316f9274de5d1e28ec0155",
+      "bytes": 1991
+    },
+    {
+      "path": "green-attempt-2.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "green-attempt-2.stdout.txt",
+      "sha256": "767744e10a1af97eb25e70fb15c7fe7a168588c3bb89977fce4af9c9531942b3",
+      "bytes": 1227
+    },
+    {
+      "path": "ledger.json",
+      "sha256": "f90c01567376fadb1743b5182f8781d67108b49a3aff2656183d71aa46fbdefe",
+      "bytes": 7182
+    },
+    {
+      "path": "original-red.mts",
+      "sha256": "59af451f9515e53a1ac807e91c32c59af14b85e1338350c09de8a3dd68c188b1",
+      "bytes": 2202
+    },
+    {
+      "path": "original-red.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "original-red.stdout.txt",
+      "sha256": "b8d41f5dca08bba02fd24bd09ea9eafc81d1c04a81adc4641607447f4e74ffab",
+      "bytes": 1644
+    },
+    {
+      "path": "red-observation.json",
+      "sha256": "714f4a397d2fea838a67b337d2cce3ad778fc042c78735daeaf6a0921ad31908",
+      "bytes": 595
+    },
+    {
+      "path": "runs/MC-013-0-1791202098401.json",
+      "sha256": "dda5616065577103e5b16753837aeae0ca9a5af769de6f83fba9c5a3012c8f98",
+      "bytes": 3031
+    }
+  ],
+  "qualification": "Historical actual source/role-bound evidence only. Neither final candidate independence, live release gate, nor finished film is inferred."
+}

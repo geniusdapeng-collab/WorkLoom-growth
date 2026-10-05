@@ -1,0 +1,31 @@
+{
+  "schema": "workloom.historical-evidence-snapshot/v1",
+  "files": [
+    {
+      "path": "evidence/MC-012-0-1791201284281-node-tests.jsonl",
+      "sha256": "cff37c04d5f180e28d694242e198d6a83aa5282c69184dc4bde0a5882cf1689f",
+      "bytes": 152
+    },
+    {
+      "path": "evidence/MC-012-0-1791201284281.txt",
+      "sha256": "4afc5d4aa0a94172f2762d8fcf0e28a225d64c4c129dccb1eebcc94795d458c1",
+      "bytes": 1773
+    },
+    {
+      "path": "evidence-index.json",
+      "sha256": "f4cce85c7d3bd8dacabe9f597047f9328db2b26c4545c95e5e36a034f8620a8e",
+      "bytes": 775
+    },
+    {
+      "path": "ledger.json",
+      "sha256": "707d926b533e13849d68d992b45e82b09ea006f8d1fe52d9b2a085e2136508ba",
+      "bytes": 7092
+    },
+    {
+      "path": "runs/MC-012-0-1791201284281.json",
+      "sha256": "286a0f83bd4494193f292a7bd3890598f5ca40db7989e0493717310bf9f51c64",
+      "bytes": 3058
+    }
+  ],
+  "qualification": "Historical actual source/role-bound evidence only. Neither final candidate independence, live release gate, nor finished film is inferred."
+}
