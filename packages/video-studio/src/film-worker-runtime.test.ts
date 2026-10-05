@@ -48,7 +48,7 @@ describe("frozen full-chain worker adapter", () => {
     expect(() => assertFilmStageCoverage(["cine-kb"], {}, source, [{ ...ok, invoked: false, cached: false }])).toThrow("没有通过");
     expect(() => assertFilmStageCoverage(["cine-kb"], {}, source, [{ ...ok, invoked: false, cached: true }])).not.toThrow();
     expect(() => assertFilmStageCoverage(["plates"], {}, source, [{ ...ok, stage: "keyframe", shotId: "S1" }])).not.toThrow();
-    expect(() => assertFilmStageCoverage(["plates", "videos"], {}, source, [{ ...ok, stage: "keyframe" }])).toThrow("videos");
+    expect(() => assertFilmStageCoverage(["plates", "videos"], {}, source, [{ ...ok, stage: "keyframe", shotId: "S1" }])).toThrow("videos");
   });
   it("allows only source-bound inapplicable stages and explicitly declared post-only degradation", () => {
     const source = { shots: [{ shotId: "S1" }] };
@@ -58,6 +58,14 @@ describe("frozen full-chain worker adapter", () => {
     expect(() => assertFilmStageCoverage(["compose"], {}, source, declared)).toThrow("没有通过");
     expect(() => assertFilmStageCoverage(["compose"], { "assembly-mode": "post-only" }, source, declared)).not.toThrow();
     expect(() => assertFilmStageCoverage(["compose"], { "assembly-mode": "post-only" }, source, [{ ...declared[0], ok: false }])).toThrow("没有通过");
+  });
+  it("requires every native shot receipt and allows source-bound asset/no-dialogue inapplicability", () => {
+    const source = { shots: [{ shotId: "S1", assetRef: "asset://real", dialogue: [] }, { shotId: "S2", dialogue: [{ text: "真实台词" }] }] };
+    const row = (stage: string, shotId: string, invoked = true) => ({ stage, shotId, ok: true, degraded: false, invoked, cached: false });
+    expect(() => assertFilmStageCoverage(["videos"], {}, source, [row("shot", "S1")])).toThrow("videos:S2");
+    expect(() => assertFilmStageCoverage(["plates"], {}, source, [row("keyframe", "S1", false), row("keyframe", "S2")])).not.toThrow();
+    expect(() => assertFilmStageCoverage(["voice"], {}, source, [row("voice", "S1", false), row("voice", "S2")])).not.toThrow();
+    expect(() => assertFilmStageCoverage(["voice"], {}, source, [row("voice", "S1", false), row("voice", "S2", false)])).toThrow("没有通过");
   });
   it("normalizes complete stage dependencies and rejects unknown stages, paths, code and bypass options", () => {
     expect(normalizeFilmJobRequest(["deliver"], { aspect: "16:9", maxAttempts: 2 }).stages).toEqual(["deliver", "master"]);

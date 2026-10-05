@@ -36,12 +36,12 @@ describe.runIf(RUN_DB)("固定影片工位台账活库契约（T-2026-0927-0039�
     });
   }
 
-  async function claim(attemptInput = "a") {
+  async function claim(attemptInput = "a", nativeSourceKey?: string) {
     const worker = await register(hash("1"));
     return ledger.claimJob({
       projectId, workerId: worker.id, runId: `film-run-${suffix}-${attemptInput}`, stages: ["plates", "videos"],
       options: { aspect: "16:9" }, budgetCny: 5, inputRef: `stages/film/inputs/${hash(attemptInput)}.json`,
-      inputSha256: hash(attemptInput), workerEntrySha256: hash("1"), actor: "MEM-T",
+      inputSha256: hash(attemptInput), workerEntrySha256: hash("1"), actor: "MEM-T", nativeSourceKey,
     });
   }
 
@@ -122,5 +122,25 @@ describe.runIf(RUN_DB)("固定影片工位台账活库契约（T-2026-0927-0039�
     expect(view?.components).toHaveLength(1);
     expect(view?.reservedCny).toBeCloseTo(0.2, 4);
     expect(view?.spentCny).toBeCloseTo(0, 4);
+  });
+
+  it.each(["running", "finished", "failed", "interrupted"] as const)("同一原生来源在 %s 后不得认领第二个付费作业", async status => {
+    const key = `native-${suffix}-${status}`;
+    const job = await claim(`native-first-${status}`, key);
+    if (status === "finished") await ledger.finishJob(job.id, { status, resultRef: "film-result.json", resultSha256: hash(key) });
+    else if (status !== "running") await ledger.finishJob(job.id, { status, errorMsg: "测试明确终态" });
+    await expect(claim(`native-second-${status}`, key)).rejects.toMatchObject({ code: "FILM_SOURCE_ALREADY_SUBMITTED" });
+    expect((await ledger.readJob(job.id))?.options.nativeSourceKey).toBe(key);
+  });
+
+  it("并发认领相同原生来源只有一条作业，换输入摘要不能绕过去重", async () => {
+    const key = `native-concurrent-${suffix}`;
+    const attempts = await Promise.allSettled([claim("race-one", key), claim("race-two", key)]);
+    expect(attempts.filter(item => item.status === "fulfilled")).toHaveLength(1);
+    const rejected = attempts.find(item => item.status === "rejected") as PromiseRejectedResult;
+    expect(rejected.reason.code).toBe("FILM_SOURCE_ALREADY_SUBMITTED");
+    const stored = await owner.query("SELECT id FROM film_jobs WHERE tenant_id=$1 AND workspace_id=$2 AND project_id=$3 AND options->>'nativeSourceKey'=$4",
+      [scope.tenantId, scope.workspaceId, projectId, key]);
+    expect(stored.rows).toHaveLength(1);
   });
 });

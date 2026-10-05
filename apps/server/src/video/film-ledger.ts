@@ -247,6 +247,7 @@ export class FilmLedger {
     inputSha256: string;
     workerEntrySha256: string;
     actor: string;
+    nativeSourceKey?: string;
   }): Promise<FilmJobRow> {
     if (!/^[a-f0-9]{64}$/.test(input.inputSha256) || !/^[a-f0-9]{64}$/.test(input.workerEntrySha256)) {
       fail("FILM_JOB_INVALID", "作业输入或工位摘要非法");
@@ -256,6 +257,15 @@ export class FilmLedger {
       await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [
         JSON.stringify(["film-job", this.scope.tenantId, this.scope.workspaceId, input.projectId]),
       ]);
+      if (input.nativeSourceKey) {
+        const previous = await client.query<FilmJobRow>(
+          `SELECT * FROM film_jobs WHERE tenant_id=$1 AND workspace_id=$2 AND project_id=$3
+            AND options->>'nativeSourceKey'=$4 ORDER BY seq DESC LIMIT 1`,
+          [this.scope.tenantId, this.scope.workspaceId, input.projectId, input.nativeSourceKey],
+        );
+        const job = previous.rows[0];
+        if (job) fail("FILM_SOURCE_ALREADY_SUBMITTED", `本次原生来源已提交作业 ${job.id}（${job.status}）；查询该作业回执，不重复渲染`);
+      }
       const attempt = await client.query<{ n: number }>(
         `SELECT COALESCE(MAX(attempt),0)+1 AS n FROM film_jobs WHERE tenant_id=$1 AND workspace_id=$2 AND project_id=$3`,
         [this.scope.tenantId, this.scope.workspaceId, input.projectId],
@@ -268,7 +278,7 @@ export class FilmLedger {
          RETURNING *`,
         [`FJ-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`,
           this.scope.tenantId, this.scope.workspaceId, input.projectId, input.workerId,
-          Number(attempt.rows[0]?.n ?? 1), input.runId, JSON.stringify(input.stages), JSON.stringify(input.options),
+          Number(attempt.rows[0]?.n ?? 1), input.runId, JSON.stringify(input.stages), JSON.stringify({ ...input.options, ...(input.nativeSourceKey ? { nativeSourceKey: input.nativeSourceKey } : {}) }),
           input.budgetCny, input.inputRef, input.inputSha256, input.workerEntrySha256, input.actor],
       );
       const row = created.rows[0];

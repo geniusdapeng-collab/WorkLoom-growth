@@ -26,6 +26,7 @@ const doubles = vi.hoisted(() => ({
   review: vi.fn(),
   prepare: vi.fn(),
   finalize: vi.fn(),
+  handoff: vi.fn(),
   studioConfigs: [] as Array<Record<string, any>>,
   emitGates: true,
   connect: vi.fn(),
@@ -91,6 +92,7 @@ vi.mock("@hyperreality/video-studio", async (importOriginal) => ({
     }
   },
   reviewStage: doubles.review,
+  planNativeFilmHandoff: doubles.handoff,
   WorkloomLLMEngine: { fromEnv: () => ({ attachRouter: vi.fn() }) },
   installVendorEngineBridge: vi.fn(),
   installVendorRenderCompatBridge: vi.fn(),
@@ -121,6 +123,15 @@ beforeEach(() => {
     g1Content: JSON.stringify({ facts: { schemaVersion: "workloom.marketing-facts/v1", stages: [1, 2, 3], sources: [1], optionalValue: null }, scope }),
   }));
   doubles.finalize.mockReset().mockResolvedValue({ ref: "stages/preproduction/attempt-1.marketing-facts.json", sha256: "b".repeat(64) });
+  // The planner has its own contract tests; this suite tests the worker's archival and terminal-state orchestration.
+  doubles.handoff.mockReset().mockImplementation(async ({ shots }) => ({ shots,
+    context: { hook: { type: "benefit", promise: "了解方案", payoffShotId: shots[0].shotId,
+      firstShotTemplate: { visual: "原生首镜", line: "了解方案" }, sfx: { kind: "impact", atSec: 0.08 } },
+      sceneBible: { spaceId: "test-room", space: { building: "原生窗边空间" },
+        materials: [{ item: "桌面", material: "胡桃木" }, { item: "窗", material: "玻璃" }],
+        practicalLights: [{ type: "窗光" }], traces: [], environmentProfile: { setting: "interior", condition: "maintained" } } },
+    report: { sourceShotIds: shots.map((shot: { shotId: string }) => shot.shotId), environment: [], hooks: [] },
+  }));
   doubles.emitGates = true;
   doubles.query.mockReset().mockResolvedValue({ rows: [], rowCount: 1 });
   doubles.review.mockReset().mockImplementation(async (options) => {
@@ -157,7 +168,7 @@ const success = () => ({
     portraitStudio: { status: "skipped", reason: "no-characters-or-products" },
     scriptEngine: { report: { characters_count: 0 } },
     dataMining: { status: "completed", product_id: "product-a", data: { ok: true, reused: false, dossier: { provenance: [{ id: "source-a" }], gaps: [] } } },
-    productionEngine: { shots: [{ shotId: "SC-1", prompt: "01.【场景】窗边桌面", fields: { scene: "窗边桌面" } }] },
+    productionEngine: { shots: [{ shotId: "SC-1", duration: 6, prompt: "01.【场景】窗边桌面", fields: { scene: "窗边桌面" } }] },
   },
 });
 const commercialSuccess = () => {
@@ -177,7 +188,7 @@ const commercialSuccess = () => {
   ];
   const shots: ScenePolicyShot[] = specs.map(([tags, composition, camera], index) => {
     const shot: ScenePolicyShot = {
-      shotId: `SC-${index + 1}`, duration: 4.5, policyTags: tags,
+      shotId: `SC-${index + 1}`, duration: 5, policyTags: tags,
       scene: "明亮的别墅式企业会客厅首层正式访谈位",
       composition, camera_movement: camera ?? "固定访谈机位",
       costume: "合体商务正装，衣料挺括整洁",
@@ -286,7 +297,7 @@ describe("预生产原始结果与诚实终态", () => {
     const reportBytes = await readFile(path.join(dir, "stages/preproduction/attempt-1.scene-policy-report.json"));
     const shotlistBytes = await readFile(path.join(dir, "stages/preproduction/attempt-1.shotlist.json"));
     const report = JSON.parse(reportBytes.toString("utf8"));
-    expect(report).toMatchObject({ passed: true, totalSeconds: 45 });
+    expect(report).toMatchObject({ passed: true, totalSeconds: 50 });
     const output = await archiveOutput(started.projectId, 1);
     expect(createHash("sha256").update(reportBytes).digest("hex")).toBe(output.scenePolicyReportSha256);
     expect(createHash("sha256").update(shotlistBytes).digest("hex")).toBe(output.shotlistSha256);
@@ -479,7 +490,8 @@ describe("预生产原始结果与诚实终态", () => {
     const proofs = (output.productionEvidence as { gates: Array<Record<string, unknown>> }).gates;
     expect(proofs).toHaveLength(6);
     expect(proofs.find(item => item.gate === "G5_PORTRAIT")).toMatchObject({ status: "not_applicable", basis: "no-characters-or-products" });
-    expect(doubles.review.mock.calls.at(-1)?.[0]).toMatchObject({ stage: "prompt", context: { gate: "G7_FINAL" } });
+    expect(doubles.review.mock.calls.find(([options]) => options.context.gate === "G7_FINAL")?.[0])
+      .toMatchObject({ stage: "prompt", context: { gate: "G7_FINAL" } });
     expect(proofs.find(item => item.gate === "G7_FINAL")?.evidence).toEqual(expect.arrayContaining([expect.objectContaining({ sha256: expect.stringMatching(/^[a-f0-9]{64}$/) })]));
   });
   it("只有vendor自报成功但没有本次服务门回执，叙事档案不得done", async () => {

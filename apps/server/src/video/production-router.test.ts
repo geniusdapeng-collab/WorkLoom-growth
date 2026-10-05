@@ -68,14 +68,14 @@ describe("生产入口正常可达且不能覆盖已审核请求", () => {
     await expect(caller().render.submit({ qualificationToken: "test-token" })).rejects.toMatchObject({ code: "PRECONDITION_FAILED" });
     expect(d.judge.mock.calls[0]![0].context.render_auto).toBe(false); expect(d.submit).not.toHaveBeenCalled();
   });
-  it("默认即人审（T-2026-1001-0007）：未设 WORKLOOM_RENDER_AUTO 时 render_auto=false，未审批脚本不得提交", async () => {
+  it("默认系统检查后提交；租户明确的 review 围栏仍会阻止未批准请求", async () => {
     const previous = process.env.WORKLOOM_RENDER_AUTO;
     delete process.env.WORKLOOM_RENDER_AUTO;
     try {
       d.load.mockResolvedValue({ ...canonical(), mode: "auto" });
       d.judge.mockReturnValue({ level: "review", impacts: [], triggeredBy: ["G8"] });
       await expect(caller().render.submit({ qualificationToken: "test-token" })).rejects.toMatchObject({ code: "PRECONDITION_FAILED" });
-      expect(d.judge.mock.calls[0]![0].context.render_auto).toBe(false);
+      expect(d.judge.mock.calls[0]![0].context.render_auto).toBe(true);
       expect(d.submit).not.toHaveBeenCalled();
     } finally {
       if (previous === undefined) delete process.env.WORKLOOM_RENDER_AUTO;

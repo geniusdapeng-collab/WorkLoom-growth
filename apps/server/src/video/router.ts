@@ -2,7 +2,7 @@
  * video/router.ts —— 视频经理 tRPC 子路由（融合设计 §3/§6/§7 服务端接线）
  *
  * 六组过程：
- *  - studio：预生产流水线启动/状态（异步工作器，G1–G7 门走 approvals 原生消息）
+ *  - studio：预生产流水线启动/状态（异步工作器，G1–G7 系统检查，人工只验收最终成片）
  *  - cms：渲染脚本 CMS（asset-cms render-scripts 服务：版本链 + G8 审批联动）
  *  - render：正式资格绑定的供应商请求提交（G8 围栏、预算、幂等回执）
  *  - publish：全平台 RPA 发布任务入队（G9 围栏预检，publish-rpa runner 执行时复核）
@@ -50,6 +50,7 @@ import { dealRouter } from "./deal.js";
 import { getRun, startRun, startVideoProjectRun, summarizeWorkspaceRuns, StudioWorkerError } from "./studio-worker.js";
 import { resolveScenePolicyForIntent, ScenePolicyRouteError } from "./scene-policy-routing.js";
 import { resolvePlatformForIntent } from "./platform-routing.js";
+import { resolveNativeRouteMetadata } from "./native-video-assets.js";
 import { makeStageArchive } from "./archive-host.js";
 import { readArchiveSummary, resumeProject, scanStaleRunsOnStartup } from "./archive-resume.js";
 import { applyRouteToMetadata, buildPipelineIntent, routeVideoPipeline } from "@hyperreality/video-studio";
@@ -463,6 +464,7 @@ const studioRouter = router({
     }))
     .mutation(async ({ ctx, input }) => {
       const scope = scopeOf(ctx.identity);
+      const metadata = await resolveNativeRouteMetadata(input.metadata ?? {});
       const explicitRoute = input.route !== "auto"
         ? input.route
         : input.isMarketing === undefined
@@ -481,7 +483,7 @@ const studioRouter = router({
         const projectKind = rows[0]?.kind === "marketing" ? "marketing" : "narrative";
         const decision = await routeVideoPipeline({
           text: input.intent,
-          metadata: input.metadata,
+          metadata,
           explicit: explicitRoute ?? projectKind,
         }, { llmCall: routeLlmCall(scope) });
         if (decision.route === "clarify") {
@@ -496,7 +498,7 @@ const studioRouter = router({
         let runId: string;
         try {
           const selectedScenePolicy = resolveScenePolicyForIntent(input.intent, input.metadata);
-          const selectedPlatform = resolvePlatformForIntent(input.intent, input.metadata);
+          const selectedPlatform = resolvePlatformForIntent(input.intent, metadata);
           runId = startRun(scope, {
             projectId: input.projectId,
             rawIntent: input.intent,
@@ -505,7 +507,7 @@ const studioRouter = router({
               aspectRatio: decision.route === "marketing" ? selectedPlatform.decision.aspectRatio : undefined,
               platform: selectedPlatform.decision.id,
             }),
-            metadata: applyRouteToMetadata(input.metadata, decision),
+            metadata: applyRouteToMetadata(metadata, decision),
             isMarketing: decision.route === "marketing",
             selectedScenePolicy,
             selectedPlatform,
@@ -518,7 +520,7 @@ const studioRouter = router({
 
       const decision = await routeVideoPipeline({
         text: input.intent,
-        metadata: input.metadata,
+        metadata,
         explicit: explicitRoute,
       }, { llmCall: routeLlmCall(scope) });
       if (decision.route === "clarify") {
@@ -559,7 +561,7 @@ const studioRouter = router({
       }
       try {
         // 与「右栏派活识别出视频目标」共用同一条标准管线入口（studio-worker#startVideoProjectRun）
-        const standardPlatform = resolvePlatformForIntent(input.intent, input.metadata);
+        const standardPlatform = resolvePlatformForIntent(input.intent, metadata);
         const started = await startVideoProjectRun(scope, {
           rawIntent: input.intent,
           customerMetadata: input.metadata ?? null,
@@ -568,7 +570,7 @@ const studioRouter = router({
             aspectRatio: decision.route === "marketing" ? standardPlatform.decision.aspectRatio : undefined,
             platform: standardPlatform.decision.id,
           }),
-          metadata: applyRouteToMetadata(input.metadata, decision),
+          metadata: applyRouteToMetadata(metadata, decision),
           platform: standardPlatform.decision.id,
           isMarketing: decision.route === "marketing",
           by: { id: ctx.identity.memberNo, type: "human" },
@@ -925,10 +927,9 @@ const renderRouter = router({
       // G8 围栏预检（纯函数判定；impacts 随事件落库）
       const { rules, defaultLevel } = await loadActiveRules(app, scope);
       /**
-       * 渲染提交（花钱动作）默认人审（T-2026-1001-0007 产品所有者口径）：
-       * 渲出来的第一版给人类看，是否再花钱重做由人决定；`render_auto=false` ⇒ G8（渲染提交必审）
-       * 要求脚本先经 `cms.approveScript` 审批。2026-09-21 的"素材制作默认全自动"旧口径已停用，
-       * 只有显式 `WORKLOOM_RENDER_AUTO=1` 才恢复自动放行。
+       * 产品所有者最新口径（T-2026-1005-0001）：中间环节由系统检查，人类只验收最终成片。
+       * 默认 render_auto=true，仍先核实完整内容资格、费用、幂等与真实回执。
+       * 租户显式 WORKLOOM_RENDER_AUTO=0 或其它更严格的 review/block 围栏仍会阻止新提交。
        * 需要人审的还有**投放领域**（加投 G12）、**改价**场景，以及算力**超预算**（G11：project_compute_used ≥ cap）时暂停提交。
        * 预算上限可由 WORKLOOM_PROJECT_COMPUTE_CAP（秒）配置，未配置视为不设上限。
        * 注意：缺失路径的数值比较会触发求值异常→block，所以两个数值必须显式给出。

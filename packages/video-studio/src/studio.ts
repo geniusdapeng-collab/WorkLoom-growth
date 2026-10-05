@@ -18,6 +18,7 @@ import { runWithConfirmationHandler, type ConfirmationHandler } from "./confirma
 import { resolveGate, type GateVerdict } from "./gates.js";
 import { WorkloomLLMEngine } from "./llm-adapter.js";
 import { createPortraitRuntime, type PortraitRuntimeOptions } from "./portrait-runtime.js";
+import { withNativePortraitArchives } from "./portrait-archive-bridge.js";
 import {
   applyDurationPolicyToManager,
   installVendorAudioDisciplineBridge,
@@ -438,7 +439,8 @@ export class VideoStudio {
           const modelName = portraitCfg && portraitCfg.enabled !== false ? portraitCfg.model : "未指定模型";
           log(`[studio] 定妆照真实出图已启用（${modelName}，产物根 ${charactersDir}）`);
         }
-        const result = await system.create(input.intent, metadata, createOptions);
+        const result = await withNativePortraitArchives(portraitCfg && portraitCfg.enabled !== false ? portraitCfg.existingAssets ?? [] : [],
+          () => system.create(input.intent, metadata, createOptions));
         if (portraitRuntime) {
           const index = portraitRuntime.snapshot();
           const characters = Object.keys(index.characters).length;

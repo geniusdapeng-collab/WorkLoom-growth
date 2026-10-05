@@ -63,7 +63,7 @@ test("cross-project manifests, conflicting digests, invalid JSON and path escape
 }));
 test("suggested POSIX command preserves every argument literally and supplies a PowerShell representation", () => fixture(({ root }) => {
   const projectId = "客户'; printf INERT_MARKER; $(printf inert) `printf inert`";
-  const plan = productionPlan({ title: "中文标题", projectId, platform: "YouTube 中文 空格", shotlistPath: "out/镜头 卡.json", outDir: "out/成片 空格" });
+  const plan = productionPlan({ title: "中文标题", projectId, platform: "YouTube 中文 空格" });
   const capture = join(root, "capture.mjs");
   writeFileSync(capture, "process.stdout.write(JSON.stringify(process.argv.slice(2)));");
   const quote = (text) => "'" + text.replace(/'/gu, "'\"'\"'") + "'";
@@ -74,4 +74,15 @@ test("suggested POSIX command preserves every argument literally and supplies a 
   assert.ok(plan.recommendedPowerShellCommand.startsWith("& 'pnpm'"));
   assert.ok(plan.recommendedPowerShellCommand.includes("客户'';"));
   assert.throws(() => productionPlan({ projectId: "line\nbreak" }), /非空字符串/u);
+}));
+
+test("native production preview never treats a hand-written shotlist or local keys as production authority", () => fixture(() => {
+  const plan = productionPlan({ title: "30秒自助入住机宣传片", projectId: "VID-1", characterId: "ceo", productId: "product" });
+  assert.equal(plan.ready, false); assert.equal(plan.serviceVerification, "required");
+  assert.equal(plan.humanAcceptance, "final-film-only");
+  assert.ok(plan.execution.args.includes("--plan"));
+  assert.ok(plan.preparation.args.includes("--prepare"));
+  assert.ok(!plan.production.args.includes("--shots"));
+  assert.ok(!plan.production.args.includes("--keys-file"));
+  assert.throws(() => productionPlan({ shotlistPath: "out/handwritten.json" }), /不支持字段/u);
 }));

@@ -76,7 +76,7 @@ cp "$PRODUCT_MANIFEST_PATH" "$R/product.manifest.json"
 [ -f "$R/.env.defaults" ] || cp .env.example "$R/.env.defaults"
 RUNTIME_SOURCE_DIRS=(
   apps/server apps/web/src apps/web/index.html apps/web/public apps/web/package.json
-  apps/web/vite.config.ts apps/web/tsconfig.json packages bundles
+  apps/web/vite.config.ts apps/web/tsconfig.json packages bundles vendor/supermickey
 )
 [ "$PLATFORM_OPS_MODE" = "include" ] && RUNTIME_SOURCE_DIRS+=(platform-ops)
 node scripts/pack-workspace-modules.mjs --copy-sources "$R" "${RUNTIME_SOURCE_DIRS[@]}"
@@ -84,7 +84,7 @@ cp scripts/migrate.ts scripts/desktop-bootstrap-db.mjs scripts/product-runtime.m
 mkdir -p "$R/scripts/tools"
 # Film CLIs keep their repo-relative paths in the installed runtime. Native
 # enhancer, Python venv, and FFmpeg binaries remain workstation prerequisites.
-cp scripts/tools/full-chain-film.mts scripts/tools/film-voice-artifact.ts scripts/tools/compose-film.mts scripts/tools/explainer-run.mts \
+cp scripts/tools/full-chain-film.mts scripts/tools/film-service-entry.mts scripts/tools/film-voice-artifact.ts scripts/tools/compose-film.mts scripts/tools/explainer-run.mts \
    scripts/tools/whiteboard-film.mts scripts/tools/whiteboard-env-install.mts \
    scripts/tools/enhance-engine-install.mjs "$R/scripts/tools/"
 mkdir -p "$R/scripts/whiteboard" "$R/assets/whiteboard" \
@@ -203,7 +203,8 @@ fi
 #      DMG 带着残缺载荷照出——装配脚本必须自证完整，防"静默半成品"） ----------
 for f in runtime/node_modules/tsx/package.json runtime/node_modules/hono/package.json \
          runtime/scripts/migrate.ts runtime/scripts/product-runtime.mjs runtime/scripts/vite-product.mjs \
-         runtime/scripts/tools/full-chain-film.mts runtime/scripts/tools/film-voice-artifact.ts runtime/scripts/tools/compose-film.mts \
+         runtime/scripts/tools/full-chain-film.mts runtime/scripts/tools/film-service-entry.mts runtime/scripts/tools/film-voice-artifact.ts runtime/scripts/tools/compose-film.mts \
+         runtime/vendor/supermickey/hyperreality-system/index.js \
          runtime/scripts/tools/explainer-run.mts runtime/scripts/tools/whiteboard-film.mts \
          runtime/scripts/tools/whiteboard-env-install.mts runtime/scripts/tools/enhance-engine-install.mjs \
          runtime/scripts/whiteboard/lineart_tools.py runtime/assets/whiteboard/drawing-hand-workloom.png \

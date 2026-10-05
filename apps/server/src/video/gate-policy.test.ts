@@ -49,14 +49,14 @@ describe("服务预生产 G5/G7", () => {
   });
 });
 
-describe("默认门策略（T-2026-1001-0007）：机器不替人类做决定", () => {
-  it("G5 定妆照默认人审：不在 AUTO_GATES 默认表里", () => {
-    expect(AUTO_GATES.has("G5_PORTRAIT")).toBe(false);
+describe("最终成片由人类验收，中间流程由系统检查", () => {
+  it("G5 定妆照属于系统事实检查", () => {
+    expect(AUTO_GATES.has("G5_PORTRAIT")).toBe(true);
     expect(AUTO_GATES.has("G2_THEME")).toBe(true);
   });
 
-  it("渲染提交默认人审：只有显式 WORKLOOM_RENDER_AUTO=1 才自动放行", () => {
-    expect(renderSubmitAutoAllowed({})).toBe(false);
+  it("渲染默认由原生资格与预算放行，显式暂停开关仍能停止付费", () => {
+    expect(renderSubmitAutoAllowed({})).toBe(true);
     expect(renderSubmitAutoAllowed({ WORKLOOM_RENDER_AUTO: "0" })).toBe(false);
     expect(renderSubmitAutoAllowed({ WORKLOOM_RENDER_AUTO: "1" })).toBe(true);
   });

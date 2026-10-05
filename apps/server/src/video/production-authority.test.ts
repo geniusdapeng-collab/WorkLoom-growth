@@ -4,8 +4,8 @@ import { mkdtemp, mkdir, writeFile, readFile, rm, realpath, symlink } from "node
 import { tmpdir } from "node:os";
 import path from "node:path";
 import type pg from "pg";
-import { applyScenePolicy, auditScenePolicy, loadScenePolicies, type ScenePolicyShot } from "@hyperreality/video-studio";
-import { authorizeRenderSubmission, loadQualifiedRenderInput, listProductionShots, qualifyProductionShot } from "./production-authority.js";
+import { applyScenePolicy, auditScenePolicy, loadScenePolicies, buildNativeFilmSource, type ScenePolicyShot } from "@hyperreality/video-studio";
+import { authorizeRenderSubmission, loadQualifiedRenderInput, listProductionShots, qualifyProductionShot, loadProductionFilmSource } from "./production-authority.js";
 import { renderSha256 } from "./gen/compiled-request.js";
 import { submitGenJob } from "./gen/submit.js";
 
@@ -142,6 +142,24 @@ beforeEach(async () => {
 afterEach(async () => { vi.unstubAllGlobals(); vi.restoreAllMocks(); await rm(dir, { recursive: true, force: true }); });
 
 describe("正式资格的正常路径和来源边界", () => {
+  it("影片源只消费当前原生交接档案，缺源、改字节、换执行或改原镜头都拒绝", async () => {
+    const read = () => loadProductionFilmSource({ app: pool.asPool(), scope, projectId: "P1", workDir: dir });
+    await expect(read()).rejects.toThrow("NATIVE_FILM_SOURCE_REQUIRED");
+    const source = buildNativeFilmSource({ binding: { ...scope, projectId: "P1", runId: "RUN1", attempt: 1, pipelineKind: "narrative" },
+      title: "原生影片", shots: prompts.shots.map((shot: Row) => ({ ...shot, duration: shot.durationSec })) });
+    output.filmSourceRef = "stages/preproduction/attempt-1.film-source.json";
+    const file = path.join(root, output.filmSourceRef);
+    const save = async (value: unknown) => { const bytes = JSON.stringify(value); await writeFile(file, bytes); output.filmSourceSha256 = renderSha256(bytes); await persist(); };
+    await save(source);
+    await expect(read()).resolves.toMatchObject({ sourceStageRunId: "SR1", filmSourceSha256: output.filmSourceSha256, document: { shots: [{ shotId: "S1" }] } });
+    await writeFile(file, "changed"); await expect(read()).rejects.toThrow("SOURCE_HASH_MISMATCH");
+    await save({ ...source, productionSource: { ...source.productionSource, runId: "RUN-OLD" } });
+    await expect(read()).rejects.toThrow("NATIVE_FILM_SOURCE_INVALID");
+    await save({ ...source, shots: source.shots.map(shot => ({ ...shot, prompt: "调用方重写" })) });
+    await expect(read()).rejects.toThrow("NATIVE_FILM_SOURCE_INVALID");
+    await save(source); pool.source.status = "running";
+    await expect(read()).rejects.toThrow("PREPRODUCTION_REQUIRED"); expect(calls).toHaveLength(0);
+  });
   it("实际审核完整供应商请求后签发；加载出的脚本来自档案；提交持锁验真", async () => {
     const result = await issue();
     expect(result).toMatchObject({ scriptVersion: 1, params: { durationSec: 5, aspectRatio: "16:9" } });

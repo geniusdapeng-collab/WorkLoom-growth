@@ -71,7 +71,7 @@ for p in package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.base.json; do 
 [ -f "$PRODUCT_MANIFEST_PATH" ] || { echo "❌ 缺受保护产品清单"; exit 1; }
 cp "$PRODUCT_MANIFEST_PATH" "$R/product.manifest.json"
 cp .env.example "$R/.env.defaults"
-RUNTIME_SOURCE_DIRS=(apps/server apps/web packages bundles)
+RUNTIME_SOURCE_DIRS=(apps/server apps/web packages bundles vendor/supermickey)
 [ "$PLATFORM_OPS_MODE" = "include" ] && RUNTIME_SOURCE_DIRS+=(platform-ops)
 for d in "${RUNTIME_SOURCE_DIRS[@]}"; do
   rsync -aR --exclude node_modules --exclude dist --exclude .dsh-home --exclude 'dsh-gate/out' "$d" "$R/"
@@ -79,7 +79,7 @@ done
 mkdir -p "$R/scripts"
 cp scripts/migrate.ts scripts/desktop-bootstrap-db.mjs scripts/product-runtime.mjs scripts/vite-product.mjs "$R/scripts/"
 mkdir -p "$R/scripts/tools"
-cp scripts/tools/full-chain-film.mts scripts/tools/film-voice-artifact.ts scripts/tools/compose-film.mts scripts/tools/explainer-run.mts \
+cp scripts/tools/full-chain-film.mts scripts/tools/film-service-entry.mts scripts/tools/film-voice-artifact.ts scripts/tools/compose-film.mts scripts/tools/explainer-run.mts \
    scripts/tools/whiteboard-film.mts scripts/tools/whiteboard-env-install.mts \
    scripts/tools/enhance-engine-install.mjs "$R/scripts/tools/"
 # Whiteboard source and example inputs are portable; the machine-specific Python
@@ -121,7 +121,8 @@ node scripts/pack-workspace-modules.mjs "$R"
 find "$R/node_modules" -mindepth 2 -maxdepth 4 -type d -name node_modules -prune -exec rm -rf {} + 2>/dev/null || true
 for f in node_modules/tsx/package.json node_modules/hono/package.json scripts/migrate.ts \
          scripts/product-runtime.mjs scripts/vite-product.mjs scripts/skill-bindings.mts product.manifest.json apps/web/vite.config.ts \
-         scripts/tools/full-chain-film.mts scripts/tools/film-voice-artifact.ts scripts/tools/compose-film.mts scripts/tools/explainer-run.mts \
+         scripts/tools/full-chain-film.mts scripts/tools/film-service-entry.mts scripts/tools/film-voice-artifact.ts scripts/tools/compose-film.mts scripts/tools/explainer-run.mts \
+         vendor/supermickey/hyperreality-system/index.js \
          scripts/tools/whiteboard-film.mts scripts/tools/whiteboard-env-install.mts \
          scripts/tools/enhance-engine-install.mjs scripts/whiteboard/lineart_tools.py \
          assets/whiteboard/drawing-hand-workloom.png vendor/srt-whiteboard/LICENSE \

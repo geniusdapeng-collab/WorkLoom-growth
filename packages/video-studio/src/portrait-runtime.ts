@@ -21,6 +21,7 @@ import { existsSync, mkdirSync, readFileSync, statSync, lstatSync, realpathSync,
 import { createHash, randomUUID } from "node:crypto";
 import { shotIntentHash } from "./shot-intent.js";
 import { isAbsolute, join, resolve, relative, dirname, sep } from "node:path";
+import type { ExistingPortraitAsset } from "./portrait-archive-bridge.js";
 
 /** vendor → 渲染核心要求的四个角度文件名（REQUIRED_ANGLES 口径） */
 const ANGLE_FILE_ALIASES: Record<string, string> = {
@@ -114,6 +115,8 @@ export interface PortraitRuntimeOptions {
   fetchImpl?: typeof fetch;
   /** 失败重试次数（仅网络/限流/5xx 类，默认 2） */
   retries?: number;
+  /** Host-resolved current archive bytes. Caller metadata cannot supply these file receipts. */
+  existingAssets?: ExistingPortraitAsset[];
 }
 
 export interface ReferenceSearchStageLike {
@@ -225,7 +228,7 @@ export function createPortraitRuntime(options: PortraitRuntimeOptions): Portrait
     characterAnchorImages = [],
     requireCharacterDescription = false,
     maxReferenceImages = 4,
-    retries = 2
+    retries = 0
   } = options;
   safeComponent(projectId, "projectId");
   if (!model?.trim() || !apiKey?.trim()) throw new Error("PORTRAIT_CONFIG_INVALID: 缺model/apiKey");
@@ -451,7 +454,7 @@ export function createPortraitRuntime(options: PortraitRuntimeOptions): Portrait
         const text = await res.text();
         if (!res.ok) {
           const err = new Error(`定妆照出图失败：HTTP ${res.status} ${text.slice(0, 200)}`);
-          if (res.status === 429 || res.status >= 500) {
+          if (res.status === 429 && attempt < retries) {
             lastError = err;
             await new Promise((r) => setTimeout(r, 2000 * (attempt + 1)));
             continue;
@@ -468,8 +471,8 @@ export function createPortraitRuntime(options: PortraitRuntimeOptions): Portrait
         return url;
       } catch (err) {
         lastError = err instanceof Error ? err : new Error(String(err));
-        if ((err as { noRetry?: boolean })?.noRetry || attempt >= retries) break;
-        await new Promise((r) => setTimeout(r, 2000 * (attempt + 1)));
+        // POST超时/断连/5xx可能已经收费；只有明确拒收的429可按配置重试。
+        break;
       }
     }
     throw lastError ?? new Error("定妆照出图失败：未知错误");
@@ -495,6 +498,24 @@ export function createPortraitRuntime(options: PortraitRuntimeOptions): Portrait
     if (!/^[a-zA-Z][a-zA-Z0-9_-]{0,63}$/.test(angle)) throw new Error("PORTRAIT_ANGLE_INVALID: 角度不能用作路径或无效标识");
     const key = identityKey(id);
     const bucket = kind === "character" ? "characters" : "products";
+    if (task.archiveAssetId !== undefined) {
+      const asset = options.existingAssets?.find(item => item.kind === kind && item.id === task.archiveAssetId);
+      const source = asset?.files[angle];
+      if (!asset || !source) throw new Error("PORTRAIT_ARCHIVE_UNVERIFIED: 请求的档案角度没有受控来源");
+      const actual = snapshotFile(source.path);
+      if (shotIntentHash(actual.receipt) !== shotIntentHash(source)) throw new Error("PORTRAIT_ARCHIVE_CHANGED: 已验收档案图片字节变化");
+      const requestHash = shotIntentHash({ projectId, kind, id, angle, sourceHash, source });
+      const dir = kind === "character" ? join(charactersRoot, key) : join(charactersRoot, "_products", key);
+      const file = join(dir, "portraits", `${key}-${requestHash}-${angle}${source.path.toLowerCase().endsWith(".png") ? ".png" : ".jpg"}`);
+      return locked(async () => {
+        verifySource(source);
+        atomicWrite(file, actual.bytes);
+        upsert(bucket, key, name, dir, { schemaVersion: CACHE_VERSION, requestHash, sourceHash, kind, id, angle,
+          model: "workloom.existing-archive", size: null, endpoint: `workloom-archive://${kind}/${asset.id}`,
+          promptHash: shotIntentHash(task.prompt ?? ""), references: [source], output: snapshotFile(file).receipt });
+        log(`[portrait] 复用当前受控档案：${asset.id}/${angle}（未调用图像模型）`); return file;
+      });
+    }
     // Build and validate all actual request inputs before considering the cache.
     const prompt = buildPrompt(task, kind, angleRaw);
     const anchors = anchorsFor(kind, baseImage);
