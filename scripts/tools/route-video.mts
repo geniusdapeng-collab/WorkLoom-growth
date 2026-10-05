@@ -12,7 +12,8 @@
  *   pnpm exec tsx scripts/tools/route-video.mts --title "给示例企业做一条抖音投放片，卖自助入住机"
  *   pnpm exec tsx scripts/tools/route-video.mts --title "..." --brief work/film/brief.json --llm
  *   pnpm exec tsx scripts/tools/route-video.mts --title "..." --explicit marketing      # 已确认过的项目补跑
- *   ... [--product "示例品牌 AI 智慧前台"] [--brand 示例品牌] [--platform 抖音] [--out route.json]
+ *   ... [--product "示例品牌 AI 智慧前台"] [--product-id demo-t001] [--character-id demo-character]
+ *       [--brand 示例品牌] [--platform 抖音] [--out route.json]
  *
  * 判别口径（与产品一致）：显式指定 → 用户显式声明 → 规则打分 → 商品锚点 → LLM 仲裁 → **不确定就澄清**。
  * 纪律：**不猜商品**（商品名只来自显式声明/metadata/模型抽取）；判不准宁可问用户，不替用户花钱。
@@ -26,6 +27,7 @@ import {
   routeVideoPipeline,
   type VideoPipelineKind,
 } from "../../packages/video-studio/src/pipeline-router.js";
+import { nativeVideoRouteCommand } from "./native-video-route.js";
 
 function arg(name: string, fallback = ""): string {
   const index = process.argv.indexOf(name);
@@ -36,7 +38,7 @@ const flag = (name: string): boolean => process.argv.includes(name);
 const positional = process.argv.slice(2).filter((token, index, all) => !token.startsWith("--") && !(index > 0 && all[index - 1]!.startsWith("--")));
 const title = arg("--title", positional.join(" ").trim());
 if (!title) {
-  console.error("用法：route-video.mts --title \"<视频需求原文>\" [--brief brief.json] [--product 名称] [--explicit marketing|narrative|explainer] [--llm] [--out route.json]");
+  console.error("用法：route-video.mts --title \"<视频需求原文>\" [--brief brief.json] [--product 名称] [--product-id 档案ID] [--character-id 档案ID] [--explicit marketing|narrative|explainer] [--llm] [--out route.json]");
   process.exit(2);
 }
 const explicitRaw = arg("--explicit").trim();
@@ -105,34 +107,10 @@ if (flag("--llm")) {
 const decision = await routeVideoPipeline({ text: title, metadata, explicit }, { llmCall, llmTimeoutMs: 20_000 });
 const intent = buildPipelineIntent(title, { platform: arg("--platform") || undefined });
 
-const commands: Record<VideoPipelineKind, string> = {
-  marketing: [
-    "# 营销片（含商品情报档案与 G1 门）：先确认商品锚点，再按片型跑分镜生成 + 完整后期",
-    "pnpm exec tsx scripts/tools/full-chain-film.mts \\",
-    "  --shots work/film/shotlist.json --project VID-XXXX \\",
-    "  --work-dir work/vm-VID-XXXX --out work/out-VID-XXXX --brief work/film/brief.json \\",
-    "  --route work/route.json \\",
-    "  --keys-file ~/.workloom/live.env --platform 抖音 --fps 24 \\",
-    "  --stages cine-kb,continuity,micromotion,spec,material-gen,videos,voice,compose,color,subtitle,bgm,cover,mux,master,deliver \\",
-    "  --subtitle-mode both --review-policy off",
-      "# 商品档案：work/film/library/products/<档案>；G-PROD1 会逐镜校验真实商品绑定",
-  ].join("\n"),
-  narrative: [
-    "# 叙事片（通用）：同一条 film 引擎，但不要求商品情报层；分镜卡仍须过 25 字段规范（spec 阶段）",
-    "pnpm exec tsx scripts/tools/full-chain-film.mts \\",
-    "  --shots work/film/shotlist.json --project VID-XXXX \\",
-    "  --work-dir work/vm-VID-XXXX --out work/out-VID-XXXX --brief work/film/brief.json \\",
-    "  --route work/route.json \\",
-    "  --keys-file ~/.workloom/live.env --platform 抖音 --fps 24 \\",
-    "  --stages cine-kb,continuity,micromotion,spec,plates,videos,voice,compose,color,subtitle,bgm,cover,mux,master,deliver \\",
-    "  --subtitle-mode both --review-policy off",
-  ].join("\n"),
-  explainer: [
-    "# 口播解说片（图文成片，不跑逐镜生成）：一份口播稿 + 一条配音",
-    "pnpm explainer:run -- --script var/scripts/<稿>.md --task-id <任务> --profile <音色档> \\",
-    "  --host-portraits bundles/ai-video/library/characters/<角色>/portraits/<版本> --brand-product <品牌产品>",
-  ].join("\n"),
-};
+const commands = Object.fromEntries((["marketing", "narrative", "explainer"] as const).map(route => [route,
+  nativeVideoRouteCommand({ route, intent, productId: arg("--product-id").trim() || undefined,
+    characterId: arg("--character-id").trim() || undefined, platform: arg("--platform").trim() || undefined }),
+])) as Record<VideoPipelineKind, string>;
 
 const lines = [
   `需求原文：${title}`,
