@@ -16,7 +16,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { runWithConfirmationHandler, type ConfirmationHandler } from "./confirmation.js";
 import { resolveGate, type GateVerdict } from "./gates.js";
-import { WorkloomLLMEngine } from "./llm-adapter.js";
+import { WorkloomLLMEngine, runWithVendorEngine } from "./llm-adapter.js";
 import { createPortraitRuntime, type PortraitRuntimeOptions } from "./portrait-runtime.js";
 import { withNativePortraitArchives } from "./portrait-archive-bridge.js";
 import {
@@ -525,6 +525,6 @@ export class VideoStudio {
         }
       }
     });
-    return runWithSourceRestrictions(input.isMarketing ? verified!.restrictions : [], execute);
+    return runWithVendorEngine(this.cfg.llm, () => runWithSourceRestrictions(input.isMarketing ? verified!.restrictions : [], execute));
   }
 }

@@ -30,6 +30,15 @@ vi.mock("node:module", async (importOriginal) => {
               create(...input: unknown[]) { return studioMocks.create(...input); }
             } };
           }
+          // CJS vendor loading is covered by native-engine-scope.test.mts in a real Node process.
+          // This orchestration fixture retains the actual scope/dispatcher and replaces only the vendor module.
+          if (args[0].endsWith("/vendor/supermickey/systems/llm-reasoning-engine.js")) {
+            const unbridged = async () => { throw new Error("fixture vendor must use native dispatcher"); };
+            class VendorEngineFixture {}
+            Object.assign(VendorEngineFixture.prototype, { reason: unbridged, reasonRaw: unbridged,
+              reasonStructured: unbridged, chat: unbridged, generate: unbridged });
+            return { LLMEngine: VendorEngineFixture };
+          }
           return Reflect.apply(target, thisArg, args);
         }
       });

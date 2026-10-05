@@ -30,7 +30,6 @@ import { isAbsolute, join, resolve } from "node:path";
 import {
   VideoStudio,
   WorkloomLLMEngine,
-  installVendorEngineBridge,
   reviewStage,
   routeVideoPipeline,
   applyRouteToMetadata,
@@ -288,7 +287,6 @@ const portraits: StudioConfig["portraits"] = PORTRAITS_ENABLED && process.env.VO
 const PIPELINE_INTENT = buildPipelineIntent(INTENT, PROFILE);
 log(`创作意图（下行）：${PIPELINE_INTENT.replace(/\n/g, " ")}`);
 
-installVendorEngineBridge(llm);
 const studio = new VideoStudio({
   llm,
   workDir: WORK_DIR,

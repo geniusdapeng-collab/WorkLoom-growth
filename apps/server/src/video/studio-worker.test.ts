@@ -8,7 +8,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { gatewayAppend, gatewayAppendOnClient } from "@workloom/base/workdata";
-import { applyScenePolicy, auditScenePolicy, loadScenePolicies, type ScenePolicyShot } from "@hyperreality/video-studio";
+import { applyScenePolicy, auditScenePolicy, loadScenePolicies, currentSourceRestrictionPrompt, type ScenePolicyShot } from "@hyperreality/video-studio";
 import { verifyScenePolicyProductionSource } from "./scene-policy-render-gate.js";
 
 const doubles = vi.hoisted(() => ({
@@ -95,6 +95,8 @@ vi.mock("@hyperreality/video-studio", async (importOriginal) => ({
   planNativeFilmHandoff: doubles.handoff,
   WorkloomLLMEngine: { fromEnv: () => ({ attachRouter: vi.fn() }) },
   installVendorEngineBridge: vi.fn(),
+  // Real native engine/sink dispatch is covered by the Node contract suite; this fixture has no model engine.
+  runWithVendorEngine: async (_engine: unknown, run: () => unknown) => run(),
   installVendorRenderCompatBridge: vi.fn(),
   installVendorPortraitBindingBridge: () => doubles.uninstall,
   attachStructuredLog: () => doubles.detach,
@@ -514,6 +516,18 @@ describe("预生产原始结果与诚实终态", () => {
 });
 
  describe("宿主营销G1必须先于vendor", () => {
+  it("vendor 返回后原生交接编译仍消费完整本次用途限制，结束后不泄漏", async () => {
+    doubles.runPreproduction.mockResolvedValue(success());
+    const original = doubles.handoff.getMockImplementation()!;
+    doubles.handoff.mockImplementation(async (input) => {
+      expect(currentSourceRestrictionPrompt()).toContain(JSON.stringify(["客户投放前确认；机器映射未核实"]));
+      return original(input);
+    });
+    const { entry } = await runToTerminal();
+    expect(entry.status).toBe("finished");
+    expect(doubles.handoff).toHaveBeenCalledTimes(1);
+    expect(currentSourceRestrictionPrompt()).toBe("");
+  });
   it("当前attempt事实G1通过后才调用vendor，最终完整镜头审核写回事实引用", async () => {
     doubles.runPreproduction.mockImplementation(async () => {
       expect(doubles.prepare).toHaveBeenCalledTimes(1);

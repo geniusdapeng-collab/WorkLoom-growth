@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createRequire } from "node:module";
-import { WorkloomLLMEngine, installVendorEngineBridge } from "../packages/video-studio/src/llm-adapter.js";
+import { WorkloomLLMEngine, runWithVendorEngine } from "../packages/video-studio/src/llm-adapter.js";
 import { sourceRestrictionsHash, runWithSourceRestrictions, currentSourceRestrictionPrompt } from "../packages/video-studio/src/source-restrictions.js";
 import { MockProvider } from "@workloom/base/model-router";
 
@@ -27,10 +27,9 @@ test("all native adapter interfaces carry complete restrictions despite custom s
 });
 test("vendor-owned engine prototype calls inherit the native run limits", async () => {
   await withTransport(async (e, bodies) => {
-    const dispose = installVendorEngineBridge(e), require = createRequire(import.meta.url);
+    const require = createRequire(import.meta.url);
     const { LLMEngine } = require("../vendor/supermickey/systems/llm-reasoning-engine.js");
-    try { await runWithSourceRestrictions(limits, async () => { await new LLMEngine().reason("vendor script"); }); }
-    finally { dispose(); }
+    await runWithVendorEngine(e, () => runWithSourceRestrictions(limits, async () => { await new LLMEngine().reason("vendor script"); }));
     assert.equal(bodies.length, 1); assert.ok(bodies[0].messages[0].content.includes(JSON.stringify(limits)));
   });
 });

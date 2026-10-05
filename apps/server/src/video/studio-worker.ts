@@ -24,6 +24,8 @@ import {
   planNativeFilmHandoff,
   WorkloomLLMEngine,
   sourceRestrictionsHash,
+  runWithSourceRestrictions,
+  runWithVendorEngine,
   ArchiveStore,
   StageRunner,
   auditScenePolicy,
@@ -477,7 +479,7 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
    * 剧本引擎/需求洞察等子引擎会自己 new 一个引擎读 vendor 的环境变量与模型名，
    * 不桥接就会出现「LLM引擎返回失败: API Key 未配置」→ 预生产在 Layer 1 直接失败。
    */
-  installVendorEngineBridge(llm);
+  installVendorEngineBridge();
   // 逐镜渲染的入参归一（空 portraits 数组会以 characterRef.split 崩溃，见 vendor-compat.ts）
   installVendorRenderCompatBridge();
   /**
@@ -753,7 +755,7 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
         await runner.run(
           "preproduction",
           { intent: runInput.intent, isMarketing: input.isMarketing ?? false, pipelineKind, scenePolicy: selectedScenePolicy.decision },
-          async (ctx) => {
+          async (ctx) => runWithVendorEngine(llm, async () => {
             gateProofs.clear();
             completedVendorResult = null;
             /**
@@ -786,6 +788,7 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
               marketingDossierRoot = marketing.storeRoot;
               marketingDossierRef = path.posix.join("archive", scope.workspaceId, input.projectId, `${marketing.prefix}-dossier`);
             }
+            return runWithSourceRestrictions(marketing?.bundle.restrictions ?? [], async () => {
             const studio = new VideoStudio({ ...studioConfig, ...(marketing ? { dataMining: {
               mode: "api", storeRoot: marketing.storeRoot, refresh: true,
               verifiedRaw: { projectId: input.projectId, rawJson: canonicalRenderJson(marketing.raw), sha256: marketing.bundle.rawSha256,
@@ -1085,7 +1088,8 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
               },
               ...(outcome ? { outcome } : {}),
             };
-          },
+            });
+          }),
         );
         if (!rawResult) throw new Error("预生产档案执行器未返回业务结果");
         return rawResult;
