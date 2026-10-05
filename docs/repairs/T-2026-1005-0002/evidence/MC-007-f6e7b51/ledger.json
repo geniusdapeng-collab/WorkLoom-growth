@@ -1,0 +1,173 @@
+{
+  "schema": "workloom.mine-clear/ledger@1",
+  "task_id": "T-2026-1005-0002",
+  "repo": "growth-native-pipeline",
+  "repo_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
+  "title": "",
+  "created_at": "2026-10-05T10:21:27.413Z",
+  "updated_at": "2026-10-05T10:22:39.347Z",
+  "baseline": {
+    "audit": {
+      "commit": "7afd734de23bd31f1e9f92f2336fbff47b1dd42f",
+      "branch": "task/T-2026-1005-0002-final",
+      "remote": "origin",
+      "fetched_at": "2026-10-05T10:21:27.312Z",
+      "fetch_status": "success",
+      "notes": "本地 HEAD 不是 origin/main 最新（云端 52a600e3 / 本地 7afd734d）——按 §1.2 先对齐基线；工作树不干净（1 项未提交改动）：排雷结论只对已提交内容成立"
+    },
+    "repair": {
+      "commit": "f6e7b51182b2fe5ad22c30a8011c3c1adcb331e5",
+      "reverified_problem_ids": []
+    },
+    "acceptance": {
+      "commit": null,
+      "is_descendant_of_repair": null
+    }
+  },
+  "environment": {
+    "kind": "client-runtime",
+    "notes": ""
+  },
+  "invariants": [
+    {
+      "id": "INV-1",
+      "text": "租户边界覆盖数据库 RLS、运行时上下文、事件、缓存和外部连接器。",
+      "source": "AGENTS.md#4.1"
+    },
+    {
+      "id": "INV-2",
+      "text": "经营事件、审批和关键回执只增不改；纠正通过新事件表达，不静默覆盖证据。",
+      "source": "AGENTS.md#4.2"
+    },
+    {
+      "id": "INV-3",
+      "text": "所有外部或变更性动作及其子调用，统一经过权限、PII、围栏和审批链路。",
+      "source": "AGENTS.md#4.3"
+    },
+    {
+      "id": "INV-4",
+      "text": "涉钱、敏感数据、群发、公开发布、交易和破坏性变更必须按高风险处理并由人审批。",
+      "source": "AGENTS.md#4.4"
+    },
+    {
+      "id": "INV-5",
+      "text": "没有真实回执就不能标记完成；mock、模拟和体验模式在数据结构与界面上都要明确区分。",
+      "source": "AGENTS.md#4.5"
+    },
+    {
+      "id": "INV-6",
+      "text": "客户原始经营数据不得上行；蜂群只接受白名单化、最小化、匿名化且可审计的元数据或派生经验。",
+      "source": "AGENTS.md#4.6"
+    },
+    {
+      "id": "INV-7",
+      "text": "租户覆盖层只能收紧围栏，不能放宽平台不可变红线。",
+      "source": "AGENTS.md#4.7"
+    },
+    {
+      "id": "INV-8",
+      "text": "模型、提示词、技能、bundle、策略和热更新必须先评测再灰度，且始终可回滚。",
+      "source": "AGENTS.md#4.8"
+    },
+    {
+      "id": "INV-9",
+      "text": "platform-ops、平台账户运营和平台秘密只属于 Andromeda。",
+      "source": "AGENTS.md#4.9"
+    },
+    {
+      "id": "INV-10",
+      "text": "Tiger 在获得单独的合规审查和用户明确授权前，只能模拟或纸面交易。",
+      "source": "AGENTS.md#4.10"
+    },
+    {
+      "id": "INV-11",
+      "text": "令牌、密码、API key、私钥、客户凭证和私密客户数据不得进入源码、文档、上下文、提示词、日志或提交。",
+      "source": "AGENTS.md#4.11"
+    },
+    {
+      "id": "INV-12",
+      "text": "个性化与行业扩展不得形成公共机制的第二事实源。",
+      "source": "AGENTS.md#4.12"
+    }
+  ],
+  "cards": [
+    {
+      "id": "MC-007",
+      "kind": "problem",
+      "level": "L3",
+      "severity": "P1",
+      "batch": 0,
+      "state": "fixed",
+      "title": "营销事实支持审核误用剧本环节，在无镜头的情报阶段注入镜头型号合同限制",
+      "evidence": [
+        {
+          "type": "code",
+          "ref": "packages/video-studio/src/producer-gate.ts:521@7afd734de23bd31f1e9f92f2336fbff47b1dd42f",
+          "sha256": "3c4cdbba264d0598fc54f0ae7033d0f82620fae35f0d7861ae654344aff32f01",
+          "note": "reviewStage无contracts一律注入镜头合同限制，marketing-authority以script审核商品型号；VID1006真实支持拒绝同时指出无镜头合同；专属域反例先红3/5。"
+        }
+      ],
+      "root_cause": {
+        "file": "packages/video-studio/src/producer-gate.ts",
+        "line": 521,
+        "commit": "7afd734de23bd31f1e9f92f2336fbff47b1dd42f",
+        "symbol": "reviewStage"
+      },
+      "trigger_path": "原生营销A1提取 → script stage来源审核 → 追加未提供镜头合同限制 → 把后阶段画面型号要求混入情报主张审核",
+      "assertions": [
+        {
+          "kind": "property",
+          "given": "完整事实JSON、实际reviewStage传输替身、拒绝/模型缺失/图像输入/普通prompt路径",
+          "expect": "事实域只核验逐主张完整来源；保留原文冲突与限制；不能授予图像和镜头合同资格；语义拒绝一次终止；普通镜头域保持原约束。",
+          "command": "node --import tsx --test scripts/native-marketing-review.test.mts",
+          "exec": {
+            "file": "node",
+            "args": [
+              "--import",
+              "tsx",
+              "--test",
+              "scripts/native-marketing-review.test.mts"
+            ]
+          },
+          "last_result": "pass",
+          "run": {
+            "path": "runs/MC-007-0-1791195758874.json",
+            "sha256": "d15ac536b7cd94f4c5cf6375ca7a8bd5082bd25207df52bbb69641f4f7ba8e4f",
+            "commit": "f6e7b51182b2fe5ad22c30a8011c3c1adcb331e5"
+          },
+          "evidence": {
+            "path": "evidence/MC-007-0-1791195758874.txt",
+            "sha256": "1b7da2df758b27a72d82ecb4c7b12032380f1aad73d78b6631b90e2617e40e32",
+            "commit": "f6e7b51182b2fe5ad22c30a8011c3c1adcb331e5"
+          }
+        }
+      ],
+      "fix_plan": "增加事实来源审核stage，仅文本/JSON，无镜头合同；宿主A1-A3切到facts，所有原文/逐主张支持/拒绝纪律继续，未提取冲突字段保留并限制。",
+      "blast_radius": "只原文事实审核域与营销宿主调用；其他视觉审核和render off规则未放宽。",
+      "conflict_paths": [
+        "packages/video-studio/src/producer-gate.ts",
+        "apps/server/src/video/marketing-authority.ts",
+        "apps/server/src/video/marketing-authority.test.ts",
+        "scripts/native-marketing-review.test.mts"
+      ],
+      "regression": {
+        "command": "node --import tsx --test scripts/native-marketing-review.test.mts"
+      },
+      "rollback": "revert事实审核域提交；原生失败回执保留，不能直接复用旧失败资格。",
+      "notes": "该域修复不意味着VID1006事实正确，冲突规格及来源限制由MC008后续独立合同解决。",
+      "verified_by": null,
+      "verified_at": null,
+      "verification_evidence": null,
+      "last_assertion_attempt": {
+        "actor": "root-source-facts-review-repair",
+        "role": "repair",
+        "result": "pass",
+        "at": "2026-10-05T10:22:38.874Z",
+        "commit": "f6e7b51182b2fe5ad22c30a8011c3c1adcb331e5",
+        "finished_at": "2026-10-05T10:22:39.347Z"
+      },
+      "fixed_by": "root-source-facts-review-repair"
+    }
+  ],
+  "gates": []
+}

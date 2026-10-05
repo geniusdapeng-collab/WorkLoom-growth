@@ -1,0 +1,25 @@
+{
+  "historicalSourceOnly": true,
+  "files": [
+    {
+      "file": "evidence/MC-007-0-1791195758874-node-tests.jsonl",
+      "sha256": "220fa9ea5ec277413a99743fac42cfb645ea7ee4429e15a2a555343af1a3eb9c"
+    },
+    {
+      "file": "evidence/MC-007-0-1791195758874.txt",
+      "sha256": "1b7da2df758b27a72d82ecb4c7b12032380f1aad73d78b6631b90e2617e40e32"
+    },
+    {
+      "file": "evidence-index.json",
+      "sha256": "135cdd03590a4a5561a1bf98d5e064a2cbe33cb4397f8c94daf93b1d4514a945"
+    },
+    {
+      "file": "ledger.json",
+      "sha256": "1f01f08eba9442679166f015a04f6b075d2967f5fc6de8330830700ba7ce0bc0"
+    },
+    {
+      "file": "runs/MC-007-0-1791195758874.json",
+      "sha256": "d15ac536b7cd94f4c5cf6375ca7a8bd5082bd25207df52bbb69641f4f7ba8e4f"
+    }
+  ]
+}

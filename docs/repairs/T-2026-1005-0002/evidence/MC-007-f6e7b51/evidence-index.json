@@ -1,0 +1,23 @@
+{
+  "schema": "workloom.evidence-index/v1",
+  "commit": "f6e7b51182b2fe5ad22c30a8011c3c1adcb331e5",
+  "runs": [
+    {
+      "path": "runs/MC-007-0-1791195758874.json",
+      "sha256": "d15ac536b7cd94f4c5cf6375ca7a8bd5082bd25207df52bbb69641f4f7ba8e4f",
+      "commit": "f6e7b51182b2fe5ad22c30a8011c3c1adcb331e5"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "evidence/MC-007-0-1791195758874.txt",
+      "sha256": "1b7da2df758b27a72d82ecb4c7b12032380f1aad73d78b6631b90e2617e40e32",
+      "commit": "f6e7b51182b2fe5ad22c30a8011c3c1adcb331e5"
+    },
+    {
+      "path": "evidence/MC-007-0-1791195758874-node-tests.jsonl",
+      "sha256": "220fa9ea5ec277413a99743fac42cfb645ea7ee4429e15a2a555343af1a3eb9c",
+      "commit": "f6e7b51182b2fe5ad22c30a8011c3c1adcb331e5"
+    }
+  ]
+}

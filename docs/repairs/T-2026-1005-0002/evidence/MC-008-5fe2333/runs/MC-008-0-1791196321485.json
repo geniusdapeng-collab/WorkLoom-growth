@@ -1,0 +1,79 @@
+{
+  "schema": "workloom.evidence-run/v1",
+  "id": "MC-008-0-1791196321485",
+  "command": "node --import tsx --test scripts/native-product-source-policy.test.mts",
+  "exec": {
+    "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "--test-reporter=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+      "--test-reporter-destination=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/outputs/mine-clear/T-2026-1005-0002/product-policy-f6e7b51/evidence/MC-008-0-1791196321485-node-tests.jsonl",
+      "--test-reporter=tap",
+      "--test-reporter-destination=stdout",
+      "--import",
+      "tsx",
+      "--test",
+      "scripts/native-product-source-policy.test.mts"
+    ]
+  },
+  "requested_exec": {
+    "file": "node",
+    "args": [
+      "--import",
+      "tsx",
+      "--test",
+      "scripts/native-product-source-policy.test.mts"
+    ]
+  },
+  "node_observer": {
+    "schema": "workloom.node-test-observer/v1",
+    "reporter_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+    "reporter_sha256": "286448a4dee571759fc1703564477d27bf5319bcb05ff66db2186deda60bc78f",
+    "destination": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/outputs/mine-clear/T-2026-1005-0002/product-policy-f6e7b51/evidence/MC-008-0-1791196321485-node-tests.jsonl",
+    "summary": {
+      "path": "evidence/MC-008-0-1791196321485-node-tests.jsonl",
+      "sha256": "ee20acb30716c3f39b06fb2a86dda61fd47b2c6929c169f08e14f2921d08727d",
+      "commit": "5fe23333a8bb20e53c269f0568dd8589c2941b98"
+    }
+  },
+  "node_executable": {
+    "path": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "sha256": "27db838bb204ef7c21df2931f5656e4c8fb32e6e947f363a402b49714d32b5b1"
+  },
+  "actor": "root-product-source-policy-repair",
+  "role": "repair",
+  "subject": {
+    "card_id": "MC-008",
+    "assertion_index": 0
+  },
+  "commit": "5fe23333a8bb20e53c269f0568dd8589c2941b98",
+  "working_tree_dirty": false,
+  "started_at": "2026-10-05T10:32:01.485Z",
+  "finished_at": "2026-10-05T10:32:02.038Z",
+  "exit_code": 0,
+  "signal": null,
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "testSummary": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "result": "pass",
+  "outputs": [
+    {
+      "path": "evidence/MC-008-0-1791196321485.txt",
+      "sha256": "e8129360814a52616cd2b81b26c25e2588e380abe45465f955ec1bc104c55733",
+      "commit": "5fe23333a8bb20e53c269f0568dd8589c2941b98"
+    },
+    {
+      "path": "evidence/MC-008-0-1791196321485-node-tests.jsonl",
+      "sha256": "ee20acb30716c3f39b06fb2a86dda61fd47b2c6929c169f08e14f2921d08727d",
+      "commit": "5fe23333a8bb20e53c269f0568dd8589c2941b98"
+    }
+  ]
+}

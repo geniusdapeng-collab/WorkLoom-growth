@@ -1,0 +1,176 @@
+{
+  "schema": "workloom.mine-clear/ledger@1",
+  "task_id": "T-2026-1005-0002",
+  "repo": "growth-native-pipeline",
+  "repo_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
+  "title": "",
+  "created_at": "2026-10-05T10:27:25.112Z",
+  "updated_at": "2026-10-05T10:32:02.092Z",
+  "baseline": {
+    "audit": {
+      "commit": "f6e7b51182b2fe5ad22c30a8011c3c1adcb331e5",
+      "branch": "task/T-2026-1005-0002-final",
+      "remote": "origin",
+      "fetched_at": "2026-10-05T10:27:25.018Z",
+      "fetch_status": "success",
+      "notes": "本地 HEAD 不是 origin/main 最新（云端 52a600e3 / 本地 f6e7b511）——按 §1.2 先对齐基线；工作树不干净（1 项未提交改动）：排雷结论只对已提交内容成立"
+    },
+    "repair": {
+      "commit": "5fe23333a8bb20e53c269f0568dd8589c2941b98",
+      "reverified_problem_ids": []
+    },
+    "acceptance": {
+      "commit": null,
+      "is_descendant_of_repair": null
+    }
+  },
+  "environment": {
+    "kind": "client-runtime",
+    "notes": ""
+  },
+  "invariants": [
+    {
+      "id": "INV-1",
+      "text": "租户边界覆盖数据库 RLS、运行时上下文、事件、缓存和外部连接器。",
+      "source": "AGENTS.md#4.1"
+    },
+    {
+      "id": "INV-2",
+      "text": "经营事件、审批和关键回执只增不改；纠正通过新事件表达，不静默覆盖证据。",
+      "source": "AGENTS.md#4.2"
+    },
+    {
+      "id": "INV-3",
+      "text": "所有外部或变更性动作及其子调用，统一经过权限、PII、围栏和审批链路。",
+      "source": "AGENTS.md#4.3"
+    },
+    {
+      "id": "INV-4",
+      "text": "涉钱、敏感数据、群发、公开发布、交易和破坏性变更必须按高风险处理并由人审批。",
+      "source": "AGENTS.md#4.4"
+    },
+    {
+      "id": "INV-5",
+      "text": "没有真实回执就不能标记完成；mock、模拟和体验模式在数据结构与界面上都要明确区分。",
+      "source": "AGENTS.md#4.5"
+    },
+    {
+      "id": "INV-6",
+      "text": "客户原始经营数据不得上行；蜂群只接受白名单化、最小化、匿名化且可审计的元数据或派生经验。",
+      "source": "AGENTS.md#4.6"
+    },
+    {
+      "id": "INV-7",
+      "text": "租户覆盖层只能收紧围栏，不能放宽平台不可变红线。",
+      "source": "AGENTS.md#4.7"
+    },
+    {
+      "id": "INV-8",
+      "text": "模型、提示词、技能、bundle、策略和热更新必须先评测再灰度，且始终可回滚。",
+      "source": "AGENTS.md#4.8"
+    },
+    {
+      "id": "INV-9",
+      "text": "platform-ops、平台账户运营和平台秘密只属于 Andromeda。",
+      "source": "AGENTS.md#4.9"
+    },
+    {
+      "id": "INV-10",
+      "text": "Tiger 在获得单独的合规审查和用户明确授权前，只能模拟或纸面交易。",
+      "source": "AGENTS.md#4.10"
+    },
+    {
+      "id": "INV-11",
+      "text": "令牌、密码、API key、私钥、客户凭证和私密客户数据不得进入源码、文档、上下文、提示词、日志或提交。",
+      "source": "AGENTS.md#4.11"
+    },
+    {
+      "id": "INV-12",
+      "text": "个性化与行业扩展不得形成公共机制的第二事实源。",
+      "source": "AGENTS.md#4.12"
+    }
+  ],
+  "cards": [
+    {
+      "id": "MC-008",
+      "kind": "problem",
+      "level": "L3",
+      "severity": "P1",
+      "batch": 0,
+      "state": "fixed",
+      "title": "受控商品源的使用限制与重复参数未绑定下游，模型可选冲突字段或截断卖点",
+      "evidence": [
+        {
+          "type": "code",
+          "ref": "apps/server/src/video/product-archive-source.ts:47@f6e7b51182b2fe5ad22c30a8011c3c1adcb331e5",
+          "sha256": "930f80619ea6e2b19253d2486aacc8b062f2bbd11feecb01758e39a9ec40202e",
+          "note": "原字节送模型但无结构字段资格与来源限制传递；VID1006真实支持拒绝重复参数、截断主张、extractionfalse和disclaimer缺失。新增7项合同先红。"
+        }
+      ],
+      "root_cause": {
+        "file": "apps/server/src/video/product-archive-source.ts",
+        "line": 47,
+        "commit": "f6e7b51182b2fe5ad22c30a8011c3c1adcb331e5",
+        "symbol": "loadProductArchiveSource"
+      },
+      "trigger_path": "ownerconfirmed且机器映射未核实的商品archive → A1把同名多value合成一个spec或截断features当完整事实 → 支持审核正确拒绝但来源治理未帮系统选可用主张",
+      "assertions": [
+        {
+          "kind": "property",
+          "given": "完整实际临时客户档案/图片、重复参数、机器来源警告、局部连续原文与原生事实验证器",
+          "expect": "原文不裁剪，使用限制和机器未核实保留；重复与源页未支持参数禁止选择；每个archive主张有结构sourcePointer及局部原文；不能以全档案引文/metadata绕过；失败只一次不进格式校正。",
+          "command": "node --import tsx --test scripts/native-product-source-policy.test.mts",
+          "exec": {
+            "file": "node",
+            "args": [
+              "--import",
+              "tsx",
+              "--test",
+              "scripts/native-product-source-policy.test.mts"
+            ]
+          },
+          "last_result": "pass",
+          "run": {
+            "path": "runs/MC-008-0-1791196321485.json",
+            "sha256": "4df0067126ec0d1c3c0dcd58f0a7a027dc4ff6acb89f0ce93c4e16042eb4f067",
+            "commit": "5fe23333a8bb20e53c269f0568dd8589c2941b98"
+          },
+          "evidence": {
+            "path": "evidence/MC-008-0-1791196321485.txt",
+            "sha256": "e8129360814a52616cd2b81b26c25e2588e380abe45465f955ec1bc104c55733",
+            "commit": "5fe23333a8bb20e53c269f0568dd8589c2941b98"
+          }
+        }
+      ],
+      "fix_plan": "从原档案推导只收紧的用途限制和字段阻断，绑定完整rawhash；保留完整冲突/截断原文给提取与审核；引用补sourcePointer，资格回读复核policy和限制；语义不支持继续立即停止。",
+      "blast_radius": "受控商品事实来源及A1-A3schema/marketing事实资格；不改客户档案、不赋予素材授权、不手选分镜、不重试媒体。",
+      "conflict_paths": [
+        "apps/server/src/video/product-archive-source.ts",
+        "apps/server/src/video/product-source-policy.ts",
+        "apps/server/src/video/marketing-source-fetcher.ts",
+        "apps/server/src/video/marketing-facts.ts",
+        "apps/server/src/video/marketing-authority.ts",
+        "apps/server/src/video/marketing-authority.test.ts",
+        "scripts/native-product-source-policy.test.mts"
+      ],
+      "regression": {
+        "command": "node --import tsx --test scripts/native-product-source-policy.test.mts"
+      },
+      "rollback": "revert商品来源约束提交并保留追加来源/失败档案；旧原生档案必须重新策划。",
+      "notes": "保留ownerconfirmed和extractionverifiedfalse两种不同证据，不能把后者改true；非相关字段冲突不表示安全主张自动通过，仍由实际语义review验证。",
+      "verified_by": null,
+      "verified_at": null,
+      "verification_evidence": null,
+      "last_assertion_attempt": {
+        "actor": "root-product-source-policy-repair",
+        "role": "repair",
+        "result": "pass",
+        "at": "2026-10-05T10:32:01.483Z",
+        "commit": "5fe23333a8bb20e53c269f0568dd8589c2941b98",
+        "finished_at": "2026-10-05T10:32:02.092Z"
+      },
+      "fixed_by": "root-product-source-policy-repair"
+    }
+  ],
+  "gates": []
+}

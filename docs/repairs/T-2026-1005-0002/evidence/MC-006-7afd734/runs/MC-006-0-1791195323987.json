@@ -1,0 +1,79 @@
+{
+  "schema": "workloom.evidence-run/v1",
+  "id": "MC-006-0-1791195323987",
+  "command": "node --import tsx --test scripts/native-video-route.test.mts",
+  "exec": {
+    "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "--test-reporter=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+      "--test-reporter-destination=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/outputs/mine-clear/T-2026-1005-0002/native-route-b4dab13/evidence/MC-006-0-1791195323987-node-tests.jsonl",
+      "--test-reporter=tap",
+      "--test-reporter-destination=stdout",
+      "--import",
+      "tsx",
+      "--test",
+      "scripts/native-video-route.test.mts"
+    ]
+  },
+  "requested_exec": {
+    "file": "node",
+    "args": [
+      "--import",
+      "tsx",
+      "--test",
+      "scripts/native-video-route.test.mts"
+    ]
+  },
+  "node_observer": {
+    "schema": "workloom.node-test-observer/v1",
+    "reporter_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+    "reporter_sha256": "286448a4dee571759fc1703564477d27bf5319bcb05ff66db2186deda60bc78f",
+    "destination": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/outputs/mine-clear/T-2026-1005-0002/native-route-b4dab13/evidence/MC-006-0-1791195323987-node-tests.jsonl",
+    "summary": {
+      "path": "evidence/MC-006-0-1791195323987-node-tests.jsonl",
+      "sha256": "220fa9ea5ec277413a99743fac42cfb645ea7ee4429e15a2a555343af1a3eb9c",
+      "commit": "7afd734de23bd31f1e9f92f2336fbff47b1dd42f"
+    }
+  },
+  "node_executable": {
+    "path": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "sha256": "27db838bb204ef7c21df2931f5656e4c8fb32e6e947f363a402b49714d32b5b1"
+  },
+  "actor": "root-native-route-repair",
+  "role": "repair",
+  "subject": {
+    "card_id": "MC-006",
+    "assertion_index": 0
+  },
+  "commit": "7afd734de23bd31f1e9f92f2336fbff47b1dd42f",
+  "working_tree_dirty": false,
+  "started_at": "2026-10-05T10:15:23.987Z",
+  "finished_at": "2026-10-05T10:15:24.702Z",
+  "exit_code": 0,
+  "signal": null,
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "testSummary": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "result": "pass",
+  "outputs": [
+    {
+      "path": "evidence/MC-006-0-1791195323987.txt",
+      "sha256": "8b589308debf2577e51dd43a25795a368037770b813830338a8826fae22b34a8",
+      "commit": "7afd734de23bd31f1e9f92f2336fbff47b1dd42f"
+    },
+    {
+      "path": "evidence/MC-006-0-1791195323987-node-tests.jsonl",
+      "sha256": "220fa9ea5ec277413a99743fac42cfb645ea7ee4429e15a2a555343af1a3eb9c",
+      "commit": "7afd734de23bd31f1e9f92f2336fbff47b1dd42f"
+    }
+  ]
+}
