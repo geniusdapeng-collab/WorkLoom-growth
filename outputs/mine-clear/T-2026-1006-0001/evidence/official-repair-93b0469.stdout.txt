@@ -1,0 +1,17 @@
+{
+  "id": "MC-023",
+  "actor": "mc023-prd-authority-repair",
+  "role": "repair",
+  "result": "pass",
+  "commit": "93b0469c18ee1d03e0606fb2133bb6538db35b89",
+  "assertions": [
+    {
+      "result": "pass",
+      "run": {
+        "path": "runs/MC-023-0-1791227067493.json",
+        "sha256": "c25f370c127686c8658520a9b17d72514bf69f278c77833165176d01b712a1b2",
+        "commit": "93b0469c18ee1d03e0606fb2133bb6538db35b89"
+      }
+    }
+  ]
+}

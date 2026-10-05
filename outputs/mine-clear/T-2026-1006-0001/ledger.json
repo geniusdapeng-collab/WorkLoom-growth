@@ -5,7 +5,7 @@
   "repo_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
   "title": "MC-023 native PRD authority and original portrait evidence",
   "created_at": "2026-10-05T18:21:00.232Z",
-  "updated_at": "2026-10-05T18:31:55.528Z",
+  "updated_at": "2026-10-05T19:04:28.805Z",
   "baseline": {
     "audit": {
       "commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
@@ -16,7 +16,7 @@
       "notes": "本地 HEAD 不是 origin/main 最新（云端 52a600e3 / 本地 76d7e789）——按 §1.2 先对齐基线"
     },
     "repair": {
-      "commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5",
+      "commit": "93b0469c18ee1d03e0606fb2133bb6538db35b89",
       "reverified_problem_ids": []
     },
     "acceptance": {
@@ -97,7 +97,7 @@
       "level": "L3",
       "severity": "P1",
       "batch": 2,
-      "state": "unfixed",
+      "state": "fixed",
       "title": "Native PRD loses selected archive identity, G3 positioning and verifiable full-photo delivery authority",
       "evidence": [
         {
@@ -146,16 +146,16 @@
               "scripts/native-prd-contract.test.mts"
             ]
           },
-          "last_result": "fail",
+          "last_result": "pass",
           "run": {
-            "path": "runs/MC-023-0-1791225114904.json",
-            "sha256": "a039713c1fc1a2c4bba3f73d6ed93cf00272bfa9eec76f578c8c2e3960c1676b",
-            "commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5"
+            "path": "runs/MC-023-0-1791227067493.json",
+            "sha256": "c25f370c127686c8658520a9b17d72514bf69f278c77833165176d01b712a1b2",
+            "commit": "93b0469c18ee1d03e0606fb2133bb6538db35b89"
           },
           "evidence": {
-            "path": "evidence/MC-023-0-1791225114904.txt",
-            "sha256": "50592ef1b1a15d95b7c597e9d35ade8e3c81a22a890439550800b41ca1a44782",
-            "commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5"
+            "path": "evidence/MC-023-0-1791227067493.txt",
+            "sha256": "a95b81e9c2b8dc52caee5ffe8818b1f53c7224e651e21a88f47e180644c1db5a",
+            "commit": "93b0469c18ee1d03e0606fb2133bb6538db35b89"
           }
         }
       ],
@@ -179,17 +179,17 @@
         "command": "Real Node native PRD contract plus existing requirement tests, affected host/gate/producer/portrait/studio integrations and package typechecks; distinct acceptance actor follows clean complete source; root actual original-input preproduction/film follows."
       },
       "rollback": "Revert only task T-2026-1006-0001 dedicated source repair, keep original rejection and stop unqualified native film.",
-      "notes": "This actor is mc023_prd_authority_repair, repair only; independent parent/acceptance role will run after source clean. Initial audit76d fullsha. Final repair additionally guards complete ScriptGenerator character metadata and every actual BaseAgent retry system source; original red results remain immutable. Current archive is historical until clean HEAD formal repair executes.",
+      "notes": "This actor is mc023_prd_authority_repair, repair only; independent parent/acceptance role will run after source clean. Initial audit76d fullsha. Final repair additionally guards complete ScriptGenerator character metadata and every actual BaseAgent retry system source; original red results remain immutable. Current archive is historical until clean HEAD formal repair executes. The clean 93b0469 repair37 pass is historical only: a later actual nested _metadata mutation during ScriptGenerator await red disclosed a gap. Final source adds nested hash/output aspect validation with stable creative extension positive control; official final clean repair must rerun all39. Independent acceptance remains not-run.",
       "verified_by": null,
       "verified_at": null,
       "verification_evidence": null,
       "last_assertion_attempt": {
         "actor": "mc023-prd-authority-repair",
         "role": "repair",
-        "result": "fail",
-        "at": "2026-10-05T18:31:54.900Z",
-        "commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5",
-        "finished_at": "2026-10-05T18:31:55.528Z"
+        "result": "pass",
+        "at": "2026-10-05T19:04:27.487Z",
+        "commit": "93b0469c18ee1d03e0606fb2133bb6538db35b89",
+        "finished_at": "2026-10-05T19:04:28.805Z"
       },
       "fixed_by": "mc023-prd-authority-repair"
     }

@@ -23,15 +23,15 @@
 
 制作与验收的 visual/audio/narrative/consistency 取原有合法值的较大值，兼容原 schema 的 Score 别名。未知或越界值拒绝；失败预案保留动作，但不再允许较低阈值自报交付通过。字幕合同采用现有 `full-chain-film.mts` 的缺省 sidecar：母版不烧字、SRT/ASS/VTT 旁挂、软字幕轨及时间轴回读要求。此处是制作要求，`requireTimelineValidation` 不是已发生的验证结果。
 
-PRD 内容、完整 Markdown、系统 G4 结果和 ScriptEngine 入参/产出绑定同一个实例与散列。未审核、拒绝、minimal、clone、异实例、改正文、改源档案/Brief/洞察/原照片，以及建议导致未审核重生成，均失败关闭。原生 create 的时长别名和事实红线追加仍可在 G4 前完成。实际 builder 原样透传完整 characters；脚本入口核对完整角色文本（包括 description 与 ID 别名），随后仅补受控 portraitPaths。内部 `_metadata` 不得覆盖 PRD 或画幅。所有异步边界在 await 前后复读来源与文件。实际 BaseAgent 的 PARSE 重试仍保留原生创意提示词压缩，但每次实例 system 内容重建完整档案 JSON，防止尾部截断。首个片段检查探测实际通过，完整 JSON 检查才实际复现退出 1；两次原输出均保留，片段命中不作为完整来源证据。
+PRD 内容、完整 Markdown、系统 G4 结果和 ScriptEngine 入参/产出绑定同一个实例与散列。未审核、拒绝、minimal、clone、异实例、改正文、改源档案/Brief/洞察/原照片，以及建议导致未审核重生成，均失败关闭。原生 create 的时长别名和事实红线追加仍可在 G4 前完成。实际 builder 原样透传完整 characters；脚本入口核对完整角色文本（包括 description 与 ID 别名），随后仅补受控 portraitPaths。内部 `_metadata` 不得覆盖 PRD 或画幅；整个内部对象在 ScriptGenerator await 前后哈希，并复核 blueprint 与 adapter 的输出画幅，保留同源且稳定的原生 creativeIntensity 扩展。实际 await 内嵌套画幅篡改反例先退出 1，修后拒绝，稳定扩展正例通过。所有异步边界在 await 前后复读来源与文件。实际 BaseAgent 的 PARSE 重试仍保留原生创意提示词压缩，但每次实例 system 内容重建完整档案 JSON，防止尾部截断。首个片段检查探测实际通过，完整 JSON 检查才实际复现退出 1；两次原输出均保留，片段命中不作为完整来源证据。
 
 宿主始终把完整人物属性、原授权/验证作用域和已选原图回执投影到需求档案，独立于图像模型开关。G4 的真实 `reviewStage` 同一批得到完整原生正文与所有已选照片；每张照片需匹配实际路径、散列和 image scope 的回执，await 后再读原文件。缺角度、空/缺图、错散列、重名、符号链接、同物理文件冒充多个视角及超过现有 60 张监制预算都拒绝，不静默丢图。字节散列只证明当前输入，不升级原真人身份、素材授权或历史验收范围。
 
 ## 实际验证与边界
 
-修复工作树实际执行：新增原生合同 37 条、四套既有原生来源/需求回归 37 条、三套宿主集成 87 条、七套照片/监制/原生素材集成 139 条，均退出 0、无跳过；视频包和服务包类型检查退出 0。合计 300 条不同测试定义。前两次新宿主夹具因语速格式错误失败，类型检查发现新夹具推断 unknown；分别按原有 `2字/秒` 格式和 const tuple 修正，原失败文件保留，没有改守卫或源码协议。
+修复工作树实际执行：新增原生合同 39 条、四套既有原生来源/需求回归 37 条、三套宿主集成 87 条、七套照片/监制/原生素材集成 139 条，均退出 0、无跳过；视频包和服务包类型检查退出 0。合计 302 条不同测试定义。前两次新宿主夹具因语速格式错误失败，类型检查发现新夹具推断 unknown；分别按原有 `2字/秒` 格式和 const tuple 修正，原失败文件保留，没有改守卫或源码协议。
 
-正式 MCD 修复断言在包含此记录的干净完整提交再实际执行，修复角色最多写 fixed；独立角色在最终 SHA 实际执行后才能写 verified。工作树测试不代表正式 source HEAD 验收。
+正式 MCD 修复断言在包含此记录的干净完整提交再实际执行，首个干净提交 `93b0469c18ee1d03e0606fb2133bb6538db35b89` 的正式 37 条修复回执已实际通过，但随后嵌套元数据反例暴露边界，故它仅为历史中间基线；最终完整提交再次实际执行全部 39 条。修复角色最多写 fixed；独立角色在最终 SHA 实际执行后才能写 verified。工作树测试不代表正式 source HEAD 验收。
 
 本卡不改变 producer rubric、评审模型、分数阈值、原始拒绝、客户档案/照片、vendor 源码、数据库或渲染入口。没有真实模型、图像、视频供应商调用，没有提交付费制作。完整当前预生产、原输入 30 秒影片、后期和正式发行由协调会话在独立修复验收后继续实测。产品投影唯一约束的历史 P2 另记录，本卡不修改它。
 
@@ -53,12 +53,11 @@ PRD 内容、完整 Markdown、系统 G4 结果和 ScriptEngine 入参/产出绑
 
 ## MCD 修复执行信息
 
-- 档位：C/M5 单卡修复；环境 local-preview；修复角色 `mc023-prd-authority-repair`。
-- 审计基线 `76d7e7896e6fa6544bfd8393214f828fd6d299a1`，实际 fetch success；云端 main `52a600e3f6a9f94c0ea67b4be5f5d713e5d00ddd` 为审计后代链路的祖先。
-- M0 建账与 12 不变量加载、原失败卡 seed、测试专属两次正式红运行、M5 实现与相关实际工作树回归完成。M6 独立 acceptance/gate/handoff 尚未执行，P1 未 verified 不声称交付放行。
-- 未闭环：独立角色验收、当前原输入真实预生产/成片/发行，由协调会话继续；产品投影旧 P2 观察项不在本卡修复授权中。
-- 确切逐例前置/步骤/预期/实际见 `cases.json` 与保留的完整源测试；四类共 300 定义来自不同文件的实际运行，重跑不增加定义数。
-- 抽样文件及原因：
+- 档位 C/M5；local-preview；修复角色 mc023-prd-authority-repair；独立角色尚未执行。
+- 审计76d、测试红e0(5/30)与529(6/30)、正式历史绿93b(37/37)及嵌套await真红均逐项保留。
+- 最终39核心 +37既有来源 +87宿主 +139照片/监制 =302不同定义；重跑不加定义。工作树绿和正式提交绿分别描述。
+- 源码外的原始Node输出含 vendor 原格式尾随空白，按不可修改证据保留；git diff --check 对源码/文档实际通过。全diff曾因原始证据空白退出2，未篡改证据或放宽源码门禁。
+- 抽样清单及原因：
   - `scripts/tools/full-chain-film.mts`：Named subtitle/default/mux regions only; full 8000+ line production and actual film are owned by the root.
   - `packages/video-studio/src/film-worker-runtime.ts`：Named type/contract regions only; no film-worker invocation in this repair.
   - `scripts/delivery/mine-clear.mjs`：Actual init/invariants/add/run-assertions usage and named helper regions; not a full executor audit.

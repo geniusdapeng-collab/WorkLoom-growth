@@ -1,0 +1,25 @@
+{
+  "name": "server-typecheck-4",
+  "source_commit": "93b0469c18ee1d03e0606fb2133bb6538db35b89",
+  "source_clean": false,
+  "argv": [
+    "node",
+    "node_modules/typescript/bin/tsc",
+    "--noEmit",
+    "-p",
+    "apps/server/tsconfig.json"
+  ],
+  "exit_code": 0,
+  "started_at": "2026-10-05T19:07:59.823848+00:00",
+  "finished_at": "2026-10-05T19:08:01.153955+00:00",
+  "outputs": {
+    "stdout": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/server-typecheck-4.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/server-typecheck-4.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

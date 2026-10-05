@@ -2,7 +2,7 @@
   "schema": "workloom.mc023-repair-coverage/v1",
   "task_id": "T-2026-1006-0001",
   "scope": "single MC-023 G3/native PRD/G4/ScriptEngine/PortraitStudio and host image evidence; not whole repository, provider, DB, film, or RDAS276",
-  "source_commit": "529acb3ebde112a4cc424af06d7aa2641ab783a5",
+  "source_commit": "93b0469c18ee1d03e0606fb2133bb6538db35b89",
   "source_clean": false,
   "total": 80,
   "counts": {
@@ -48,9 +48,9 @@
     {
       "path": "packages/video-studio/src/native-prd-contract.ts",
       "grade": "A",
-      "bytes": 22721,
-      "lines": 287,
-      "sha256": "43a212ec7c126bde97965f408593e89d1ffc63e0252a1ab80949a658beae73ea",
+      "bytes": 22912,
+      "lines": 289,
+      "sha256": "5c7abd064f4b5c73bd36277bb9bf70ceddfd0029790cd7b1c67aee683c2def21",
       "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
     },
     {
@@ -272,9 +272,9 @@
     {
       "path": "scripts/native-prd-contract.test.mts",
       "grade": "A",
-      "bytes": 24849,
-      "lines": 277,
-      "sha256": "7a6a99e4d06697273c5a5bdbce8745d393c582f8d72e01dfc7efd447b4aa876f",
+      "bytes": 26109,
+      "lines": 295,
+      "sha256": "c43cd8e10bf77b60df5576471edceb6004bfbe2460eaa2cdc7da60fc84ef1151",
       "reason": "Complete semantic source read, including original pre-edit files and read changed deltas."
     },
     {

@@ -9,9 +9,9 @@
       "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 16.017875,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 17.709709,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -25,9 +25,9 @@
       "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 5.040042,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 10.653417,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -41,9 +41,9 @@
       "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 12.062417,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 5.241208,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -57,9 +57,9 @@
       "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 4.614292,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 4.887042,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -73,9 +73,9 @@
       "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 9.104333,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 9.474041,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -89,9 +89,9 @@
       "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 6.956125,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 7.29175,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -105,9 +105,9 @@
       "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 5.604083,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 4.92875,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -121,9 +121,9 @@
       "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 11.714542,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 11.234875,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -137,9 +137,9 @@
       "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 12.68625,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 9.597584,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -153,9 +153,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 5.013166,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 7.439209,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -169,9 +169,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 4.00625,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 3.795666,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -185,9 +185,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 4.019083,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 3.52025,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -201,9 +201,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 3.60275,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 3.392916,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -217,9 +217,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 3.804542,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 3.9755,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -233,9 +233,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 3.756666,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 3.592167,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -249,9 +249,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 1.558417,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 1.460959,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -265,9 +265,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 4.797292,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 4.889542,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -281,9 +281,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 6.935042,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 6.915375,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -297,9 +297,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 7.447042,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 6.746583,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -313,9 +313,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 6.315541,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 5.870292,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -329,9 +329,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 5.751167,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 6.43225,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -345,9 +345,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 5.791292,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 5.254083,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -361,9 +361,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 6.950542,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 7.342292,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -377,9 +377,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 6.885917,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 7.183458,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -393,9 +393,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 8.579958,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 7.605792,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -409,9 +409,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 6.941291,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 6.664917,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -425,9 +425,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 6.809083,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 6.237375,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -441,9 +441,9 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 6.577291,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 6.9115,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -457,41 +457,41 @@
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 2.337791,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 1.435958,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
       "source_clean": false
     },
     {
+      "name": "nested native metadata changed during actual ScriptGenerator await cannot override the approved aspect",
+      "preconditions": "Actual approved PRD, G3 exact metadata with stable internal aspectRatio9:16/_prd same object and native creativeIntensity0.85; actual ScriptGenerator model boundary is fixture only.",
+      "steps": "Mutate internal aspectRatio to16:9 during actual model await and expect rejection; positive control leaves all source fields stable and checks native creativeIntensity passes.",
+      "expected": "Changed internal source rejects; stable same-source creative extension preserves9:16 and0.85.",
       "id": "MC023-30",
-      "name": "duplicate selected identities are rejected without picking the first profile",
-      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
-      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
-      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 1.395,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 7.475292,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
       "source_clean": false
     },
     {
+      "name": "stable native internal metadata can extend creative intensity while preserving the approved aspect",
+      "preconditions": "Actual approved PRD, G3 exact metadata with stable internal aspectRatio9:16/_prd same object and native creativeIntensity0.85; actual ScriptGenerator model boundary is fixture only.",
+      "steps": "Mutate internal aspectRatio to16:9 during actual model await and expect rejection; positive control leaves all source fields stable and checks native creativeIntensity passes.",
+      "expected": "Changed internal source rejects; stable same-source creative extension preserves9:16 and0.85.",
       "id": "MC023-31",
-      "name": "invalid native quality thresholds are rejected instead of replaced by looser defaults",
-      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
-      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
-      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 4.567167,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 7.522167,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -499,15 +499,15 @@
     },
     {
       "id": "MC023-32",
-      "name": "two independent native instances keep their own contracts when one scope finishes",
+      "name": "duplicate selected identities are rejected without picking the first profile",
       "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
       "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
-      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 14.159292,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 1.525209,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -515,15 +515,15 @@
     },
     {
       "id": "MC023-33",
-      "name": "external instance bridge replacement is detected and original methods are restored",
+      "name": "invalid native quality thresholds are rejected instead of replaced by looser defaults",
       "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
       "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
       "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 1.700083,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 4.258208,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -531,15 +531,15 @@
     },
     {
       "id": "MC023-34",
-      "name": "a legacy narrative without selected archives preserves its native characters and scenes",
+      "name": "two independent native instances keep their own contracts when one scope finishes",
       "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
       "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
       "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 2.001125,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 13.15775,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -547,15 +547,15 @@
     },
     {
       "id": "MC023-35",
-      "name": "G4 image evidence is the complete original-byte receipt list, never a text-only assertion",
+      "name": "external instance bridge replacement is detected and original methods are restored",
       "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
       "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
-      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 1.909375,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 1.356708,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -563,15 +563,15 @@
     },
     {
       "id": "MC023-36",
-      "name": "native vendor generator, agents and script source bytes remain unchanged by scoped adapters",
+      "name": "a legacy narrative without selected archives preserves its native characters and scenes",
       "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
       "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
-      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 14.643084,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 1.930625,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",
@@ -579,15 +579,47 @@
     },
     {
       "id": "MC023-37",
+      "name": "G4 image evidence is the complete original-byte receipt list, never a text-only assertion",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 1.780333,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-38",
+      "name": "native vendor generator, agents and script source bytes remain unchanged by scoped adapters",
+      "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
+      "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
+      "expected": "Reject the explicitly named invalid/changed/unreviewed input, or verify the named property, according to the retained assertion body.",
+      "actual": {
+        "result": "pass",
+        "observed_duration_ms": 13.169625,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
+      },
+      "evidence_grade": "B",
+      "environment": "local-preview",
+      "source_clean": false
+    },
+    {
+      "id": "MC023-39",
       "name": "actual native BaseAgent PARSE retry retains every source byte after its ordinary prompt shrink",
       "preconditions": "Actual native PRD five agents, compiled G3 and controlled selected archive/eight byte receipts; for explicitly named legacy case archives are empty; models/PG/media are fixture boundaries.",
       "steps": "Execute this named test in scripts/native-prd-contract.test.mts, including its actual mutation or native consumer call; exact test body is retained at source SHA.",
       "expected": "Preserve complete source authority and native creative output; pass the named assertion.",
       "actual": {
         "result": "pass",
-        "observed_duration_ms": 513.080084,
-        "log": "evidence/native-prd-green-37.stdout.txt",
-        "log_sha256": "e4e683211effafab18b8f3318095a2bbe85d88dca5b6ade40b959f5a8a076b38"
+        "observed_duration_ms": 519.161292,
+        "log": "evidence/native-prd-green-39.stdout.txt",
+        "log_sha256": "c67ac64408f5d3dd6ed24de8debff79065349a6e7f2ce18b289c38c7f5687830"
       },
       "evidence_grade": "B",
       "environment": "local-preview",

@@ -259,12 +259,14 @@ export function installNativePrdContractBridge(value: unknown, options: NativePr
         portraitPaths: state.portraits.filter(row => row.kind === "character" && row.id === actor.id).map(row => row.receipt.path) }));
     }
     const scriptAuthority = () => hash({ prd: metadata._prd, characters: metadata.characters, duration: metadata.target_duration,
-      platform: metadata.target_platform, aspect: metadata.aspectRatio, aspectAlias: metadata.aspect_ratio });
+      platform: metadata.target_platform, aspect: metadata.aspectRatio, aspectAlias: metadata.aspect_ratio, internal: metadata._metadata });
     const originalScriptSha = scriptAuthority();
     const output = await original.script.call(this, intent, metadata);
     ensurePrd(prd);
     if (metadata._prd !== prd || scriptAuthority() !== originalScriptSha || state.reviewedSha !== hash(prd)
-      || output?.blueprint?.meta?._metadata?._prd !== prd || output?.adapted?.config?._metadata?._prd !== prd) fail("剧本输出未继承同份已审核完整PRD");
+      || output?.blueprint?.meta?._metadata?._prd !== prd || output?.adapted?.config?._metadata?._prd !== prd
+      || output?.blueprint?.meta?._metadata?.aspectRatio !== requirements.aspectRatio
+      || output?.adapted?.config?.aspectRatio !== requirements.aspectRatio) fail("剧本输出未继承同份已审核完整PRD");
     return output;
   };
   generator.generate = generate; generator.generateMarkdown = markdown;

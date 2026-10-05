@@ -1,0 +1,33 @@
+{
+  "name": "official-repair-93b0469",
+  "source_commit": "93b0469c18ee1d03e0606fb2133bb6538db35b89",
+  "source_clean": true,
+  "argv": [
+    "node",
+    "scripts/delivery/mine-clear.mjs",
+    "run-assertions",
+    "--ledger",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/repair-93b0469/ledger.json",
+    "--card",
+    "MC-023",
+    "--actor",
+    "mc023-prd-authority-repair",
+    "--role",
+    "repair",
+    "--repo",
+    "."
+  ],
+  "exit_code": 0,
+  "started_at": "2026-10-05T19:04:27.213856+00:00",
+  "finished_at": "2026-10-05T19:04:28.810352+00:00",
+  "outputs": {
+    "stdout": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/official-repair-93b0469.stdout.txt",
+      "sha256": "8a0c0a970e5c3db2c2751922df9c8dd9ed40648972bcf7120e49206bdca969eb"
+    },
+    "stderr": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/official-repair-93b0469.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

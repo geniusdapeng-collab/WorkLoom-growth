@@ -223,6 +223,24 @@ test("reusing one physical image for multiple named angles cannot impersonate co
   f.archives.portraits[0].files.side = f.archives.portraits[0].files.front;
   await assert.rejects(() => generated(f), denied); assert.equal(f.prompts.length, 0);
 }));
+test("nested native metadata changed during actual ScriptGenerator await cannot override the approved aspect", () => scoped({}, async f => {
+  const { requirements, prd } = await approved(f), input = metadata(f, requirements, prd);
+  input._metadata = { aspectRatio: "9:16", _prd: prd, creativeIntensity: 0.85 };
+  const nativeModel = f.system.scriptEngine.scriptGenerator._callLLM;
+  f.system.scriptEngine.scriptGenerator._callLLM = async function(...args: any[]) {
+    await Promise.resolve(); input._metadata.aspectRatio = "16:9";
+    return nativeModel.apply(this, args);
+  };
+  await assert.rejects(() => f.system.scriptEngine.process("客户需求", input), denied);
+}));
+test("stable native internal metadata can extend creative intensity while preserving the approved aspect", () => scoped({}, async f => {
+  const { requirements, prd } = await approved(f), input = metadata(f, requirements, prd);
+  input._metadata = { aspectRatio: "9:16", _prd: prd, creativeIntensity: 0.85 };
+  const output = await f.system.scriptEngine.process("客户需求", input);
+  assert.equal(output.blueprint.meta._metadata.aspectRatio, "9:16");
+  assert.equal(output.adapted.config.aspectRatio, "9:16");
+  assert.equal(output.adapted.config.creativeIntensity, 0.85);
+}));
 test("duplicate selected identities are rejected without picking the first profile", () => scoped({}, async f => {
   f.archives.characters.push(structuredClone(f.archives.characters[0])); await assert.rejects(() => generated(f), denied);
 }));

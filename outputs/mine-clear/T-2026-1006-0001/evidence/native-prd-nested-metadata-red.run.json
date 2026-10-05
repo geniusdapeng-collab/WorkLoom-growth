@@ -1,0 +1,26 @@
+{
+  "name": "native-prd-nested-metadata-red",
+  "source_commit": "93b0469c18ee1d03e0606fb2133bb6538db35b89",
+  "source_clean": false,
+  "argv": [
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern=nested",
+    "scripts/native-prd-contract.test.mts"
+  ],
+  "exit_code": 1,
+  "started_at": "2026-10-05T19:06:20.880049+00:00",
+  "finished_at": "2026-10-05T19:06:21.352155+00:00",
+  "outputs": {
+    "stdout": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/native-prd-nested-metadata-red.stdout.txt",
+      "sha256": "613242944e66ffd527cacc7f61c49b03262049807c11dc6b49d757ee9ad0c837"
+    },
+    "stderr": {
+      "path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0001/evidence/native-prd-nested-metadata-red.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

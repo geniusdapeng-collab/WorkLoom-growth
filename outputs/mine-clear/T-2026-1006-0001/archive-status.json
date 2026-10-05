@@ -1,12 +1,20 @@
 {
   "schema": "workloom.mc023-source-evidence-archive/v1",
-  "status": "historical-red-plus-dirty-development-observations",
-  "audit_commit": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
-  "historical_red_commits": [
-    "e0f496c67804b91b7dc44bf72c2c39a6a588381b",
-    "529acb3ebde112a4cc424af06d7aa2641ab783a5"
-  ],
-  "formal_final_repair": "To be actually run by the official executor against clean full source HEAD; no current green claim in this archive.",
+  "status": "historical-93b-formal-green-and-later-nested-red/fix-development39",
+  "historical_clean_repair": {
+    "path": "runs/MC-023-0-1791227067493.json",
+    "sha256": "c25f370c127686c8658520a9b17d72514bf69f278c77833165176d01b712a1b2",
+    "commit": "93b0469c18ee1d03e0606fb2133bb6538db35b89"
+  },
+  "historical_summary": {
+    "total": 37,
+    "passed": 37,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "formal_final_repair": "Actual official39 repair must run on the final clean complete source HEAD after this archive commit.",
   "independent_acceptance": "not-run",
   "actual_model_or_media_calls": 0
 }
