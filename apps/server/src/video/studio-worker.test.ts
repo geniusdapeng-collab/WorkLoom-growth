@@ -116,6 +116,7 @@ afterEach(() => { vi.unstubAllEnvs(); vi.restoreAllMocks(); });
 
 beforeEach(() => {
   vi.clearAllMocks();
+  vi.mocked(gatewayAppendOnClient).mockReset();
   doubles.nextAttempt = 0;
   doubles.studioConfigs.length = 0;
   doubles.prepare.mockReset().mockImplementation(async ({ scope, root }) => ({
@@ -516,6 +517,32 @@ describe("预生产原始结果与诚实终态", () => {
 });
 
  describe("宿主营销G1必须先于vendor", () => {
+  it("真实权限守卫允许本次内部裁决落账，系统事件归因保持一致", async () => {
+    const real = await vi.importActual<typeof import("@workloom/base/workdata")>("@workloom/base/workdata");
+    const actions = ["dossier.confirm", "theme.confirm", "insight.confirm", "prd.confirm", "prompt.confirm", "preproduction.finalize"];
+    real.registerWriteActions(actions);
+    vi.mocked(gatewayAppendOnClient).mockImplementation(async (_client, context, event) => {
+      real.checkPermission(context.actor, event);
+      return { eventId: "fixture-gate-event", duplicate: false, piiHits: [] } as any;
+    });
+    doubles.runPreproduction.mockResolvedValue(success());
+    const { entry } = await runToTerminal();
+    expect(entry.status, entry.error ?? "").toBe("finished");
+    for (const action of actions) {
+      const call = vi.mocked(gatewayAppendOnClient).mock.calls.find(([, , event]) => event.decision.action === action);
+      expect(call?.[1].actor).toMatchObject({ id: "video-studio", type: "system", fenceBindings: [expect.stringMatching(/^G[1-7]$/)] });
+      expect(call?.[2].who).toEqual({ id: "video-studio", type: "system" });
+    }
+  });
+  it("内部裁决写入失败仍终止，保留失败回执与回滚", async () => {
+    vi.mocked(gatewayAppendOnClient).mockRejectedValue(new Error("internal gate write failed"));
+    doubles.runPreproduction.mockResolvedValue(success());
+    const { entry } = await runToTerminal();
+    expect(entry.status).toBe("failed"); expect(entry.error).toContain("internal gate write failed");
+    expect(doubles.runPreproduction).not.toHaveBeenCalled(); expect(doubles.finalize).not.toHaveBeenCalled();
+    expect(doubles.query.mock.calls.some(([sql]) => sql === "ROLLBACK")).toBe(true);
+  });
+
   it("vendor 返回后原生交接编译仍消费完整本次用途限制，结束后不泄漏", async () => {
     doubles.runPreproduction.mockResolvedValue(success());
     const original = doubles.handoff.getMockImplementation()!;

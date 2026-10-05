@@ -51,6 +51,7 @@ import {
   type StudioPortraitConfig,
 } from "@hyperreality/video-studio";
 import { buildServerGateRecord, withGateLedger } from "./gate-ledger-bridge.js";
+import { STUDIO_WORKER_ACTOR, preproductionGateActor } from "./preproduction-gate-actor.js";
 import { createDataMiningExecutor } from "./data-mining-executor.js";
 import { prepareMarketingFacts, finalizeMarketingFacts, type PreparedMarketingFacts } from "./marketing-authority.js";
 import { canonicalRenderJson, renderSha256 } from "./gen/compiled-request.js";
@@ -222,8 +223,8 @@ function teeRunLogs(projectId: string): () => void {
   };
 }
 
-/** 工作器系统身份（事件归因；网关段① human/system 无额外校验） */
-const WORKER_ACTOR = { id: "video-studio", type: "system" } as const;
+/** Event attribution stays stable; internal verdict transactions bind their specific gate. */
+const WORKER_ACTOR = STUDIO_WORKER_ACTOR;
 
 /**
  * 软失败原因提取（T-2026-0926-0005）：vendor 返回 `success:false` 但不抛异常时，
@@ -636,7 +637,7 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
         await client.query("BEGIN");
         await client.query("SELECT set_config('app.workspace_id', $1, true)", [scope.workspaceId]);
         await client.query("SELECT set_config('app.tenant_id', $1, true)", [scope.tenantId]);
-        await gatewayAppendOnClient(client, { ...scope, actor: { ...WORKER_ACTOR } }, {
+        await gatewayAppendOnClient(client, { ...scope, actor: preproductionGateActor(gate) }, {
           who: { ...WORKER_ACTOR },
           context: { tenant_id: scope.tenantId, workspace_id: scope.workspaceId, time: new Date().toISOString(), channel: "inapp" },
           object: { type: gateObj.type, id: objectId },
