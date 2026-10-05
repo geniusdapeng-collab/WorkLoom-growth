@@ -11,6 +11,7 @@
  */
 import {
   platformDeliveryGuidance,
+  speechRateProfile,
   resolvePlatformIntent,
   type PlatformIntentDecision,
 } from "@hyperreality/video-studio";
@@ -57,6 +58,15 @@ export function resolvePlatformForIntent(
 }
 
 /** 把平台制作口径写进供应商与生成端都能看到的需求正文（元数据可能被旧 vendor 忽略）。 */
-export function appendPlatformGuidance(intent: string, decision: PlatformIntentDecision): string {
+export function appendPlatformGuidance(intent: string, decision: PlatformIntentDecision, actor?: { name: string; speechRate: unknown }): string {
+  if (actor?.speechRate !== undefined) {
+    const match = typeof actor.speechRate === "string" ? actor.speechRate.trim().match(/^(\d+(?:\.\d+)?)\s*字\s*\/\s*秒$/u) : null;
+    const rate = Number(match?.[1]), platform = speechRateProfile(decision.id);
+    if (!match || !Number.isFinite(rate) || rate <= 0 || rate > platform.max) throw new Error("CHARACTER_SPEECH_RATE_UNVERIFIED: 已选人物语速无法在平台硬上限内执行");
+    return `${intent}\n[平台制作口径 ${decision.id}·${decision.label}] 目标平台：${decision.label}（${decision.reason}）。`
+      + `画幅 ${decision.aspectRatio}；开场钩子须落在前 ${platform.hookWindowSec} 秒。`
+      + `语速：目标 ${rate} 字/秒、上限 ${rate} 字/秒；本片已选人物 ${actor.name} 的档案语速优先，平台通用目标不覆盖人物。`
+      + `每句台词可念字数为镜时长 × ${rate}，超出则改短文案，禁止拉快配音。配音基础速率 1×。`;
+  }
   return `${intent}${platformDeliveryGuidance(decision)}`;
 }

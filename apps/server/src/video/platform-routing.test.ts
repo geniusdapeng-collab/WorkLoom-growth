@@ -43,4 +43,14 @@ describe("服务端目标平台识别", () => {
     expect(intent).toContain("前 5 秒");
     expect(intent).toContain("目标 3.5 字/秒、上限 4.2 字/秒");
   });
+  it("已选人物档案语速收紧平台目标，完整保留需求且不拼入冲突目标", () => {
+    const routed = resolvePlatformForIntent("微信视频号");
+    const intent = appendPlatformGuidance("客户原始需求", routed.decision, { name: "CEO", speechRate: "3.2 字/秒" });
+    expect(intent).toContain("目标 3.2 字/秒、上限 3.2 字/秒");
+    expect(intent).not.toContain("目标 4 字/秒"); expect(intent.startsWith("客户原始需求")).toBe(true);
+    expect(intent).toContain("配音基础速率 1×");
+  });
+  it.each(["unknown", "0 字/秒", "8 字/秒", Number.NaN])("不可执行的已选人物语速 %s 在模型之前拒绝", rate => {
+    expect(() => appendPlatformGuidance("需求", resolvePlatformForIntent("视频号").decision, { name: "CEO", speechRate: rate })).toThrow("CHARACTER_SPEECH_RATE_UNVERIFIED");
+  });
 });

@@ -1,0 +1,25 @@
+{
+  "source_commit": "9a7893682b4ea3b84cc1dde678aac720f0619c6b",
+  "files": [
+    {
+      "path": "stdout.txt",
+      "sha256": "46d91aa70bc942fc58676c84724cba609bab65d39711a59fe59e94107a63a48b",
+      "bytes": 8988
+    },
+    {
+      "path": "fixture.mts",
+      "sha256": "9ab5d645e4787a9cd7713b3aa44ba8cbf945046a848888e7b13019ef434bea25",
+      "bytes": 8244
+    },
+    {
+      "path": "stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "run.json",
+      "sha256": "f281b4e6dfd52ee9f1f273869a42ae3dc4ab1f2aefaf7b32b0a6bc69876ab264",
+      "bytes": 559
+    }
+  ]
+}

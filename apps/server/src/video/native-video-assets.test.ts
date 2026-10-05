@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { assertCustomerVideoMetadata, resolveNativeVideoAssets, resolveNativeRouteMetadata } from "./native-video-assets.js";
 import { routeVideoPipeline } from "@hyperreality/video-studio";
 describe("native video archive identity boundary", () => {
-  it.each(["shots", "shotlist", "storyboard", "script", "prompts", "promptPack", "filmSource", "verifiedRaw", "_dataDossier", "document"])("rejects injected %s in metadata and brief", key => {
+  it.each(["shots", "shotlist", "storyboard", "script", "prompts", "promptPack", "characters", "filmSource", "verifiedRaw", "_dataDossier", "document"])("rejects injected %s in metadata and brief", key => {
     expect(() => assertCustomerVideoMetadata({ [key]: [] })).toThrow("CALLER_SOURCE_FORBIDDEN");
     expect(() => assertCustomerVideoMetadata({ brief: { [key]: {} } })).toThrow("CALLER_SOURCE_FORBIDDEN");
   });

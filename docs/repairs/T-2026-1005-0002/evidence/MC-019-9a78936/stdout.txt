@@ -1,0 +1,167 @@
+TAP version 13
+# [ProcessGuard] 实例 default 安装完成（含SIGTERM/SIGINT处理）
+# ⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+#  人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+#  配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+# Subtest: native discovery returns a resolved requirement object before the vendor's synchronous conversion call
+not ok 1 - native discovery returns a resolved requirement object before the vendor's synchronous conversion call
+  ---
+  duration_ms: 1.764334
+  type: 'test'
+  location: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-requirement-contract.test.mts:1:5044'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'function'
+    - 'undefined'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'undefined'
+  actual: 'function'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-requirement-contract.test.mts:48:12)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: current archive actor reaches G3 and the actual native ScriptEngine metadata without guessing identity
+not ok 2 - current archive actor reaches G3 and the actual native ScriptEngine metadata without guessing identity
+  ---
+  duration_ms: 0.685458
+  type: 'test'
+  location: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-requirement-contract.test.mts:1:5686'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /客户方CEO/. Input:
+    
+    '\n' +
+      '\n' +
+      '---\n' +
+      '\n' +
+      '## 四、需求契约（不可协商元素 · 剧本/镜头卡/提示词三阶段都要逐项保留）\n' +
+      '\n' +
+      '- **角色**（1）：无真人角色（商品/场景为主体；如需真人出镜须使用授权模特并登记肖像授权）\n' +
+      '- **场景**（3）：开场（4s）：前台排队停滞、展示（18s）：女创始人从画右走入，身穿黑色小香风套装，抬手调节顶部摄像头角度，再以手掌摊开指向台式双屏自助机；观众完整看到角色、产品与、结尾（8s）：女创始人收手、点头致意\n' +
+      '- **道具**（0）：无（道具外观一律以实拍/官方素材为准，禁止生成虚构外观）\n' +
+      '- **动作**（0）：无（动作以镜头卡 action 字段为准）\n' +
+      '\n' +
+      '## 五、结论摘要（供确认门核对）\n' +
+      '\n' +
+      '- **受众结论**：40+ · 不限性别 · 酒店经营\n' +
+      '- **风险结论**：1 项技术风险（高：屏幕与手部容易失真，产品外观必须保留完整的客户原图证据，不可改写为虚构屏幕与组件）；缓解：使用档案实拍与已验收真人素材\n' +
+      '- **口径**：时长 未指定s / 画幅 未指定 / 平台 未指定\n' +
+      '\n' +
+      '> 契约纪律：以上四类元素在剧本、镜头卡、提示词三个阶段都必须逐项保留；缺失即由对齐闸机在下游拦截。\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    
+    
+    ---
+    
+    ## 四、需求契约（不可协商元素 · 剧本/镜头卡/提示词三阶段都要逐项保留）
+    
+    - **角色**（1）：无真人角色（商品/场景为主体；如需真人出镜须使用授权模特并登记肖像授权）
+    - **场景**（3）：开场（4s）：前台排队停滞、展示（18s）：女创始人从画右走入，身穿黑色小香风套装，抬手调节顶部摄像头角度，再以手掌摊开指向台式双屏自助机；观众完整看到角色、产品与、结尾（8s）：女创始人收手、点头致意
+    - **道具**（0）：无（道具外观一律以实拍/官方素材为准，禁止生成虚构外观）
+    - **动作**（0）：无（动作以镜头卡 action 字段为准）
+    
+    ## 五、结论摘要（供确认门核对）
+    
+    - **受众结论**：40+ · 不限性别 · 酒店经营
+    - **风险结论**：1 项技术风险（高：屏幕与手部容易失真，产品外观必须保留完整的客户原图证据，不可改写为虚构屏幕与组件）；缓解：使用档案实拍与已验收真人素材
+    - **口径**：时长 未指定s / 画幅 未指定 / 平台 未指定
+    
+    > 契约纪律：以上四类元素在剧本、镜头卡、提示词三个阶段都必须逐项保留；缺失即由对齐闸机在下游拦截。
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-requirement-contract.test.mts:58:12)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: full scene purposes, source-backed props and actions survive conversion without keyword fragments
+not ok 3 - full scene purposes, source-backed props and actions survive conversion without keyword fragments
+  ---
+  duration_ms: 3.267291
+  type: 'test'
+  location: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-requirement-contract.test.mts:1:6514'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(markdown.includes(purpose))
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-requirement-contract.test.mts:69:12)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: invented sources, unrelated quotes and missing selected actors stop before G3
+not ok 4 - invented sources, unrelated quotes and missing selected actors stop before G3
+  ---
+  duration_ms: 0.205375
+  type: 'test'
+  location: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-requirement-contract.test.mts:1:7337'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-requirement-contract.test.mts:78:44)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: conversion fallback cannot consume an uncompiled or different discovery object
+not ok 5 - conversion fallback cannot consume an uncompiled or different discovery object
+  ---
+  duration_ms: 0.117958
+  type: 'test'
+  location: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-requirement-contract.test.mts:1:7780'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-requirement-contract.test.mts:85:12)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: concurrent native instances retain their own actors, sources and conversion caches
+not ok 6 - concurrent native instances retain their own actors, sources and conversion caches
+  ---
+  duration_ms: 0.113167
+  type: 'test'
+  location: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-requirement-contract.test.mts:1:8114'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading '0')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/native-requirement-contract.test.mts:92:21)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 0
+# fail 6
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 250.142875

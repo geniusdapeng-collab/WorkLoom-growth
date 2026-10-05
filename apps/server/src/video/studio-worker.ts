@@ -453,7 +453,8 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
   };
   const runInput: RunInput = {
     projectId: input.projectId,
-    intent: appendPlatformGuidance(appendScenePolicyGuidance([input.intent, nativeAssets.guidance].filter(Boolean).join("\n\n"), selectedScenePolicy.policy), selectedPlatform.decision),
+    intent: appendPlatformGuidance(appendScenePolicyGuidance([input.intent, nativeAssets.guidance].filter(Boolean).join("\n\n"), selectedScenePolicy.policy), selectedPlatform.decision,
+      nativeAssets.character ? { name: nativeAssets.character.name, speechRate: nativeAssets.character.persona?.speechRate } : undefined),
     metadata: resolvedMetadata,
     isMarketing: input.isMarketing,
   };
@@ -676,6 +677,12 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
     // 片型硬闸必须在 G8 之前审完整分镜，禁止 env 让 vendor 在审计前直接渲染。
     deferRender: true,
     portraits: portraitConfig(runInput.metadata, nativeAssets),
+    requirementArchives: {
+      characters: nativeAssets.character ? [{ id: nativeAssets.character.id, name: nativeAssets.character.name,
+        identity: nativeAssets.character.identity, appearance: nativeAssets.character.appearance,
+        wardrobe: nativeAssets.character.wardrobe, persona: nativeAssets.character.persona, certified: nativeAssets.realPerson?.certified }] : [],
+      products: nativeAssets.portraits.filter(asset => asset.kind === "product").map(asset => ({ id: asset.id, name: asset.name })),
+    },
     /** 营销路由 → 情报五站真跑（叙事路由不装配，vendor 也不会进情报层） */
     dataMining: input.isMarketing ? undefined : dataMiningConfigFor(runInput.metadata, llm, scope.workspaceId),
     log: (line) => console.log(line),

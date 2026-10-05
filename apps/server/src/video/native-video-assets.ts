@@ -10,7 +10,7 @@ import { loadCharacterLibrary, loadRealPersonAssets, loadProductArchives, select
 const root = fileURLToPath(new URL("../../../../", import.meta.url));
 export interface NativeVideoAssets { portraits: ExistingPortraitAsset[]; guidance: string; character?: CharacterEntry; realPerson?: RealPersonAsset; productId?: string }
 export function assertCustomerVideoMetadata(metadata: Record<string, unknown>): void {
-  const forbidden = ["shots", "shotlist", "storyboard", "script", "prompts", "promptPack", "productionEngine", "productionSource", "filmSource", "document", "verifiedRaw", "_dataDossier"];
+  const forbidden = ["shots", "shotlist", "storyboard", "script", "prompts", "promptPack", "characters", "productionEngine", "productionSource", "filmSource", "document", "verifiedRaw", "_dataDossier"];
   for (const section of [metadata, metadata.brief]) {
     if (!section || typeof section !== "object" || Array.isArray(section)) continue;
     for (const key of forbidden) if (Object.hasOwn(section, key)) throw new Error(`CALLER_SOURCE_FORBIDDEN: 客户需求不得注入${key}，创意、剧本、分镜和提示词由原生管线生成`);

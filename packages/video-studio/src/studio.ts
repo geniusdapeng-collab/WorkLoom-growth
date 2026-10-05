@@ -38,6 +38,7 @@ import { AUDIO_DISCIPLINE_CLAUSE, AUDIO_NEGATIVE_TERMS } from "./shot-spec.js";
 import { loadDurationRules } from "./duration-rules.js";
 import { runWithSourceRestrictions, sourceRestrictionsHash } from "./source-restrictions.js";
 import { applyNativeIntentProfile } from "./native-intent-profile.js";
+import { installNativeRequirementContractBridge, type NativeRequirementArchives } from "./native-requirement-contract.js";
 
 /** vendor 引擎暴露的最小结构（HyperrealitySystem 实例方法） */
 interface HyperrealitySystemLike {
@@ -99,6 +100,8 @@ export interface StudioConfig {
   /** 总截止（毫秒），默认 1 小时，与 vendor 默认一致 */
   totalDeadlineMs?: number;
   llmTimeoutMs?: number;
+  /** Only host-resolved current archive profiles; customer metadata cannot supply their authority. */
+  requirementArchives?: NativeRequirementArchives;
   /**
    * 定妆照真实出图（火山方舟 Seedream）。缺省或 `enabled:false` 时保持 vendor 默认：
    * interactive + spec（只出规格包，不出图）——那是"等人确认"的旧口径，全自动预生产必须开启。
@@ -399,6 +402,8 @@ export class VideoStudio {
           charactersDir,
           durationConstraint: { maxSingleShot, minSingleShot }
         });
+        keep(installNativeRequirementContractBridge(system, { llm: cfg.llm, intent: input.intent,
+          archives: cfg.requirementArchives, brief: metadata.brief as Record<string, unknown> | undefined }));
         /** 实例级放宽 rhythmProfiles（standard 12 / slow 15 → 模型上限），否则 30s 单镜会被重新夹紧 */
         applyDurationPolicyToManager(
           (system as unknown as { durationConstraintManager?: unknown }).durationConstraintManager,

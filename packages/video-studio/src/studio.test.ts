@@ -26,6 +26,9 @@ vi.mock("node:module", async (importOriginal) => {
         apply(target, thisArg, args: [string]) {
           if (args[0].endsWith("/vendor/supermickey/hyperreality-system/index.js")) {
             return { HyperrealitySystem: class {
+              requirementDiscoveryEngine = { discover: async () => ({}), generateMarkdown: () => "" };
+              _convertDiscoveryToRequirementList = async () => ({});
+              _renderRequirementContract = () => "";
               constructor(config: unknown) { studioMocks.construct(config); }
               create(...input: unknown[]) { return studioMocks.create(...input); }
             } };
