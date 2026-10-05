@@ -114,7 +114,7 @@ export class FullChainFilmWorker {
     if (digest(this.inputPath) !== context.inputSha256) throw new FilmChannelError("INPUT_CHANGED", "原稿复制时发生变化");
     this.args = ["--shots", this.inputPath, "--project", context.projectId, "--work-dir", join(work, "work"), "--out", join(work, "delivery"), "--stages", context.stages.join(",")];
     for (const [key, value] of Object.entries(normalized.options)) {
-      if (typeof value === "boolean") { if (value) this.args.push(`--${key}`); }
+      if (typeof value === "boolean") { if (value) this.args.push(`--${key === "unified-narration" ? "narration-unified" : key}`); }
       else this.args.push(`--${key}`, value);
     }
     this.channel = new FilmWorkerChannel({ transport });
