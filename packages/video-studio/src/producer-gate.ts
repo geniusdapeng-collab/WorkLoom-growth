@@ -278,56 +278,11 @@ function shrinkImageWithFfmpeg(path: string): string | null {
   return out;
 }
 
-/**
- * 解析评审模型输出的 JSON：
- *   ① 直接解析（剥掉可能的 ``` 包裹）；
- *   ② 取第一个 `{` 到最后一个 `}` 的片段再解析（裁掉解释性前后缀）；
- *   ③ 仍失败 → 让模型"只重发合法 JSON"自修复一次；
- *   ④ 还失败 → 抛错（调用方按"评审不可用"fail-closed 处理）。
- */
-async function parseJudgeJson(
-  raw: string,
-  llm: LlmConfig,
-  fetchImpl: typeof fetch,
-  log: (line: string) => void,
-  stage: ProducerStage
-): Promise<Record<string, unknown>> {
-  const stripped = raw.replace(/^```(?:json)?/m, "").replace(/```\s*$/m, "").trim();
-  const tryParse = (text: string): Record<string, unknown> | null => {
-    try {
-      return JSON.parse(text) as Record<string, unknown>;
-    } catch {
-      return null;
-    }
-  };
-  const direct = tryParse(stripped);
-  if (direct) return direct;
-  const start = stripped.indexOf("{");
-  const end = stripped.lastIndexOf("}");
-  if (start >= 0 && end > start) {
-    const sliced = tryParse(stripped.slice(start, end + 1));
-    if (sliced) return sliced;
-  }
-  log(`[producer][${stage}] 评审输出不是合法 JSON，要求模型自修复一次`);
-  const repair = await fetchImpl(`${llm.baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: { "content-type": "application/json", authorization: `Bearer ${llm.apiKey}` },
-    body: JSON.stringify({
-      model: llm.model,
-      messages: [
-        { role: "user", content: "把下面这段内容整理成**严格合法**的 JSON（只输出 JSON，不要任何解释、不要 markdown）：\n\n" + raw.slice(0, 4000) }
-      ],
-      temperature: 0,
-      response_format: { type: "json_object" }
-    }),
-    signal: AbortSignal.timeout(120_000)
-  });
-  const repairText = await repair.text();
-  if (!repair.ok) throw new Error(`评审 JSON 修复失败：HTTP ${repair.status} ${repairText.slice(0, 160)}`);
-  const repaired = (JSON.parse(repairText) as { choices?: Array<{ message?: { content?: string } }> }).choices?.[0]?.message?.content ?? "";
-  const fixed = tryParse(repaired.replace(/^```(?:json)?/m, "").replace(/```\s*$/m, "").trim());
-  if (!fixed) throw new Error(`评审 JSON 修复后仍非法：${repaired.slice(0, 160)}`);
-  return fixed;
+/** A verdict is not regenerated to repair formatting: another model call can change a denial. */
+function parseJudgeJson(raw: string): unknown {
+  const stripped = raw.replace(/^```(?:json)?\s*/, "").replace(/\s*```$/, "").trim();
+  try { return JSON.parse(stripped); }
+  catch { throw new Error("评审结果不是合法完整JSON；禁止通过模型重试改写裁决"); }
 }
 
 type JudgeResult = { approved: boolean; score: number; issues: string[]; suggestions: string[]; reason: string };
@@ -338,7 +293,7 @@ type JudgeResult = { approved: boolean; score: number; issues: string[]; suggest
  * 真机现象：模型返回的是**合法 JSON**，只是形状有偏差（score 写成字符串、issues 写成一条字符串、
  * 用 summary/conclusion 代替 reason、approved 写成 "true"）——旧实现直接判"结构非法"并要求重跑，
  * 一镜重跑 12–24 秒且随时可能再次失败。这里只做**无歧义**的归一（不新增事实、不改语义），
- * 归一不了的仍然走 schema 自修复、再不行 fail-closed 判 unverified。
+ * 归一不了的立即 fail-closed 判 unverified；不得再请求模型改写裁决。
  */
 export function coerceJudgeResult(json: unknown): JudgeResult | null {
   if (!json || typeof json !== "object" || Array.isArray(json)) return null;
@@ -365,42 +320,6 @@ export function coerceJudgeResult(json: unknown): JudgeResult | null {
   const reason = typeof reasonRaw === "string" ? reasonRaw : "";
   if (approved === null || score === null || score < 0 || score > 100 || !issues || !suggestions) return null;
   return { approved, score, issues, suggestions, reason };
-}
-
-/** 结构自修复：把形状不对的 JSON 交给模型按 schema 重排（只整理结构，不得新增事实）。 */
-async function repairJudgeShape(
-  parsed: Record<string, unknown>,
-  llm: LlmConfig,
-  fetchImpl: typeof fetch,
-  log: (line: string) => void,
-  stage: ProducerStage
-): Promise<JudgeResult | null> {
-  log(`[producer][${stage}] 评审结果结构不合规，要求模型按 schema 自修复一次`);
-  const res = await fetchImpl(`${llm.baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: { "content-type": "application/json", authorization: `Bearer ${llm.apiKey}` },
-    body: JSON.stringify({
-      model: llm.model,
-      messages: [{
-        role: "user",
-        content: "把下面这份评审结论**只整理成结构**，不得新增或改变任何事实、分数与结论：\n"
-          + '只输出 JSON：{"approved":true|false,"score":0-100,"issues":["..."],"suggestions":["..."],"reason":"结论"}\n\n'
-          + JSON.stringify(parsed)
-      }],
-      temperature: 0,
-      response_format: { type: "json_object" }
-    }),
-    signal: AbortSignal.timeout(120_000)
-  });
-  const text = await res.text();
-  if (!res.ok) throw new Error(`评审结构修复失败：HTTP ${res.status} ${text.slice(0, 160)}`);
-  const content = (JSON.parse(text) as { choices?: Array<{ message?: { content?: string } }> }).choices?.[0]?.message?.content ?? "";
-  const stripped = content.replace(/^```(?:json)?/m, "").replace(/```\s*$/m, "").trim();
-  try {
-    return coerceJudgeResult(JSON.parse(stripped));
-  } catch {
-    return null;
-  }
 }
 
 /**
@@ -560,14 +479,10 @@ export async function reviewStage(options: ProducerGateOptions): Promise<Produce
       if (!res.ok) throw new Error(`HTTP ${res.status} ${rawBody.slice(0, 160)}`);
       const raw = JSON.parse(rawBody).choices?.[0]?.message?.content;
       if (typeof raw !== "string") throw new Error("评审模型缺少文本结果");
-      const json = await parseJudgeJson(raw, llm, options.fetchImpl ?? fetch, log, stage);
-      /**
-       * 结构归一 → 仍不合规则按 schema 自修复一次 → 还不行才判"结构非法"。
-       * 2026-09-28 T1 真机：旧实现在这一步直接判死，10 镜里有 2 镜因形状偏差被要求整环节重跑。
-       */
-      const normalizedResult = coerceJudgeResult(json)
-        ?? await repairJudgeShape(json, llm, options.fetchImpl ?? fetch, log, stage);
-      if (!normalizedResult) throw new Error("评审结果结构非法");
+      const json = parseJudgeJson(raw);
+      // Local coercion is lossless. An ambiguous response cannot obtain a new approval or score.
+      const normalizedResult = coerceJudgeResult(json);
+      if (!normalizedResult) throw new Error("评审结果结构非法；禁止通过模型重试改写裁决");
       answers.push(normalizedResult);
     }
     for (const item of evidence) {

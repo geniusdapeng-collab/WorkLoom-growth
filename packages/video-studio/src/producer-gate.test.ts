@@ -107,7 +107,7 @@ describe("AI producer evidence gate", () => {
       expect(v.approved).toBe(true); expect(v.status).toBe("passed");
     }
   );
-  it("wrong-shaped review is repaired into the schema instead of failing the stage", async () => {
+  it("wrong-shaped review remains unverified without obtaining another decision", async () => {
     let calls = 0;
     const fetchImpl = (async () => {
       calls += 1;
@@ -115,8 +115,10 @@ describe("AI producer evidence gate", () => {
       return new Response(JSON.stringify({ choices: [{ message: { content } }] }));
     }) as typeof fetch;
     const v = await reviewStage(textOptions({ fetchImpl }));
-    expect(calls).toBe(2);
-    expect(v.approved).toBe(true);
+    expect(calls).toBe(1);
+    expect(v.approved).toBe(false);
+    expect(v.status).toBe("unverified");
+    expect(v.reason).toContain("禁止通过模型重试");
   });
   it.each([{ ...good, score: 101 }, { ...good, score: null }, { ...good, suggestions: [false] }, [], null])("invalid response is unverified %j", async (answer) => {
     const v = await reviewStage(textOptions({ fetchImpl: judge(answer) })); expect(v.status).toBe("unverified"); expect(v.approved).toBe(false);
