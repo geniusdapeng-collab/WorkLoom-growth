@@ -519,8 +519,15 @@ export async function reviewStage(options: ProducerGateOptions): Promise<Produce
       const content = [{ type: "text", text: [
         `你是视频监制。项目 ${options.projectId}，环节 ${stage}，证据批次 ${batch + 1}/${batches}。`,
         ...rubric.map((r, i) => `${i + 1}. ${r}`),
-        stage === "facts" ? "只核验实际收到的完整原文与逐主张证据；缺证据必须拒绝，不能从常识补事实。"
-          : "只评审实际收到的证据，视频为带时间戳抽帧，不代表逐帧、口型或听音验证。缺证据必须拒绝，不能猜测。",
+        ...(stage === "facts" ? [
+          "facts 的 score 只评已提出主张的支持关系，以及 status/noEvidenceReason 与来源限制的忠实性；不评检索数量、相关性或市场覆盖。",
+          "检索数量、相关性或覆盖不足须在 issues/suggestions 如实记录；不得因覆盖不足降低支持关系 score。",
+          "对 A2/A3 的 no_evidence，仍须对完整来源逐条复核 status/noEvidenceReason 是否属实及限制是否保留；诚实空值不自动批准，不能以空值推断市场不存在竞品或用户评价。",
+          "已提出的主张缺证据、与完整来源的否定、限定、型号、数字或单位冲突必须拒绝，不能从常识补事实。",
+          "虚假空值或不实 noEvidenceReason 必须拒绝；来源限制遗漏或被弱化必须拒绝。",
+          "仅核验实际收到的完整原文与逐主张证据；未选字段的冲突须记录并限制使用，不让无关主张自动通过或自动失败。",
+          "分数与批准必须依据本次完整证据独立判断，不预设空值或非空主张的批准与分数。"
+        ] : ["只评审实际收到的证据，视频为带时间戳抽帧，不代表逐帧、口型或听音验证。缺证据必须拒绝，不能猜测。"]),
         summarizeArtifacts(options.artifacts),
         "确定性检查（含失败与不适用）：", ...options.deterministic.map((c) => `${c.id}: ${c.status ?? (c.pass ? "passed" : "failed")} ${c.detail}`),
         context,
