@@ -16,6 +16,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { charterSchema } from "@workloom/base/captain";
 import { acquireReleaseGateIdentity } from "./tools/release-gate-identity.js";
+import { runReleaseQuestCheck, verifyReleaseQuestEvents, type ReleaseQuestEvidence, type ReleaseQuestEvent } from "./tools/release-gate-quest.js";
 
 const BASE = process.env.SERVER_BASE ?? "http://localhost:8787";
 const REPO_ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -218,37 +219,28 @@ for (const [i, question] of ASK_SCENARIOS.entries()) {
 }
 
 /* ---------- 链路二：QUEST 任务模式 ---------- */
+let questEvidence: ReleaseQuestEvidence | null = null;
 await check("Q-01", "QUEST · 一句话目标自动拆解多步骤", async () => {
   assert(TARGET && token, "无可执行的验收工作区身份");
-  const r = await call<{ kind: string; mode?: string; threadId?: string; status?: string; stepsTotal?: number; stepsDone?: number }>(
-    "threads.dispatch", token,
-    { title: "生成一份本周运行复盘，并列出三项下一步任务", presetKey: TARGET.presetKey, runImmediately: true },
-    60000,
-  );
-  assert(r.kind === "routed" && r.mode === "quest", `未按 quest 路由（${r.kind}/${r.mode}）`);
-  assert(r.threadId, "未建线程");
-  assert(typeof r.stepsTotal === "number" && r.stepsTotal >= 2, `未拆解多步骤（stepsTotal=${r.stepsTotal}）`);
-  // 任务创建→拆解→执行流程完整：线程可查、进度在推进或已完成
-  const t = await call<{ id: string; status: string }>("threads.get", token, { threadId: r.threadId }, 30000, "query");
-  assert(t && t.id === r.threadId, "线程回读失败");
-  return `拆解 ${r.stepsTotal} 步 · 已执行 ${r.stepsDone} 步 · 状态 ${r.status}`;
+  questEvidence = await runReleaseQuestCheck({ call, token });
+  return `线程 ${questEvidence.threadId} · 拆解 ${questEvidence.stepsTotal} 步 · 核实执行 ${questEvidence.stepsDone} 步 · ${questEvidence.status === "completed" ? "任务完成" : "合规挂起，尚未完成"}`;
 });
 await check("Q-02", "QUEST · 任务事件流留痕可回读", async () => {
-  assert(TARGET, "无可执行的验收工作区");
-  // 复用 Q-01 的线程：近 30 分钟内应有 quest 线程及其事件
+  assert(TARGET && questEvidence, "本次 QUEST 未取得有效线程证据");
   const app = new pg.Client({ connectionString: APP_URL });
   await app.connect();
   try {
     await app.query("SELECT set_config('app.tenant_id',$1,false)", [TARGET.tenantId]);
     const wsId = TARGET.workspaceId;
     await app.query("SELECT set_config('app.workspace_id',$1,false)", [wsId]);
-    const r = await app.query(
-      `SELECT count(DISTINCT session_id) tc, count(*) ec FROM biz_events
-       WHERE workspace_id=$1 AND session_id IS NOT NULL AND created_at > now() - interval '30 minutes'`,
-      [wsId],
+    const r = await app.query<ReleaseQuestEvent>(
+      `SELECT e.session_id, e.event_id, e.payload, a.approval_id, a.status AS approval_status, a.snapshot AS approval_snapshot
+       FROM biz_events e
+       LEFT JOIN approvals a ON a.workspace_id=e.workspace_id AND a.event_id=e.event_id AND a.approval_id=$3
+       WHERE e.workspace_id=$1 AND e.session_id=$2 ORDER BY e.seq`,
+      [wsId, questEvidence.threadId, questEvidence.pendingApprovalId ?? null],
     );
-    assert(Number(r.rows[0].tc) >= 1 && Number(r.rows[0].ec) >= 1, "无线程事件留痕");
-    return `线程事件 ${r.rows[0].ec} 条`;
+    return verifyReleaseQuestEvents(questEvidence, r.rows);
   } finally {
     await app.end();
   }
