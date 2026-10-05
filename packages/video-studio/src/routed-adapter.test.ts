@@ -20,12 +20,13 @@ function memSink() {
   };
 }
 
-const engine = (sink: any, providers?: Map<string, MockProvider>) =>
+const engine = (sink: any, providers?: Map<string, MockProvider>, timeoutMs?: number) =>
   new WorkloomLLMEngine({
     baseUrl: "http://unused.local/v1",
     apiKey: "sk-test",
     model: "stub-main",
     fastModel: "stub-fast",
+    ...(timeoutMs === undefined ? {} : { timeoutMs }),
     router: {
       providers: providers ?? new Map([
         ["deepseek-v4-flash", new MockProvider("deepseek-v4-flash")],
@@ -41,6 +42,28 @@ const engine = (sink: any, providers?: Map<string, MockProvider>) =>
   });
 
 describe("vendor 引擎收口 routeSmart（preproduction 场景）", () => {
+  it.each([undefined, 240_000, 30_000])("主力和快速路由实际向 provider 传递策划配置的超时 %s", async (timeoutMs) => {
+    const { sink } = memSink();
+    const observed: Array<{ modelId: string; timeoutMs?: number }> = [];
+    class ObservedProvider extends MockProvider {
+      override async chat(messages: Parameters<MockProvider["chat"]>[0], opts: Parameters<MockProvider["chat"]>[1] = {}) {
+        observed.push({ modelId: this.modelId, timeoutMs: opts?.timeoutMs });
+        return super.chat(messages, opts);
+      }
+    }
+    const providers = new Map([
+      ["deepseek-v4-pro", new ObservedProvider("deepseek-v4-pro")],
+      ["deepseek-v4-flash", new ObservedProvider("deepseek-v4-flash")],
+    ]);
+    const e = engine(sink, providers, timeoutMs);
+    expect((await e.reason("主力调用")).success).toBe(true);
+    expect((await e.reasonRaw("快速调用", { model: "stub-fast" })).success).toBe(true);
+    expect(observed).toEqual([
+      { modelId: "deepseek-v4-pro", timeoutMs: timeoutMs ?? 180_000 },
+      { modelId: "deepseek-v4-flash", timeoutMs: timeoutMs ?? 180_000 },
+    ]);
+  });
+
   it("reason() 经路由应答并写 model.call 计量（场景留痕）", async () => {
     const { sink, traces } = memSink();
     const r = await engine(sink).reason("写一条 15 秒种草短视频大纲");

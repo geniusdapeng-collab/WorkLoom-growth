@@ -114,6 +114,7 @@ export class WorkloomLLMEngine {
           {
             action: scene, scene, plan: this.cfg.router.plan,
             forceTier: isFast ? "L1" : undefined,
+            timeoutMs: this.cfg.timeoutMs,
             messages: [
               {
                 role: "system",

@@ -14,6 +14,29 @@ const moduleAt = (file: string) => import(pathToFileURL(resolve(root, file)).hre
 const hash = "a".repeat(64);
 const sourceVersion = { sourceStageRunId: "R1", promptsSha256: hash, filmSourceSha256: hash };
 
+test("native preproduction router sends the configured timeout to actual provider calls", async () => {
+  const { WorkloomLLMEngine } = await moduleAt("packages/video-studio/src/llm-adapter.ts");
+  for (const configured of [undefined, 240_000, 30_000]) {
+    const observed: Array<{ modelId: string; timeoutMs?: number }> = [];
+    const providers = new Map(["deepseek-v4-pro", "deepseek-v4-flash"].map(modelId => [modelId, {
+      modelId, healthy: async () => true,
+      chat: async (_messages: unknown, opts: { timeoutMs?: number }) => {
+        observed.push({ modelId, timeoutMs: opts?.timeoutMs });
+        return { text: "provider contract response", promptTokens: 1, completionTokens: 1 };
+      },
+    }]));
+    const engine = new WorkloomLLMEngine({ baseUrl: "http://unused.local/v1", apiKey: "test-only-token", model: "main", fastModel: "fast",
+      ...(configured === undefined ? {} : { timeoutMs: configured }),
+      router: { providers, sink: { recordModelTrace: async () => {}, recordDegradation: async () => {}, recordCircuitBreak: async () => {} }, scene: "preproduction" } });
+    assert.equal((await engine.reason("main planning")).success, true);
+    assert.equal((await engine.reasonRaw("fast planning", { model: "fast" })).success, true);
+    assert.deepEqual(observed, [
+      { modelId: "deepseek-v4-pro", timeoutMs: configured ?? 180_000 },
+      { modelId: "deepseek-v4-flash", timeoutMs: configured ?? 180_000 },
+    ]);
+  }
+});
+
 test("public client rejects caller source before sending any request", async () => {
   const { FilmServiceClient } = await moduleAt("packages/video-studio/src/film-service-client.ts");
   let requests = 0;
