@@ -73,6 +73,8 @@ describe("营销事实宿主完整执行", () => {
     expect(prepared.bundle.sources).toHaveLength(1); expect(prepared.bundle.restrictions).toHaveLength(2); expect(extractionCalls).toHaveLength(3);
     expect(prepared.g1Content).toContain('"schemaVersion":"workloom.marketing-facts/v1"'); expect(modelCalls).toHaveLength(3);
     expect(JSON.stringify(modelCalls)).toContain("不得声称静音或市场第一"); expect(JSON.stringify(modelCalls)).not.toContain("999档");
+    expect(JSON.stringify(modelCalls.slice(0, 3))).not.toContain("未提供结构化镜头合同");
+    expect(JSON.stringify(modelCalls.slice(0, 3))).toContain("环节 facts");
     const saved = await finalizeMarketingFacts(prepared, shots, env); expect(modelCalls).toHaveLength(4);
     const checked = await verifyMarketingFacts({ root, ...saved, scope, shots }); expect(checked.outputReviews[0]?.promptSha256).toBe(renderSha256(shots[0]!.prompt));
     expect(await readFile(path.join(root, checked.sources[0]!.textRef), "utf8")).toBe(sourceText);

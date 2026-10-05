@@ -17,6 +17,7 @@
  */
 
 export type ProducerStage =
+  | "facts"
   | "script"
   | "continuity"
   | "micromotion"
@@ -89,6 +90,11 @@ export interface ProducerVerdict {
  * 注意：这里是"监制看什么"，不是确定性断言——确定性断言由调用方按产物实测传入。
  */
 export const PRODUCER_RUBRICS: Record<ProducerStage, string[]> = {
+  facts: [
+    "逐主张对照保存的完整来源、引文与实际值；否定、限定、型号、数字及单位必须相符",
+    "仅判断已提取主张的支持关系；未选字段的冲突应记录并限制使用，不使无关主张自动通过或自动失败",
+    "来源限制与未核实提示必须保留；引文存在不等于语义支持，不能核实授权或生成后的画面质量"
+  ],
   script: [
     "台词速率和时长符合明确交付合同，无台词镜头不添加对白；总时长与目标一致",
     "动作、静止、情绪与每镜叙事目的相符，不强迫空镜或克制表演产生动作变化",
@@ -434,6 +440,11 @@ export async function reviewStage(options: ProducerGateOptions): Promise<Produce
     issues: [...softFailures, reason], suggestions: ["补齐有效证据或修复评审组件后重跑本环节"],
     rerun: true, via, model, ms: Date.now() - started, reason, degraded: true, evidence
   });
+  // Source support is evaluated before any storyboard exists. It grants no visual qualification.
+  if (stage === "facts" && options.contracts !== undefined) return reject("事实审核不消费镜头合同；镜头资格由后续环节独立验证");
+  if (stage === "facts" && (options.referenceImages?.length || options.artifacts.some(artifact => !["text", "json"].includes(artifact.kind)))) {
+    return reject("事实审核只接受完整文本或JSON来源证据，不能授予画面质量资格");
+  }
   try { if (options.contracts !== undefined) contract = buildProducerReviewContract(options.contracts); }
   catch (error) {
     const verdict = reject(error instanceof Error ? error.message : String(error));
@@ -518,7 +529,8 @@ export async function reviewStage(options: ProducerGateOptions): Promise<Produce
       encoded.push([{ type: "text", text: image.label }, { type: "image_url", image_url: { url: `data:${png ? "image/png" : jpeg ? "image/jpeg" : "image/webp"};base64,${bytes.toString("base64")}` } }]);
     }
     const context = options.context ? JSON.stringify(options.context) : "";
-    const contractText = contract ? JSON.stringify(contract) : "未提供结构化镜头合同；不得宣称已核实年代、人数、空间或设备型号。";
+    const contractText = stage === "facts" ? "只核验当前提取的事实主张及完整来源限制；不评估生成后的画面质量或素材授权。"
+      : contract ? JSON.stringify(contract) : "未提供结构化镜头合同；不得宣称已核实年代、人数、空间或设备型号。";
     if (context.length + contractText.length > REVIEW_CONTEXT_BUDGET) throw new Error("评审上下文超预算，禁止截断事实");
     /**
      * 批次大小：默认 6 张/批；成套定妆照（同一角色的多角度）必须能一批看完再判"是不是同一个人"。
@@ -531,11 +543,12 @@ export async function reviewStage(options: ProducerGateOptions): Promise<Produce
       const content = [{ type: "text", text: [
         `你是视频监制。项目 ${options.projectId}，环节 ${stage}，证据批次 ${batch + 1}/${batches}。`,
         ...rubric.map((r, i) => `${i + 1}. ${r}`),
-        "只评审实际收到的证据，视频为带时间戳抽帧，不代表逐帧、口型或听音验证。缺证据必须拒绝，不能猜测。",
+        stage === "facts" ? "只核验实际收到的完整原文与逐主张证据；缺证据必须拒绝，不能从常识补事实。"
+          : "只评审实际收到的证据，视频为带时间戳抽帧，不代表逐帧、口型或听音验证。缺证据必须拒绝，不能猜测。",
         summarizeArtifacts(options.artifacts),
         "确定性检查（含失败与不适用）：", ...options.deterministic.map((c) => `${c.id}: ${c.status ?? (c.pass ? "passed" : "failed")} ${c.detail}`),
         context,
-        "结构化原镜头合同优先于通用rubric；只对实际适用项目评审，不得把合同当产物质量证明。", contractText,
+        ...(stage === "facts" ? [] : ["结构化原镜头合同优先于通用rubric；只对实际适用项目评审，不得把合同当产物质量证明。"]), contractText,
         '只输出 JSON: {"approved":true|false,"score":0-100,"issues":[],"suggestions":[],"reason":"结论"}'
       ].join("\n") }, ...textContent, ...encoded.slice(batch * batchSize, Math.min(artifactImages, (batch + 1) * batchSize)).flat(), ...encoded.slice(artifactImages).flat()];
       const res = await (options.fetchImpl ?? fetch)(`${llm.baseUrl}/chat/completions`, {
