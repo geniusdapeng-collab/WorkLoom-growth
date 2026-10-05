@@ -4,7 +4,8 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { constants } from "node:fs";
 import { mkdir, open, realpath, writeFile } from "node:fs/promises";
-import { reviewStage, type ProducerVerdict, type ProducerModelExchange } from "@hyperreality/video-studio";
+import { reviewStage, createNativeMarketingDossier, verifyNativeMarketingDossier, NATIVE_MARKETING_HANDOFF_NOTE,
+  type NativeMarketingDossier, type ProducerVerdict, type ProducerModelExchange } from "@hyperreality/video-studio";
 import { createDataMiningExecutor, type DataMiningStagePlan, type ExecutorLlm, type IntelStage, type SearchFn, type SearchHit } from "./data-mining-executor.js";
 import { fetchMarketingSource, type SourceSnapshot } from "./marketing-source-fetcher.js";
 import { validateStageFacts, revalidateStageFacts, type ValidatedStageFacts } from "./marketing-facts.js";
@@ -28,6 +29,8 @@ export interface MarketingFactsBundle {
   collectedAt: string; policyVersion: "source-claims/v1"; productQuery: RecordValue;
   sources: ArchivedSource[]; stages: StageFactsReport[]; rawByAgent: Record<IntelStage, RecordValue>;
   rawSha256: string; dossier: RecordValue; cards: RecordValue; dossierSha256: string;
+  nativeDossier: NativeMarketingDossier; nativeDossierArchive: { ref: string; sha256: string };
+  nativeAssembly: { ref: string; sha256: string };
   restrictions: string[]; g1ContentSha256: string; outputReviews: OutputReview[];
 }
 export interface PreparedMarketingFacts {
@@ -129,6 +132,7 @@ const extractionContract = [
 ].join("\n");
 function factRestrictions(reports: StageFactsReport[], sources: ArchivedSource[]): string[] {
   return [...new Set([
+    NATIVE_MARKETING_HANDOFF_NOTE,
     ...sources.flatMap(source => source.policy?.restrictions ?? []),
     ...reports.filter(report => report.facts.status === "no_evidence").map(report => report.stage === "A2"
       ? "没有可核实用户评价：禁止用户口碑、评分、人数、销量或使用效果共识主张" : "没有可核实竞品证据：禁止对比、竞品弱点或市场领先主张"),
@@ -224,12 +228,21 @@ export async function prepareMarketingFacts(input: {
     if (!payload) fail("MARKETING_STAGE_UNVERIFIED", `${stage}没有受控事实回填`);
     raw[stage] = payload;
   }
-  const assembled = collector.assemble(plan.trace_id, product, raw);
-  if (assembled.ok !== true || assembled.chain?.ok !== true || !assembled.dossier || !assembled.cards) fail("MARKETING_DOSSIER_UNVERIFIED", "情报五站未完成有效档案装订");
   const restrictions = factRestrictions(reports, sources);
+  const nativeDossier = createNativeMarketingDossier({ rawJson: canonicalRenderJson(raw), productQuery: product,
+    stages: reports.map(report => report.facts), sources, restrictions });
+  const nativeDossierArchive = await writeBound(root, `${prefix}-native-dossier.json`, canonicalRenderJson(nativeDossier));
+  // plan(query) remains discovery only. Both assemblies consume the same source-bound native input contract.
+  const assembled = collector.assemble(plan.trace_id, nativeDossier.factInput, nativeDossier.rawByAgent);
+  if (assembled.ok !== true || assembled.chain?.ok !== true || !assembled.dossier || !assembled.cards) fail("MARKETING_DOSSIER_UNVERIFIED", "情报五站未完成有效档案装订");
+  const nativeAssembly = await writeBound(root, `${prefix}-native-assembly.json`, canonicalRenderJson({
+    nativeDossierSha256: nativeDossier.sha256, assembled,
+  }));
   const bundle: MarketingFactsBundle = { schemaVersion: "workloom.marketing-facts/v1", issuer: "workloom.marketing-authority", scope,
     collectedAt: new Date().toISOString(), policyVersion: "source-claims/v1", productQuery: product, sources, stages: reports, rawByAgent: raw,
     rawSha256: renderSha256(canonicalRenderJson(raw)), dossier: assembled.dossier, cards: assembled.cards,
+    nativeDossier, nativeDossierArchive: { ref: nativeDossierArchive.ref, sha256: nativeDossierArchive.sha256 },
+    nativeAssembly: { ref: nativeAssembly.ref, sha256: nativeAssembly.sha256 },
     dossierSha256: renderSha256(canonicalRenderJson(assembled.dossier)), restrictions, g1ContentSha256: "", outputReviews: [] };
   const g1Content = canonicalRenderJson({ facts: bundle, requestedIntent: input.intent, requestedMetadata: input.metadata,
     instruction: "用户意图与Brief仅是需求，事实只能来自已核实claims；下游创意必须遵守restrictions" });
@@ -334,6 +347,21 @@ export async function verifyMarketingFacts(input: {
     if (canonicalRenderJson(record.facts.payload) !== canonicalRenderJson(bundle.rawByAgent[stage])) fail("MARKETING_FACTS_CHANGED", "下游回填与已审核事实不一致");
   }
   if (renderSha256(canonicalRenderJson(bundle.rawByAgent)) !== bundle.rawSha256 || renderSha256(canonicalRenderJson(bundle.dossier)) !== bundle.dossierSha256) fail("MARKETING_FACTS_CHANGED", "营销原始回填或档案摘要不一致");
+  const nativeDossier = verifyNativeMarketingDossier({ rawJson: canonicalRenderJson(bundle.rawByAgent), productQuery: bundle.productQuery,
+    restrictions: bundle.restrictions, proof: bundle.nativeDossier });
+  const expectedNative = createNativeMarketingDossier({ rawJson: canonicalRenderJson(bundle.rawByAgent), productQuery: bundle.productQuery,
+    restrictions: bundle.restrictions, stages: bundle.stages.map(report => report.facts), sources: bundle.sources });
+  if (canonicalRenderJson(nativeDossier) !== canonicalRenderJson(expectedNative)
+    || bundle.nativeDossierArchive?.ref !== `${expectedPrefix}-native-dossier.json` || bundle.nativeAssembly?.ref !== `${expectedPrefix}-native-assembly.json`) {
+    fail("MARKETING_FACTS_CHANGED", "原生适配契约未绑定当前已审事实与实际来源");
+  }
+  if ((await readBound(input.root, bundle.nativeDossierArchive.ref, bundle.nativeDossierArchive.sha256)).toString("utf8") !== canonicalRenderJson(nativeDossier)) {
+    fail("MARKETING_FACTS_CHANGED", "原生映射归档与本次适配契约不一致");
+  }
+  const originalAssembly = JSON.parse((await readBound(input.root, bundle.nativeAssembly.ref, bundle.nativeAssembly.sha256)).toString("utf8"));
+  if (originalAssembly.nativeDossierSha256 !== nativeDossier.sha256 || originalAssembly.assembled?.ok !== true || originalAssembly.assembled?.chain?.ok !== true
+    || canonicalRenderJson(originalAssembly.assembled.dossier) !== canonicalRenderJson(bundle.dossier)
+    || canonicalRenderJson(originalAssembly.assembled.cards) !== canonicalRenderJson(bundle.cards)) fail("MARKETING_FACTS_CHANGED", "原生装订与消费档案不是同一原始产物");
   if (bundle.outputReviews.length !== input.shots.length) fail("MARKETING_PROMPTS_UNVERIFIED", "并非每个最终镜头都有事实审核");
   for (const item of input.shots) {
     const shot = { shotId: item.shotId, prompt: item.prompt, fields: item.fields };

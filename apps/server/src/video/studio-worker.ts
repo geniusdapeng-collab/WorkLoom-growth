@@ -802,6 +802,7 @@ export function startRun(scope: Scope, input: StudioRunInput): string {
               mode: "api", storeRoot: marketing.storeRoot, refresh: true,
               verifiedRaw: { projectId: input.projectId, rawJson: canonicalRenderJson(marketing.raw), sha256: marketing.bundle.rawSha256,
                 productQuery: marketing.bundle.productQuery, restrictions: [...marketing.bundle.restrictions],
+                nativeDossier: structuredClone(marketing.bundle.nativeDossier),
                 restrictionsSha256: sourceRestrictionsHash(marketing.bundle.rawSha256, marketing.bundle.restrictions) },
             } } : {}) });
             /**

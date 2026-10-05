@@ -8,8 +8,10 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { gatewayAppend, gatewayAppendOnClient } from "@workloom/base/workdata";
-import { applyScenePolicy, auditScenePolicy, loadScenePolicies, currentSourceRestrictionPrompt, type ScenePolicyShot } from "@hyperreality/video-studio";
+import { applyScenePolicy, auditScenePolicy, loadScenePolicies, currentSourceRestrictionPrompt, createNativeMarketingDossier, type ScenePolicyShot } from "@hyperreality/video-studio";
 import { verifyScenePolicyProductionSource } from "./scene-policy-render-gate.js";
+import { validateStageFacts } from "./marketing-facts.js";
+import { canonicalRenderJson, renderSha256 } from "./gen/compiled-request.js";
 
 const doubles = vi.hoisted(() => ({
   workDir: "",
@@ -119,12 +121,23 @@ beforeEach(() => {
   vi.mocked(gatewayAppendOnClient).mockReset();
   doubles.nextAttempt = 0;
   doubles.studioConfigs.length = 0;
-  doubles.prepare.mockReset().mockImplementation(async ({ scope, root }) => ({
-    bundle: { rawSha256: "a".repeat(64), productQuery: { name: "本次商品" }, restrictions: ["客户投放前确认；机器映射未核实"] }, raw: { A1: {}, A2: {}, A3: {} },
+  doubles.prepare.mockReset().mockImplementation(async ({ scope, root }) => {
+    const text = "本次商品示例", sha256 = renderSha256(text), finalUrl = "https://source.example.test/item";
+    const source = { sourceId: "SRC-fixture", requestedUrl: finalUrl, finalUrl, redirectChain: [], fetchedAt: new Date().toISOString(),
+      contentType: "text/plain", text, rawSha256: sha256, textSha256: sha256, bytes: Buffer.byteLength(text), assetUrls: [] };
+    const stages = [validateStageFacts("A1", { payload: { identity: { name: "本次商品", specs: { 规格: "示例" } }, images: [] },
+      citations: ["/identity/name", "/identity/specs/规格"].map(pointer => ({ pointer, quote: text, sourceId: source.sourceId })) }, [source]),
+    validateStageFacts("A2", { payload: { reviews: [] }, citations: [], noEvidenceReason: "无评价" }, []),
+    validateStageFacts("A3", { payload: { competitors: [] }, citations: [], noEvidenceReason: "无竞品" }, [])];
+    const raw = Object.fromEntries(stages.map(stage => [stage.stage, stage.payload])), rawJson = canonicalRenderJson(raw);
+    const productQuery = { name: "本次商品" }, restrictions = ["客户投放前确认；机器映射未核实"];
+    const nativeDossier = createNativeMarketingDossier({ rawJson, productQuery, restrictions, sources: [source], stages });
+    return {
+    bundle: { rawSha256: renderSha256(rawJson), productQuery, restrictions, nativeDossier }, raw,
     prefix: `stages/preproduction/attempt-${scope.attempt}.marketing`,
     storeRoot: path.join(root, `stages/preproduction/attempt-${scope.attempt}.marketing-dossier`),
     g1Content: JSON.stringify({ facts: { schemaVersion: "workloom.marketing-facts/v1", stages: [1, 2, 3], sources: [1], optionalValue: null }, scope }),
-  }));
+  }; });
   doubles.finalize.mockReset().mockResolvedValue({ ref: "stages/preproduction/attempt-1.marketing-facts.json", sha256: "b".repeat(64) });
   // The planner has its own contract tests; this suite tests the worker's archival and terminal-state orchestration.
   doubles.handoff.mockReset().mockImplementation(async ({ shots }) => ({ shots,
@@ -568,6 +581,9 @@ describe("预生产原始结果与诚实终态", () => {
     expect(doubles.studioConfigs[0]?.dataMining.verifiedRaw.projectId).toBe(projectId);
     expect(doubles.studioConfigs[0]?.dataMining.verifiedRaw.restrictions).toEqual(["客户投放前确认；机器映射未核实"]);
     expect(doubles.studioConfigs[0]?.dataMining.verifiedRaw.restrictionsSha256).toMatch(/^[a-f0-9]{64}$/);
+    const prepared = await doubles.prepare.mock.results[0]!.value;
+    expect(doubles.studioConfigs[0]?.dataMining.verifiedRaw.nativeDossier).toEqual(prepared.bundle.nativeDossier);
+    expect(doubles.studioConfigs[0]?.dataMining.verifiedRaw.nativeDossier).not.toBe(prepared.bundle.nativeDossier);
   });
   it.each(["source", "g1", "unverified-proof", "unbound-proof"])("%s未核实不执行vendor或终态事实审核", async kind => {
     if (kind === "source") doubles.prepare.mockRejectedValue(new Error("MARKETING_A1_UNVERIFIED"));

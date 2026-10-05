@@ -86,7 +86,7 @@ describe("营销事实宿主完整执行", () => {
   it("真实HTTP正文→三站提取/完整支持审核→A1–A5→逐最终镜头事实审核→复读", async () => {
     const prepared = await prepare();
     expect(prepared.bundle.stages.map(stage => [stage.stage, stage.facts.status])).toEqual([["A1", "source_bound"], ["A2", "no_evidence"], ["A3", "no_evidence"]]);
-    expect(prepared.bundle.sources).toHaveLength(1); expect(prepared.bundle.restrictions).toHaveLength(2); expect(extractionCalls).toHaveLength(3);
+    expect(prepared.bundle.sources).toHaveLength(1); expect(prepared.bundle.restrictions).toHaveLength(3); expect(extractionCalls).toHaveLength(3);
     expect(prepared.g1Content).toContain('"schemaVersion":"workloom.marketing-facts/v1"'); expect(modelCalls).toHaveLength(3);
     expect(JSON.stringify(modelCalls)).toContain("不得声称静音或市场第一"); expect(JSON.stringify(modelCalls)).not.toContain("999档");
     expect(JSON.stringify(modelCalls.slice(0, 3))).not.toContain("未提供结构化镜头合同");
@@ -105,7 +105,7 @@ describe("营销事实宿主完整执行", () => {
     await expect(finalizeMarketingFacts(prepared, [{ ...shots[0]!, prompt: "全市场第一，零噪音" }], env)).rejects.toThrow("MARKETING_PROMPT_FACTS_REJECTED");
     await expect(readFile(path.join(root, `${prepared.prefix}-facts.json`))).rejects.toMatchObject({ code: "ENOENT" });
   });
-  it.each(["raw", "text", "review", "extraction", "judge-exchange", "prompt-exchange", "missing-exchange", "exchange-scope", "prompt", "fields", "scope", "attempt", "expired", "claim-offset", "restrictions"])("%s变化不能复用营销事实资格", async kind => {
+  it.each(["raw", "text", "review", "extraction", "judge-exchange", "prompt-exchange", "missing-exchange", "exchange-scope", "prompt", "fields", "scope", "attempt", "expired", "claim-offset", "restrictions", "native-archive", "native-assembly", "native-proof", "native-model", "native-source"])("%s变化不能复用营销事实资格", async kind => {
     const prepared = await prepare(), saved = await finalizeMarketingFacts(prepared, shots, env); let hash = saved.sha256;
     const requestedShots = structuredClone(shots), expectedScope = { ...scope };
     if (["raw", "text", "review"].includes(kind)) {
@@ -125,10 +125,19 @@ describe("营销事实宿主完整执行", () => {
     if (kind === "fields") requestedShots[0]!.fields.规格 = "99 档";
     if (kind === "scope") expectedScope.tenantId = "other";
     if (kind === "attempt") expectedScope.attempt = 2;
-    if (["expired", "claim-offset", "restrictions", "missing-exchange", "exchange-scope"].includes(kind)) {
+    if (kind === "native-archive") await writeFile(path.join(root, prepared.bundle.nativeDossierArchive.ref), "changed");
+    if (kind === "native-assembly") await writeFile(path.join(root, prepared.bundle.nativeAssembly.ref), "changed");
+    if (kind === "native-proof") delete (prepared.bundle as Partial<typeof prepared.bundle>).nativeDossier;
+    if (kind === "native-model") prepared.bundle.nativeDossier.factInput.model = "未引证型号";
+    if (kind === "native-source") prepared.bundle.nativeDossier.sources[0]!.finalUrl = "https://forged.example.test/";
+    if (["expired", "claim-offset", "restrictions", "missing-exchange", "exchange-scope", "native-proof", "native-model", "native-source"].includes(kind)) {
       if (kind === "expired") prepared.bundle.collectedAt = new Date(Date.now() - 25 * 3600_000).toISOString();
       else if (kind === "claim-offset") prepared.bundle.stages[0]!.facts.claims[0]!.quoteStart++;
       else if (kind === "restrictions") prepared.bundle.restrictions.pop();
+      if (prepared.bundle.nativeDossier) {
+        const { sha256: _old, ...body } = prepared.bundle.nativeDossier;
+        prepared.bundle.nativeDossier.sha256 = renderSha256(canonicalRenderJson(body));
+      }
       const text = canonicalRenderJson(prepared.bundle); await writeFile(path.join(root, saved.ref), text); hash = renderSha256(text);
     }
     await expect(verifyMarketingFacts({ root, ref: saved.ref, sha256: hash, scope: expectedScope, shots: requestedShots })).rejects.toThrow();

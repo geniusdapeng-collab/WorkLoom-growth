@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
 import { existsSync } from "node:fs";
 import { mkdtemp, realpath, rm } from "node:fs/promises";
@@ -35,7 +34,7 @@ function stagesFor(raw: any) {
     const walk = (value: any, pointer = "") => {
       if (Array.isArray(value)) return value.forEach((entry, i) => walk(entry, `${pointer}/${i}`));
       if (value && typeof value === "object") return Object.entries(value).forEach(([key, entry]) => {
-        if (!["url", "source_url", "page_url", "source", "channel", "suspect"].includes(key) && !(key === "angle" && entry === "unknown")) {
+        if ((!['url', 'source_url', 'page_url', 'source', 'channel', 'suspect'].includes(key) || pointer === "/identity/specs") && !(key === "angle" && entry === "unknown")) {
           walk(entry, `${pointer}/${key.replace(/~/g, "~0").replace(/\//g, "~1")}`);
         }
       });
@@ -47,8 +46,9 @@ function stagesFor(raw: any) {
 }
 function compile(raw = rawFixture(), productQuery: any = query, limits = restrictions) {
   assert.ok(adapter, "the shared source-bound native adapter must exist");
-  return adapter.createNativeMarketingDossier({ rawJson: canonicalRenderJson(raw), productQuery,
-    stages: stagesFor(raw), sources: [source], restrictions: limits });
+  const stages = stagesFor(raw), reviewed = Object.fromEntries(stages.map(stage => [stage.stage, stage.payload]));
+  return adapter.createNativeMarketingDossier({ rawJson: canonicalRenderJson(reviewed), productQuery,
+    stages, sources: [source], restrictions: limits });
 }
 async function temporary(run: (root: string) => Promise<void>) {
   const root = await realpath(await mkdtemp(path.join(tmpdir(), "native-dossier-")));
@@ -143,6 +143,59 @@ test("missing, duplicate, mismatched, foreign and invalid claims cannot be wrapp
     assert.ok(adapter); assert.throws(() => adapter.createNativeMarketingDossier({ rawJson: canonicalRenderJson(raw), productQuery: query,
       stages: changed, sources: [source], restrictions }), /MARKETING_NATIVE_DOSSIER_INVALID/);
   }
+});
+test("malformed stage/source records, empty evidence, unbound URLs and deleted policy limits fail closed", () => {
+  assert.ok(adapter);
+  const raw = rawFixture(), stages: any = stagesFor(raw);
+  for (const kind of ["null-stage", "extra-stage", "empty-reason", "null-claim", "null-source", "source-id", "policy", "policy-field", "url", "duplicate-source", "missing-spec"]) {
+    const input: any = { rawJson: canonicalRenderJson(raw), productQuery: query, restrictions, stages: structuredClone(stages), sources: [structuredClone(source)] };
+    if (kind === "null-stage") input.stages[1] = null;
+    if (kind === "extra-stage") input.stages.push(input.stages[0]);
+    if (kind === "empty-reason") input.stages[1].noEvidenceReason = false;
+    if (kind === "null-claim") input.stages[0].claims[0] = null;
+    if (kind === "null-source") input.sources[0] = null;
+    if (kind === "source-id") input.sources[0].sourceId = {};
+    if (kind === "policy") input.sources[0].policy = { restrictions: [false], blockedFields: [] };
+    if (kind === "policy-field") input.sources[0].policy = { restrictions: [], blockedFields: [null] };
+    if (kind === "url") input.sources[0].finalUrl = "javascript:untrusted";
+    if (kind === "duplicate-source") input.sources.push(input.sources[0]);
+    if (kind === "missing-spec") { const changed: any = rawFixture(); changed.A1.identity.specs = {}; input.rawJson = canonicalRenderJson(changed); input.stages[0].payload = changed.A1; }
+    assert.throws(() => adapter.createNativeMarketingDossier(input), /MARKETING_NATIVE_DOSSIER_INVALID/, kind);
+  }
+  const archived: any = structuredClone(source);
+  archived.requestedUrl = archived.finalUrl = "workloom-archive://products/test/profile.json";
+  archived.policy = { restrictions: ["机器映射与授权未核实"], blockedFields: [{ pointer: "/model", reason: "型号冲突" }] };
+  const bound: any = structuredClone(stages);
+  for (const claim of bound[0].claims) {
+    claim.sourcePointer = claim.pointer === "/identity/name" ? "/displayName" : "/specs/features/0";
+    claim.claimId = `CL-${renderSha256(canonicalRenderJson({ stage: claim.stage, pointer: claim.pointer, value: claim.value,
+      sourceId: claim.sourceId, quote: claim.quote, sourcePointer: claim.sourcePointer })).slice(0, 24)}`;
+  }
+  const limits = [...restrictions, ...archived.policy.restrictions];
+  assert.doesNotThrow(() => adapter.createNativeMarketingDossier({ rawJson: canonicalRenderJson(raw), productQuery: query, stages: bound, sources: [archived], restrictions: limits }));
+  assert.throws(() => adapter.createNativeMarketingDossier({ rawJson: canonicalRenderJson(raw), productQuery: query, stages: bound, sources: [archived], restrictions }), /原始来源用途限制被删除/);
+  const blocked = structuredClone(bound), claim = blocked[0].claims[0]; claim.sourcePointer = "/model";
+  claim.claimId = `CL-${renderSha256(canonicalRenderJson({ stage: claim.stage, pointer: claim.pointer, value: claim.value,
+    sourceId: claim.sourceId, quote: claim.quote, sourcePointer: claim.sourcePointer })).slice(0, 24)}`;
+  assert.throws(() => adapter.createNativeMarketingDossier({ rawJson: canonicalRenderJson(raw), productQuery: query, stages: blocked, sources: [archived], restrictions: limits }), /来源字段已禁止/);
+});
+test("native price and visual source URLs must belong to the specific cited competitor attribute", () => {
+  assert.ok(adapter);
+  const raw: any = rawFixture(), other = { ...source, sourceId: "SRC-other", requestedUrl: "https://other.example.test/device", finalUrl: "https://other.example.test/device" };
+  raw.A3.competitors = [{ name: "对手", price_band: "399", price_source_url: other.finalUrl,
+    selling_points: [{ point: "便携", source_url: sourceUrl }], visual_style: "正面", visual_source_url: sourceUrl }];
+  const stage = validateStageFacts("A3", { payload: raw.A3, citations: ["/competitors/0/name", "/competitors/0/price_band", "/competitors/0/selling_points/0/point", "/competitors/0/visual_style"]
+    .map(pointer => ({ pointer, sourceId: source.sourceId, quote: sourceText })) }, [source, other]);
+  const stages: any = stagesFor(rawFixture()); stages[2] = stage;
+  assert.throws(() => adapter.createNativeMarketingDossier({ rawJson: canonicalRenderJson(raw), productQuery: query, stages, sources: [source, other], restrictions }), /属性来源URL与其主张来源不同/);
+  raw.A3.competitors[0].price_source_url = sourceUrl; raw.A3.competitors[0].visual_source_url = other.finalUrl; stage.payload = raw.A3;
+  assert.throws(() => adapter.createNativeMarketingDossier({ rawJson: canonicalRenderJson(raw), productQuery: query, stages, sources: [source, other], restrictions }), /属性来源URL与其主张来源不同/);
+  delete raw.A3.competitors[0].price_source_url; delete raw.A3.competitors[0].visual_source_url;
+  const original = canonicalRenderJson(raw);
+  const proof = adapter.createNativeMarketingDossier({ rawJson: original, productQuery: query, stages, sources: [source, other], restrictions });
+  assert.equal((proof.rawByAgent.A3.competitors as any[])[0].price_source_url, sourceUrl);
+  assert.equal((proof.rawByAgent.A3.competitors as any[])[0].visual_source_url, sourceUrl);
+  assert.equal(canonicalRenderJson(raw), original);
 });
 test("adapter proof rejects altered raw, query, native values, source URLs, mappings and restrictions even when outer SHA is recomputed", () => {
   const proof = compile(); assert.ok(adapter);

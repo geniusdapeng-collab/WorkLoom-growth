@@ -39,6 +39,7 @@ import { loadDurationRules } from "./duration-rules.js";
 import { runWithSourceRestrictions, sourceRestrictionsHash } from "./source-restrictions.js";
 import { applyNativeIntentProfile } from "./native-intent-profile.js";
 import { installNativeRequirementContractBridge, type NativeRequirementArchives } from "./native-requirement-contract.js";
+import { verifyNativeMarketingDossier, type NativeMarketingDossier } from "./native-marketing-dossier.js";
 
 /** vendor 引擎暴露的最小结构（HyperrealitySystem 实例方法） */
 interface HyperrealitySystemLike {
@@ -142,7 +143,7 @@ export interface StudioConfig {
     staleAfterDays?: number;
     /** 仅服务宿主在完整来源/G1通过后装配；浏览器metadata中的同名字段没有权限。 */
     verifiedRaw?: { projectId: string; rawJson: string; sha256: string; productQuery: Record<string, unknown>;
-      restrictions: string[]; restrictionsSha256: string };
+      restrictions: string[]; restrictionsSha256: string; nativeDossier: NativeMarketingDossier };
   };
 }
 
@@ -206,8 +207,10 @@ export class VideoStudio {
       if (sourceRestrictionsHash(verified.sha256, verified.restrictions) !== verified.restrictionsSha256) {
         throw new Error("MARKETING_RESTRICTIONS_REQUIRED：用途限制未绑定本次已审事实包");
       }
-      metadata.dataMining = structuredClone(verified.productQuery);
-      verifiedRaw = parsed;
+      const nativeDossier = verifyNativeMarketingDossier({ rawJson: verified.rawJson, productQuery: verified.productQuery,
+        restrictions: verified.restrictions, proof: verified.nativeDossier });
+      metadata.dataMining = structuredClone(nativeDossier.factInput);
+      verifiedRaw = structuredClone(nativeDossier.rawByAgent);
     }
     const log = cfg.log ?? ((line: string) => console.log(line));
     const require = createRequire(import.meta.url);

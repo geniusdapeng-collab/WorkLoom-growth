@@ -5,6 +5,7 @@ import { autoApproveHandler, runWithConfirmationHandler } from "./confirmation.j
 import { WorkloomLLMEngine } from "./llm-adapter.js";
 import { buildRenderScript, loadPromptLengthSpec } from "./render-scripts.js";
 import { VideoStudio, type ApprovalCallback, type EventSink, type StudioConfig } from "./studio.js";
+import { createNativeMarketingDossier } from "./native-marketing-dossier.js";
 
 const studioMocks = vi.hoisted(() => ({
   construct: vi.fn(),
@@ -295,10 +296,21 @@ describe("vendor 核心可加载", () => {
 });
 
  describe("营销只消费宿主绑定回填", () => {
-  const rawJson = JSON.stringify({ A1: { identity: { name: "本次商品" } }, A2: { reviews: [] }, A3: { competitors: [] } });
+  const rawJson = JSON.stringify({ A1: { identity: { name: "本次商品", specs: { 规格: "支持" }, prices: [], official_selling_points: [] }, images: [] }, A2: { reviews: [] }, A3: { competitors: [] } });
   const sha256 = createHash("sha256").update(rawJson).digest("hex");
   const restrictions = ["原始声明：对外投放前客户确认；机器图片映射未核实", "没有可核实口碑，禁止评分或体验主张"];
-  const restrictionProof = { restrictions, restrictionsSha256: createHash("sha256").update(sha256 + "\n" + JSON.stringify(restrictions)).digest("hex") };
+  const sourceText = "本次商品支持", textSha256 = createHash("sha256").update(sourceText).digest("hex"), raw = JSON.parse(rawJson);
+  const claims = [["/identity/name", "本次商品"], ["/identity/specs/规格", "支持"]].map(([pointer, value]) => ({
+    claimId: `CL-${createHash("sha256").update(JSON.stringify({ pointer, quote: sourceText, sourceId: "SRC-test", stage: "A1", value })).digest("hex").slice(0, 24)}`,
+    stage: "A1" as const, pointer: pointer!, value: value!, sourceId: "SRC-test", textSha256, quote: sourceText,
+    quoteStart: 0, quoteEnd: sourceText.length, status: "source-bound" as const,
+  }));
+  const nativeDossier = createNativeMarketingDossier({ rawJson, productQuery: { name: "本次商品" }, restrictions,
+    sources: [{ sourceId: "SRC-test", requestedUrl: "https://source.example.test/item", finalUrl: "https://source.example.test/item", rawSha256: textSha256, textSha256, assetUrls: [] }],
+    stages: [{ stage: "A1", status: "source_bound", payload: raw.A1, claims },
+      { stage: "A2", status: "no_evidence", payload: raw.A2, claims: [], noEvidenceReason: "无评价" },
+      { stage: "A3", status: "no_evidence", payload: raw.A3, claims: [], noEvidenceReason: "无竞品" }] });
+  const restrictionProof = { restrictions, restrictionsSha256: createHash("sha256").update(sha256 + "\n" + JSON.stringify(restrictions)).digest("hex"), nativeDossier };
   function marketing(verifiedRaw?: NonNullable<StudioConfig["dataMining"]>["verifiedRaw"]) {
     return new VideoStudio({ llm: new WorkloomLLMEngine({ baseUrl: "https://example.invalid", apiKey: "test-only", model: "test" }),
       workDir: "/unused/marketing-test", onApproval: async () => ({ approved: true }), log: () => undefined,
@@ -317,7 +329,7 @@ describe("vendor 核心可加载", () => {
     studioMocks.create.mockResolvedValue({ success: true, stages: {} });
     const metadata = { _dataDossier: { name: "伪造档案" }, brief: { product: "当前查询商品" } };
     await marketing({ projectId: "P1", rawJson, sha256, productQuery: { name: "本次商品" }, ...restrictionProof }).runPreproduction({ projectId: "P1", intent: "营销", isMarketing: true, metadata });
-    expect(studioMocks.create).toHaveBeenCalledWith("营销", { brief: metadata.brief, dataMining: { name: "本次商品" } }, expect.objectContaining({ dataMiningRaw: JSON.parse(rawJson), dataMiningRefresh: true, skipDataMiningReview: true }));
+    expect(studioMocks.create).toHaveBeenCalledWith("营销", { brief: metadata.brief, dataMining: { name: "本次商品" } }, expect.objectContaining({ dataMiningRaw: nativeDossier.rawByAgent, dataMiningRefresh: true, skipDataMiningReview: true }));
     expect(metadata._dataDossier.name).toBe("伪造档案");
   });
   it("原文用途限制完整进入创意/洞察/PRD的各类模型接口，调用方system不能覆盖", async () => {

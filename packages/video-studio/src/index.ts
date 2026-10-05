@@ -4,6 +4,7 @@
 export * from "./gates.js";
 export * from "./llm-adapter.js";
 export * from "./source-restrictions.js";
+export * from "./native-marketing-dossier.js";
 export * from "./material-policy.js";
 export * from "./av-sync.js";
 export * from "./beat-verify.js";

@@ -1,36 +1,19 @@
 /** 逐主张证据合同。引用由服务复核到保存正文的位置；模型自报 approved/分数不参与此层。 */
 import { z } from "zod";
+import { marketingStagePayloadSchema, marketingStagePayloadShape as stagePayloadShape } from "@hyperreality/video-studio";
 import type { SourceSnapshot } from "./marketing-source-fetcher.js";
 import type { IntelStage } from "./data-mining-executor.js";
 import { canonicalRenderJson, renderSha256 } from "./gen/compiled-request.js";
 import { validateProductClaimSource } from "./product-source-policy.js";
 
 const text = z.string().trim().min(1).max(8000);
-const url = z.string().url().max(8192);
-const factValue = z.union([text, z.number().finite(), z.boolean()]);
-const point = z.object({ point: text, source_url: url, channel: z.string().max(200).optional() }).strict();
-const a1 = z.object({ identity: z.object({ name: text, brand: text.optional(), category: text.optional(), model: text.optional(),
-  specs: z.record(z.string().min(1).max(100), factValue).default({}),
-  prices: z.array(z.object({ amount: z.number().finite().nonnegative(), currency: z.string().min(1).max(10), note: text.optional(), source_url: url }).strict()).max(30).default([]),
-  official_selling_points: z.array(point).max(30).default([]),
-}).strict(), images: z.array(z.object({ url, page_url: url, source: z.string().max(200).optional(), angle: text.optional() }).strict()).max(20).default([]),
-  inferred_notes: z.array(z.unknown()).max(0).optional(),
-}).strict();
-const a2 = z.object({ reviews: z.array(z.object({ text, source: z.string().max(200).optional(), url,
-  rating: z.number().min(1).max(5).optional(), suspect: z.boolean().optional(),
-}).strict()).max(30) }).strict();
-const a3 = z.object({ competitors: z.array(z.object({ name: text, price_band: text.optional(), price_source_url: url.optional(),
-  selling_points: z.array(point).min(1).max(15), visual_style: text.optional(), visual_source_url: url.optional(),
-  viral_patterns: z.array(z.object({ pattern: text, sample_count: z.number().int().positive(), source_url: url }).strict()).max(10).optional(),
-  weakness_notes: text.optional(),
-}).strict()).max(3), adjacent_notes: z.array(z.unknown()).max(0).optional() }).strict();
 export const extractionSchema = z.object({ payload: z.unknown(), citations: z.array(z.object({
   pointer: z.string().min(1).max(500), sourceId: z.string().min(1).max(100), quote: z.string().min(1).max(6000),
   sourcePointer: z.string().min(1).max(500).optional(),
 }).strict()).max(200), noEvidenceReason: text.optional() }).strict();
 /** 模型合同从实际校验器生成，避免说明文档漏列字段、约束与 additionalProperties。 */
 export function stageExtractionJsonSchema(stage: IntelStage): Record<string, unknown> {
-  return z.toJSONSchema(extractionSchema.extend({ payload: stage === "A1" ? a1 : stage === "A2" ? a2 : a3 }), { io: "input" });
+  return z.toJSONSchema(extractionSchema.extend({ payload: marketingStagePayloadSchema(stage) }), { io: "input" });
 }
 export interface ClaimEvidence {
   claimId: string; stage: IntelStage; pointer: string; value: string | number | boolean;
@@ -52,10 +35,7 @@ function factLeaves(value: unknown, pointer = "", out = new Map<string, string |
   else if (["string", "number", "boolean"].includes(typeof value)) out.set(pointer, value as string | number | boolean);
   return out;
 }
-export function stagePayloadShape(stage: IntelStage, raw: unknown): Record<string, unknown> {
-  try { return (stage === "A1" ? a1 : stage === "A2" ? a2 : a3).parse(raw) as Record<string, unknown>; }
-  catch (error) { throw new Error(`MARKETING_PAYLOAD_INVALID：${stage} ${error instanceof Error ? error.message : String(error)}`); }
-}
+export { stagePayloadShape };
 
 export function validateStageFacts(stage: IntelStage, raw: unknown, sources: SourceSnapshot[]): ValidatedStageFacts {
   const extraction = extractionSchema.parse(raw);
