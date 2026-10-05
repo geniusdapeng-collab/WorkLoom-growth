@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeShotIntent, shotIntentHash } from "../../packages/video-studio/src/shot-intent.js";
+import { assertFilmStageCoverage } from "../../packages/video-studio/src/film-worker-runtime.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const ffmpeg = process.env.WL_FFMPEG ?? "ffmpeg";
@@ -191,15 +192,21 @@ describe("全链路当前血缘与返修范围", () => {
   it("生产执行不能用豁免开关把缺测变合格", () => {
     const run = runChain([emptyShot], { stages: "master", dryRun: false, args: ["--accept-rejected", "master"] });
     expect(run.result.status, run.diagnostic).not.toBe(0);
-    expect(run.diagnostic).toContain("PRODUCTION_BYPASS_REJECTED");
+    expect(run.result.status).toBe(2);
+    expect(run.diagnostic).toContain("CALLER_SOURCE_FORBIDDEN");
   }, 40_000);
-  it("只有旧成功日志、没有本次母版时以非零退出，不能报告请求完成", () => {
+  it("旧成功日志不能授予公开制作资格，也不能冒充本次工位完成", () => {
     const dir = mkdtempSync(join(tmpdir(), "video-current-proof-")); temporary.push(dir);
     mkdirSync(join(dir, "logs/regression"), { recursive: true });
-    writeFileSync(join(dir, "logs/regression/stages.jsonl"), JSON.stringify({ stage: "master", ok: true, shotId: null }) + "\n");
+    const stale = { stage: "master", ok: true, shotId: null };
+    const staleBytes = JSON.stringify(stale) + "\n";
+    writeFileSync(join(dir, "logs/regression/stages.jsonl"), staleBytes);
     const run = runChain([emptyShot], { dir, stages: "master", dryRun: false });
-    expect(run.result.status, run.diagnostic).toBe(6);
-    expect(run.diagnostic).toContain("缺阶段 master");
+    expect(run.result.status, run.diagnostic).toBe(2);
+    expect(run.diagnostic).toContain("CALLER_SOURCE_FORBIDDEN");
+    expect(readFileSync(join(dir, "logs/regression/stages.jsonl"), "utf8")).toBe(staleBytes);
+    expect(() => assertFilmStageCoverage(["master"], {}, { shots: [emptyShot] }, [stale])).toThrow("请求阶段没有通过：master");
+    expect(existsSync(join(dir, "logs/regression/stage-summary.json"))).toBe(false);
     expect(existsSync(join(dir, "out/regression-30s-final.mp4"))).toBe(false);
   }, 40_000);
   it("不同项目在同一work目录独立记账且当前输入输出含实际指纹", () => {
