@@ -1,0 +1,9 @@
+{
+  "report_sections": true,
+  "json_receipts": true,
+  "three_card_hash_bindings": true,
+  "source_head": "d91d23e65001836712f7ebd2952794a68c792a35",
+  "source_clean": true,
+  "report_sha256": "a2cd1c584b8295d2ad14385067aec27625f5f2b32c8ccf8383166eaf38a03a3d",
+  "receipt_sha256": "7badb5489865dfc61c26f39a1adad459e983049ba0b063e26ea8393e8fc72a65"
+}

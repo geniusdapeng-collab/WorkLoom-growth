@@ -1,0 +1,150 @@
+{
+  "schema": "workloom.mine-clear/ledger@1",
+  "task_id": "T-2026-1005-0002",
+  "repo": "growth-native-pipeline",
+  "repo_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
+  "title": "发布门禁可信会话身份适配",
+  "created_at": "2026-10-05T09:35:56.321Z",
+  "updated_at": "2026-10-05T09:38:21.026Z",
+  "baseline": {
+    "audit": {
+      "commit": "e38512b06f097fbc7f64f7890c9f992388bd59ac",
+      "branch": "task/T-2026-1005-0002-final",
+      "remote": "origin",
+      "fetched_at": "2026-10-05T09:35:56.226Z",
+      "fetch_status": "success",
+      "notes": "本地 HEAD 不是 origin/main 最新（云端 52a600e3 / 本地 16353a31）——按 §1.2 先对齐基线；工作树不干净（1 项未提交改动）：排雷结论只对已提交内容成立; audit source normalized from original16353 to tree-identical e385, original ledger preserved and pair proven by git diff 0 in docs/repairs/T-2026-1005-0002/evidence/commit-normalization.json"
+    },
+    "repair": {
+      "commit": null,
+      "reverified_problem_ids": []
+    },
+    "acceptance": {
+      "commit": null,
+      "is_descendant_of_repair": null
+    }
+  },
+  "environment": {
+    "kind": "client-runtime",
+    "notes": ""
+  },
+  "invariants": [
+    {
+      "id": "INV-1",
+      "text": "租户边界覆盖数据库 RLS、运行时上下文、事件、缓存和外部连接器。",
+      "source": "AGENTS.md#4.1"
+    },
+    {
+      "id": "INV-2",
+      "text": "经营事件、审批和关键回执只增不改；纠正通过新事件表达，不静默覆盖证据。",
+      "source": "AGENTS.md#4.2"
+    },
+    {
+      "id": "INV-3",
+      "text": "所有外部或变更性动作及其子调用，统一经过权限、PII、围栏和审批链路。",
+      "source": "AGENTS.md#4.3"
+    },
+    {
+      "id": "INV-4",
+      "text": "涉钱、敏感数据、群发、公开发布、交易和破坏性变更必须按高风险处理并由人审批。",
+      "source": "AGENTS.md#4.4"
+    },
+    {
+      "id": "INV-5",
+      "text": "没有真实回执就不能标记完成；mock、模拟和体验模式在数据结构与界面上都要明确区分。",
+      "source": "AGENTS.md#4.5"
+    },
+    {
+      "id": "INV-6",
+      "text": "客户原始经营数据不得上行；蜂群只接受白名单化、最小化、匿名化且可审计的元数据或派生经验。",
+      "source": "AGENTS.md#4.6"
+    },
+    {
+      "id": "INV-7",
+      "text": "租户覆盖层只能收紧围栏，不能放宽平台不可变红线。",
+      "source": "AGENTS.md#4.7"
+    },
+    {
+      "id": "INV-8",
+      "text": "模型、提示词、技能、bundle、策略和热更新必须先评测再灰度，且始终可回滚。",
+      "source": "AGENTS.md#4.8"
+    },
+    {
+      "id": "INV-9",
+      "text": "platform-ops、平台账户运营和平台秘密只属于 Andromeda。",
+      "source": "AGENTS.md#4.9"
+    },
+    {
+      "id": "INV-10",
+      "text": "Tiger 在获得单独的合规审查和用户明确授权前，只能模拟或纸面交易。",
+      "source": "AGENTS.md#4.10"
+    },
+    {
+      "id": "INV-11",
+      "text": "令牌、密码、API key、私钥、客户凭证和私密客户数据不得进入源码、文档、上下文、提示词、日志或提交。",
+      "source": "AGENTS.md#4.11"
+    },
+    {
+      "id": "INV-12",
+      "text": "个性化与行业扩展不得形成公共机制的第二事实源。",
+      "source": "AGENTS.md#4.12"
+    }
+  ],
+  "cards": [
+    {
+      "id": "MC-005",
+      "kind": "problem",
+      "level": "L3",
+      "severity": "P1",
+      "batch": 0,
+      "state": "open",
+      "title": "生产发布门禁仍依赖演示登录，不能验证客户端已有可信身份",
+      "evidence": [
+        {
+          "type": "code",
+          "ref": "scripts/release-gate.ts:210@e38512b06f097fbc7f64f7890c9f992388bd59ac",
+          "sha256": "7607c5730a95e6dee0ba7dd335bba776a7a17d1148a5fa375127eb0eaaa0e982",
+          "note": "门禁只调用auth.loginAs且吞掉错误为空token；production实际拒该演示端点。; entire audit tree matches original16353 byte for byte."
+        }
+      ],
+      "root_cause": {
+        "file": "scripts/release-gate.ts",
+        "line": 210,
+        "commit": "e38512b06f097fbc7f64f7890c9f992388bd59ac",
+        "symbol": "login"
+      },
+      "trigger_path": "官方client-runtime生产环境→release gate→auth.loginAs被服务安全拒绝→ASK/QUEST/编排未认证",
+      "assertions": [
+        {
+          "kind": "property",
+          "given": "发布目标作用域与可观察HTTP获取/认证返回",
+          "expect": "真实会话只校验members.me；过期/跨租户/跨工作区/成员不符/只读拒绝且不退演示；开发登录保留；HTTP/JSON/网络错误终止",
+          "command": "node --import tsx --test scripts/release-gate-identity.test.mts",
+          "exec": {
+            "file": "node",
+            "args": [
+              "--import",
+              "tsx",
+              "--test",
+              "scripts/release-gate-identity.test.mts"
+            ]
+          },
+          "last_result": "not-run"
+        }
+      ],
+      "fix_plan": "支持已有原生客户端会话，仅经members.me复核当前tenant/workspace/member及owner/manager身份；错误令牌不回退演示登录，不放宽生产auth",
+      "blast_radius": "本仓发布验证工具；不修改服务端认证和业务门禁，也不分发回公共基座",
+      "conflict_paths": [
+        "scripts/release-gate.ts",
+        "scripts/tools/release-gate-identity.ts",
+        "scripts/release-gate-identity.test.mts"
+      ],
+      "regression": {
+        "command": "node --import tsx --test scripts/release-gate-identity.test.mts"
+      },
+      "rollback": "revert本身份适配提交；原生服务端auth guard保持，保留门禁真实红回执",
+      "notes": "实际core-release-gate.log 4/11过；现有客户端bootstrap已获得真实会话。新增结构断言先红，尚未修改实现。; original audit ledger retained without alteration; source-equivalent protocol commit is the active ancestry."
+    }
+  ],
+  "gates": []
+}

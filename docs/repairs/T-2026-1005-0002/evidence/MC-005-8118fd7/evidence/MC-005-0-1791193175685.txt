@@ -1,0 +1,38 @@
+TAP version 13
+# Subtest: a native production access token is checked against current server identity without mock login
+ok 1 - a native production access token is checked against current server identity without mock login
+  ---
+  duration_ms: 9.678625
+  type: 'test'
+  ...
+# Subtest: expired, foreign-scope, wrong-member and readonly sessions cannot fall back to demo login
+ok 2 - expired, foreign-scope, wrong-member and readonly sessions cannot fall back to demo login
+  ---
+  duration_ms: 0.783958
+  type: 'test'
+  ...
+# Subtest: existing development login also validates the returned server identity
+ok 3 - existing development login also validates the returned server identity
+  ---
+  duration_ms: 0.534541
+  type: 'test'
+  ...
+# Subtest: HTTP, malformed JSON and transport failures stop with no fabricated token
+ok 4 - HTTP, malformed JSON and transport failures stop with no fabricated token
+  ---
+  duration_ms: 0.572666
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 90.238625
+
+
+exit_code=0 signal=none error=none
+assertion_validation={"ok":true,"errors":[],"testSummary":{"total":4,"passed":4,"failed":0,"cancelled":0,"skipped":0,"todo":0}}

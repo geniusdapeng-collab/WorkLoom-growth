@@ -1,0 +1,112 @@
+{
+  "schema": "workloom.independent-acceptance-receipt/v1",
+  "card_id": "MC-001",
+  "source_head": "d91d23e65001836712f7ebd2952794a68c792a35",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "session_source": "/root/native_entry_acceptance",
+  "actual_exit_code": 0,
+  "signal": null,
+  "result": "pass",
+  "gate_exit_code": 0,
+  "gate_cards": 1,
+  "gate_invariants": 12,
+  "ledger_environment": "local-preview",
+  "actual_evidence_environment": "source contract tests with in-memory providers",
+  "production_verified": false,
+  "film_produced": false,
+  "pg_repeated": false,
+  "ledger_original_path": "outputs/mine-clear/T-2026-1005-0001/revision-d91d23e-fresh/ledger.json",
+  "ledger_archived_path": "refreshed-cards/MC-001/ledger.json",
+  "ledger_sha256": "073d676a35cc8160d8b0912678aff6b013aef2c3a0b7c9a1ec8d2450c3e926d5",
+  "official_run_original_path": "outputs/mine-clear/T-2026-1005-0001/revision-d91d23e-fresh/runs/MC-001-0-1791191416774.json",
+  "official_run_archived_path": "refreshed-cards/MC-001/runs/MC-001-0-1791191416774.json",
+  "official_run_sha256": "388af4bcedfda4bf5ae1d5e2ca76b99b35475646796370006c7db89d791a2fa5",
+  "test_summary": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "official_run": {
+    "schema": "workloom.evidence-run/v1",
+    "id": "MC-001-0-1791191416774",
+    "command": "node --import tsx --test scripts/native-video-entry.test.mts",
+    "exec": {
+      "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "args": [
+        "--test-reporter=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+        "--test-reporter-destination=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/outputs/mine-clear/T-2026-1005-0001/revision-d91d23e-fresh/evidence/MC-001-0-1791191416774-node-tests.jsonl",
+        "--test-reporter=tap",
+        "--test-reporter-destination=stdout",
+        "--import",
+        "tsx",
+        "--test",
+        "scripts/native-video-entry.test.mts"
+      ]
+    },
+    "requested_exec": {
+      "file": "node",
+      "args": [
+        "--import",
+        "tsx",
+        "--test",
+        "scripts/native-video-entry.test.mts"
+      ]
+    },
+    "node_observer": {
+      "schema": "workloom.node-test-observer/v1",
+      "reporter_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+      "reporter_sha256": "286448a4dee571759fc1703564477d27bf5319bcb05ff66db2186deda60bc78f",
+      "destination": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/outputs/mine-clear/T-2026-1005-0001/revision-d91d23e-fresh/evidence/MC-001-0-1791191416774-node-tests.jsonl",
+      "summary": {
+        "path": "evidence/MC-001-0-1791191416774-node-tests.jsonl",
+        "sha256": "b2d0dacc5af8e5659a643bb716700a65c58ffcc6bf8f60a692d6a769843bb358",
+        "commit": "d91d23e65001836712f7ebd2952794a68c792a35"
+      }
+    },
+    "node_executable": {
+      "path": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "sha256": "27db838bb204ef7c21df2931f5656e4c8fb32e6e947f363a402b49714d32b5b1"
+    },
+    "actor": "native-entry-independent-acceptance",
+    "role": "acceptance",
+    "subject": {
+      "card_id": "MC-001",
+      "assertion_index": 0
+    },
+    "commit": "d91d23e65001836712f7ebd2952794a68c792a35",
+    "working_tree_dirty": false,
+    "started_at": "2026-10-05T09:10:16.774Z",
+    "finished_at": "2026-10-05T09:10:18.867Z",
+    "exit_code": 0,
+    "signal": null,
+    "validation": {
+      "ok": true,
+      "errors": [],
+      "testSummary": {
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "result": "pass",
+    "outputs": [
+      {
+        "path": "evidence/MC-001-0-1791191416774.txt",
+        "sha256": "ac3d2d451a728355b0b529caa22c21c4b5a36f96e5d8fe07bf5acfc8f8f2b29e",
+        "commit": "d91d23e65001836712f7ebd2952794a68c792a35"
+      },
+      {
+        "path": "evidence/MC-001-0-1791191416774-node-tests.jsonl",
+        "sha256": "b2d0dacc5af8e5659a643bb716700a65c58ffcc6bf8f60a692d6a769843bb358",
+        "commit": "d91d23e65001836712f7ebd2952794a68c792a35"
+      }
+    ]
+  }
+}

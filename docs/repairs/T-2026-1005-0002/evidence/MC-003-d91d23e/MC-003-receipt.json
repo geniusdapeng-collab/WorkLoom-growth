@@ -1,0 +1,112 @@
+{
+  "schema": "workloom.independent-acceptance-receipt/v1",
+  "card_id": "MC-003",
+  "source_head": "d91d23e65001836712f7ebd2952794a68c792a35",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "session_source": "/root/native_entry_acceptance",
+  "actual_exit_code": 0,
+  "signal": null,
+  "result": "pass",
+  "gate_exit_code": 0,
+  "gate_cards": 1,
+  "gate_invariants": 12,
+  "ledger_environment": "client-runtime",
+  "actual_evidence_environment": "source contract tests with in-memory providers",
+  "production_verified": false,
+  "film_produced": false,
+  "pg_repeated": false,
+  "ledger_original_path": "outputs/mine-clear/T-2026-1005-0002/timeout-4f5476b/ledger.json",
+  "ledger_archived_path": "./ledger.json",
+  "ledger_sha256": "af055b61edc2df995b8583cd98a8feaa9d4f0ad015a074f799493278652288a6",
+  "official_run_original_path": "outputs/mine-clear/T-2026-1005-0002/timeout-4f5476b/runs/MC-003-0-1791190883478.json",
+  "official_run_archived_path": "./runs/MC-003-0-1791190883478.json",
+  "official_run_sha256": "11234feb6c20b522aa7e5c1735d93fee28eac651616849389ad63e602617eec5",
+  "test_summary": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "official_run": {
+    "schema": "workloom.evidence-run/v1",
+    "id": "MC-003-0-1791190883478",
+    "command": "node --import tsx --test scripts/native-video-entry.test.mts",
+    "exec": {
+      "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "args": [
+        "--test-reporter=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+        "--test-reporter-destination=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/outputs/mine-clear/T-2026-1005-0002/timeout-4f5476b/evidence/MC-003-0-1791190883478-node-tests.jsonl",
+        "--test-reporter=tap",
+        "--test-reporter-destination=stdout",
+        "--import",
+        "tsx",
+        "--test",
+        "scripts/native-video-entry.test.mts"
+      ]
+    },
+    "requested_exec": {
+      "file": "node",
+      "args": [
+        "--import",
+        "tsx",
+        "--test",
+        "scripts/native-video-entry.test.mts"
+      ]
+    },
+    "node_observer": {
+      "schema": "workloom.node-test-observer/v1",
+      "reporter_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+      "reporter_sha256": "286448a4dee571759fc1703564477d27bf5319bcb05ff66db2186deda60bc78f",
+      "destination": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/outputs/mine-clear/T-2026-1005-0002/timeout-4f5476b/evidence/MC-003-0-1791190883478-node-tests.jsonl",
+      "summary": {
+        "path": "evidence/MC-003-0-1791190883478-node-tests.jsonl",
+        "sha256": "b2d0dacc5af8e5659a643bb716700a65c58ffcc6bf8f60a692d6a769843bb358",
+        "commit": "d91d23e65001836712f7ebd2952794a68c792a35"
+      }
+    },
+    "node_executable": {
+      "path": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "sha256": "27db838bb204ef7c21df2931f5656e4c8fb32e6e947f363a402b49714d32b5b1"
+    },
+    "actor": "native-entry-independent-acceptance",
+    "role": "acceptance",
+    "subject": {
+      "card_id": "MC-003",
+      "assertion_index": 0
+    },
+    "commit": "d91d23e65001836712f7ebd2952794a68c792a35",
+    "working_tree_dirty": false,
+    "started_at": "2026-10-05T09:01:23.478Z",
+    "finished_at": "2026-10-05T09:01:26.222Z",
+    "exit_code": 0,
+    "signal": null,
+    "validation": {
+      "ok": true,
+      "errors": [],
+      "testSummary": {
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "result": "pass",
+    "outputs": [
+      {
+        "path": "evidence/MC-003-0-1791190883478.txt",
+        "sha256": "1c78d89b162c2071c4f1a7b0f2282a62b9f3494782bc1799c7694f1e02dbf725",
+        "commit": "d91d23e65001836712f7ebd2952794a68c792a35"
+      },
+      {
+        "path": "evidence/MC-003-0-1791190883478-node-tests.jsonl",
+        "sha256": "b2d0dacc5af8e5659a643bb716700a65c58ffcc6bf8f60a692d6a769843bb358",
+        "commit": "d91d23e65001836712f7ebd2952794a68c792a35"
+      }
+    ]
+  }
+}

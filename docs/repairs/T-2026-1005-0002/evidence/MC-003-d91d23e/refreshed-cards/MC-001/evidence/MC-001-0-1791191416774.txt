@@ -1,0 +1,63 @@
+TAP version 13
+# [pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+# Subtest: native preproduction router sends the configured timeout to actual provider calls
+ok 1 - native preproduction router sends the configured timeout to actual provider calls
+  ---
+  duration_ms: 88.636167
+  type: 'test'
+  ...
+# Subtest: public client rejects caller source before sending any request
+ok 2 - public client rejects caller source before sending any request
+  ---
+  duration_ms: 4.639084
+  type: 'test'
+  ...
+# Subtest: public server rejects caller source before database and provider work
+ok 3 - public server rejects caller source before database and provider work
+  ---
+  duration_ms: 349.876084
+  type: 'test'
+  ...
+# Subtest: public CLI refuses local shotlists and partial production instead of dispatching providers
+ok 4 - public CLI refuses local shotlists and partial production instead of dispatching providers
+  ---
+  duration_ms: 1166.863791
+  type: 'test'
+  ...
+# Subtest: native stage contract rejects omitted postproduction and render retry options
+ok 5 - native stage contract rejects omitted postproduction and render retry options
+  ---
+  duration_ms: 1.652208
+  type: 'test'
+  ...
+# Subtest: preproduction metadata cannot inject generated artifacts or asserted facts
+ok 6 - preproduction metadata cannot inject generated artifacts or asserted facts
+  ---
+  duration_ms: 1.915
+  type: 'test'
+  ...
+# Subtest: native preproduction request has intent and archive identities without caller shots
+ok 7 - native preproduction request has intent and archive identities without caller shots
+  ---
+  duration_ms: 1.783958
+  type: 'test'
+  ...
+# Subtest: ledger source identity stays on the parent while the real full-chain worker accepts the complete job
+ok 8 - ledger source identity stays on the parent while the real full-chain worker accepts the complete job
+  ---
+  duration_ms: 2.53875
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1710.250958
+
+
+exit_code=0 signal=none error=none
+assertion_validation={"ok":true,"errors":[],"testSummary":{"total":8,"passed":8,"failed":0,"cancelled":0,"skipped":0,"todo":0}}

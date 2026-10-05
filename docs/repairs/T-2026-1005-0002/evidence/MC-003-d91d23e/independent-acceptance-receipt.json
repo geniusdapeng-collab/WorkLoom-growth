@@ -1,0 +1,251 @@
+{
+  "schema": "workloom.independent-acceptance-receipt/v1",
+  "task_id": "T-2026-1005-0002",
+  "card_id": "MC-003",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "session_source": "/root/native_entry_acceptance",
+  "generated_at": "2026-10-05T09:13:50.808Z",
+  "repo_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
+  "source_head": "d91d23e65001836712f7ebd2952794a68c792a35",
+  "audit_head": "4f5476b34c09429169e1f1d70aa848e0eb5d715b",
+  "repair_head": "d91d23e65001836712f7ebd2952794a68c792a35",
+  "source_read_only": true,
+  "source_working_tree_dirty": false,
+  "outcome": "pass",
+  "scope": "MC-003 adapter review plus all three MC-001/MC-002/MC-003 source contract assertions and gates refreshed at d91d23e; zero paid I/O",
+  "ledger_environment": "client-runtime",
+  "actual_evidence_environment": "source contract tests with in-memory providers",
+  "production_verified": false,
+  "film_produced": false,
+  "source_review": {
+    "total_files": 12,
+    "fully_read": 12,
+    "machine_only": 0,
+    "sampled": 0,
+    "unread": 0,
+    "changed_files": 4,
+    "unchanged_implementation_files": 3,
+    "execution_context_files": 5,
+    "full_rdas_276_performed": false
+  },
+  "official_run": {
+    "path": "runs/MC-003-0-1791190883478.json",
+    "sha256": "11234feb6c20b522aa7e5c1735d93fee28eac651616849389ad63e602617eec5",
+    "commit": "d91d23e65001836712f7ebd2952794a68c792a35",
+    "exit_code": 0,
+    "result": "pass",
+    "actor": "native-entry-independent-acceptance",
+    "role": "acceptance",
+    "test_summary": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "evidence": [
+    {
+      "path": "evidence/MC-003-0-1791190883478.txt",
+      "sha256": "1c78d89b162c2071c4f1a7b0f2282a62b9f3494782bc1799c7694f1e02dbf725"
+    },
+    {
+      "path": "evidence/MC-003-0-1791190883478-node-tests.jsonl",
+      "sha256": "b2d0dacc5af8e5659a643bb716700a65c58ffcc6bf8f60a692d6a769843bb358"
+    },
+    {
+      "path": "ledger.json",
+      "sha256": "af055b61edc2df995b8583cd98a8feaa9d4f0ad015a074f799493278652288a6"
+    }
+  ],
+  "configured_timeout_assertions": [
+    {
+      "configured_timeout_ms": null,
+      "expected_provider_timeout_ms": 180000,
+      "provider_model_id": "deepseek-v4-pro",
+      "deep_equality_assertion_passed": true,
+      "evidence_grade": "B",
+      "observer_is_in_memory": true,
+      "raw_opts_serialized": false
+    },
+    {
+      "configured_timeout_ms": null,
+      "expected_provider_timeout_ms": 180000,
+      "provider_model_id": "deepseek-v4-flash",
+      "deep_equality_assertion_passed": true,
+      "evidence_grade": "B",
+      "observer_is_in_memory": true,
+      "raw_opts_serialized": false
+    },
+    {
+      "configured_timeout_ms": 240000,
+      "expected_provider_timeout_ms": 240000,
+      "provider_model_id": "deepseek-v4-pro",
+      "deep_equality_assertion_passed": true,
+      "evidence_grade": "B",
+      "observer_is_in_memory": true,
+      "raw_opts_serialized": false
+    },
+    {
+      "configured_timeout_ms": 240000,
+      "expected_provider_timeout_ms": 240000,
+      "provider_model_id": "deepseek-v4-flash",
+      "deep_equality_assertion_passed": true,
+      "evidence_grade": "B",
+      "observer_is_in_memory": true,
+      "raw_opts_serialized": false
+    },
+    {
+      "configured_timeout_ms": 30000,
+      "expected_provider_timeout_ms": 30000,
+      "provider_model_id": "deepseek-v4-pro",
+      "deep_equality_assertion_passed": true,
+      "evidence_grade": "B",
+      "observer_is_in_memory": true,
+      "raw_opts_serialized": false
+    },
+    {
+      "configured_timeout_ms": 30000,
+      "expected_provider_timeout_ms": 30000,
+      "provider_model_id": "deepseek-v4-flash",
+      "deep_equality_assertion_passed": true,
+      "evidence_grade": "B",
+      "observer_is_in_memory": true,
+      "raw_opts_serialized": false
+    }
+  ],
+  "gate": {
+    "exit_code": 0,
+    "cards": 1,
+    "invariants": 12
+  },
+  "routed_adapter": {
+    "exit_code": 0,
+    "files": 1,
+    "tests": 8,
+    "passed": 8,
+    "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/video-studio"
+  },
+  "runs": [
+    {
+      "command": "node scripts/delivery/mine-clear.mjs run-assertions --ledger outputs/mine-clear/T-2026-1005-0002/timeout-4f5476b/ledger.json --card MC-003 --actor native-entry-independent-acceptance --role acceptance --repo .",
+      "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
+      "exit_code": 127,
+      "session_id": null,
+      "wall_time_seconds": 0.000017875,
+      "stdout_stderr": "zsh:1: command not found: node\n"
+    },
+    {
+      "command": "PATH=/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH node scripts/delivery/mine-clear.mjs run-assertions --ledger outputs/mine-clear/T-2026-1005-0002/timeout-4f5476b/ledger.json --card MC-003 --actor native-entry-independent-acceptance --role acceptance --repo .",
+      "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
+      "exit_code": 0,
+      "session_id": null,
+      "wall_time_seconds": 3.058564458,
+      "stdout_stderr": "{\n  \"id\": \"MC-003\",\n  \"actor\": \"native-entry-independent-acceptance\",\n  \"role\": \"acceptance\",\n  \"result\": \"pass\",\n  \"commit\": \"d91d23e65001836712f7ebd2952794a68c792a35\",\n  \"assertions\": [\n    {\n      \"result\": \"pass\",\n      \"run\": {\n        \"path\": \"runs/MC-003-0-1791190883478.json\",\n        \"sha256\": \"11234feb6c20b522aa7e5c1735d93fee28eac651616849389ad63e602617eec5\",\n        \"commit\": \"d91d23e65001836712f7ebd2952794a68c792a35\"\n      }\n    }\n  ]\n}\n"
+    },
+    {
+      "command": "PATH=/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH node scripts/delivery/mine-clear.mjs gate --ledger outputs/mine-clear/T-2026-1005-0002/timeout-4f5476b/ledger.json --repo .",
+      "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
+      "exit_code": 0,
+      "session_id": null,
+      "wall_time_seconds": 0.355507958,
+      "stdout_stderr": "✓ 台账门禁通过：1 张卡 / 12 条不变量\n"
+    },
+    {
+      "command": "PATH=/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH node node_modules/vitest/vitest.mjs run packages/video-studio/src/routed-adapter.test.ts",
+      "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
+      "exit_code": 1,
+      "session_id": null,
+      "wall_time_seconds": 0.679134875,
+      "stdout_stderr": "\n RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline\n\n ❯ dist-payload/runtime/packages/video-studio/src/routed-adapter.test.ts (0 test)\n\n⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  dist-payload/runtime/packages/video-studio/src/routed-adapter.test.ts [ dist-payload/runtime/packages/video-studio/src/routed-adapter.test.ts ]\nError: Cannot find module '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/dist-payload/runtime/packages/base/model-router/providers.js' imported from /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/dist-payload/runtime/packages/base/model-router/index.ts\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n\n Test Files  1 failed | 1 passed (2)\n      Tests  8 passed (8)\n   Start at  17:02:02\n   Duration  421ms (transform 197ms, setup 0ms, import 224ms, tests 17ms, environment 0ms)\n\n"
+    },
+    {
+      "command": "PATH=/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH node ../../node_modules/vitest/vitest.mjs run src/routed-adapter.test.ts",
+      "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/video-studio",
+      "exit_code": 0,
+      "session_id": null,
+      "wall_time_seconds": 0.48899125,
+      "stdout_stderr": "\n RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/video-studio\n\n\n Test Files  1 passed (1)\n      Tests  8 passed (8)\n   Start at  17:02:32\n   Duration  235ms (transform 79ms, setup 0ms, import 140ms, tests 26ms, environment 0ms)\n\n"
+    }
+  ],
+  "ancestry_checks": [
+    {
+      "audit_to_repair_exit_code": 0
+    },
+    {
+      "repair_to_acceptance_head_exit_code": 0
+    }
+  ],
+  "base_router_diff_from_audit": "empty",
+  "limitations": [
+    "No paid or remote provider I/O",
+    "No film production",
+    "No 30/180/240 second elapsed-time timeout test",
+    "No concurrent cancellation stress test",
+    "No full RDAS 276 audit",
+    "Repair handoff reports video typecheck success; not independently rerun in this round"
+  ],
+  "report": "independent-acceptance.md",
+  "cards": [
+    {
+      "card_id": "MC-001",
+      "source_head": "d91d23e65001836712f7ebd2952794a68c792a35",
+      "actual_exit_code": 0,
+      "gate_exit_code": 0,
+      "ledger_archived_path": "refreshed-cards/MC-001/ledger.json",
+      "ledger_sha256": "073d676a35cc8160d8b0912678aff6b013aef2c3a0b7c9a1ec8d2450c3e926d5",
+      "official_run_archived_path": "refreshed-cards/MC-001/runs/MC-001-0-1791191416774.json",
+      "official_run_sha256": "388af4bcedfda4bf5ae1d5e2ca76b99b35475646796370006c7db89d791a2fa5",
+      "test_summary": {
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "receipt_path": "MC-001-receipt.json"
+    },
+    {
+      "card_id": "MC-002",
+      "source_head": "d91d23e65001836712f7ebd2952794a68c792a35",
+      "actual_exit_code": 0,
+      "gate_exit_code": 0,
+      "ledger_archived_path": "refreshed-cards/MC-002/ledger.json",
+      "ledger_sha256": "1d3060c239088e06a6849090ea5993958782fd4b40ae951666425623e650ae40",
+      "official_run_archived_path": "refreshed-cards/MC-002/runs/MC-002-0-1791191419376.json",
+      "official_run_sha256": "57de9e7a403b8463bd0547604693f7de501b9496fbaccab9802137971ae28c19",
+      "test_summary": {
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "receipt_path": "MC-002-receipt.json"
+    },
+    {
+      "card_id": "MC-003",
+      "source_head": "d91d23e65001836712f7ebd2952794a68c792a35",
+      "actual_exit_code": 0,
+      "gate_exit_code": 0,
+      "ledger_archived_path": "./ledger.json",
+      "ledger_sha256": "af055b61edc2df995b8583cd98a8feaa9d4f0ad015a074f799493278652288a6",
+      "official_run_archived_path": "./runs/MC-003-0-1791190883478.json",
+      "official_run_sha256": "11234feb6c20b522aa7e5c1735d93fee28eac651616849389ad63e602617eec5",
+      "test_summary": {
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "receipt_path": "MC-003-receipt.json"
+    }
+  ],
+  "pg_repeated": false
+}

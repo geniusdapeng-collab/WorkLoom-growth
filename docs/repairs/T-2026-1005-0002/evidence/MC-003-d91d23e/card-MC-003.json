@@ -1,0 +1,14 @@
+{
+  "id": "MC-003", "kind": "problem", "level": "L3", "severity": "P1", "batch": 0, "state": "open",
+  "title": "原生策划适配器丢失超时配置，真实模型默认在60秒被截断",
+  "evidence": [{ "type": "code", "ref": "packages/video-studio/src/llm-adapter.ts:122@4f5476b34c09429169e1f1d70aa848e0eb5d715b", "sha256": "a488d520b6c03dfd95aebf6678d8f051d644eda1f933f773570246477d0201b7", "note": "callChat 的 routeSmart task 没有 timeoutMs；运行时事件实际记录60秒超时，新增默认180秒/配置240秒/配置30秒三组 provider 观察断言均实际失败。" }],
+  "root_cause": { "file": "packages/video-studio/src/llm-adapter.ts", "line": 122, "commit": "4f5476b34c09429169e1f1d70aa848e0eb5d715b", "symbol": "WorkloomLLMEngine.callChat" },
+  "trigger_path": "原生营销事实提取 → 宿主适配器 callChat → routeSmart 默认60秒 → provider abort → queued → 预生产失败",
+  "assertions": [{ "kind": "property", "given": "真实宿主适配器和路由，观察主力与快速 provider 收到的超时参数", "expect": "未配置时两档均收到180000；显式240000或30000时两档均收到精确配置值；零网络/媒体请求。", "command": "node --import tsx --test scripts/native-video-entry.test.mts", "exec": { "file": "node", "args": ["--import", "tsx", "--test", "scripts/native-video-entry.test.mts"] }, "last_result": "not-run" }],
+  "fix_plan": "只在行业适配器的路由任务传 this.cfg.timeoutMs，复用基座既有取消和超时机制。",
+  "blast_radius": "原生预生产主力和快速模型调用；不修改基座、供应商配置、重试次数或预算。",
+  "conflict_paths": ["packages/video-studio/src/llm-adapter.ts", "packages/video-studio/src/routed-adapter.test.ts", "scripts/native-video-entry.test.mts"],
+  "regression": { "command": "node --import tsx --test scripts/native-video-entry.test.mts" },
+  "rollback": "revert 超时透传提交；保留失败策划回执，不重渲媒体。",
+  "notes": "修前路由测试3个反例均失败，provider实际收到60000；真实VID-1004原生事实提取因同原因失败，未提交任何图像或视频。"
+}

@@ -1,0 +1,79 @@
+{
+  "schema": "workloom.evidence-run/v1",
+  "id": "MC-002-0-1791191260766",
+  "command": "node --import tsx --test scripts/native-video-entry.test.mts",
+  "exec": {
+    "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "--test-reporter=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+      "--test-reporter-destination=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/outputs/mine-clear/T-2026-1005-0002/revision-d91d23e/evidence/MC-002-0-1791191260766-node-tests.jsonl",
+      "--test-reporter=tap",
+      "--test-reporter-destination=stdout",
+      "--import",
+      "tsx",
+      "--test",
+      "scripts/native-video-entry.test.mts"
+    ]
+  },
+  "requested_exec": {
+    "file": "node",
+    "args": [
+      "--import",
+      "tsx",
+      "--test",
+      "scripts/native-video-entry.test.mts"
+    ]
+  },
+  "node_observer": {
+    "schema": "workloom.node-test-observer/v1",
+    "reporter_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/scripts/delivery/node-test-reporter.mjs",
+    "reporter_sha256": "286448a4dee571759fc1703564477d27bf5319bcb05ff66db2186deda60bc78f",
+    "destination": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/outputs/mine-clear/T-2026-1005-0002/revision-d91d23e/evidence/MC-002-0-1791191260766-node-tests.jsonl",
+    "summary": {
+      "path": "evidence/MC-002-0-1791191260766-node-tests.jsonl",
+      "sha256": "b2d0dacc5af8e5659a643bb716700a65c58ffcc6bf8f60a692d6a769843bb358",
+      "commit": "d91d23e65001836712f7ebd2952794a68c792a35"
+    }
+  },
+  "node_executable": {
+    "path": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "sha256": "27db838bb204ef7c21df2931f5656e4c8fb32e6e947f363a402b49714d32b5b1"
+  },
+  "actor": "root-video-mechanism-repair",
+  "role": "repair",
+  "subject": {
+    "card_id": "MC-002",
+    "assertion_index": 0
+  },
+  "commit": "d91d23e65001836712f7ebd2952794a68c792a35",
+  "working_tree_dirty": false,
+  "started_at": "2026-10-05T09:07:40.767Z",
+  "finished_at": "2026-10-05T09:07:42.488Z",
+  "exit_code": 0,
+  "signal": null,
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "testSummary": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "result": "pass",
+  "outputs": [
+    {
+      "path": "evidence/MC-002-0-1791191260766.txt",
+      "sha256": "30c520b667a3c7e5d737183a84384b33b0b4a4381568f4ec3f9c4d35f420f2ef",
+      "commit": "d91d23e65001836712f7ebd2952794a68c792a35"
+    },
+    {
+      "path": "evidence/MC-002-0-1791191260766-node-tests.jsonl",
+      "sha256": "b2d0dacc5af8e5659a643bb716700a65c58ffcc6bf8f60a692d6a769843bb358",
+      "commit": "d91d23e65001836712f7ebd2952794a68c792a35"
+    }
+  ]
+}

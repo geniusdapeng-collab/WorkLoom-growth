@@ -1,0 +1,38 @@
+TAP version 13
+# Subtest: a native extraction gets one schema correction and preserves both original responses
+ok 1 - a native extraction gets one schema correction and preserves both original responses
+  ---
+  duration_ms: 57.990167
+  type: 'test'
+  ...
+# Subtest: persistent structural errors stop after exactly two recorded responses
+ok 2 - persistent structural errors stop after exactly two recorded responses
+  ---
+  duration_ms: 0.944833
+  type: 'test'
+  ...
+# Subtest: invented citations cannot enter the format correction path
+ok 3 - invented citations cannot enter the format correction path
+  ---
+  duration_ms: 0.576
+  type: 'test'
+  ...
+# Subtest: a failed extraction call or receipt write stops without additional provider work
+ok 4 - a failed extraction call or receipt write stops without additional provider work
+  ---
+  duration_ms: 0.922084
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 135.24275
+
+
+exit_code=0 signal=none error=none
+assertion_validation={"ok":true,"errors":[],"testSummary":{"total":4,"passed":4,"failed":0,"cancelled":0,"skipped":0,"todo":0}}

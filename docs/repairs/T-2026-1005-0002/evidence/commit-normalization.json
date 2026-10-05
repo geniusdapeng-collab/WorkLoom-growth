@@ -1,0 +1,19 @@
+{
+  "schema": "workloom.commit-normalization-receipt/v1",
+  "createdAt": "2026-10-05T09:51:15.679029+00:00",
+  "reason": "Preserve published failed branches while rebuilding protocol-compliant commit subjects; source trees are identical, no force push or gate change.",
+  "pairs": [
+    {
+      "original": "16353a31679d647d2918e82f8ef95a199a544caf",
+      "normalized": "e38512b06f097fbc7f64f7890c9f992388bd59ac",
+      "tree": "d6cef919ddd28d54d94eb8ae81c2fbb16a17fa56",
+      "gitDiffExitCode": 0
+    },
+    {
+      "original": "8118fd7904b5c3560b487cb1051daac280acb6f1",
+      "normalized": "58d382cf2d3263eb34f515af570d45b98e23ff29",
+      "tree": "4ad7089f9b02b87608e22645d592e200f52a4806",
+      "gitDiffExitCode": 0
+    }
+  ]
+}

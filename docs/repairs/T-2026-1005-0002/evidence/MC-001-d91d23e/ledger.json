@@ -1,0 +1,193 @@
+{
+  "schema": "workloom.mine-clear/ledger@1",
+  "task_id": "T-2026-1005-0001",
+  "repo": "growth-native-pipeline",
+  "repo_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline",
+  "title": "",
+  "created_at": "2026-10-05T00:50:22.784Z",
+  "updated_at": "2026-10-05T09:10:18.911Z",
+  "baseline": {
+    "audit": {
+      "commit": "52a600e3f6a9f94c0ea67b4be5f5d713e5d00ddd",
+      "branch": "task/T-2026-1005-0001",
+      "remote": "origin",
+      "fetched_at": "2026-10-05T00:50:22.169Z",
+      "fetch_status": "success",
+      "notes": ""
+    },
+    "repair": {
+      "commit": "d91d23e65001836712f7ebd2952794a68c792a35",
+      "reverified_problem_ids": []
+    },
+    "acceptance": {
+      "commit": "d91d23e65001836712f7ebd2952794a68c792a35",
+      "is_descendant_of_repair": true
+    }
+  },
+  "environment": {
+    "kind": "local-preview",
+    "notes": ""
+  },
+  "invariants": [
+    {
+      "id": "INV-1",
+      "text": "租户边界覆盖数据库 RLS、运行时上下文、事件、缓存和外部连接器。",
+      "source": "AGENTS.md#4.1"
+    },
+    {
+      "id": "INV-2",
+      "text": "经营事件、审批和关键回执只增不改；纠正通过新事件表达，不静默覆盖证据。",
+      "source": "AGENTS.md#4.2"
+    },
+    {
+      "id": "INV-3",
+      "text": "所有外部或变更性动作及其子调用，统一经过权限、PII、围栏和审批链路。",
+      "source": "AGENTS.md#4.3"
+    },
+    {
+      "id": "INV-4",
+      "text": "涉钱、敏感数据、群发、公开发布、交易和破坏性变更必须按高风险处理并由人审批。",
+      "source": "AGENTS.md#4.4"
+    },
+    {
+      "id": "INV-5",
+      "text": "没有真实回执就不能标记完成；mock、模拟和体验模式在数据结构与界面上都要明确区分。",
+      "source": "AGENTS.md#4.5"
+    },
+    {
+      "id": "INV-6",
+      "text": "客户原始经营数据不得上行；蜂群只接受白名单化、最小化、匿名化且可审计的元数据或派生经验。",
+      "source": "AGENTS.md#4.6"
+    },
+    {
+      "id": "INV-7",
+      "text": "租户覆盖层只能收紧围栏，不能放宽平台不可变红线。",
+      "source": "AGENTS.md#4.7"
+    },
+    {
+      "id": "INV-8",
+      "text": "模型、提示词、技能、bundle、策略和热更新必须先评测再灰度，且始终可回滚。",
+      "source": "AGENTS.md#4.8"
+    },
+    {
+      "id": "INV-9",
+      "text": "platform-ops、平台账户运营和平台秘密只属于 Andromeda。",
+      "source": "AGENTS.md#4.9"
+    },
+    {
+      "id": "INV-10",
+      "text": "Tiger 在获得单独的合规审查和用户明确授权前，只能模拟或纸面交易。",
+      "source": "AGENTS.md#4.10"
+    },
+    {
+      "id": "INV-11",
+      "text": "令牌、密码、API key、私钥、客户凭证和私密客户数据不得进入源码、文档、上下文、提示词、日志或提交。",
+      "source": "AGENTS.md#4.11"
+    },
+    {
+      "id": "INV-12",
+      "text": "个性化与行业扩展不得形成公共机制的第二事实源。",
+      "source": "AGENTS.md#4.12"
+    }
+  ],
+  "cards": [
+    {
+      "id": "MC-001",
+      "kind": "problem",
+      "level": "L3",
+      "severity": "P0",
+      "batch": 0,
+      "state": "verified",
+      "title": "公开视频入口接受调用方分镜并可直连付费渲染，绕过正式策划来源与完整后期",
+      "evidence": [
+        {
+          "type": "code",
+          "ref": "packages/video-studio/src/film-service-client.ts:130@52a600e3f6a9f94c0ea67b4be5f5d713e5d00ddd",
+          "sha256": "ef716aac6905588d0dd31c92322a532789288b0c9addaa7c979e7e23f4a05005",
+          "note": "旧 FilmServiceClient.start 将外部 document 原样提交；同提交 full-chain 仍有公开直连供应商路径。基线实际反例产生 Missing expected rejection，而非测试装载错误。"
+        }
+      ],
+      "root_cause": {
+        "file": "packages/video-studio/src/film-service-client.ts",
+        "line": 130,
+        "commit": "52a600e3f6a9f94c0ea67b4be5f5d713e5d00ddd",
+        "symbol": "FilmServiceClient.start"
+      },
+      "trigger_path": "代理手写 document.shots 或 --shots，直接调用 film.start/full-chain，并选择不完整 stages。",
+      "assertions": [
+        {
+          "kind": "property",
+          "given": "手写分镜、客户阶段产物注入、逐项省略17个正式步骤、post-only；及只含客户意图和档案身份的正常请求",
+          "expect": "不合规输入在DB/网络/渲染之前拒绝；prepare仅提交意图与档案ID；完整服务阶段始终固定。",
+          "command": "node --import tsx --test scripts/native-video-entry.test.mts",
+          "exec": {
+            "file": "node",
+            "args": [
+              "--import",
+              "tsx",
+              "--test",
+              "scripts/native-video-entry.test.mts"
+            ]
+          },
+          "last_result": "pass",
+          "run": {
+            "path": "runs/MC-001-0-1791191416774.json",
+            "sha256": "388af4bcedfda4bf5ae1d5e2ca76b99b35475646796370006c7db89d791a2fa5",
+            "commit": "d91d23e65001836712f7ebd2952794a68c792a35"
+          },
+          "evidence": {
+            "path": "evidence/MC-001-0-1791191416774.txt",
+            "sha256": "ac3d2d451a728355b0b529caa22c21c4b5a36f96e5d8fe07bf5acfc8f8f2b29e",
+            "commit": "d91d23e65001836712f7ebd2952794a68c792a35"
+          }
+        }
+      ],
+      "fix_plan": "服务读取当前PG原生预生产、闸门与精确摘要；公开CLI统一分派固定服务工位；同来源只认领一次；系统前检与17步骤完整性不可裁剪。",
+      "blast_radius": "原先直接传shots的代理/CLI必须迁移到prepare/project；正式载荷包含新CLI与原生vendor；受控人物和商品档案成为系统策划输入；中间系统检查、最终人工验收。",
+      "conflict_paths": [
+        "apps/server/src/video",
+        "packages/video-studio/src",
+        "scripts/tools/full-chain-film.mts",
+        "scripts/tools/film-service-entry.mts",
+        "bundles/geo-growth/capabilities/video.mjs",
+        "scripts/pack-electron-payload.sh",
+        "scripts/pack-macos.sh",
+        "scripts/pack-windows.sh"
+      ],
+      "regression": {
+        "command": "node --import tsx --test scripts/native-video-entry.test.mts"
+      },
+      "rollback": "revert本任务提交；保留原生档案、追加账本、已接受供应商任务与媒体，回滚不自动重新渲染。",
+      "notes": "当前仅视频生产入口定向排雷，不扩称全仓276项RDAS验收；费用实际值未知时保持null。",
+      "verified_by": "native-entry-independent-acceptance",
+      "verified_at": "2026-10-05T09:10:18.911Z",
+      "verification_evidence": {
+        "path": "runs/MC-001-0-1791191416774.json",
+        "sha256": "388af4bcedfda4bf5ae1d5e2ca76b99b35475646796370006c7db89d791a2fa5",
+        "commit": "d91d23e65001836712f7ebd2952794a68c792a35"
+      },
+      "last_assertion_attempt": {
+        "actor": "native-entry-independent-acceptance",
+        "role": "acceptance",
+        "result": "pass",
+        "at": "2026-10-05T09:10:16.770Z",
+        "commit": "d91d23e65001836712f7ebd2952794a68c792a35",
+        "finished_at": "2026-10-05T09:10:18.911Z"
+      },
+      "fixed_by": "root-video-mechanism-repair",
+      "last_verification_attempt": {
+        "actor": "native-entry-independent-acceptance",
+        "result": "pass",
+        "at": "2026-10-05T09:10:18.911Z",
+        "runs": [
+          {
+            "path": "runs/MC-001-0-1791191416774.json",
+            "sha256": "388af4bcedfda4bf5ae1d5e2ca76b99b35475646796370006c7db89d791a2fa5",
+            "commit": "d91d23e65001836712f7ebd2952794a68c792a35"
+          }
+        ]
+      }
+    }
+  ],
+  "gates": []
+}
