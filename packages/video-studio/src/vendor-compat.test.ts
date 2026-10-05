@@ -953,10 +953,18 @@ describe("VideoStudio 的 C1 实际安装入口", () => {
     const result = runInChild(phase3Fixture(`
 const { VideoStudio } = await import(${JSON.stringify(resolve(here, "studio.ts"))});
 const entry = require(${JSON.stringify(join(repoRoot, "vendor/supermickey/hyperreality-system/index.js"))});
+const { PRDGenerator } = require(${JSON.stringify(join(repoRoot, "vendor/supermickey/hyperreality-system/engines/prd-generator/prd-generator.js"))});
+const { ScriptEngine } = require(${JSON.stringify(join(repoRoot, "vendor/supermickey/hyperreality-system/engines/script-engine/index.js"))});
 const OriginalSystem = entry.HyperrealitySystem;
 const originalExecute = Phase3PromptFusion.prototype.execute;
 const events = [];
+const contractMethods = system => [system.prdGenerator.generate, system.prdGenerator.generateMarkdown,
+ system.prdGenerator.agent2._buildPrompt, system.prdGenerator.agent2._getSystemPrompt,
+ system.prdGenerator.agent3._buildPrompt, system.prdGenerator.agent3._getSystemPrompt,
+ system._confirmPRD, system.scriptEngine.process];
+const systems = [];
 let installedAtCreate = false;
+let prdContractInstalled = true;
 let fail = false;
 entry.HyperrealitySystem = class OfflineSystem {
  constructor() {
@@ -964,11 +972,18 @@ entry.HyperrealitySystem = class OfflineSystem {
    discover: async () => { throw new Error("C1 fixture must not run requirement discovery"); },
    generateMarkdown: () => { throw new Error("C1 fixture must not render requirement discovery"); }
   };
+  // Keep the production instance bridge active while this fixture exercises only Phase3.
+  this.prdGenerator = new PRDGenerator();
+  this.scriptEngine = new ScriptEngine();
+  this._confirmPRD = OriginalSystem.prototype._confirmPRD;
+  systems.push({ system: this, methods: contractMethods(this) });
  }
  _convertDiscoveryToRequirementList() { throw new Error("C1 fixture must not convert requirements"); }
  _renderRequirementContract() { throw new Error("C1 fixture must not render requirement contracts"); }
  async create() {
   installedAtCreate = installedAtCreate || listSharedBridges().some(x => x.key === "phase3-fusion-policy-v1");
+  const original = systems.find(row => row.system === this).methods;
+  prdContractInstalled = prdContractInstalled && contractMethods(this).every((method, index) => method !== original[index]);
   const output = await makePhase({}, fail ? { canAfford: () => false } : {}).execute(makeState());
   return { success: output.success, stages: { productionEngine: { ...output.result, shots: output.shots } } };
  }
@@ -984,13 +999,16 @@ try {
  try { await studio.runPreproduction({ projectId: "C1-offline-failure", intent: "观察表盘" }); } catch (e) { failure = e.code; }
  restored = originalExecute === Phase3PromptFusion.prototype.execute && !listSharedBridges().some(x => x.key === "phase3-fusion-policy-v1");
 } finally { entry.HyperrealitySystem = OriginalSystem; }
-console.log("RESULT " + JSON.stringify({ success, status, failure, installedAtCreate, restored, events }));
+const prdContractRestored = systems.length === 2 && systems.every(row => contractMethods(row.system).every((method, index) => method === row.methods[index]));
+console.log("RESULT " + JSON.stringify({ success, status, failure, installedAtCreate, restored, prdContractInstalled, prdContractRestored, events }));
 `));
     expect(result.success).toBe(true);
     expect(result.status).toBe("passed");
     expect(result.failure).toBe("PHASE3_BUDGET_EXHAUSTED");
     expect(result.installedAtCreate).toBe(true);
     expect(result.restored).toBe(true);
+    expect(result.prdContractInstalled).toBe(true);
+    expect(result.prdContractRestored).toBe(true);
     expect(result.events).toEqual(expect.arrayContaining(["pipeline.started", "pipeline.finished", "pipeline.failed"]));
   }, 120_000);
 });
