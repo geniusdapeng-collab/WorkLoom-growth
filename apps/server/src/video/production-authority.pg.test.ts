@@ -5,6 +5,7 @@ import { randomBytes } from "node:crypto";
 import { mkdtemp, mkdir, writeFile, realpath, rm, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { NATIVE_MARKETING_HANDOFF_NOTE } from "@hyperreality/video-studio";
 import { gatewayAppend } from "@workloom/base/workdata";
 import { authorizeRenderSubmission, loadQualifiedRenderInput, qualifyProductionShot } from "./production-authority.js";
 import { prepareMarketingFacts, finalizeMarketingFacts } from "./marketing-authority.js";
@@ -123,8 +124,13 @@ describe.runIf(RUN_DB)("正式生成资格活库契约", () => {
     return { root, prepared, output, outputFile };
   }
 
-  it("营销完整来源事实包→资格签发→Ark适配器提交（网络替身）；A2/A3缺证据用途限制保留", async () => {
-    const state = await marketingSource(); expect(state.prepared.bundle.restrictions).toHaveLength(2);
+  it("营销完整来源事实包→资格签发→Ark适配器提交（网络替身）；原生核查与A2/A3缺证据用途限制保留", async () => {
+    const state = await marketingSource(); expect(state.prepared.bundle.restrictions).toHaveLength(3);
+    expect(state.prepared.bundle.restrictions).toEqual([
+      NATIVE_MARKETING_HANDOFF_NOTE,
+      "没有可核实用户评价：禁止用户口碑、评分、人数、销量或使用效果共识主张",
+      "没有可核实竞品证据：禁止对比、竞品弱点或市场领先主张",
+    ]);
     const qualification = await issue(); const result = await submitGenJob(await input(qualification.qualificationToken));
     expect(result.mock).toBe(false); expect(providerCalls).toBe(1);
     expect((await owner.query("SELECT status FROM production_qualifications WHERE id=$1", [qualification.qualificationId])).rows[0].status).toBe("passed");
