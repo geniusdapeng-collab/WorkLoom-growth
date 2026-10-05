@@ -26,6 +26,10 @@ const a3 = z.object({ competitors: z.array(z.object({ name: text, price_band: te
 export const extractionSchema = z.object({ payload: z.unknown(), citations: z.array(z.object({
   pointer: z.string().min(1).max(500), sourceId: z.string().min(1).max(100), quote: z.string().min(1).max(6000),
 }).strict()).max(200), noEvidenceReason: text.optional() }).strict();
+/** 模型合同从实际校验器生成，避免说明文档漏列字段、约束与 additionalProperties。 */
+export function stageExtractionJsonSchema(stage: IntelStage): Record<string, unknown> {
+  return z.toJSONSchema(extractionSchema.extend({ payload: stage === "A1" ? a1 : stage === "A2" ? a2 : a3 }), { io: "input" });
+}
 export interface ClaimEvidence {
   claimId: string; stage: IntelStage; pointer: string; value: string | number | boolean;
   sourceId: string; textSha256: string; quote: string; quoteStart: number; quoteEnd: number;

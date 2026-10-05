@@ -11,12 +11,14 @@ import { validateStageFacts, revalidateStageFacts, type ValidatedStageFacts } fr
 import { canonicalRenderJson, renderSha256 } from "./gen/compiled-request.js";
 import { SubmissionError } from "./gen/submission-ledger.js";
 import { loadProductArchiveSource } from "./product-archive-source.js";
+import { extractMarketingStageFacts, validateMarketingExtractionResponse, type MarketingExtractionAttempt } from "./marketing-extraction.js";
 
 type RecordValue = Record<string, unknown>;
 export interface MarketingScope { tenantId: string; workspaceId: string; projectId: string; runId: string; attempt: number }
 interface ArchivedSource extends Omit<SourceSnapshot, "text"> { rawRef: string; textRef: string }
 interface StageFactsReport {
   stage: IntelStage; facts: ValidatedStageFacts; sourceIds: string[];
+  extractionAttempts: Array<{ ref: string; sha256: string }>;
   discovery: { queries: unknown[]; candidates: number; fetched: number; omittedCandidates: number; failures: Array<{ url: string; reason: string }> };
   review?: { ref: string; sha256: string; verdict: ProducerVerdict };
 }
@@ -156,17 +158,16 @@ export async function prepareMarketingFacts(input: {
         if (stage === "A1") fail("MARKETING_A1_UNVERIFIED", "商品身份/规格没有任何可抓取核实的来源正文");
         const payload = stage === "A2" ? { reviews: [] } : { competitors: [] };
         const facts = validateStageFacts(stage, { payload, citations: [], noEvidenceReason: "本次未取得可核实正文；不能生产用户口碑、评分、对比或竞品主张" }, []);
-        reports.push({ stage, facts, sourceIds: [], discovery }); return facts.payload;
+        reports.push({ stage, facts, sourceIds: [], discovery, extractionAttempts: [] }); return facts.payload;
       }
       const prompt = `${extractionContract}\n本次查询线索（不是事实）：${canonicalRenderJson(product)}\n当前阶段：${stage}\n` +
         canonicalRenderJson({ sources: pages, plan: stagePlan });
       if (prompt.length > 90_000) fail("MARKETING_REVIEW_TOO_LARGE", "完整来源超单次提取预算，禁止裁剪来源后声称核实");
-      const result = await input.llm.reason(prompt, { forceJson: true, temperature: 0, maxTokens: 8192 });
-      if (!result?.success) fail("MARKETING_EXTRACTION_UNVERIFIED", `事实提取失败：${result?.error ?? "空回包"}`);
-      let parsed: unknown;
-      try { parsed = result.data ?? JSON.parse(result.content ?? ""); }
-      catch { fail("MARKETING_EXTRACTION_UNVERIFIED", "事实提取不是可核实JSON"); }
-      const facts = validateStageFacts(stage, parsed, pages);
+      const extractionAttempts: StageFactsReport["extractionAttempts"] = [];
+      const facts = await extractMarketingStageFacts({ stage, prompt, sources: pages, llm: input.llm, persistAttempt: async record => {
+        const saved = await writeBound(root, `${prefix}-${stage}.extraction-${record.attempt}.json`, canonicalRenderJson({ scope, ...record }));
+        extractionAttempts.push({ ref: saved.ref, sha256: saved.sha256 });
+      } });
       const evidence = await writeBound(root, `${prefix}-${stage}.review.json`, canonicalRenderJson({ scope, productQuery: product, facts, sources: pages }));
       const verdict = await review({ stage: "script", projectId: scope.projectId, env,
         artifacts: [{ path: evidence.path, kind: "json", note: "完整原文、逐主张值、原文引用位置；非搜索摘要" }],
@@ -179,7 +180,7 @@ export async function prepareMarketingFacts(input: {
       });
       if (!accepted(verdict, evidence.path, evidence.sha256)) fail("MARKETING_SUPPORT_REJECTED", `原文支持关系未通过：${verdict.reason}`);
       await readBound(root, evidence.ref, evidence.sha256);
-      reports.push({ stage, facts, sourceIds: pages.map(page => page.sourceId), discovery, review: { ref: evidence.ref, sha256: evidence.sha256, verdict } });
+      reports.push({ stage, facts, sourceIds: pages.map(page => page.sourceId), discovery, extractionAttempts, review: { ref: evidence.ref, sha256: evidence.sha256, verdict } });
       return facts.payload;
     } });
   const raw = {} as Record<IntelStage, RecordValue>;
@@ -263,6 +264,26 @@ export async function verifyMarketingFacts(input: {
     const used = record.sourceIds.map(id => pages.find(source => source.sourceId === id)).filter((source): source is SourceSnapshot => Boolean(source));
     if (used.length !== record.sourceIds.length || new Set(record.sourceIds).size !== record.sourceIds.length) fail("MARKETING_SOURCE_INVALID", "营销来源记录缺失或重复");
     revalidateStageFacts(record.facts, used);
+    if (!Array.isArray(record.extractionAttempts) || (used.length ? record.extractionAttempts.length < 1 || record.extractionAttempts.length > 2 : record.extractionAttempts.length !== 0)) {
+      fail("MARKETING_EXTRACTION_UNVERIFIED", "来源提取缺少本次原响应回执，必须重新原生预生产");
+    }
+    for (const [index, reference] of record.extractionAttempts.entries()) {
+      if (reference.ref !== `${expectedPrefix}-${stage}.extraction-${index + 1}.json`) fail("MARKETING_PATH_INVALID", "提取回执不是当前站的连续执行编号");
+      const attempt = JSON.parse((await readBound(input.root, reference.ref, reference.sha256)).toString("utf8")) as MarketingExtractionAttempt & { scope: MarketingScope };
+      if (attempt.schemaVersion !== "workloom.marketing-extraction-attempt/v1" || attempt.stage !== stage || attempt.attempt !== index + 1
+        || canonicalRenderJson(attempt.scope) !== canonicalRenderJson(input.scope)
+        || renderSha256(canonicalRenderJson(attempt.request)) !== attempt.requestSha256) fail("MARKETING_EXTRACTION_UNBOUND", "原响应回执身份或请求摘要不一致");
+      let replayed: ValidatedStageFacts | undefined, failure: unknown;
+      try { replayed = validateMarketingExtractionResponse(stage, attempt.response, used); }
+      catch (error) { failure = error; }
+      const final = index === record.extractionAttempts.length - 1;
+      if (final ? !replayed || canonicalRenderJson(replayed) !== canonicalRenderJson(record.facts) || canonicalRenderJson(attempt.validation) !== canonicalRenderJson({ ok: true })
+        : replayed || !(failure instanceof Error) || !failure.message.startsWith("MARKETING_PAYLOAD_INVALID：")
+          // JSON归档会排序对象键，Zod错误中的多余字段次序可变；复核错误类别而非展示次序。
+          || attempt.validation?.ok !== false || !attempt.validation.error?.startsWith("MARKETING_PAYLOAD_INVALID：")) {
+        fail("MARKETING_EXTRACTION_CHANGED", "原响应重放与结构校正记录或最终事实不一致");
+      }
+    }
     if (record.facts.claims.length > 0 || record.review) {
       if (!record.review || !record.review.ref.startsWith(expectedPrefix) || !accepted(record.review.verdict, path.join(input.root, record.review.ref), record.review.sha256)) fail("MARKETING_SUPPORT_UNVERIFIED", "缺少真实原文支持关系审核");
       const reviewBytes = await readBound(input.root, record.review.ref, record.review.sha256);
