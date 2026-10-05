@@ -15,6 +15,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { charterSchema } from "@workloom/base/captain";
+import { acquireReleaseGateIdentity } from "./tools/release-gate-identity.js";
 
 const BASE = process.env.SERVER_BASE ?? "http://localhost:8787";
 const REPO_ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -42,15 +43,6 @@ function assert(cond: unknown, msg: string): asserts cond {
 }
 
 /* ================= tRPC 客户端 ================= */
-async function login(workspaceSlug: string, memberNo: string): Promise<string> {
-  const r = await fetch(`${BASE}/trpc/auth.loginAs`, {
-    method: "POST", headers: { "content-type": "application/json" },
-    body: JSON.stringify({ workspaceSlug, memberNo }),
-  });
-  const j = (await r.json()) as { result?: { data?: { token?: string } } };
-  assert(j.result?.data?.token, `登录失败 ${workspaceSlug}/${memberNo}`);
-  return j.result.data.token;
-}
 async function call<T = Record<string, unknown>>(path: string, token: string, body?: unknown, timeoutMs = 30000, method: "mutation" | "query" = "mutation"): Promise<T> {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeoutMs);
@@ -202,10 +194,10 @@ if (!TARGET) {
   results.push({ id: "G-01", name: "工作区探测", ok: false, detail: "无可验收的示例工作区（请先播种当前 Bundle）", ms: 0 });
   console.log("✗ G-01 工作区探测 —— 无可验收的示例工作区（请先播种当前 Bundle）");
 }
-const token = TARGET ? await login(TARGET.slug, TARGET.memberNo).catch(() => "") : "";
-if (TARGET) await check("G-01", `身份签发 · ${TARGET.name}`, async () => {
-  assert(token, "JWT 签发失败");
-  return "JWT 签发正常";
+let token = "";
+if (TARGET) await check("G-01", `身份校验 · ${TARGET.name}`, async () => {
+  token = await acquireReleaseGateIdentity({ base: BASE, target: TARGET!, token: process.env.RELEASE_ACCESS_TOKEN ?? process.env.WORKLOOM_ACCESS_TOKEN });
+  return "服务端当前成员与工作区管理身份校验通过";
 });
 
 /* ---------- 链路一：ASK 问答模式 ---------- */
