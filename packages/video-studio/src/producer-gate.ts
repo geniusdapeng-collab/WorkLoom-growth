@@ -280,9 +280,37 @@ function shrinkImageWithFfmpeg(path: string): string | null {
 
 /** A verdict is not regenerated to repair formatting: another model call can change a denial. */
 function parseJudgeJson(raw: string): unknown {
-  const stripped = raw.replace(/^```(?:json)?\s*/, "").replace(/\s*```$/, "").trim();
-  try { return JSON.parse(stripped); }
+  const trimmed = raw.trim();
+  const fence = /^```(?:json)?[ \t]*\r?\n([\s\S]*?)\r?\n```$/i.exec(trimmed);
+  const text = fence?.[1] ?? trimmed;
+  if (text.length > 100_000) throw new Error("评审裁决超出完整解析预算，禁止截断或重判");
+  let parsed: unknown;
+  try { parsed = JSON.parse(text); }
   catch { throw new Error("评审结果不是合法完整JSON；禁止通过模型重试改写裁决"); }
+  // JSON.parse keeps the last duplicate key. Scan validated JSON before accepting that decision.
+  const stack: Array<{ object: boolean; key: boolean; keys: Set<string> }> = [];
+  for (let i = 0; i < text.length; i += 1) {
+    const ch = text[i];
+    if (ch === "{") stack.push({ object: true, key: true, keys: new Set() });
+    else if (ch === "[") stack.push({ object: false, key: false, keys: new Set() });
+    else if (ch === "}" || ch === "]") stack.pop();
+    else if (ch === "," && stack.at(-1)?.object) stack.at(-1)!.key = true;
+    else if (ch === ":" && stack.at(-1)?.object) stack.at(-1)!.key = false;
+    else if (ch === '"') {
+      const start = i;
+      for (i += 1; i < text.length; i += 1) {
+        if (text[i] === "\\") i += 1;
+        else if (text[i] === '"') break;
+      }
+      const frame = stack.at(-1);
+      if (frame?.object && frame.key) {
+        const key: string = JSON.parse(text.slice(start, i + 1));
+        if (frame.keys.has(key)) throw new Error(`评审JSON包含重复字段 ${key}；原始裁决有歧义，禁止覆盖或重判`);
+        frame.keys.add(key); frame.key = false;
+      }
+    }
+  }
+  return parsed;
 }
 
 type JudgeResult = { approved: boolean; score: number; issues: string[]; suggestions: string[]; reason: string };

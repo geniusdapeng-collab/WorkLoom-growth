@@ -24,6 +24,11 @@ const unsafe = [
   { label: "unknown decision cannot be synthesized", raw: JSON.stringify({ ...good, approved: "maybe" }) },
   { label: "truncated negative JSON cannot be rewritten", raw: '{"approved":false,"score":10,"reason":"原文不支持"' },
   { label: "non-JSON text cannot hide rejection behind a positive object", raw: '原文不支持，approved=false。\n' + JSON.stringify(good) },
+  { label: "duplicate decision keys cannot overwrite a denial", raw: '{"approved":false,"score":10,"approved":true,"score":96,"issues":[],"suggestions":[],"reason":"原文不支持"}' },
+  { label: "escaped duplicate decision keys cannot overwrite a denial", raw: '{"approved":false,"\\u0061pproved":true,"score":96,"issues":[],"suggestions":[],"reason":"原文不支持"}' },
+  { label: "duplicate scores cannot overwrite a low score", raw: '{"approved":true,"score":10,"score":96,"issues":[],"suggestions":[],"reason":"原文不支持"}' },
+  { label: "an unclosed code fence is not a complete verdict", raw: "```json\n" + JSON.stringify(good) },
+  { label: "an unmatched closing fence is not a complete verdict", raw: JSON.stringify(good) + "\n```" },
 ];
 for (const { label, raw } of unsafe) test(label + " stops after one judge call", async () => {
   for (const stage of ["facts", "prompt"] as const) {
