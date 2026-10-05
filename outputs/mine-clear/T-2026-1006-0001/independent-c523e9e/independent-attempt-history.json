@@ -1,0 +1,77 @@
+{
+  "schema": "workloom.independent-attempt-history/v1",
+  "source_commit": "c523e9e24300755a6f65c018712ad85c1005838d",
+  "history": [
+    {
+      "grade": "B",
+      "kind": "Immutable987 history plus explicit filtered-list metadata correction",
+      "source_commit": "98776805f108105a6f5891f1bb3f700331848c78",
+      "evidence": [
+        {
+          "path": "historical/independent-9877680/independent-attempt-history.json",
+          "sha256": "474d833241a65d0a4adb3b8a254ed377daad7c03cc45304f9a926f3e73bb4ed0"
+        },
+        {
+          "path": "historical/independent-9877680-postseal-qa.json",
+          "sha256": "70051737dab75d398ad798e7410d2db99d2539c06d1e27f2d82d5f14644f1261"
+        }
+      ],
+      "actual": "Prior official40 and all19 historical raw failures remain source-bound; original987 list omission kept with explicit external30-name supplement."
+    },
+    {
+      "grade": "B",
+      "kind": "Current separate repair-role39 green",
+      "source_commit": "c523e9e24300755a6f65c018712ad85c1005838d",
+      "actor": "native-video-mechanism-coordinator",
+      "evidence": {
+        "path": "runs/MC-023-0-1791229593448.json",
+        "sha256": "1ef50a26b818e9f7237cfabd7c443603158a6764a8959d82f9bcf6ced852a7ad"
+      },
+      "actual": "39/39 actual0; not counted a second time as independent tests."
+    },
+    {
+      "grade": "B",
+      "kind": "Current independent official39 green",
+      "source_commit": "c523e9e24300755a6f65c018712ad85c1005838d",
+      "actor": "native-entry-independent-acceptance",
+      "evidence": {
+        "path": "runs/MC-023-0-1791229702298.json",
+        "sha256": "1ec011ca49672718ac1f4345bc2a0fb1aac3198e1b1cba698f26619f63455f33",
+        "commit": "c523e9e24300755a6f65c018712ad85c1005838d"
+      },
+      "actual": "39/39 actual0."
+    },
+    {
+      "grade": "B",
+      "kind": "Current first C1 archival collection failure",
+      "source_commit": "c523e9e24300755a6f65c018712ad85c1005838d",
+      "evidence": [
+        {
+          "path": "independent-c1-target.run.json",
+          "sha256": "fb56590db16a9ad090c3e5ab24ca91637ee5934ae2410c9b9051cd1e44850000"
+        },
+        {
+          "path": "independent-c1-vitest.json",
+          "sha256": "358aaa77cb259bf91b56aa7d37addef5bd45b5f3acc5e088c4e5daef3b1cab22"
+        }
+      ],
+      "actual": "Whole commandexit1; actual real C1 target1passed,30skipped; immutable987 reviewed-source copy also discovered and failed collection due missing duration-projection.js. No product regression asserted."
+    },
+    {
+      "grade": "B",
+      "kind": "Current C1 scoped retry",
+      "source_commit": "c523e9e24300755a6f65c018712ad85c1005838d",
+      "evidence": [
+        {
+          "path": "independent-c1-target-retry.run.json",
+          "sha256": "d021b9d9279ec4cd3be13421b16241b4a6bb7b1134d4682d0e431556e9a8b75e"
+        },
+        {
+          "path": "independent-c1-vitest-retry.json",
+          "sha256": "df634054b272bb3a1a227343757b38698afa68b30453ef3a02ab3fc9abd0a437"
+        }
+      ],
+      "actual": "Added outputs exclude at runner command only;1actualsourcefile/1passed/30filtered, whole command0."
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "schema": "workloom.independent-acceptance-receipt/v1",
+  "task_id": "T-2026-1006-0001",
+  "card": "MC-023",
+  "source_commit": "98776805f108105a6f5891f1bb3f700331848c78",
+  "previous_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "repair_actor": "native-video-mechanism-coordinator",
+  "status": "verified-local-preview",
+  "generated_at": "2026-10-05T19:45:02.714993+00:00",
+  "repair_baseline": "98776805f108105a6f5891f1bb3f700331848c78",
+  "acceptance_baseline": "98776805f108105a6f5891f1bb3f700331848c78",
+  "official_run": {
+    "path": "runs/MC-023-0-1791229077985.json",
+    "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+    "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+  },
+  "official_summary": {
+    "total": 39,
+    "passed": 39,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "acceptance_execution": {
+    "path": "independent-acceptance.run.json",
+    "sha256": "f77129c4818bb8d4e6092a7829c2d4726780db0bda39ed1035b788104162ef5d"
+  },
+  "gate_execution": {
+    "path": "independent-gate.run.json",
+    "sha256": "b1541768e81d4f1bbbdc2e926ec40c8b95eb198ab99f9440f841a85b60614bbe"
+  },
+  "c1_target_execution": {
+    "path": "independent-c1-target.run.json",
+    "sha256": "9e484bcc56c25d9021bc35e84c93ec5283aa0ec7e427c78f977aa899e12093c9"
+  },
+  "handoff_execution": {
+    "path": "independent-handoff.run.json",
+    "sha256": "9c8cb192b2c7b94f117f657154a685cd31d607af75f925617b67947a777edf8b"
+  },
+  "post_handoff_gate": {
+    "path": "independent-gate-after-handoff.run.json",
+    "sha256": "4106227965d7fb3468d56d5b360620172b3ee3f61d8877db8a075cae84b7db8d"
+  },
+  "ledger": {
+    "path": "ledger.json",
+    "sha256": "fde9a367b54ba423bbd4fc338db7d3dd352f72a8f7f6835ec2a07775805a1dd1"
+  },
+  "handoff": {
+    "path": "handoff.json",
+    "sha256": "2d0bf72a7addf289e5adb72cce8506777284d36cc2f188348cbb5e4592a68091"
+  },
+  "source_coverage": {
+    "path": "independent-source-coverage.json",
+    "sha256": "7c33cad22df255c129748543750dd9c2759b51bb4f4ac117ff80fcb1e6ca5857"
+  },
+  "source_rebinding": {
+    "path": "source-byte-rebinding.json",
+    "sha256": "29627a01268bc9473294f391818c829d3783e79d02b4070beaa7d9543318866a"
+  },
+  "case_matrix": {
+    "path": "independent-test-cases.json",
+    "sha256": "9830baf79eb366dad2471367d4ef0bfc5df2d8270c3106a7aa68b35138b6c700"
+  },
+  "report": {
+    "path": "independent-acceptance-report.json",
+    "sha256": "5565d389adc860f0bfdf519105df19205780e0823224518a31263136bf747a56"
+  },
+  "attempt_history": {
+    "path": "independent-attempt-history.json",
+    "sha256": "474d833241a65d0a4adb3b8a254ed377daad7c03cc45304f9a926f3e73bb4ed0"
+  },
+  "counts": {
+    "current_official": 39,
+    "current_c1_selected": 1,
+    "current_definition_total": 40,
+    "c1_filtered_not_executed": 30
+  },
+  "inherited19_only": {
+    "source_commit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+    "not_current_execution": true,
+    "required_condition": "All production source bytes unchanged by complete5322 tracked-byte comparison.",
+    "source_equality": {
+      "path": "source-byte-rebinding.json",
+      "sha256": "29627a01268bc9473294f391818c829d3783e79d02b4070beaa7d9543318866a"
+    },
+    "receipt": {
+      "path": "historical/independent-19fff17/independent-acceptance-receipt.json",
+      "sha256": "b5f287bc3fd7c4ca4a4294092c377f8817a719953c0700aa52dd66805c8096a3"
+    },
+    "formal39": 39,
+    "requirement_regression16": 16,
+    "independent_boundaries11": 11,
+    "affected_vitest91": 91,
+    "types_builds": "Definition counts; do not treat overlapping source properties as157 different production behaviors. Repair actor39 cases are separate and not counted again.",
+    "report": {
+      "path": "historical/independent-19fff17/independent-acceptance-report.json",
+      "sha256": "6fc56621937388960b9389d6a273b73544c5cd41108abaaa66d3fd7fd4276a03"
+    },
+    "manifest": {
+      "path": "historical/independent-19fff17/independent-archive-manifest.json",
+      "sha256": "d179e546fe44b126a4f28d6925a67943607724a538c0bf6c261345d6d18a6019"
+    }
+  },
+  "environment_claim": "local-preview",
+  "production_claim": false,
+  "read_only_product_source": true,
+  "no_real_models_media_pg_services": true,
+  "receipt_description": "Actor/source-bound SHA256 audit receipt, not a cryptographic signature or live production approval."
+}

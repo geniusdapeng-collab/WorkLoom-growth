@@ -1,0 +1,14 @@
+{
+  "grade": "B",
+  "checked_at": "2026-10-05T19:53:05.336642+00:00",
+  "official_source": "https://main.vitest.dev/guide/cli.html",
+  "support": "CLI filename filter checks path inclusion; --exclude adds file globs.",
+  "official_exclude_source": "https://main.vitest.dev/config/exclude",
+  "actual_retry_flags": [
+    "--exclude",
+    "**/dist-payload/**",
+    "--exclude",
+    "**/outputs/**"
+  ],
+  "purpose": "Exclude immutable report copies from runner discovery without changing source/tests or the selected C1 -t target."
+}

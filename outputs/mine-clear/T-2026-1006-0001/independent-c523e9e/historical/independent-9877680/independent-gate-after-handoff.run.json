@@ -1,0 +1,41 @@
+{
+  "schema": "workloom.independent-execution/v1",
+  "name": "independent-gate-after-handoff",
+  "source_commit": "98776805f108105a6f5891f1bb3f700331848c78",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "scripts/delivery/mine-clear.mjs",
+    "gate",
+    "--ledger",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/outputs/mine-clear/T-2026-1006-0001/independent-9877680/ledger.json",
+    "--repo",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+    "--json"
+  ],
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+  "started_at": "2026-10-05T19:38:01.852287+00:00",
+  "finished_at": "2026-10-05T19:38:02.251596+00:00",
+  "exit_code": 0,
+  "environment_values": {
+    "HOME": "/Users/mac",
+    "PATH": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "WORKLOOM_ASSERTION_MODULE_ROOT": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+    "NATIVE_ACCEPTANCE_REPO_ROOT": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+    "NATIVE_PRD_SOURCE_ROOT": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+    "WL_FFMPEG": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/no-media-operation/ffmpeg-disabled",
+    "WL_FFPROBE": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/no-media-operation/ffprobe-disabled"
+  },
+  "environment_claim": "local-preview",
+  "external_or_paid_provider": false,
+  "media_creation_allowed": false,
+  "stdout": {
+    "path": "independent-gate-after-handoff.stdout.txt",
+    "sha256": "54e4f91718da2c626c43821517a30c4245a62ffdbcd98d6fe553fe2a3cff9b89"
+  },
+  "stderr": {
+    "path": "independent-gate-after-handoff.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,24 @@
+[pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+ 人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+ 配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+[LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  outputs/mine-clear/T-2026-1006-0001/independent-9877680/reviewed-source/packages/video-studio/src/vendor-compat.test.ts [ outputs/mine-clear/T-2026-1006-0001/independent-9877680/reviewed-source/packages/video-studio/src/vendor-compat.test.ts ]
+Error: Cannot find module './duration-projection.js' imported from '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/outputs/mine-clear/T-2026-1006-0001/independent-9877680/reviewed-source/packages/video-studio/src/vendor-compat.ts'
+ ❯ outputs/mine-clear/T-2026-1006-0001/independent-9877680/reviewed-source/packages/video-studio/src/vendor-compat.ts:22:1
+     20| import { dirname, isAbsolute, join, relative, sep, resolve as resolveP…
+     21| import { fileURLToPath } from "node:url";
+     22| import {
+       | ^
+     23|   applyProjectedDurations,
+     24|   computeVoiceFloor,
+
+Caused by: Error: Failed to load url ./duration-projection.js (resolved id: ./duration-projection.js) in /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/outputs/mine-clear/T-2026-1006-0001/independent-9877680/reviewed-source/packages/video-studio/src/vendor-compat.ts. Does the file exist?
+ ❯ loadAndTransform node_modules/.pnpm/vite@7.3.6_@types+node@24.13.3_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0/node_modules/vite/dist/node/chunks/config.js:22739:33
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

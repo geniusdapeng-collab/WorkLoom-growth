@@ -1,0 +1,48 @@
+{
+  "schema": "workloom.independent-execution/v1",
+  "name": "independent-c1-target-retry",
+  "source_commit": "c523e9e24300755a6f65c018712ad85c1005838d",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "packages/video-studio/node_modules/vitest/vitest.mjs",
+    "run",
+    "packages/video-studio/src/vendor-compat.test.ts",
+    "-t",
+    "runPreproduction 经现有兼容入口安装并消费 Phase3，失败与成功均卸载还原",
+    "--exclude",
+    "**/dist-payload/**",
+    "--exclude",
+    "**/outputs/**",
+    "--testTimeout",
+    "120000",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/outputs/mine-clear/T-2026-1006-0001/independent-c523e9e/independent-c1-vitest-retry.json"
+  ],
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+  "started_at": "2026-10-05T19:49:24.107522+00:00",
+  "finished_at": "2026-10-05T19:49:25.436412+00:00",
+  "exit_code": 0,
+  "environment_values": {
+    "HOME": "/Users/mac",
+    "PATH": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "WORKLOOM_ASSERTION_MODULE_ROOT": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+    "NATIVE_ACCEPTANCE_REPO_ROOT": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+    "NATIVE_PRD_SOURCE_ROOT": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+    "WL_FFMPEG": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/no-media-operation/ffmpeg-disabled",
+    "WL_FFPROBE": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/no-media-operation/ffprobe-disabled"
+  },
+  "environment_claim": "local-preview",
+  "external_or_paid_provider": false,
+  "media_creation_allowed": false,
+  "stdout": {
+    "path": "independent-c1-target-retry.stdout.txt",
+    "sha256": "f9686f0505b954d2a3e32fb4fea48f73a1afab0edf03368ce853931437c44643"
+  },
+  "stderr": {
+    "path": "independent-c1-target-retry.stderr.txt",
+    "sha256": "87510d830c31c89838ed1de5df324cca0e8efd9f975dc2720a0aaaf5ba6e5b57"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "handoff": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/outputs/mine-clear/T-2026-1006-0001/independent-c523e9e/handoff.json",
+  "closed": 1,
+  "open": 0
+}

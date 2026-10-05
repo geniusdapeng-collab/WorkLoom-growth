@@ -1,0 +1,9 @@
+{
+  "schema": "workloom.independent-executor-preflight-failure/v1",
+  "sourceCommit": "19fff17247c075a2bb6c2bbcd8016db42643f682",
+  "actualExitCode": 1,
+  "stage": "before ledger copy or any build/test",
+  "reason": "Prepared executor used ledger['problems'], but official schema uses ledger['cards']; own executor corrected after reading complete ledger. Product source unmodified; no source test red.",
+  "stderr": "KeyError: 'problems'",
+  "capturedAt": "2026-10-05T19:15:20.482014+00:00"
+}

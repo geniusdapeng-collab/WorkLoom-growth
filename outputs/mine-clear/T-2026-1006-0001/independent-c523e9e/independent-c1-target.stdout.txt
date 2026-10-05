@@ -1,0 +1,12 @@
+
+ RUN  v3.2.7 /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c
+
+ ✓ packages/video-studio/src/vendor-compat.test.ts (31 tests | 30 skipped) 542ms
+   ✓ VideoStudio 的 C1 实际安装入口 > runPreproduction 经现有兼容入口安装并消费 Phase3，失败与成功均卸载还原  541ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 passed | 30 skipped (31)
+   Start at  03:48:24
+   Duration  982ms (transform 327ms, setup 0ms, collect 204ms, tests 542ms, environment 0ms, prepare 147ms)
+
+JSON report written to /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/outputs/mine-clear/T-2026-1006-0001/independent-c523e9e/independent-c1-vitest.json

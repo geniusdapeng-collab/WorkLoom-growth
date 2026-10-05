@@ -1,0 +1,607 @@
+{
+  "schema": "workloom.independent-test-cases/v1",
+  "source_commit": "98776805f108105a6f5891f1bb3f700331848c78",
+  "definition_count": 40,
+  "cases": [
+    {
+      "suite": "MC023 official native contract",
+      "name": "native five-agent PRD binds the exact selected CEO attributes and current portrait path",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Current selected CEO profile/eight distinct controlled receipts and compiled G3.",
+      "steps": "Generate through all five native processors.",
+      "expected": "Exact archive ID/name/age/appearance/wardrobe/front path; no new portrait request.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "native agent2 and agent3 prompts receive the complete archive identity, authorization and every original photo hash",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Same complete profile, authorization and all eight receipts.",
+      "steps": "Capture existing agent2/agent3 prompts.",
+      "expected": "Both prompts contain complete source authority and every receipt hash.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "PRD positioning, duration, aspect and summary consume the same G3 authority",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Native inferred22s/16:9 and explicit G3 Brief30s/9:16/wechat.",
+      "steps": "Generate PRD and native summary.",
+      "expected": "Positioning and summary use approved G3 values.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "production quality and acceptance use the strictest original threshold, including score aliases",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Original production and acceptance metrics have unequal valid thresholds.",
+      "steps": "Generate PRD and inspect canonical plus Score aliases.",
+      "expected": "Each metric uses the maximum original legal threshold.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "subtitle delivery is verifiable and matches the original full-chain default sidecar mode",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Existing renderer default is sidecar.",
+      "steps": "Generate PRD and verify original default source.",
+      "expected": "Sidecar SRT/ASS/VTT, unburned master, soft track and validation requirement remain contract fields.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "G4 markdown carries full profile, all eight original receipts, unified delivery and system-only review",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Generated same-instance PRD with current controlled receipts.",
+      "steps": "Render complete Markdown and confirm using a response substitute.",
+      "expected": "Full profiles/all eight receipts/delivery appear; intermediate manual-response template removed.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "native creative core, complete scenes, shot mapping and dialogue remain byte-equivalent",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Fixed native creative/scenes/shot-map/dialogue model response.",
+      "steps": "Generate bound PRD and deep compare native fields.",
+      "expected": "Creative, scenes, mapping and dialogue remain equal to native response.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "approved PRD reaches the actual ScriptEngine parser and adapter with current portraits and exact requirements",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Same-instance PRD accepted by fixture G4.",
+      "steps": "Call actual builder, ScriptEngine generator/parser/adapter.",
+      "expected": "Both output metadata retain exact PRD object, current actor ID/name/portraits and G3 positioning.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "actual native PortraitStudio plans all existing accepted views without manufacturing new image tasks",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Actual native parsed character system and scoped controlled archives.",
+      "steps": "Call PortraitStudio.plan with production-shaped context.characters.",
+      "expected": "One task plans all eight original archive angles; this is planning, not image execution.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "native output renaming the selected CEO fails rather than guessing a singleton identity",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Model response names selected CEO as Lin.",
+      "steps": "Generate PRD.",
+      "expected": "Reject inconsistent name; no singleton identity guess.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "selected profile changed while native PRD agent awaits invalidates its source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Valid complete G3 source before native agent await.",
+      "steps": "Change selected profile age during that await, then resume generation.",
+      "expected": "Reject changed authority before returning a generated PRD.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "explicit Brief changed while native PRD agent awaits invalidates its source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Valid complete G3 source before native agent await.",
+      "steps": "Change explicit Brief platform during that await, then resume generation.",
+      "expected": "Reject changed authority before returning a generated PRD.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "original discovery changed while native PRD agent awaits invalidates its source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Valid complete G3 source before native agent await.",
+      "steps": "Change discovery scene purpose during that await, then resume generation.",
+      "expected": "Reject changed authority before returning a generated PRD.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "original input changed while native PRD agent awaits invalidates its source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Valid complete G3 source before native agent await.",
+      "steps": "Change original input theme during that await, then resume generation.",
+      "expected": "Reject changed authority before returning a generated PRD.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "current portrait bytes changed while native PRD agent awaits invalidates its source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Valid complete G3 source before native agent await.",
+      "steps": "Change current front portrait bytes during that await, then resume generation.",
+      "expected": "Reject changed authority before returning a generated PRD.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "missing or mutated controlled portrait receipts fail before native agent generation",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Selected profile lacks its side receipt.",
+      "steps": "Generate PRD and inspect captured agent calls.",
+      "expected": "Reject before either native agent model callback.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "unapproved PRD cannot enter actual native ScriptEngine",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Generated PRD has never passed fixture G4.",
+      "steps": "Pass it into actual ScriptEngine.",
+      "expected": "Reject unapproved same-instance PRD.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "minimal fallback and a clone of an approved PRD cannot impersonate the G4-owned instance",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "One approved source PRD exists.",
+      "steps": "Substitute native minimal fallback and structured clone.",
+      "expected": "Both replacements reject; public equal bytes cannot replace the owned object.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "G4 rejection leaves no approved PRD for downstream consumption",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Generated PRD and same Markdown.",
+      "steps": "Return G4 approved=false then call ScriptEngine.",
+      "expected": "G4 stays rejected and ScriptEngine rejects.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "an approved G4 with suggestions cannot silently regenerate a different unreviewed PRD",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "G4 substitute reports approved=true with nonempty suggestions.",
+      "steps": "Confirm same generated PRD.",
+      "expected": "Reject a path that would regenerate an unreviewed version.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "altered PRD or different Markdown cannot borrow the generated G4 source seal",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Generated PRD and its exact Markdown.",
+      "steps": "Change Markdown; separately change creativeHook.",
+      "expected": "Neither altered source can borrow the approval seal.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "source changes during actual G4 await cannot retain approval",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Generated same-source PRD.",
+      "steps": "Change Brief duration while G4 awaits.",
+      "expected": "Reject after await; no approved PRD retained.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "source changes during the actual ScriptEngine await invalidate its output",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved same-source PRD.",
+      "steps": "Change selected profile name during actual script processing.",
+      "expected": "Reject returned output after await.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "mutable native script metadata description cannot bypass the complete G3/G4 source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD and ordinary mutable native metadata copy.",
+      "steps": "Change description before actual ScriptEngine consumption and count model callbacks.",
+      "expected": "Reject before any ScriptGenerator model callback.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "mutable native script metadata character_id alias cannot bypass the complete G3/G4 source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD and ordinary mutable native metadata copy.",
+      "steps": "Change character_id alias before actual ScriptEngine consumption and count model callbacks.",
+      "expected": "Reject before any ScriptGenerator model callback.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "mutable native script metadata portraitPaths cannot bypass the complete G3/G4 source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD and ordinary mutable native metadata copy.",
+      "steps": "Change portraitPaths before actual ScriptEngine consumption and count model callbacks.",
+      "expected": "Reject before any ScriptGenerator model callback.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "mutable native script metadata internal PRD override cannot bypass the complete G3/G4 source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD and ordinary mutable native metadata copy.",
+      "steps": "Change internal PRD override before actual ScriptEngine consumption and count model callbacks.",
+      "expected": "Reject before any ScriptGenerator model callback.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "mutable native script metadata internal aspect override cannot bypass the complete G3/G4 source",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD and ordinary mutable native metadata copy.",
+      "steps": "Change internal aspect override before actual ScriptEngine consumption and count model callbacks.",
+      "expected": "Reject before any ScriptGenerator model callback.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "reusing one physical image for multiple named angles cannot impersonate complete accepted views",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Distinct current receipts initially represent complete angles.",
+      "steps": "Reuse front physical file as side.",
+      "expected": "Reject duplicate physical file before agent prompts.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "nested native metadata changed during actual ScriptGenerator await cannot override the approved aspect",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD and valid nested metadata9:16/creative0.85.",
+      "steps": "Change nested aspect to16:9 during actual generator model await.",
+      "expected": "Reject changed nested source and wrong output aspect.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "stable native internal metadata can extend creative intensity while preserving the approved aspect",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Approved PRD with stable nested aspect and native creativeIntensity0.85.",
+      "steps": "Process actual ScriptEngine without mutation.",
+      "expected": "Keep both output aspects9:16 and stable creative extension0.85.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "duplicate selected identities are rejected without picking the first profile",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Valid selected archive.",
+      "steps": "Add an exact duplicate selected profile.",
+      "expected": "Reject duplicate identity without picking the first.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "invalid native quality thresholds are rejected instead of replaced by looser defaults",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Native production constraints initially valid.",
+      "steps": "Return visual quality threshold1.4 from agent4.",
+      "expected": "Reject invalid original threshold without lowering it.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "two independent native instances keep their own contracts when one scope finishes",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Two separately bound actual native systems.",
+      "steps": "Generate/confirm in parallel; dispose first; process second; later use closed captured method.",
+      "expected": "Second retains its source; closed method rejects.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "external instance bridge replacement is detected and original methods are restored",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Active instance bridge.",
+      "steps": "Externally replace generate then dispose.",
+      "expected": "Detect conflict and restore original methods before throwing.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "a legacy narrative without selected archives preserves its native characters and scenes",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "No selected archives.",
+      "steps": "Generate native narrative PRD.",
+      "expected": "Preserve native character system and scenes.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "G4 image evidence is the complete original-byte receipt list, never a text-only assertion",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Eight complete current receipt files.",
+      "steps": "Read evidence projection.",
+      "expected": "All eight exact original receipts include same subject identity and bytes.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "native vendor generator, agents and script source bytes remain unchanged by scoped adapters",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Immutable vendor source files.",
+      "steps": "Hash before and after bound generation/approval.",
+      "expected": "Native generator/orchestrator/script source bytes unchanged.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "MC023 official native contract",
+      "name": "actual native BaseAgent PARSE retry retains every source byte after its ordinary prompt shrink",
+      "source": "scripts/native-prd-contract.test.mts",
+      "preconditions": "Actual BaseAgent with first provider response PARSE failure.",
+      "steps": "Use native retry/shrink then second valid response; capture both requests.",
+      "expected": "Each request includes the entire identical current authority JSON.",
+      "actual": "pass; actual current98739/39 official Node assertion, zero skip/cancel/todo",
+      "grade": "B",
+      "execution": {
+        "path": "runs/MC-023-0-1791229077985.json",
+        "sha256": "8435e98dc6b07af9c6afa8ad846a778a9e5caccd30e32908f37e448c2fe0ebf1",
+        "commit": "98776805f108105a6f5891f1bb3f700331848c78"
+      }
+    },
+    {
+      "suite": "C1 precise changed integration target",
+      "name": "VideoStudio 的 C1 实际安装入口 runPreproduction 经现有兼容入口安装并消费 Phase3，失败与成功均卸载还原",
+      "source": "packages/video-studio/src/vendor-compat.test.ts:951",
+      "preconditions": "Actual VideoStudio.runPreproduction, native PRDGenerator/ScriptEngine/confirmation interfaces; offline Phase3 data and model-response fixtures.",
+      "steps": "Run success instance; assert Phase3 and8 instance contract wrappers installed at create; run budget-rejected second instance; assert events and restoration after both.",
+      "expected": "Success Phase3 passed; failure PHASE3_BUDGET_EXHAUSTED; every instance wrapper restored and shared Phase3 prototype/reference removed.",
+      "actual": "pass;1passed/30filtered pending/0failed in31 definitions; no real provider calls; no production PRD approval claim.",
+      "grade": "B",
+      "execution": {
+        "path": "independent-c1-target.run.json",
+        "sha256": "9e484bcc56c25d9021bc35e84c93ec5283aa0ec7e427c78f977aa899e12093c9"
+      }
+    }
+  ],
+  "filtered_cases": []
+}

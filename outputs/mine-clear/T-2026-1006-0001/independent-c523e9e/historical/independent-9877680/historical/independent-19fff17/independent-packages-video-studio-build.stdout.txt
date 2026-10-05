@@ -1,0 +1,1 @@
+error TS5058: The specified path does not exist: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/video-studio/tsconfig.build.json'.
