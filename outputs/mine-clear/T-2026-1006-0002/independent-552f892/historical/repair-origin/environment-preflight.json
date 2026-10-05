@@ -1,0 +1,851 @@
+{
+  "schema": "workloom.mc024-environment-preflight/v1",
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "at": "2026-10-05T22:47:31.346142+00:00",
+  "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7",
+  "sparsePaths": [
+    "apps/server",
+    "bundles/ai-video/connectors",
+    "bundles/ai-video/pipelines",
+    "docs",
+    "packages",
+    "scripts",
+    "vendor/supermickey"
+  ],
+  "plannedRuntimeFiles": [
+    {
+      "path": "packages/video-studio/src/producer-gate.ts",
+      "bytes": 37446,
+      "sha256": "b2e79daffe9da2d00b7469ba0cded7178a85c9a52208cbc292cbff8ce497bcc9"
+    },
+    {
+      "path": "packages/video-studio/src/shot-intent.ts",
+      "bytes": 673,
+      "sha256": "dd4063d2408cfdfa5985542ad398fdc60f1f01d39adbff59e97fa15aef5189b3"
+    },
+    {
+      "path": "packages/video-studio/src/device-policy.ts",
+      "bytes": 16370,
+      "sha256": "301e77574bca1438c166cba18f01b38c24c41351b5fb9ec36d5a182e72215a6d"
+    },
+    {
+      "path": "packages/video-studio/src/scene-bible.ts",
+      "bytes": 29866,
+      "sha256": "46d77d82ff8f198ddebee7db8335523dbf44f472b4fef9cee48a9a31c1bf9c0c"
+    },
+    {
+      "path": "packages/video-studio/src/era-profile.ts",
+      "bytes": 4002,
+      "sha256": "93354bfab063c1cc513cf4a869ed603b778123e265a54825f4088786aa3d6802"
+    },
+    {
+      "path": "packages/video-studio/src/index.ts",
+      "bytes": 2896,
+      "sha256": "1552d1217d7a0276c891041416c310cfe8fd83404064456259dbead6e1375c1d"
+    },
+    {
+      "path": "packages/video-studio/src/native-marketing-dossier.ts",
+      "bytes": 17492,
+      "sha256": "e419e12e251b9b43258eba32be488966f4266e59a5ce16af7db6efce4bc56669"
+    },
+    {
+      "path": "packages/video-studio/src/source-restrictions.ts",
+      "bytes": 1937,
+      "sha256": "80ae90758efbf037f5c5b7fe24aab05cfdbf65b09548b90839eee7b17df32e78"
+    },
+    {
+      "path": "packages/video-studio/src/studio.ts",
+      "bytes": 26959,
+      "sha256": "5fa20445a4ceff5661c728ca16e4d291b06876330ee400a519191d3d3c8ef6b3"
+    },
+    {
+      "path": "packages/video-studio/src/llm-adapter.ts",
+      "bytes": 16493,
+      "sha256": "87d56dd460a9dffd8141f52c3ad8e89aebb93e094cda34269e13066b94860804"
+    },
+    {
+      "path": "bundles/ai-video/connectors/cine-kb-bridge/shot-intent.mjs",
+      "bytes": 21777,
+      "sha256": "31a03c0700252cbd384c90c79baa1adff4f1d366396cdbda8501780f3006efb4"
+    },
+    {
+      "path": "bundles/ai-video/connectors/cine-kb-bridge/shot-intent.d.mts",
+      "bytes": 2726,
+      "sha256": "509d9d429e33e62ba472e8674fc281678e9fe500374dab505d47455b72441118"
+    },
+    {
+      "path": "apps/server/src/video/marketing-facts.ts",
+      "bytes": 7563,
+      "sha256": "729473acc0365e722bd950ac93f6ab06ea61be8642e56aa0173c9ecccf3a70e6"
+    },
+    {
+      "path": "apps/server/src/video/marketing-authority.ts",
+      "bytes": 35009,
+      "sha256": "f1b0952c5b4f72f01c76ca85f4417ef846441737749601e0c167e18e6f64f590"
+    },
+    {
+      "path": "apps/server/src/video/marketing-extraction.ts",
+      "bytes": 4085,
+      "sha256": "e916021a3db3662e22defa4ebc263fd2051f632fb5f4ab601b07e757ae49ccfa"
+    },
+    {
+      "path": "apps/server/src/video/marketing-source-fetcher.ts",
+      "bytes": 10163,
+      "sha256": "63f1968f0f6d43cb7e5b659b2192bfe1f43fab081841b889b6844f430bc79b76"
+    },
+    {
+      "path": "apps/server/src/video/product-source-policy.ts",
+      "bytes": 8409,
+      "sha256": "3da1a48b774e340d369d37be296339591cd95beb74e2753d9da9af8c7fbb4676"
+    },
+    {
+      "path": "apps/server/src/video/product-archive-source.ts",
+      "bytes": 4003,
+      "sha256": "385b6979bc45f7d5735d51a300cfe593f474ea76600671758ffe498789fa41aa"
+    },
+    {
+      "path": "apps/server/src/video/gen/compiled-request.ts",
+      "bytes": 9890,
+      "sha256": "8eef97897d6da113c56f2543098c0f27f0fbda171443869db29095ff965f181a"
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/index.js",
+      "bytes": 205980,
+      "sha256": "489171f35ce7cf5fc2cc4387e07380337ea1a574df638533f2b90ed6bd1f86fd"
+    },
+    {
+      "path": "vendor/supermickey/hyperreality-system/engines/data-mining-engine/index.js",
+      "bytes": 11688,
+      "sha256": "fdfb26ca8a788478ca03a502777208b0e43f0f3f86a00c46ebc2db04a231e172"
+    },
+    {
+      "path": "scripts/native-marketing-facts-scoring.test.mts",
+      "bytes": 19304,
+      "sha256": "dcdf62dc459b039115ab268af95ee995fbd0ba2c9c9118d10a29b5f5e6e46c11"
+    },
+    {
+      "path": "scripts/native-marketing-review.test.mts",
+      "bytes": 3848,
+      "sha256": "45173c35debedd914950a941a6f6cf0c7a1094d051fd54129b583911827cb46f"
+    },
+    {
+      "path": "scripts/native-marketing-extraction.test.mts",
+      "bytes": 4543,
+      "sha256": "54c7136563ed43d219940cb1667db51c65e2ae7dc7a100ef10512a54d05562eb"
+    },
+    {
+      "path": "scripts/native-marketing-dossier.test.mts",
+      "bytes": 23728,
+      "sha256": "59c1db20b8cd44c1cec0ad2961a9571c502c57fabcb50151e49f9764b84d1dd0"
+    }
+  ],
+  "dependencyModuleOrigins": [
+    {
+      "from": "packages/runtime/node_modules/zod",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/zod@4.6.5/node_modules/zod",
+      "workspace": false
+    },
+    {
+      "from": "packages/runtime/node_modules/@types/pg",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/@types+pg@8.23.1/node_modules/@types/pg",
+      "workspace": false
+    },
+    {
+      "from": "packages/runtime/node_modules/.bin",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/runtime/node_modules/.bin",
+      "workspace": false
+    },
+    {
+      "from": "packages/runtime/node_modules/vitest",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/vitest@5.0.2_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_7ee656f5c3f5175d596ca0235a70f107/node_modules/vitest",
+      "workspace": false
+    },
+    {
+      "from": "packages/runtime/node_modules/typescript",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+      "workspace": false
+    },
+    {
+      "from": "packages/runtime/node_modules/pg",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/pg@8.23.0/node_modules/pg",
+      "workspace": false
+    },
+    {
+      "from": "packages/runtime/node_modules/@workloom/shared",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/shared",
+      "workspace": true
+    },
+    {
+      "from": "packages/runtime/node_modules/@workloom/db",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/db",
+      "workspace": true
+    },
+    {
+      "from": "packages/runtime/node_modules/@workloom/base",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/base",
+      "workspace": true
+    },
+    {
+      "from": "packages/runtime/node_modules/.vite",
+      "to": "/Users/mac/Documents/Codex/2026-09-19/workloom-ai-ai-1-ceo-2/work/growth/packages/runtime/node_modules/.vite",
+      "workspace": false
+    },
+    {
+      "from": "packages/shared/node_modules/zod",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/zod@4.6.5/node_modules/zod",
+      "workspace": false
+    },
+    {
+      "from": "packages/shared/node_modules/.bin",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/shared/node_modules/.bin",
+      "workspace": false
+    },
+    {
+      "from": "packages/shared/node_modules/vitest",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/vitest@5.0.2_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_7ee656f5c3f5175d596ca0235a70f107/node_modules/vitest",
+      "workspace": false
+    },
+    {
+      "from": "packages/shared/node_modules/typescript",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+      "workspace": false
+    },
+    {
+      "from": "packages/shared/node_modules/.vite",
+      "to": "/Users/mac/Documents/Codex/2026-09-19/workloom-ai-ai-1-ceo-2/work/growth/packages/shared/node_modules/.vite",
+      "workspace": false
+    },
+    {
+      "from": "packages/audit-engine/node_modules/.bin",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/audit-engine/node_modules/.bin",
+      "workspace": false
+    },
+    {
+      "from": "packages/audit-engine/node_modules/vitest",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/vitest@3.2.7_@types+debug@4.1.13_@types+node@26.3.0_jiti@2.7.0_jsdom@30.1.0_@noble+hash_f0ffff8a60a464cffa5a7c9ad77e1dbd/node_modules/vitest",
+      "workspace": false
+    },
+    {
+      "from": "packages/audit-engine/node_modules/typescript",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+      "workspace": false
+    },
+    {
+      "from": "packages/audit-engine/node_modules/.vite",
+      "to": "/Users/mac/Documents/Codex/2026-09-19/workloom-ai-ai-1-ceo-2/work/growth/packages/audit-engine/node_modules/.vite",
+      "workspace": false
+    },
+    {
+      "from": "packages/db/node_modules/@types/pg",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/@types+pg@8.23.1/node_modules/@types/pg",
+      "workspace": false
+    },
+    {
+      "from": "packages/db/node_modules/.bin",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/db/node_modules/.bin",
+      "workspace": false
+    },
+    {
+      "from": "packages/db/node_modules/tsx",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/tsx@4.23.13/node_modules/tsx",
+      "workspace": false
+    },
+    {
+      "from": "packages/db/node_modules/typescript",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+      "workspace": false
+    },
+    {
+      "from": "packages/db/node_modules/pg",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/pg@8.23.0/node_modules/pg",
+      "workspace": false
+    },
+    {
+      "from": "packages/db/node_modules/@workloom/shared",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/shared",
+      "workspace": true
+    },
+    {
+      "from": "packages/db/node_modules/drizzle-orm",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.1_@types+pg@8.23.1_pg@8.23.0/node_modules/drizzle-orm",
+      "workspace": false
+    },
+    {
+      "from": "packages/base/node_modules/zod",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/zod@4.6.5/node_modules/zod",
+      "workspace": false
+    },
+    {
+      "from": "packages/base/node_modules/@types/pg",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/@types+pg@8.23.1/node_modules/@types/pg",
+      "workspace": false
+    },
+    {
+      "from": "packages/base/node_modules/.bin",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/base/node_modules/.bin",
+      "workspace": false
+    },
+    {
+      "from": "packages/base/node_modules/.vite-temp",
+      "to": "/Users/mac/Documents/Codex/2026-09-19/workloom-ai-ai-1-ceo-2/work/growth/packages/base/node_modules/.vite-temp",
+      "workspace": false
+    },
+    {
+      "from": "packages/base/node_modules/vitest",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/vitest@5.0.2_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_7ee656f5c3f5175d596ca0235a70f107/node_modules/vitest",
+      "workspace": false
+    },
+    {
+      "from": "packages/base/node_modules/typescript",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "workspace": false
+    },
+    {
+      "from": "packages/base/node_modules/jose",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/jose@6.2.12/node_modules/jose",
+      "workspace": false
+    },
+    {
+      "from": "packages/base/node_modules/pg",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/pg@8.23.0/node_modules/pg",
+      "workspace": false
+    },
+    {
+      "from": "packages/base/node_modules/@workloom/shared",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/shared",
+      "workspace": true
+    },
+    {
+      "from": "packages/base/node_modules/@workloom/db",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/db",
+      "workspace": true
+    },
+    {
+      "from": "packages/base/node_modules/@workloom/industry-contract",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/industry-contract",
+      "workspace": true
+    },
+    {
+      "from": "packages/base/node_modules/yaml",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/yaml@2.9.0/node_modules/yaml",
+      "workspace": false
+    },
+    {
+      "from": "packages/base/node_modules/.vite",
+      "to": "/Users/mac/Documents/Codex/2026-09-19/workloom-ai-ai-1-ceo-2/work/growth/packages/base/node_modules/.vite",
+      "workspace": false
+    },
+    {
+      "from": "packages/industry-contract/node_modules/zod",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/zod@4.6.5/node_modules/zod",
+      "workspace": false
+    },
+    {
+      "from": "packages/industry-contract/node_modules/.bin",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/industry-contract/node_modules/.bin",
+      "workspace": false
+    },
+    {
+      "from": "packages/industry-contract/node_modules/vitest",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/vitest@5.0.2_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_7ee656f5c3f5175d596ca0235a70f107/node_modules/vitest",
+      "workspace": false
+    },
+    {
+      "from": "packages/industry-contract/node_modules/typescript",
+      "to": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "workspace": false
+    },
+    {
+      "from": "packages/industry-contract/node_modules/.vite",
+      "to": "/Users/mac/Documents/Codex/2026-09-19/workloom-ai-ai-1-ceo-2/work/growth/packages/industry-contract/node_modules/.vite",
+      "workspace": false
+    }
+  ],
+  "declaredDependencyChecks": [
+    {
+      "manifest": "package.json",
+      "section": "dependencies",
+      "package": "@workloom/audit-engine",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/audit-engine",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "dependencies",
+      "package": "@workloom/base",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/base",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "dependencies",
+      "package": "@workloom/db",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/db",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "dependencies",
+      "package": "@workloom/runtime",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/runtime",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "dependencies",
+      "package": "@workloom/shared",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/shared",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "dependencies",
+      "package": "pg",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/pg@8.23.0/node_modules/pg",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "dependencies",
+      "package": "yaml",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/yaml@2.9.0/node_modules/yaml",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "devDependencies",
+      "package": "@axe-core/playwright",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/@axe-core+playwright@4.13.0_playwright-core@1.63.0/node_modules/@axe-core/playwright",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "devDependencies",
+      "package": "@types/node",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/@types+node@24.13.3/node_modules/@types/node",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "devDependencies",
+      "package": "concurrently",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/concurrently@9.2.4/node_modules/concurrently",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "devDependencies",
+      "package": "electron",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/electron@44.1.1/node_modules/electron",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "devDependencies",
+      "package": "electron-builder",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/electron-builder@26.15.3_electron-builder-squirrel-windows@26.15.3/node_modules/electron-builder",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "devDependencies",
+      "package": "tsx",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/tsx@4.23.12/node_modules/tsx",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "devDependencies",
+      "package": "typescript",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "devDependencies",
+      "package": "typescript-governance",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "devDependencies",
+      "package": "vitest",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/vitest@4.1.11_@opentelemetry+api@1.9.1_@types+node@24.13.3_jsdom@30.1.0_@noble+hashes@2_48726ce37cdb048fb36115f26b961b07/node_modules/vitest",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "devDependencies",
+      "package": "yaml",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/yaml@2.9.0/node_modules/yaml",
+      "exists": true
+    },
+    {
+      "manifest": "package.json",
+      "section": "devDependencies",
+      "package": "yaml-governance",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/yaml@2.9.0/node_modules/yaml",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "dependencies",
+      "package": "@hono/node-server",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/@hono+node-server@2.1.1_hono@4.13.8/node_modules/@hono/node-server",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "dependencies",
+      "package": "@trpc/server",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/@trpc+server@11.19.0_typescript@7.0.2/node_modules/@trpc/server",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "dependencies",
+      "package": "@workloom/base",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/base",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "dependencies",
+      "package": "@workloom/db",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/db",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "dependencies",
+      "package": "@workloom/runtime",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/runtime",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "dependencies",
+      "package": "@workloom/shared",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/shared",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "dependencies",
+      "package": "hono",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/hono@4.13.8/node_modules/hono",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "dependencies",
+      "package": "jose",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/jose@6.2.12/node_modules/jose",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "dependencies",
+      "package": "zod",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/zod@4.6.5/node_modules/zod",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "dependencies",
+      "package": "@hyperreality/video-studio",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/video-studio",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "dependencies",
+      "package": "yaml",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/yaml@2.9.0/node_modules/yaml",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "devDependencies",
+      "package": "@types/node",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/@types+node@24.13.3/node_modules/@types/node",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "devDependencies",
+      "package": "@types/pg",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/@types+pg@8.23.1/node_modules/@types/pg",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "devDependencies",
+      "package": "tsx",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/tsx@4.23.13/node_modules/tsx",
+      "exists": true
+    },
+    {
+      "manifest": "apps/server/package.json",
+      "section": "devDependencies",
+      "package": "typescript",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "exists": true
+    },
+    {
+      "manifest": "packages/video-studio/package.json",
+      "section": "dependencies",
+      "package": "zod",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/zod@4.6.5/node_modules/zod",
+      "exists": true
+    },
+    {
+      "manifest": "packages/video-studio/package.json",
+      "section": "devDependencies",
+      "package": "@types/node",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/@types+node@24.13.3/node_modules/@types/node",
+      "exists": true
+    },
+    {
+      "manifest": "packages/video-studio/package.json",
+      "section": "devDependencies",
+      "package": "typescript",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+      "exists": true
+    },
+    {
+      "manifest": "packages/video-studio/package.json",
+      "section": "devDependencies",
+      "package": "vitest",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/vitest@3.2.7_@types+debug@4.1.13_@types+node@24.13.3_jiti@2.7.0_jsdom@30.1.0_@noble+has_ae6a3f772809d6381815754ef1cd9a38/node_modules/vitest",
+      "exists": true
+    },
+    {
+      "manifest": "packages/runtime/package.json",
+      "section": "dependencies",
+      "package": "@workloom/base",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/base",
+      "exists": true
+    },
+    {
+      "manifest": "packages/runtime/package.json",
+      "section": "dependencies",
+      "package": "@workloom/db",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/db",
+      "exists": true
+    },
+    {
+      "manifest": "packages/runtime/package.json",
+      "section": "dependencies",
+      "package": "@workloom/shared",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/shared",
+      "exists": true
+    },
+    {
+      "manifest": "packages/runtime/package.json",
+      "section": "dependencies",
+      "package": "pg",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/pg@8.23.0/node_modules/pg",
+      "exists": true
+    },
+    {
+      "manifest": "packages/runtime/package.json",
+      "section": "dependencies",
+      "package": "zod",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/zod@4.6.5/node_modules/zod",
+      "exists": true
+    },
+    {
+      "manifest": "packages/runtime/package.json",
+      "section": "devDependencies",
+      "package": "@types/pg",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/@types+pg@8.23.1/node_modules/@types/pg",
+      "exists": true
+    },
+    {
+      "manifest": "packages/runtime/package.json",
+      "section": "devDependencies",
+      "package": "typescript",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+      "exists": true
+    },
+    {
+      "manifest": "packages/runtime/package.json",
+      "section": "devDependencies",
+      "package": "vitest",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/vitest@5.0.2_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_7ee656f5c3f5175d596ca0235a70f107/node_modules/vitest",
+      "exists": true
+    },
+    {
+      "manifest": "packages/shared/package.json",
+      "section": "dependencies",
+      "package": "zod",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/zod@4.6.5/node_modules/zod",
+      "exists": true
+    },
+    {
+      "manifest": "packages/shared/package.json",
+      "section": "devDependencies",
+      "package": "typescript",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+      "exists": true
+    },
+    {
+      "manifest": "packages/shared/package.json",
+      "section": "devDependencies",
+      "package": "vitest",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/vitest@5.0.2_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_7ee656f5c3f5175d596ca0235a70f107/node_modules/vitest",
+      "exists": true
+    },
+    {
+      "manifest": "packages/audit-engine/package.json",
+      "section": "devDependencies",
+      "package": "typescript",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+      "exists": true
+    },
+    {
+      "manifest": "packages/audit-engine/package.json",
+      "section": "devDependencies",
+      "package": "vitest",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/vitest@3.2.7_@types+debug@4.1.13_@types+node@26.3.0_jiti@2.7.0_jsdom@30.1.0_@noble+hash_f0ffff8a60a464cffa5a7c9ad77e1dbd/node_modules/vitest",
+      "exists": true
+    },
+    {
+      "manifest": "packages/db/package.json",
+      "section": "dependencies",
+      "package": "@workloom/shared",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/shared",
+      "exists": true
+    },
+    {
+      "manifest": "packages/db/package.json",
+      "section": "dependencies",
+      "package": "drizzle-orm",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.1_@types+pg@8.23.1_pg@8.23.0/node_modules/drizzle-orm",
+      "exists": true
+    },
+    {
+      "manifest": "packages/db/package.json",
+      "section": "dependencies",
+      "package": "pg",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/pg@8.23.0/node_modules/pg",
+      "exists": true
+    },
+    {
+      "manifest": "packages/db/package.json",
+      "section": "devDependencies",
+      "package": "@types/pg",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/@types+pg@8.23.1/node_modules/@types/pg",
+      "exists": true
+    },
+    {
+      "manifest": "packages/db/package.json",
+      "section": "devDependencies",
+      "package": "tsx",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/tsx@4.23.13/node_modules/tsx",
+      "exists": true
+    },
+    {
+      "manifest": "packages/db/package.json",
+      "section": "devDependencies",
+      "package": "typescript",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+      "exists": true
+    },
+    {
+      "manifest": "packages/base/package.json",
+      "section": "dependencies",
+      "package": "@workloom/db",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/db",
+      "exists": true
+    },
+    {
+      "manifest": "packages/base/package.json",
+      "section": "dependencies",
+      "package": "@workloom/industry-contract",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/industry-contract",
+      "exists": true
+    },
+    {
+      "manifest": "packages/base/package.json",
+      "section": "dependencies",
+      "package": "@workloom/shared",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/packages/shared",
+      "exists": true
+    },
+    {
+      "manifest": "packages/base/package.json",
+      "section": "dependencies",
+      "package": "jose",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/jose@6.2.12/node_modules/jose",
+      "exists": true
+    },
+    {
+      "manifest": "packages/base/package.json",
+      "section": "dependencies",
+      "package": "pg",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/pg@8.23.0/node_modules/pg",
+      "exists": true
+    },
+    {
+      "manifest": "packages/base/package.json",
+      "section": "dependencies",
+      "package": "yaml",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/yaml@2.9.0/node_modules/yaml",
+      "exists": true
+    },
+    {
+      "manifest": "packages/base/package.json",
+      "section": "dependencies",
+      "package": "zod",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/zod@4.6.5/node_modules/zod",
+      "exists": true
+    },
+    {
+      "manifest": "packages/base/package.json",
+      "section": "devDependencies",
+      "package": "@types/pg",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/@types+pg@8.23.1/node_modules/@types/pg",
+      "exists": true
+    },
+    {
+      "manifest": "packages/base/package.json",
+      "section": "devDependencies",
+      "package": "typescript",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "exists": true
+    },
+    {
+      "manifest": "packages/base/package.json",
+      "section": "devDependencies",
+      "package": "vitest",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/vitest@5.0.2_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_7ee656f5c3f5175d596ca0235a70f107/node_modules/vitest",
+      "exists": true
+    },
+    {
+      "manifest": "packages/industry-contract/package.json",
+      "section": "dependencies",
+      "package": "zod",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/zod@4.6.5/node_modules/zod",
+      "exists": true
+    },
+    {
+      "manifest": "packages/industry-contract/package.json",
+      "section": "devDependencies",
+      "package": "typescript",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "exists": true
+    },
+    {
+      "manifest": "packages/industry-contract/package.json",
+      "section": "devDependencies",
+      "package": "vitest",
+      "resolvedPath": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules/.pnpm/vitest@5.0.2_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_7ee656f5c3f5175d596ca0235a70f107/node_modules/vitest",
+      "exists": true
+    }
+  ],
+  "note": "Source workspace packages resolve to the owned task checkout. Third-party dependencies are read-only symlinks to existing installed dependencies; no install or source substitution occurred."
+}

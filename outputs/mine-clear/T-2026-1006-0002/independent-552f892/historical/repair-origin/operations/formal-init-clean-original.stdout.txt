@@ -1,0 +1,4 @@
+✓ 台账已建：/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-current/ledger.json
+· 审计基线 c523e9e2 · 分支 HEAD · 任务 T-2026-1006-0002
+! 本地 HEAD 不是 origin/main 最新（云端 52a600e3 / 本地 c523e9e2）——按 §1.2 先对齐基线
+· 下一步：invariants（不变量）→ card-template + add（上账）→ gate（门禁）

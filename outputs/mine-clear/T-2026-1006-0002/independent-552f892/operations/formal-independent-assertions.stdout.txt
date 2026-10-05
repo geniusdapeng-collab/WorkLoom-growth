@@ -1,0 +1,25 @@
+{
+  "id": "MC-024",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "result": "pass",
+  "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91",
+  "assertions": [
+    {
+      "result": "pass",
+      "run": {
+        "path": "runs/MC-024-0-1791243084153.json",
+        "sha256": "1240742327cf0a8adaaa7ffccdb8ae591a3d2f30e2bac61f59d58dab04ddf725",
+        "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91"
+      }
+    },
+    {
+      "result": "pass",
+      "run": {
+        "path": "runs/MC-024-1-1791243085376.json",
+        "sha256": "445c343af9d7e76d8409fecc1314f768da7a809282a0d5dfda5954c5ffda299d",
+        "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91"
+      }
+    }
+  ]
+}

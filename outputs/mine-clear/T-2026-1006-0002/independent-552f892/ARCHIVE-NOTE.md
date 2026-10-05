@@ -1,0 +1,7 @@
+# MC024 独立原字节审阅封存
+
+此目录是552f892最终源的独立local-preview证据。当前146案例来自本卡实际56+90运行，原操作根在receipt中保持。仓内/聊天outputs/交付副本都不构成新的执行，不能改写历史或当前Node observer的绝对destination、reporter身份、源SHA或actor。
+
+historical/repair-origin为修复角色123文件与manifest的原字节副本，源5bee；历史fixed与空acceptance原记录仍保留。原MC023209文件没有重复嵌套复制，只保存原manifest与逐字节验证位置。环境初次失败、旧store23无关断链和选用104传递依赖闭环分别保留。
+
+新真实模型语义结果、原意图预生产、完整影片及生产发行尚未由本角色执行；本机协议与结构通过不升级这些范围。

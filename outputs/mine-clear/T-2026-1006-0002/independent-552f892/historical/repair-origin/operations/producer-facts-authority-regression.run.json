@@ -1,0 +1,31 @@
+{
+  "schema": "workloom.mc024-actual-operation/v1",
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024",
+  "argv": [
+    "/usr/bin/env",
+    "WL_FFMPEG=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/mc024-no-media-executable",
+    "WL_FFPROBE=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/mc024-no-media-executable",
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "node_modules/vitest/vitest.mjs",
+    "run",
+    "packages/video-studio/src/producer-gate.test.ts",
+    "apps/server/src/video/marketing-facts.test.ts",
+    "apps/server/src/video/marketing-authority.test.ts",
+    "--maxWorkers=1",
+    "--no-file-parallelism",
+    "--reporter=json",
+    "--outputFile=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/producer-facts-authority-vitest.json",
+    "--testTimeout=30000"
+  ],
+  "startedAt": "2026-10-05T22:57:05.006513+00:00",
+  "finishedAt": "2026-10-05T22:57:06.785599+00:00",
+  "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+  "workingTreeDirtyAfter": false,
+  "exitCode": 0,
+  "stdout": "operations/producer-facts-authority-regression.stdout.txt",
+  "stderr": "operations/producer-facts-authority-regression.stderr.txt",
+  "stdoutSha256": "b05349c8df8a94c59bc1b4a9d4f29155ee6d6479b83b068781a5f4aa2deca0ae",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,2 @@
+[ProcessGuard] 实例 default 安装完成（含SIGTERM/SIGINT处理）
+Owned facts and affected regression dependency modules loaded; no tests or provider work claimed.

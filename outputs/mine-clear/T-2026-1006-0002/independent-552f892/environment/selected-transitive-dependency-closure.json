@@ -1,0 +1,2031 @@
+{
+  "packages": [
+    {
+      "package": "typescript",
+      "version": "7.0.2",
+      "path": "node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "package_json_sha256": "3722b30210616a13a3213ded11575ba6b2dbab10c32a5ef67afca8513e27017e",
+      "resolved_dependencies": [
+        {
+          "name": "@typescript/typescript-darwin-arm64",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@typescript+typescript-darwin-arm64@7.0.2/node_modules/@typescript/typescript-darwin-arm64"
+        }
+      ]
+    },
+    {
+      "package": "@typescript/typescript-darwin-arm64",
+      "version": "7.0.2",
+      "path": "node_modules/.pnpm/@typescript+typescript-darwin-arm64@7.0.2/node_modules/@typescript/typescript-darwin-arm64",
+      "package_json_sha256": "e88558e22e3db6c4da920e15a60eb2bbea801732b94aedb67e972be2a7f485b8",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "vitest",
+      "version": "5.0.2",
+      "path": "node_modules/.pnpm/vitest@5.0.2_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_7ee656f5c3f5175d596ca0235a70f107/node_modules/vitest",
+      "package_json_sha256": "943ddc2cfd3676087e243b5adc450ea8c25ad941ba678b48a679b68f67ef297a",
+      "resolved_dependencies": [
+        {
+          "name": "@types/chai",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@types+chai@5.2.3/node_modules/@types/chai"
+        },
+        {
+          "name": "@vitest/mocker",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+mocker@5.0.2_vite@8.2.2_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker"
+        },
+        {
+          "name": "chai",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/chai@6.2.2/node_modules/chai"
+        },
+        {
+          "name": "es-module-lexer",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/es-module-lexer@2.3.2/node_modules/es-module-lexer"
+        },
+        {
+          "name": "expect-type",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/expect-type@1.4.0/node_modules/expect-type"
+        },
+        {
+          "name": "magic-string",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/magic-string@1.4.2/node_modules/magic-string"
+        },
+        {
+          "name": "obug",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/obug@2.1.4/node_modules/obug"
+        },
+        {
+          "name": "picomatch",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/picomatch@4.0.7/node_modules/picomatch"
+        },
+        {
+          "name": "std-env",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/std-env@4.2.0/node_modules/std-env"
+        },
+        {
+          "name": "tinybench",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinybench@6.2.0/node_modules/tinybench"
+        },
+        {
+          "name": "tinyexec",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyexec@1.3.0/node_modules/tinyexec"
+        },
+        {
+          "name": "tinyglobby",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyglobby@0.2.17/node_modules/tinyglobby"
+        },
+        {
+          "name": "why-is-node-running",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/why-is-node-running@3.2.2/node_modules/why-is-node-running"
+        }
+      ]
+    },
+    {
+      "package": "why-is-node-running",
+      "version": "3.2.2",
+      "path": "node_modules/.pnpm/why-is-node-running@3.2.2/node_modules/why-is-node-running",
+      "package_json_sha256": "9bb8b6e94af46b00cd951c4f7c8eb536803d1da08f6f0dea5b7d640b3fe80d9d",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "tinyglobby",
+      "version": "0.2.17",
+      "path": "node_modules/.pnpm/tinyglobby@0.2.17/node_modules/tinyglobby",
+      "package_json_sha256": "bd2b2af3c9ba0580f1acfb22c55d0b6d29abf683af5cac8a2efe82fa7c943f23",
+      "resolved_dependencies": [
+        {
+          "name": "fdir",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/fdir@6.5.0_picomatch@4.0.7/node_modules/fdir"
+        },
+        {
+          "name": "picomatch",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/picomatch@4.0.7/node_modules/picomatch"
+        }
+      ]
+    },
+    {
+      "package": "picomatch",
+      "version": "4.0.7",
+      "path": "node_modules/.pnpm/picomatch@4.0.7/node_modules/picomatch",
+      "package_json_sha256": "479b70b87aa7b44344d62c8a459ae7e53dd2bca6c61f1396bd55e63e9de73fc6",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "fdir",
+      "version": "6.5.0",
+      "path": "node_modules/.pnpm/fdir@6.5.0_picomatch@4.0.7/node_modules/fdir",
+      "package_json_sha256": "aca49395d61ef383a09f74555c66ed45817ca2b5724e710a4dc9e0471b83d8f5",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "tinyexec",
+      "version": "1.3.0",
+      "path": "node_modules/.pnpm/tinyexec@1.3.0/node_modules/tinyexec",
+      "package_json_sha256": "1af9bca34246fe10d477b7528a00b1c4b8ff7c3bcdca2aeac740977c184fcef2",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "tinybench",
+      "version": "6.2.0",
+      "path": "node_modules/.pnpm/tinybench@6.2.0/node_modules/tinybench",
+      "package_json_sha256": "0a5657dea6abb4da1cc12a4d0ef49b8145429a6534a84b0916081a93f5c24aef",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "std-env",
+      "version": "4.2.0",
+      "path": "node_modules/.pnpm/std-env@4.2.0/node_modules/std-env",
+      "package_json_sha256": "9605e7a2e98c223727617205465824fb54e3f78ea5535bee38b821e6baf3b557",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "obug",
+      "version": "2.1.4",
+      "path": "node_modules/.pnpm/obug@2.1.4/node_modules/obug",
+      "package_json_sha256": "177206e2c6d383459a7918f7c5eff4560d05f1e8d488b30673ba1157bfd22710",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "magic-string",
+      "version": "1.4.2",
+      "path": "node_modules/.pnpm/magic-string@1.4.2/node_modules/magic-string",
+      "package_json_sha256": "b1dee713df92ae1815f071f918d7edf9aac1ef212e15b4644a5ffa08851ee6fd",
+      "resolved_dependencies": [
+        {
+          "name": "@jridgewell/sourcemap-codec",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@jridgewell+sourcemap-codec@1.6.0/node_modules/@jridgewell/sourcemap-codec"
+        }
+      ]
+    },
+    {
+      "package": "@jridgewell/sourcemap-codec",
+      "version": "1.6.0",
+      "path": "node_modules/.pnpm/@jridgewell+sourcemap-codec@1.6.0/node_modules/@jridgewell/sourcemap-codec",
+      "package_json_sha256": "ac7afd57294dbee1f891ca797e19e405340f2cd6031808e6d3845fec60a5b43f",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "expect-type",
+      "version": "1.4.0",
+      "path": "node_modules/.pnpm/expect-type@1.4.0/node_modules/expect-type",
+      "package_json_sha256": "0e7a8ee8b23ae57ee5a3a98daba3ce476786ca5675f7f60b6a8ac320b83501a0",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "es-module-lexer",
+      "version": "2.3.2",
+      "path": "node_modules/.pnpm/es-module-lexer@2.3.2/node_modules/es-module-lexer",
+      "package_json_sha256": "6ac33aba7ed35abf79f1bfa12f39563369cb2b5ffa25bd7b7982e9554c7de4af",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "chai",
+      "version": "6.2.2",
+      "path": "node_modules/.pnpm/chai@6.2.2/node_modules/chai",
+      "package_json_sha256": "b1f1454787c0ebc1a4324822bd6080e12535b1ab379b2c49d4eb467623123476",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@vitest/mocker",
+      "version": "5.0.2",
+      "path": "node_modules/.pnpm/@vitest+mocker@5.0.2_vite@8.2.2_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "package_json_sha256": "4aa5d7be7dd8ab783788818a85e7fd4ef5e23e7277f1e2b31dcbe9e385dc031d",
+      "resolved_dependencies": [
+        {
+          "name": "@jridgewell/trace-mapping",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@jridgewell+trace-mapping@0.3.31/node_modules/@jridgewell/trace-mapping"
+        },
+        {
+          "name": "@vitest/spy",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+spy@5.0.2/node_modules/@vitest/spy"
+        },
+        {
+          "name": "estree-walker",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/estree-walker@3.0.3/node_modules/estree-walker"
+        },
+        {
+          "name": "magic-string",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/magic-string@1.4.2/node_modules/magic-string"
+        }
+      ]
+    },
+    {
+      "package": "estree-walker",
+      "version": "3.0.3",
+      "path": "node_modules/.pnpm/estree-walker@3.0.3/node_modules/estree-walker",
+      "package_json_sha256": "c459668153035def85be26dbeb40caf315191da06ac8a092cd8024b677c2fc21",
+      "resolved_dependencies": [
+        {
+          "name": "@types/estree",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@types+estree@1.0.9/node_modules/@types/estree"
+        }
+      ]
+    },
+    {
+      "package": "@types/estree",
+      "version": "1.0.9",
+      "path": "node_modules/.pnpm/@types+estree@1.0.9/node_modules/@types/estree",
+      "package_json_sha256": "3537a6a503f57901111d8a29df81962887653deb199b9a795c7fb50bbfdd1bdc",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@vitest/spy",
+      "version": "5.0.2",
+      "path": "node_modules/.pnpm/@vitest+spy@5.0.2/node_modules/@vitest/spy",
+      "package_json_sha256": "861f0ccb06ca5bd8358a30260d60472a80d7636c574bde8ba36fb2a267e06fd4",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@jridgewell/trace-mapping",
+      "version": "0.3.31",
+      "path": "node_modules/.pnpm/@jridgewell+trace-mapping@0.3.31/node_modules/@jridgewell/trace-mapping",
+      "package_json_sha256": "7f5eacc669d36013f9b792ab15721a97d48b26b093100122aa6c8691ebe656be",
+      "resolved_dependencies": [
+        {
+          "name": "@jridgewell/resolve-uri",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@jridgewell+resolve-uri@3.1.2/node_modules/@jridgewell/resolve-uri"
+        },
+        {
+          "name": "@jridgewell/sourcemap-codec",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@jridgewell+sourcemap-codec@1.5.5/node_modules/@jridgewell/sourcemap-codec"
+        }
+      ]
+    },
+    {
+      "package": "@jridgewell/sourcemap-codec",
+      "version": "1.5.5",
+      "path": "node_modules/.pnpm/@jridgewell+sourcemap-codec@1.5.5/node_modules/@jridgewell/sourcemap-codec",
+      "package_json_sha256": "398fc774628ec1592c794e8c14ecdc0096206a2521545e527e5a06429dac6006",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@jridgewell/resolve-uri",
+      "version": "3.1.2",
+      "path": "node_modules/.pnpm/@jridgewell+resolve-uri@3.1.2/node_modules/@jridgewell/resolve-uri",
+      "package_json_sha256": "0793e722ffe08f3b4f1862c4dc96d920a62d6811a3648b4feb02f06c63227e8b",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@types/chai",
+      "version": "5.2.3",
+      "path": "node_modules/.pnpm/@types+chai@5.2.3/node_modules/@types/chai",
+      "package_json_sha256": "273a3159a592826cc068b22356e9a3e968dffe88a0f99892032a889f28c567a7",
+      "resolved_dependencies": [
+        {
+          "name": "@types/deep-eql",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@types+deep-eql@4.0.2/node_modules/@types/deep-eql"
+        },
+        {
+          "name": "assertion-error",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/assertion-error@2.0.1/node_modules/assertion-error"
+        }
+      ]
+    },
+    {
+      "package": "assertion-error",
+      "version": "2.0.1",
+      "path": "node_modules/.pnpm/assertion-error@2.0.1/node_modules/assertion-error",
+      "package_json_sha256": "7a77fe7be32038e40aab9a3fc6180a6fbe3fdbb68b006b78a47401f7026e96e7",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@types/deep-eql",
+      "version": "4.0.2",
+      "path": "node_modules/.pnpm/@types+deep-eql@4.0.2/node_modules/@types/deep-eql",
+      "package_json_sha256": "a2e45f386b2fbaed8a8fe333502f97e59061ed738ddd0437437fde05acfa5484",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "zod",
+      "version": "4.6.5",
+      "path": "node_modules/.pnpm/zod@4.6.5/node_modules/zod",
+      "package_json_sha256": "a046ed85fa09571dba539fee9ef236152d12dabd1f229b014ec3bd2ebaad9000",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "typescript",
+      "version": "5.9.3",
+      "path": "node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+      "package_json_sha256": "822ef7ca6452205657b6288b066481ecf508bfbf43455d715cf7d3ec457561e6",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "vitest",
+      "version": "3.2.7",
+      "path": "node_modules/.pnpm/vitest@3.2.7_@types+debug@4.1.13_@types+node@26.3.0_jiti@2.7.0_jsdom@30.1.0_@noble+hash_f0ffff8a60a464cffa5a7c9ad77e1dbd/node_modules/vitest",
+      "package_json_sha256": "3f3dc1ef7acc6ffac8d0a7f10c4460f98e36026837b57f774426d962d546d740",
+      "resolved_dependencies": [
+        {
+          "name": "@types/chai",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@types+chai@5.2.3/node_modules/@types/chai"
+        },
+        {
+          "name": "chai",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/chai@5.3.3/node_modules/chai"
+        },
+        {
+          "name": "debug",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/debug@4.4.3/node_modules/debug"
+        },
+        {
+          "name": "expect-type",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/expect-type@1.4.0/node_modules/expect-type"
+        },
+        {
+          "name": "magic-string",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/magic-string@0.30.21/node_modules/magic-string"
+        },
+        {
+          "name": "pathe",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pathe@2.0.3/node_modules/pathe"
+        },
+        {
+          "name": "picomatch",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/picomatch@4.0.7/node_modules/picomatch"
+        },
+        {
+          "name": "std-env",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/std-env@3.10.0/node_modules/std-env"
+        },
+        {
+          "name": "tinybench",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinybench@2.9.0/node_modules/tinybench"
+        },
+        {
+          "name": "tinyexec",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyexec@0.3.2/node_modules/tinyexec"
+        },
+        {
+          "name": "tinyglobby",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyglobby@0.2.17/node_modules/tinyglobby"
+        },
+        {
+          "name": "tinypool",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinypool@1.1.1/node_modules/tinypool"
+        },
+        {
+          "name": "tinyrainbow",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyrainbow@2.0.0/node_modules/tinyrainbow"
+        },
+        {
+          "name": "vite",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/vite@7.3.6_@types+node@26.3.0_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0/node_modules/vite"
+        },
+        {
+          "name": "vite-node",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/vite-node@3.2.4_@types+node@26.3.0_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0/node_modules/vite-node"
+        },
+        {
+          "name": "why-is-node-running",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/why-is-node-running@2.3.0/node_modules/why-is-node-running"
+        },
+        {
+          "name": "@vitest/expect",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+expect@3.2.7/node_modules/@vitest/expect"
+        },
+        {
+          "name": "@vitest/runner",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner"
+        },
+        {
+          "name": "@vitest/spy",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+spy@3.2.7/node_modules/@vitest/spy"
+        },
+        {
+          "name": "@vitest/mocker",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+mocker@3.2.7_vite@7.3.6_@types+node@26.3.0_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker"
+        },
+        {
+          "name": "@vitest/utils",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+utils@3.2.7/node_modules/@vitest/utils"
+        },
+        {
+          "name": "@vitest/snapshot",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+snapshot@3.2.7/node_modules/@vitest/snapshot"
+        },
+        {
+          "name": "@vitest/pretty-format",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+pretty-format@3.2.7/node_modules/@vitest/pretty-format"
+        }
+      ]
+    },
+    {
+      "package": "@vitest/pretty-format",
+      "version": "3.2.7",
+      "path": "node_modules/.pnpm/@vitest+pretty-format@3.2.7/node_modules/@vitest/pretty-format",
+      "package_json_sha256": "45d80489327eca387a3bfb8bd70ad2851f7044e89376776678d0b0f54e19e97b",
+      "resolved_dependencies": [
+        {
+          "name": "tinyrainbow",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyrainbow@2.0.0/node_modules/tinyrainbow"
+        }
+      ]
+    },
+    {
+      "package": "tinyrainbow",
+      "version": "2.0.0",
+      "path": "node_modules/.pnpm/tinyrainbow@2.0.0/node_modules/tinyrainbow",
+      "package_json_sha256": "0cb71f642cec4eaf8db6e4142e12482e32ed4914bbefe5cb2a699c3b2fd39ae7",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@vitest/snapshot",
+      "version": "3.2.7",
+      "path": "node_modules/.pnpm/@vitest+snapshot@3.2.7/node_modules/@vitest/snapshot",
+      "package_json_sha256": "42d0d7e9522464cfd7d6aa8211cb8ed36820246c29f4ebc906fe719989091837",
+      "resolved_dependencies": [
+        {
+          "name": "magic-string",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/magic-string@0.30.21/node_modules/magic-string"
+        },
+        {
+          "name": "pathe",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pathe@2.0.3/node_modules/pathe"
+        },
+        {
+          "name": "@vitest/pretty-format",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+pretty-format@3.2.7/node_modules/@vitest/pretty-format"
+        }
+      ]
+    },
+    {
+      "package": "pathe",
+      "version": "2.0.3",
+      "path": "node_modules/.pnpm/pathe@2.0.3/node_modules/pathe",
+      "package_json_sha256": "6cccffe6bb2a39e2e4f257aefc3f5d553d98199a0c79558bdb5ea2880fa030a3",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "magic-string",
+      "version": "0.30.21",
+      "path": "node_modules/.pnpm/magic-string@0.30.21/node_modules/magic-string",
+      "package_json_sha256": "86814aaf7dacba9d31fbf361c3285981f1cbbda0a87108caa4131d297bd9eba2",
+      "resolved_dependencies": [
+        {
+          "name": "@jridgewell/sourcemap-codec",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@jridgewell+sourcemap-codec@1.5.5/node_modules/@jridgewell/sourcemap-codec"
+        }
+      ]
+    },
+    {
+      "package": "@vitest/utils",
+      "version": "3.2.7",
+      "path": "node_modules/.pnpm/@vitest+utils@3.2.7/node_modules/@vitest/utils",
+      "package_json_sha256": "6c8addb8935417adf48bcc08b7c190a12364ab8ceb406b819455d1a4687e8d48",
+      "resolved_dependencies": [
+        {
+          "name": "loupe",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/loupe@3.2.1/node_modules/loupe"
+        },
+        {
+          "name": "tinyrainbow",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyrainbow@2.0.0/node_modules/tinyrainbow"
+        },
+        {
+          "name": "@vitest/pretty-format",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+pretty-format@3.2.7/node_modules/@vitest/pretty-format"
+        }
+      ]
+    },
+    {
+      "package": "loupe",
+      "version": "3.2.1",
+      "path": "node_modules/.pnpm/loupe@3.2.1/node_modules/loupe",
+      "package_json_sha256": "576be81053b77e14f3ccb78111e9c0dbf19164f59d3eeff9763d620d21ef2591",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@vitest/mocker",
+      "version": "3.2.7",
+      "path": "node_modules/.pnpm/@vitest+mocker@3.2.7_vite@7.3.6_@types+node@26.3.0_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "package_json_sha256": "6f9a21f0164a5dc5c57f1c135c82423938c70b573fafb805545c645a931a68ed",
+      "resolved_dependencies": [
+        {
+          "name": "estree-walker",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/estree-walker@3.0.3/node_modules/estree-walker"
+        },
+        {
+          "name": "magic-string",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/magic-string@0.30.21/node_modules/magic-string"
+        },
+        {
+          "name": "@vitest/spy",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+spy@3.2.7/node_modules/@vitest/spy"
+        }
+      ]
+    },
+    {
+      "package": "@vitest/spy",
+      "version": "3.2.7",
+      "path": "node_modules/.pnpm/@vitest+spy@3.2.7/node_modules/@vitest/spy",
+      "package_json_sha256": "71c7a2a0b747125cf83aad2009eb40b9ba4b28d0866406178ee4cd131bb0238b",
+      "resolved_dependencies": [
+        {
+          "name": "tinyspy",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyspy@4.0.4/node_modules/tinyspy"
+        }
+      ]
+    },
+    {
+      "package": "tinyspy",
+      "version": "4.0.4",
+      "path": "node_modules/.pnpm/tinyspy@4.0.4/node_modules/tinyspy",
+      "package_json_sha256": "7e78b77f1d3ca418c431900bb94b650482f2d010d0943e51f39674d34092c4ce",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@vitest/runner",
+      "version": "3.2.7",
+      "path": "node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner",
+      "package_json_sha256": "43fa1b19947fe8434a6bc04c428488a7edb44c5d87d76d4b37a167e6b2b251e5",
+      "resolved_dependencies": [
+        {
+          "name": "pathe",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pathe@2.0.3/node_modules/pathe"
+        },
+        {
+          "name": "strip-literal",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/strip-literal@3.1.0/node_modules/strip-literal"
+        },
+        {
+          "name": "@vitest/utils",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+utils@3.2.7/node_modules/@vitest/utils"
+        }
+      ]
+    },
+    {
+      "package": "strip-literal",
+      "version": "3.1.0",
+      "path": "node_modules/.pnpm/strip-literal@3.1.0/node_modules/strip-literal",
+      "package_json_sha256": "449a78d5321c299b0ea753390cc04a31750d1d66b608870ca9829ca524cb7188",
+      "resolved_dependencies": [
+        {
+          "name": "js-tokens",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/js-tokens@9.0.1/node_modules/js-tokens"
+        }
+      ]
+    },
+    {
+      "package": "js-tokens",
+      "version": "9.0.1",
+      "path": "node_modules/.pnpm/js-tokens@9.0.1/node_modules/js-tokens",
+      "package_json_sha256": "3409fe9f61aebdb37b9ebadea6d47f44a2da768e7bbca200bd66dd81f28777b6",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@vitest/expect",
+      "version": "3.2.7",
+      "path": "node_modules/.pnpm/@vitest+expect@3.2.7/node_modules/@vitest/expect",
+      "package_json_sha256": "329cbb991e3265ae53272bbb710d02d8da7794fdf8cc385522fd4210ae1ffb0f",
+      "resolved_dependencies": [
+        {
+          "name": "@types/chai",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@types+chai@5.2.3/node_modules/@types/chai"
+        },
+        {
+          "name": "chai",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/chai@5.3.3/node_modules/chai"
+        },
+        {
+          "name": "tinyrainbow",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyrainbow@2.0.0/node_modules/tinyrainbow"
+        },
+        {
+          "name": "@vitest/spy",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+spy@3.2.7/node_modules/@vitest/spy"
+        },
+        {
+          "name": "@vitest/utils",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+utils@3.2.7/node_modules/@vitest/utils"
+        }
+      ]
+    },
+    {
+      "package": "chai",
+      "version": "5.3.3",
+      "path": "node_modules/.pnpm/chai@5.3.3/node_modules/chai",
+      "package_json_sha256": "25ef536c7435582fe1bfa2c299c691517763bb7a6aac25c4e33a508a5905f02e",
+      "resolved_dependencies": [
+        {
+          "name": "assertion-error",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/assertion-error@2.0.1/node_modules/assertion-error"
+        },
+        {
+          "name": "check-error",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/check-error@2.1.3/node_modules/check-error"
+        },
+        {
+          "name": "deep-eql",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/deep-eql@5.0.2/node_modules/deep-eql"
+        },
+        {
+          "name": "loupe",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/loupe@3.2.1/node_modules/loupe"
+        },
+        {
+          "name": "pathval",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pathval@2.0.1/node_modules/pathval"
+        }
+      ]
+    },
+    {
+      "package": "pathval",
+      "version": "2.0.1",
+      "path": "node_modules/.pnpm/pathval@2.0.1/node_modules/pathval",
+      "package_json_sha256": "66c51bced00e284db042748deb34d3ab3d4428982818a10f78064cea4bc9a991",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "deep-eql",
+      "version": "5.0.2",
+      "path": "node_modules/.pnpm/deep-eql@5.0.2/node_modules/deep-eql",
+      "package_json_sha256": "0ee7e49522979ad93908876af0e32a812da311ba86d720ebd1f226a4c8c74635",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "check-error",
+      "version": "2.1.3",
+      "path": "node_modules/.pnpm/check-error@2.1.3/node_modules/check-error",
+      "package_json_sha256": "0a58f4d67c1455b141c79b8cdabc009baeba2729b37d4b3b528c0af493d09185",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "why-is-node-running",
+      "version": "2.3.0",
+      "path": "node_modules/.pnpm/why-is-node-running@2.3.0/node_modules/why-is-node-running",
+      "package_json_sha256": "c762d49d3da5e8d8fdaa840ba1f18d68bb433e61c671b66b3127f8430d490fe2",
+      "resolved_dependencies": [
+        {
+          "name": "siginfo",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/siginfo@2.0.0/node_modules/siginfo"
+        },
+        {
+          "name": "stackback",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/stackback@0.0.2/node_modules/stackback"
+        }
+      ]
+    },
+    {
+      "package": "stackback",
+      "version": "0.0.2",
+      "path": "node_modules/.pnpm/stackback@0.0.2/node_modules/stackback",
+      "package_json_sha256": "4d984909b27d37d2f1a379b9cda7292a6e3a133c076df166d740a17514ac6e60",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "siginfo",
+      "version": "2.0.0",
+      "path": "node_modules/.pnpm/siginfo@2.0.0/node_modules/siginfo",
+      "package_json_sha256": "ff13b85283144b84f297d757a7b5dcffc7abcc469b3b22bb6fc94b6b1ae5f662",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "vite-node",
+      "version": "3.2.4",
+      "path": "node_modules/.pnpm/vite-node@3.2.4_@types+node@26.3.0_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0/node_modules/vite-node",
+      "package_json_sha256": "6c53b6d8ff3e8c3a46950d4062b0d7c04c26545aadefb654ffe7fc488c2650fb",
+      "resolved_dependencies": [
+        {
+          "name": "cac",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/cac@6.7.14/node_modules/cac"
+        },
+        {
+          "name": "debug",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/debug@4.4.3/node_modules/debug"
+        },
+        {
+          "name": "es-module-lexer",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/es-module-lexer@1.7.0/node_modules/es-module-lexer"
+        },
+        {
+          "name": "pathe",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pathe@2.0.3/node_modules/pathe"
+        },
+        {
+          "name": "vite",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/vite@7.3.6_@types+node@26.3.0_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0/node_modules/vite"
+        }
+      ]
+    },
+    {
+      "package": "vite",
+      "version": "7.3.6",
+      "path": "node_modules/.pnpm/vite@7.3.6_@types+node@26.3.0_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0/node_modules/vite",
+      "package_json_sha256": "e5ed0f85215f871fe22a48987dcd77fcfbe14064a53c0c9f7f48186a6b7e2cf0",
+      "resolved_dependencies": [
+        {
+          "name": "esbuild",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild"
+        },
+        {
+          "name": "fdir",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/fdir@6.5.0_picomatch@4.0.7/node_modules/fdir"
+        },
+        {
+          "name": "picomatch",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/picomatch@4.0.7/node_modules/picomatch"
+        },
+        {
+          "name": "postcss",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/postcss@8.5.26/node_modules/postcss"
+        },
+        {
+          "name": "rollup",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup"
+        },
+        {
+          "name": "tinyglobby",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyglobby@0.2.17/node_modules/tinyglobby"
+        },
+        {
+          "name": "fsevents",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/fsevents@2.3.3/node_modules/fsevents"
+        }
+      ]
+    },
+    {
+      "package": "fsevents",
+      "version": "2.3.3",
+      "path": "node_modules/.pnpm/fsevents@2.3.3/node_modules/fsevents",
+      "package_json_sha256": "500839fcc76f6c5efcb454e6614b23c26775e75e1140619fff9ca64c291aec2b",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "rollup",
+      "version": "4.62.4",
+      "path": "node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "package_json_sha256": "33cc2a15485a3104934f34228af32759c6f935c6e98a06f3cb0816519cc44db6",
+      "resolved_dependencies": [
+        {
+          "name": "@types/estree",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@types+estree@1.0.9/node_modules/@types/estree"
+        },
+        {
+          "name": "fsevents",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/fsevents@2.3.3/node_modules/fsevents"
+        },
+        {
+          "name": "@rollup/rollup-darwin-arm64",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@rollup+rollup-darwin-arm64@4.62.4/node_modules/@rollup/rollup-darwin-arm64"
+        }
+      ]
+    },
+    {
+      "package": "@rollup/rollup-darwin-arm64",
+      "version": "4.62.4",
+      "path": "node_modules/.pnpm/@rollup+rollup-darwin-arm64@4.62.4/node_modules/@rollup/rollup-darwin-arm64",
+      "package_json_sha256": "ab12452ec08246cb2da9164e4227aab733f0a364b1a8d6bc38e166cc089dc525",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "postcss",
+      "version": "8.5.26",
+      "path": "node_modules/.pnpm/postcss@8.5.26/node_modules/postcss",
+      "package_json_sha256": "e0f23518d0e8fc0570ac68438eff7ecc7554774de3194af6f54f502e33f0c25b",
+      "resolved_dependencies": [
+        {
+          "name": "nanoid",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/nanoid@3.3.18/node_modules/nanoid"
+        },
+        {
+          "name": "picocolors",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/picocolors@1.1.1/node_modules/picocolors"
+        },
+        {
+          "name": "source-map-js",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/source-map-js@1.2.1/node_modules/source-map-js"
+        }
+      ]
+    },
+    {
+      "package": "source-map-js",
+      "version": "1.2.1",
+      "path": "node_modules/.pnpm/source-map-js@1.2.1/node_modules/source-map-js",
+      "package_json_sha256": "58f8e94a461a5e461e0cb2bb2be681cbd89b9181989fd26fceb858e67711469a",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "picocolors",
+      "version": "1.1.1",
+      "path": "node_modules/.pnpm/picocolors@1.1.1/node_modules/picocolors",
+      "package_json_sha256": "ef2ac226c4811d312e12c64214c453878653e834482125ae475f27cea60de737",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "nanoid",
+      "version": "3.3.18",
+      "path": "node_modules/.pnpm/nanoid@3.3.18/node_modules/nanoid",
+      "package_json_sha256": "18673eb0d7ed43dd871d59dc22a5670303f5d4eb9b17783b1f698f5840ce1fff",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "esbuild",
+      "version": "0.28.2",
+      "path": "node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "package_json_sha256": "9d0bc453f4e791553c4cc2298ba023b409241fd9801e494741666eb0f6051490",
+      "resolved_dependencies": [
+        {
+          "name": "@esbuild/darwin-arm64",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@esbuild+darwin-arm64@0.28.2/node_modules/@esbuild/darwin-arm64"
+        }
+      ]
+    },
+    {
+      "package": "@esbuild/darwin-arm64",
+      "version": "0.28.2",
+      "path": "node_modules/.pnpm/@esbuild+darwin-arm64@0.28.2/node_modules/@esbuild/darwin-arm64",
+      "package_json_sha256": "4e652c9e4410daf03da852a664940153601fac397233cdcf276b4b1a312454b9",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "es-module-lexer",
+      "version": "1.7.0",
+      "path": "node_modules/.pnpm/es-module-lexer@1.7.0/node_modules/es-module-lexer",
+      "package_json_sha256": "de68b22f72517f94d53290ecdbaf975f5e79ca26d8757768b07c5b466749c494",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "debug",
+      "version": "4.4.3",
+      "path": "node_modules/.pnpm/debug@4.4.3/node_modules/debug",
+      "package_json_sha256": "ea8e33d63fe5f3a4c36609b6c3df8e2ef1f8b8ba2fc3a2e1e53cb27291f384af",
+      "resolved_dependencies": [
+        {
+          "name": "ms",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/ms@2.1.3/node_modules/ms"
+        }
+      ]
+    },
+    {
+      "package": "ms",
+      "version": "2.1.3",
+      "path": "node_modules/.pnpm/ms@2.1.3/node_modules/ms",
+      "package_json_sha256": "1a6b4d9739790c0b94ab96c8cc0507e281c164c311ff4fbf5e57fb8d26290b40",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "cac",
+      "version": "6.7.14",
+      "path": "node_modules/.pnpm/cac@6.7.14/node_modules/cac",
+      "package_json_sha256": "8677bbbe7404ce455200b5f088a45f841bd8a40e7d63475ac711b631516ddcdf",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "tinypool",
+      "version": "1.1.1",
+      "path": "node_modules/.pnpm/tinypool@1.1.1/node_modules/tinypool",
+      "package_json_sha256": "fab0aa2756e7cf5c2dc020daafa86c2b5fa3cfd2f9087393418b9a7379dc3dda",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "tinyexec",
+      "version": "0.3.2",
+      "path": "node_modules/.pnpm/tinyexec@0.3.2/node_modules/tinyexec",
+      "package_json_sha256": "37b9e1a7b215d99d4696da75b08818204c8b382387db8591fb7ae8d5d7b1be78",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "tinybench",
+      "version": "2.9.0",
+      "path": "node_modules/.pnpm/tinybench@2.9.0/node_modules/tinybench",
+      "package_json_sha256": "74cf001e0ad7780cb3f596a75a2595d737337741ba76f734811387a5139ff327",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "std-env",
+      "version": "3.10.0",
+      "path": "node_modules/.pnpm/std-env@3.10.0/node_modules/std-env",
+      "package_json_sha256": "47978ed306b2a6054d237c3d48f37681aac1de0648ab1544fc6ce44295024a83",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "drizzle-orm",
+      "version": "0.45.2",
+      "path": "node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.1_@types+pg@8.23.1_pg@8.23.0/node_modules/drizzle-orm",
+      "package_json_sha256": "9fd30ce718965c19178ac6936462b77017f1fffe56865124d0cfe55850de09ff",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@workloom/shared",
+      "version": "0.1.0",
+      "path": "packages/shared",
+      "package_json_sha256": "26ed5c3a560c35730fe8f84343a83f5e7c3d7d2c488468584acfc524699b4cb2",
+      "resolved_dependencies": [
+        {
+          "name": "zod",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/zod@4.6.5/node_modules/zod"
+        }
+      ]
+    },
+    {
+      "package": "pg",
+      "version": "8.23.0",
+      "path": "node_modules/.pnpm/pg@8.23.0/node_modules/pg",
+      "package_json_sha256": "e42dd36cba6e9dd8dbb6f773a2f7be8a8c3c273e18b155e42e75961a4cb8bc28",
+      "resolved_dependencies": [
+        {
+          "name": "pg-connection-string",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pg-connection-string@2.14.0/node_modules/pg-connection-string"
+        },
+        {
+          "name": "pg-pool",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pg-pool@3.14.0_pg@8.23.0/node_modules/pg-pool"
+        },
+        {
+          "name": "pg-protocol",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pg-protocol@1.16.0/node_modules/pg-protocol"
+        },
+        {
+          "name": "pg-types",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pg-types@2.2.0/node_modules/pg-types"
+        },
+        {
+          "name": "pgpass",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pgpass@1.0.5/node_modules/pgpass"
+        },
+        {
+          "name": "pg-cloudflare",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pg-cloudflare@1.4.0/node_modules/pg-cloudflare"
+        }
+      ]
+    },
+    {
+      "package": "pg-cloudflare",
+      "version": "1.4.0",
+      "path": "node_modules/.pnpm/pg-cloudflare@1.4.0/node_modules/pg-cloudflare",
+      "package_json_sha256": "26a5017fe5fa14bb2eaa90fb87a2c54becc2666516ef79ee591694bcb9533531",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "pgpass",
+      "version": "1.0.5",
+      "path": "node_modules/.pnpm/pgpass@1.0.5/node_modules/pgpass",
+      "package_json_sha256": "d75240eb4fe759c10db9f903838275348676a8bdc1f329e20a833713cd7c99bd",
+      "resolved_dependencies": [
+        {
+          "name": "split2",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/split2@4.2.0/node_modules/split2"
+        }
+      ]
+    },
+    {
+      "package": "split2",
+      "version": "4.2.0",
+      "path": "node_modules/.pnpm/split2@4.2.0/node_modules/split2",
+      "package_json_sha256": "87b734c3087c8d9ed5d76d1bff00db30f960831ba8705dd18d73b180d08d2140",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "pg-types",
+      "version": "2.2.0",
+      "path": "node_modules/.pnpm/pg-types@2.2.0/node_modules/pg-types",
+      "package_json_sha256": "3ec0293cb38cc8d9475e3eb32ac5f19d195bf9fccc8b19a0714e6ecd6e7c2cf0",
+      "resolved_dependencies": [
+        {
+          "name": "pg-int8",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pg-int8@1.0.1/node_modules/pg-int8"
+        },
+        {
+          "name": "postgres-array",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/postgres-array@2.0.0/node_modules/postgres-array"
+        },
+        {
+          "name": "postgres-bytea",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/postgres-bytea@1.0.1/node_modules/postgres-bytea"
+        },
+        {
+          "name": "postgres-date",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/postgres-date@1.0.7/node_modules/postgres-date"
+        },
+        {
+          "name": "postgres-interval",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/postgres-interval@1.2.0/node_modules/postgres-interval"
+        }
+      ]
+    },
+    {
+      "package": "postgres-interval",
+      "version": "1.2.0",
+      "path": "node_modules/.pnpm/postgres-interval@1.2.0/node_modules/postgres-interval",
+      "package_json_sha256": "cc3056db105e66c9128cb8a387cda782d5f1ae9281be90de0b8d26a90af89c57",
+      "resolved_dependencies": [
+        {
+          "name": "xtend",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/xtend@4.0.2/node_modules/xtend"
+        }
+      ]
+    },
+    {
+      "package": "xtend",
+      "version": "4.0.2",
+      "path": "node_modules/.pnpm/xtend@4.0.2/node_modules/xtend",
+      "package_json_sha256": "b02ffef8cda96c5c3ee00a00390e63f608362c2ddfb3ed754e181d013a45d48a",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "postgres-date",
+      "version": "1.0.7",
+      "path": "node_modules/.pnpm/postgres-date@1.0.7/node_modules/postgres-date",
+      "package_json_sha256": "03f9edefa96697072075e02df045cc61ed4ca2f8dfffb1ff87f4070bc3404151",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "postgres-bytea",
+      "version": "1.0.1",
+      "path": "node_modules/.pnpm/postgres-bytea@1.0.1/node_modules/postgres-bytea",
+      "package_json_sha256": "9125568c5fb51a65b8f11adb0080c2775b99ee82822d73bff8b56b2a9d47d7aa",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "postgres-array",
+      "version": "2.0.0",
+      "path": "node_modules/.pnpm/postgres-array@2.0.0/node_modules/postgres-array",
+      "package_json_sha256": "dcd6a505fcbc032b409ee2838ab2c776dea3a9cfe02b736364b6cb82a946665f",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "pg-int8",
+      "version": "1.0.1",
+      "path": "node_modules/.pnpm/pg-int8@1.0.1/node_modules/pg-int8",
+      "package_json_sha256": "147155887a41bb6f69ff98b3dde827b7e6a8214c3a71938da4babf8e12adff2e",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "pg-protocol",
+      "version": "1.16.0",
+      "path": "node_modules/.pnpm/pg-protocol@1.16.0/node_modules/pg-protocol",
+      "package_json_sha256": "4ee6a91e60a002e828e64dfab04c232bba566db233a905a1a15e475a0336c73d",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "pg-pool",
+      "version": "3.14.0",
+      "path": "node_modules/.pnpm/pg-pool@3.14.0_pg@8.23.0/node_modules/pg-pool",
+      "package_json_sha256": "0a9924def9e06f791b09a44eaefb227f323a39199887f6ce17b44cb5a9193134",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "pg-connection-string",
+      "version": "2.14.0",
+      "path": "node_modules/.pnpm/pg-connection-string@2.14.0/node_modules/pg-connection-string",
+      "package_json_sha256": "5e07e70c64af1e8695a91f9371b713106eeed3b52a1d6b7f7238a33f01dd3f20",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "tsx",
+      "version": "4.23.13",
+      "path": "node_modules/.pnpm/tsx@4.23.13/node_modules/tsx",
+      "package_json_sha256": "3ace2493a0acd26fc72a8433a38113ee04d5a1976910a3f40815f9e779d5c426",
+      "resolved_dependencies": [
+        {
+          "name": "esbuild",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild"
+        },
+        {
+          "name": "fsevents",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/fsevents@2.3.3/node_modules/fsevents"
+        }
+      ]
+    },
+    {
+      "package": "@types/pg",
+      "version": "8.23.1",
+      "path": "node_modules/.pnpm/@types+pg@8.23.1/node_modules/@types/pg",
+      "package_json_sha256": "d122ef1e1bdb760edd5cff70d39597b9b3ae757c80e829bc297cd34fb7f01bd3",
+      "resolved_dependencies": [
+        {
+          "name": "@types/node",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@types+node@24.13.3/node_modules/@types/node"
+        },
+        {
+          "name": "pg-protocol",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pg-protocol@1.16.0/node_modules/pg-protocol"
+        },
+        {
+          "name": "pg-types",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pg-types@2.2.0/node_modules/pg-types"
+        }
+      ]
+    },
+    {
+      "package": "@types/node",
+      "version": "24.13.3",
+      "path": "node_modules/.pnpm/@types+node@24.13.3/node_modules/@types/node",
+      "package_json_sha256": "a4d29a0f9a3b45be30a130591091ea1f7707d4193489960ef4ee98f35375a4e9",
+      "resolved_dependencies": [
+        {
+          "name": "undici-types",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/undici-types@7.18.2/node_modules/undici-types"
+        }
+      ]
+    },
+    {
+      "package": "undici-types",
+      "version": "7.18.2",
+      "path": "node_modules/.pnpm/undici-types@7.18.2/node_modules/undici-types",
+      "package_json_sha256": "01701286a0441eddf1cd47d488047d363ce7d75466e7b6c89f1c605fba1c3957",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@workloom/base",
+      "version": "0.1.0",
+      "path": "packages/base",
+      "package_json_sha256": "d6b309b67a0a23b7465b758210e3647194c44489ad2b9a3e19d68af8ebfe6e2a",
+      "resolved_dependencies": [
+        {
+          "name": "@workloom/db",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/db"
+        },
+        {
+          "name": "@workloom/industry-contract",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/industry-contract"
+        },
+        {
+          "name": "@workloom/shared",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/shared"
+        },
+        {
+          "name": "jose",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/jose@6.2.12/node_modules/jose"
+        },
+        {
+          "name": "pg",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pg@8.23.0/node_modules/pg"
+        },
+        {
+          "name": "yaml",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/yaml@2.9.0/node_modules/yaml"
+        },
+        {
+          "name": "zod",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/zod@4.6.5/node_modules/zod"
+        }
+      ]
+    },
+    {
+      "package": "yaml",
+      "version": "2.9.0",
+      "path": "node_modules/.pnpm/yaml@2.9.0/node_modules/yaml",
+      "package_json_sha256": "20b8b197cbd10dad245d45e463dfe58e4c8c25a47e24bc4256ad9ab58bf35683",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "jose",
+      "version": "6.2.12",
+      "path": "node_modules/.pnpm/jose@6.2.12/node_modules/jose",
+      "package_json_sha256": "faa28d9e4362c02c81ce4c7a3b62443495343830c53de2efcbd8c1088e4ba931",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@workloom/industry-contract",
+      "version": "2.0.0",
+      "path": "packages/industry-contract",
+      "package_json_sha256": "bd21ee1c58e618051105a46fe08c772eb736f28658d184f26f105564a4862d2c",
+      "resolved_dependencies": [
+        {
+          "name": "zod",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/zod@4.6.5/node_modules/zod"
+        }
+      ]
+    },
+    {
+      "package": "@workloom/db",
+      "version": "0.1.0",
+      "path": "packages/db",
+      "package_json_sha256": "fea6bfee0ea381b1341fdfff6b31cb4b4a3f2b48329db2af610dfaa185e7d9c2",
+      "resolved_dependencies": [
+        {
+          "name": "@workloom/shared",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/shared"
+        },
+        {
+          "name": "drizzle-orm",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.1_@types+pg@8.23.1_pg@8.23.0/node_modules/drizzle-orm"
+        },
+        {
+          "name": "pg",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pg@8.23.0/node_modules/pg"
+        }
+      ]
+    },
+    {
+      "package": "vitest",
+      "version": "3.2.7",
+      "path": "node_modules/.pnpm/vitest@3.2.7_@types+debug@4.1.13_@types+node@24.13.3_jiti@2.7.0_jsdom@30.1.0_@noble+has_ae6a3f772809d6381815754ef1cd9a38/node_modules/vitest",
+      "package_json_sha256": "3f3dc1ef7acc6ffac8d0a7f10c4460f98e36026837b57f774426d962d546d740",
+      "resolved_dependencies": [
+        {
+          "name": "@types/chai",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@types+chai@5.2.3/node_modules/@types/chai"
+        },
+        {
+          "name": "chai",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/chai@5.3.3/node_modules/chai"
+        },
+        {
+          "name": "debug",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/debug@4.4.3/node_modules/debug"
+        },
+        {
+          "name": "expect-type",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/expect-type@1.4.0/node_modules/expect-type"
+        },
+        {
+          "name": "magic-string",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/magic-string@0.30.21/node_modules/magic-string"
+        },
+        {
+          "name": "pathe",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pathe@2.0.3/node_modules/pathe"
+        },
+        {
+          "name": "picomatch",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/picomatch@4.0.7/node_modules/picomatch"
+        },
+        {
+          "name": "std-env",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/std-env@3.10.0/node_modules/std-env"
+        },
+        {
+          "name": "tinybench",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinybench@2.9.0/node_modules/tinybench"
+        },
+        {
+          "name": "tinyexec",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyexec@0.3.2/node_modules/tinyexec"
+        },
+        {
+          "name": "tinyglobby",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyglobby@0.2.17/node_modules/tinyglobby"
+        },
+        {
+          "name": "tinypool",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinypool@1.1.1/node_modules/tinypool"
+        },
+        {
+          "name": "tinyrainbow",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyrainbow@2.0.0/node_modules/tinyrainbow"
+        },
+        {
+          "name": "vite",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/vite@7.3.6_@types+node@24.13.3_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0/node_modules/vite"
+        },
+        {
+          "name": "vite-node",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/vite-node@3.2.4_@types+node@24.13.3_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0/node_modules/vite-node"
+        },
+        {
+          "name": "why-is-node-running",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/why-is-node-running@2.3.0/node_modules/why-is-node-running"
+        },
+        {
+          "name": "@vitest/expect",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+expect@3.2.7/node_modules/@vitest/expect"
+        },
+        {
+          "name": "@vitest/runner",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+runner@3.2.7/node_modules/@vitest/runner"
+        },
+        {
+          "name": "@vitest/spy",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+spy@3.2.7/node_modules/@vitest/spy"
+        },
+        {
+          "name": "@vitest/mocker",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+mocker@3.2.7_vite@7.3.6_@types+node@24.13.3_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker"
+        },
+        {
+          "name": "@vitest/utils",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+utils@3.2.7/node_modules/@vitest/utils"
+        },
+        {
+          "name": "@vitest/snapshot",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+snapshot@3.2.7/node_modules/@vitest/snapshot"
+        },
+        {
+          "name": "@vitest/pretty-format",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+pretty-format@3.2.7/node_modules/@vitest/pretty-format"
+        }
+      ]
+    },
+    {
+      "package": "@vitest/mocker",
+      "version": "3.2.7",
+      "path": "node_modules/.pnpm/@vitest+mocker@3.2.7_vite@7.3.6_@types+node@24.13.3_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "package_json_sha256": "6f9a21f0164a5dc5c57f1c135c82423938c70b573fafb805545c645a931a68ed",
+      "resolved_dependencies": [
+        {
+          "name": "estree-walker",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/estree-walker@3.0.3/node_modules/estree-walker"
+        },
+        {
+          "name": "magic-string",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/magic-string@0.30.21/node_modules/magic-string"
+        },
+        {
+          "name": "@vitest/spy",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+spy@3.2.7/node_modules/@vitest/spy"
+        }
+      ]
+    },
+    {
+      "package": "vite-node",
+      "version": "3.2.4",
+      "path": "node_modules/.pnpm/vite-node@3.2.4_@types+node@24.13.3_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0/node_modules/vite-node",
+      "package_json_sha256": "6c53b6d8ff3e8c3a46950d4062b0d7c04c26545aadefb654ffe7fc488c2650fb",
+      "resolved_dependencies": [
+        {
+          "name": "cac",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/cac@6.7.14/node_modules/cac"
+        },
+        {
+          "name": "debug",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/debug@4.4.3/node_modules/debug"
+        },
+        {
+          "name": "es-module-lexer",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/es-module-lexer@1.7.0/node_modules/es-module-lexer"
+        },
+        {
+          "name": "pathe",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pathe@2.0.3/node_modules/pathe"
+        },
+        {
+          "name": "vite",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/vite@7.3.6_@types+node@24.13.3_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0/node_modules/vite"
+        }
+      ]
+    },
+    {
+      "package": "vite",
+      "version": "7.3.6",
+      "path": "node_modules/.pnpm/vite@7.3.6_@types+node@24.13.3_jiti@2.7.0_lightningcss@1.33.0_tsx@4.23.13_yaml@2.9.0/node_modules/vite",
+      "package_json_sha256": "e5ed0f85215f871fe22a48987dcd77fcfbe14064a53c0c9f7f48186a6b7e2cf0",
+      "resolved_dependencies": [
+        {
+          "name": "esbuild",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild"
+        },
+        {
+          "name": "fdir",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/fdir@6.5.0_picomatch@4.0.7/node_modules/fdir"
+        },
+        {
+          "name": "picomatch",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/picomatch@4.0.7/node_modules/picomatch"
+        },
+        {
+          "name": "postcss",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/postcss@8.5.26/node_modules/postcss"
+        },
+        {
+          "name": "rollup",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup"
+        },
+        {
+          "name": "tinyglobby",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tinyglobby@0.2.17/node_modules/tinyglobby"
+        },
+        {
+          "name": "fsevents",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/fsevents@2.3.3/node_modules/fsevents"
+        }
+      ]
+    },
+    {
+      "package": "@hyperreality/video-studio",
+      "version": "0.1.0",
+      "path": "packages/video-studio",
+      "package_json_sha256": "04d675f0518aabf2b8983c17c9ea79e6e9a8ac545239261f94ab92bfd4200826",
+      "resolved_dependencies": [
+        {
+          "name": "zod",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/zod@4.6.5/node_modules/zod"
+        }
+      ]
+    },
+    {
+      "package": "@trpc/server",
+      "version": "11.19.0",
+      "path": "node_modules/.pnpm/@trpc+server@11.19.0_typescript@7.0.2/node_modules/@trpc/server",
+      "package_json_sha256": "3629fe966bb94c496f15b579bc032055624832ab7176a53852a36162c87daaca",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@workloom/runtime",
+      "version": "0.1.0",
+      "path": "packages/runtime",
+      "package_json_sha256": "9ec1a6bbfded34938f35b57ea94d9cfdd98ed6b29c93836a86e3df92b123ec81",
+      "resolved_dependencies": [
+        {
+          "name": "@workloom/base",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/base"
+        },
+        {
+          "name": "@workloom/db",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/db"
+        },
+        {
+          "name": "@workloom/shared",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/shared"
+        },
+        {
+          "name": "pg",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/pg@8.23.0/node_modules/pg"
+        },
+        {
+          "name": "zod",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/zod@4.6.5/node_modules/zod"
+        }
+      ]
+    },
+    {
+      "package": "hono",
+      "version": "4.13.8",
+      "path": "node_modules/.pnpm/hono@4.13.8/node_modules/hono",
+      "package_json_sha256": "cafef790692456673dfe5e8644161830cfff3331cb34414c2baf576bb4135052",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "@hono/node-server",
+      "version": "2.1.1",
+      "path": "node_modules/.pnpm/@hono+node-server@2.1.1_hono@4.13.8/node_modules/@hono/node-server",
+      "package_json_sha256": "66f3aa3ddef3a6b54c5b99ec22e76cc85b1f5bcabe9bb7849675edd0f7221553",
+      "resolved_dependencies": []
+    },
+    {
+      "package": "tsx",
+      "version": "4.23.12",
+      "path": "node_modules/.pnpm/tsx@4.23.12/node_modules/tsx",
+      "package_json_sha256": "96aee9fd252d0cc31f3c01468250961f5b338c797bc208700d7db926450c7659",
+      "resolved_dependencies": [
+        {
+          "name": "esbuild",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild"
+        },
+        {
+          "name": "fsevents",
+          "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/fsevents@2.3.3/node_modules/fsevents"
+        }
+      ]
+    }
+  ],
+  "optional_not_installed": [
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-win32-x64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-win32-arm64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-linux-x64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-linux-arm",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-linux-arm64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-darwin-x64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-aix-ppc64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-freebsd-arm64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-freebsd-x64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-linux-loong64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-linux-mips64el",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-linux-ppc64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-linux-riscv64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-linux-s390x",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-netbsd-arm64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-netbsd-x64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-openbsd-arm64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-openbsd-x64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript",
+      "dependency": "@typescript/typescript-sunos-x64",
+      "declared": "7.0.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@napi-rs/lzma-linux-x64-gnu",
+      "declared": "1.5.1",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-android-arm64",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-win32-arm64-msvc",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-freebsd-arm64",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-linux-arm64-gnu",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-linux-arm64-musl",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-android-arm-eabi",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-linux-arm-gnueabihf",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-linux-arm-musleabihf",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-win32-ia32-msvc",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-linux-loong64-gnu",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-linux-loong64-musl",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-linux-riscv64-gnu",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-linux-riscv64-musl",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-linux-ppc64-gnu",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-linux-ppc64-musl",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-linux-s390x-gnu",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-darwin-x64",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-win32-x64-gnu",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-win32-x64-msvc",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-freebsd-x64",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-linux-x64-gnu",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-linux-x64-musl",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-openbsd-x64",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rollup@4.62.4/node_modules/rollup",
+      "dependency": "@rollup/rollup-openharmony-arm64",
+      "declared": "4.62.4",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/aix-ppc64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/android-arm",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/android-arm64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/android-x64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/darwin-x64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/freebsd-arm64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/freebsd-x64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/linux-arm",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/linux-arm64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/linux-ia32",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/linux-loong64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/linux-mips64el",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/linux-ppc64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/linux-riscv64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/linux-s390x",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/linux-x64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/netbsd-arm64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/netbsd-x64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/openbsd-arm64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/openbsd-x64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/openharmony-arm64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/sunos-x64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/win32-arm64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/win32-ia32",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    },
+    {
+      "package": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+      "dependency": "@esbuild/win32-x64",
+      "declared": "0.28.2",
+      "reason": "Optional dependency not installed for selected host."
+    }
+  ],
+  "required_missing": [],
+  "entire_store_orphans": [
+    {
+      "path": "node_modules/.pnpm/three-mesh-bvh@0.8.3_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/maath@0.10.8_@types+three@0.186.0_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/@react-three+fiber@9.7.0_@types+react@19.2.18_react-dom@19.2.8_react@19.2.8__react@19.2.8_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/@react-three+drei@10.7.8_@react-three+fiber@9.7.0_@types+react@19.2.18_react-dom@19.2.8_fc38ec7e1dcab4948c131694999da806/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/vite@8.3.0_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0/node_modules/rolldown",
+      "raw": "../../rolldown@1.2.11/node_modules/rolldown",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rolldown@1.2.11/node_modules/rolldown",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/n8ao@2.0.1_postprocessing@6.39.5_three@0.186.1__three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/@vitest+mocker@5.0.3_vite@8.3.0_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/spy",
+      "raw": "../../../@vitest+spy@5.0.3/node_modules/@vitest/spy",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+spy@5.0.3/node_modules/@vitest/spy",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/vitest@4.1.11_@opentelemetry+api@1.9.1_@types+node@24.13.3_jsdom@30.1.0_@noble+hashes@2_d75771d39ee1ae546364ec7492c243ff/node_modules/@vitest/mocker",
+      "raw": "../../../@vitest+mocker@4.1.11_vite@8.3.0_@types+node@24.13.3_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.12_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+mocker@4.1.11_vite@8.3.0_@types+node@24.13.3_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.12_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/@monogrid+gainmap-js@3.4.0_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/vitest@5.0.3_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_b434669d5eb0d3789812b9f871cfb5e3/node_modules/why-is-node-running",
+      "raw": "../../why-is-node-running@3.2.1/node_modules/why-is-node-running",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/why-is-node-running@3.2.1/node_modules/why-is-node-running",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/vitest@5.0.3_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_b434669d5eb0d3789812b9f871cfb5e3/node_modules/@vitest/mocker",
+      "raw": "../../../@vitest+mocker@5.0.3_vite@8.3.0_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+mocker@5.0.3_vite@8.3.0_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/stats-gl@2.4.2_@types+three@0.186.0_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/three-stdlib@2.36.1_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/troika-three-utils@0.52.5_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/postprocessing@6.39.5_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/meshline@3.3.1_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/camera-controls@3.1.2_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/vitest@4.1.11_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2._62611b52b6daaaf55fbb4a381fe5a20a/node_modules/@vitest/mocker",
+      "raw": "../../../@vitest+mocker@4.1.11_vite@8.3.0_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+mocker@4.1.11_vite@8.3.0_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/troika-three-text@0.52.5_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/@react-three+postprocessing@3.1.1_@react-three+fiber@9.7.0_@types+react@19.2.18_react-d_2123a27a3ecb7820a1b813b08477307f/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/rolldown@1.2.11/node_modules/@rolldown/binding-darwin-arm64",
+      "raw": "../../../@rolldown+binding-darwin-arm64@1.2.11/node_modules/@rolldown/binding-darwin-arm64",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@rolldown+binding-darwin-arm64@1.2.11/node_modules/@rolldown/binding-darwin-arm64",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/rolldown@1.2.11/node_modules/@oxc-project/types",
+      "raw": "../../../@oxc-project+types@0.151.0/node_modules/@oxc-project/types",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@oxc-project+types@0.151.0/node_modules/@oxc-project/types",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/vite@8.3.0_@types+node@24.13.3_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.12_yaml@2.9.0/node_modules/rolldown",
+      "raw": "../../rolldown@1.2.11/node_modules/rolldown",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rolldown@1.2.11/node_modules/rolldown",
+      "exists": false
+    }
+  ],
+  "grade": "B",
+  "source_or_dependency_foreign_links": []
+}

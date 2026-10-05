@@ -1,0 +1,55 @@
+{
+  "id": "MC-024",
+  "kind": "problem",
+  "level": "L2",
+  "severity": "P1",
+  "batch": 2,
+  "state": "open",
+  "title": "Facts support score lacks a mandatory separation from retrieval coverage",
+  "evidence": [
+    {
+      "type": "code",
+      "ref": "packages/video-studio/src/producer-gate.ts:522@c523e9e24300755a6f65c018712ad85c1005838d",
+      "sha256": "b2e79daffe9da2d00b7469ba0cded7178a85c9a52208cbc292cbff8ce497bcc9",
+      "note": "Blanket facts instruction combines honest no_evidence and unsupported claims; original true/76 is correctly denied at85."
+    }
+  ],
+  "root_cause": {
+    "file": "packages/video-studio/src/producer-gate.ts",
+    "line": 522,
+    "commit": "c523e9e24300755a6f65c018712ad85c1005838d",
+    "symbol": "reviewStage LLM facts content"
+  },
+  "trigger_path": "A3 honest no_evidence plus full source texts enter facts review with default/custom rubric, but support score and retrieval coverage have no mandatory separation.",
+  "assertions": [
+    {
+      "kind": "property",
+      "given": "Original VID1015 bytes, fixed protocol replies, default/custom facts rubrics, A2/A3 honest/false empty, contradictory claims/limits, 85 boundary, parse/archive failures and non-facts stages",
+      "expect": "All 26 request-contract and immutable-verdict tests execute with genuine nonzero Node counts and pass; original true/76 remains denied, and model approval/score is never dictated by prompt keywords.",
+      "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/node_modules/tsx/dist/loader.mjs --test scripts/native-marketing-facts-scoring.test.mts",
+      "exec": {
+        "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "args": [
+          "--import",
+          "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/node_modules/tsx/dist/loader.mjs",
+          "--test",
+          "scripts/native-marketing-facts-scoring.test.mts"
+        ]
+      },
+      "last_result": "not-run"
+    }
+  ],
+  "regression": {
+    "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/node_modules/tsx/dist/loader.mjs --test scripts/native-marketing-facts-scoring.test.mts scripts/native-marketing-review.test.mts scripts/native-marketing-extraction.test.mts scripts/native-marketing-dossier.test.mts",
+    "evidence": null
+  },
+  "fix_plan": "Replace only the facts mandatory text with explicit support score, honest-empty and source-limit refusal rules, and independent current-evidence model judgment.",
+  "blast_radius": "All facts rubrics include the same mandatory scope; complete evidence, original decisions, one call per batch, archival failure and prompt/keyframe/subtitle boundaries stay authoritative.",
+  "conflict_paths": [
+    "packages/video-studio/src/producer-gate.ts",
+    "scripts/native-marketing-facts-scoring.test.mts",
+    "scripts/fixtures/marketing-facts-scoring/**"
+  ],
+  "rollback": "Ordinary revert of this task production patch; retain original failed archives and supplier response bytes.",
+  "notes": "Fixed replies are offline protocol evidence (B); no live model, media or PG calls. Real semantic model outcome remains D/unknown. Repair role ends atfixed."
+}

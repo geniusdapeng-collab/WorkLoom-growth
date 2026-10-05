@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "git",
+    "checkout",
+    "--detach",
+    "552f892edd2d97f264c7bfc2d23c8c7db472ff91"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "Previous HEAD position was 5bee55d fix(video): define facts support score without preset approval [T-2026-1006-0002]\nHEAD is now at 552f892 Merge prerequisite independent PRD acceptance [T-2026-1006-0002]\n",
+  "at": "2026-10-05T23:23:30.019223+00:00"
+}

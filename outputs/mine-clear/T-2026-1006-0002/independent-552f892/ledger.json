@@ -1,0 +1,244 @@
+{
+  "schema": "workloom.mine-clear/ledger@1",
+  "task_id": "T-2026-1006-0002",
+  "repo": "growth-native-acceptance-9c69b8c",
+  "repo_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+  "title": "MC024-facts-support-score-contract",
+  "created_at": "2026-10-05T22:44:27.243Z",
+  "updated_at": "2026-10-05T23:31:32.818Z",
+  "baseline": {
+    "audit": {
+      "commit": "c523e9e24300755a6f65c018712ad85c1005838d",
+      "branch": "HEAD",
+      "remote": "origin",
+      "fetched_at": null,
+      "fetch_status": "skipped",
+      "notes": "本地 HEAD 不是 origin/main 最新（云端 52a600e3 / 本地 c523e9e2）——按 §1.2 先对齐基线",
+      "separate_anonymous_fetch": {
+        "operation": "../operations/formal-fetch-before-red.run.json",
+        "exit_code": 0,
+        "fetched_at": "2026-10-05T22:44:06.396322+00:00",
+        "remote_main": "52a600e3f6a9f94c0ea67b4be5f5d713e5d00ddd",
+        "main_is_ancestor_of_audit": true,
+        "note": "MCD init skips implicit credentialed fetch; explicit anonymous argv was actually run. Audit source was clean at original c523."
+      }
+    },
+    "repair": {
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+      "reverified_problem_ids": [
+        "MC-024"
+      ],
+      "red_test_only_commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7",
+      "red_run": {
+        "path": "runs/MC-024-0-1791240490774.json",
+        "sha256": "75e8e0b377d6b4c001359740744c898c58e5e7f5cfc5f7fcc2343036f83267e8",
+        "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7"
+      }
+    },
+    "acceptance": {
+      "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91",
+      "is_descendant_of_repair": true
+    }
+  },
+  "environment": {
+    "kind": "local-preview",
+    "notes": "Independent complete tracked checkout. Owned copied selected transitive dependencies; minimal credential-free environment. Fixed model replies, loopback HTTP fixture, deterministic own ffmpeg fixture only. No business service, PG, provider/customer media or remote writes."
+  },
+  "invariants": [
+    {
+      "id": "INV-1",
+      "text": "租户边界覆盖数据库 RLS、运行时上下文、事件、缓存和外部连接器。",
+      "source": "AGENTS.md#4.1"
+    },
+    {
+      "id": "INV-2",
+      "text": "经营事件、审批和关键回执只增不改；纠正通过新事件表达，不静默覆盖证据。",
+      "source": "AGENTS.md#4.2"
+    },
+    {
+      "id": "INV-3",
+      "text": "所有外部或变更性动作及其子调用，统一经过权限、PII、围栏和审批链路。",
+      "source": "AGENTS.md#4.3"
+    },
+    {
+      "id": "INV-4",
+      "text": "涉钱、敏感数据、群发、公开发布、交易和破坏性变更必须按高风险处理并由人审批。",
+      "source": "AGENTS.md#4.4"
+    },
+    {
+      "id": "INV-5",
+      "text": "没有真实回执就不能标记完成；mock、模拟和体验模式在数据结构与界面上都要明确区分。",
+      "source": "AGENTS.md#4.5"
+    },
+    {
+      "id": "INV-6",
+      "text": "客户原始经营数据不得上行；蜂群只接受白名单化、最小化、匿名化且可审计的元数据或派生经验。",
+      "source": "AGENTS.md#4.6"
+    },
+    {
+      "id": "INV-7",
+      "text": "租户覆盖层只能收紧围栏，不能放宽平台不可变红线。",
+      "source": "AGENTS.md#4.7"
+    },
+    {
+      "id": "INV-8",
+      "text": "模型、提示词、技能、bundle、策略和热更新必须先评测再灰度，且始终可回滚。",
+      "source": "AGENTS.md#4.8"
+    },
+    {
+      "id": "INV-9",
+      "text": "platform-ops、平台账户运营和平台秘密只属于 Andromeda。",
+      "source": "AGENTS.md#4.9"
+    },
+    {
+      "id": "INV-10",
+      "text": "Tiger 在获得单独的合规审查和用户明确授权前，只能模拟或纸面交易。",
+      "source": "AGENTS.md#4.10"
+    },
+    {
+      "id": "INV-11",
+      "text": "令牌、密码、API key、私钥、客户凭证和私密客户数据不得进入源码、文档、上下文、提示词、日志或提交。",
+      "source": "AGENTS.md#4.11"
+    },
+    {
+      "id": "INV-12",
+      "text": "个性化与行业扩展不得形成公共机制的第二事实源。",
+      "source": "AGENTS.md#4.12"
+    }
+  ],
+  "cards": [
+    {
+      "id": "MC-024",
+      "kind": "problem",
+      "level": "L2",
+      "severity": "P1",
+      "batch": 2,
+      "state": "verified",
+      "title": "Facts support score lacks a mandatory separation from retrieval coverage",
+      "evidence": [
+        {
+          "type": "code",
+          "ref": "packages/video-studio/src/producer-gate.ts:522@c523e9e24300755a6f65c018712ad85c1005838d",
+          "sha256": "b2e79daffe9da2d00b7469ba0cded7178a85c9a52208cbc292cbff8ce497bcc9",
+          "note": "Blanket facts instruction combines honest no_evidence and unsupported claims; original true/76 is correctly denied at85."
+        }
+      ],
+      "root_cause": {
+        "file": "packages/video-studio/src/producer-gate.ts",
+        "line": 522,
+        "commit": "c523e9e24300755a6f65c018712ad85c1005838d",
+        "symbol": "reviewStage LLM facts content"
+      },
+      "trigger_path": "A3 honest no_evidence plus full source texts enter facts review with default/custom rubric, but support score and retrieval coverage have no mandatory separation.",
+      "assertions": [
+        {
+          "kind": "property",
+          "given": "Original VID1015 bytes, fixed protocol replies, default/custom facts rubrics, A2/A3 honest/false empty, contradictory claims/limits, 85 boundary, parse/archive failures and non-facts stages",
+          "expect": "All 26 request-contract and immutable-verdict tests execute with genuine nonzero Node counts and pass; original true/76 remains denied, and model approval/score is never dictated by prompt keywords.",
+          "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tsx@4.23.13/node_modules/tsx/dist/loader.mjs --test scripts/native-marketing-facts-scoring.test.mts",
+          "exec": {
+            "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+            "args": [
+              "--import",
+              "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tsx@4.23.13/node_modules/tsx/dist/loader.mjs",
+              "--test",
+              "scripts/native-marketing-facts-scoring.test.mts"
+            ]
+          },
+          "last_result": "pass",
+          "run": {
+            "path": "runs/MC-024-0-1791243084153.json",
+            "sha256": "1240742327cf0a8adaaa7ffccdb8ae591a3d2f30e2bac61f59d58dab04ddf725",
+            "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91"
+          },
+          "evidence": {
+            "path": "evidence/MC-024-0-1791243084153.txt",
+            "sha256": "3d1f57f41d44d6443585709e41b88d8a06dca9201906e5e73602910ef7df76cf",
+            "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91"
+          }
+        },
+        {
+          "kind": "property",
+          "given": "Existing complete-source facts review, extraction error/receipt contract, source-bound native dossier assembly and concurrent/detached restriction scopes",
+          "expect": "Every existing native regression case actually runs and passes; original facts decisions, provenance and restrictions stay bound, without real provider/media/PG work.",
+          "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tsx@4.23.13/node_modules/tsx/dist/loader.mjs --test scripts/native-marketing-review.test.mts scripts/native-marketing-extraction.test.mts scripts/native-marketing-dossier.test.mts scripts/native-source-restrictions.test.mts",
+          "exec": {
+            "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+            "args": [
+              "--import",
+              "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tsx@4.23.13/node_modules/tsx/dist/loader.mjs",
+              "--test",
+              "scripts/native-marketing-review.test.mts",
+              "scripts/native-marketing-extraction.test.mts",
+              "scripts/native-marketing-dossier.test.mts",
+              "scripts/native-source-restrictions.test.mts"
+            ]
+          },
+          "last_result": "pass",
+          "run": {
+            "path": "runs/MC-024-1-1791243085376.json",
+            "sha256": "445c343af9d7e76d8409fecc1314f768da7a809282a0d5dfda5954c5ffda299d",
+            "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91"
+          },
+          "evidence": {
+            "path": "evidence/MC-024-1-1791243085376.txt",
+            "sha256": "62f68b8e12d0b466a605e2599f89059b3ce9352c28fd7ad1e20812297893a46c",
+            "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91"
+          }
+        }
+      ],
+      "regression": {
+        "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tsx@4.23.13/node_modules/tsx/dist/loader.mjs --test scripts/native-marketing-facts-scoring.test.mts && /Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tsx@4.23.13/node_modules/tsx/dist/loader.mjs --test scripts/native-marketing-review.test.mts scripts/native-marketing-extraction.test.mts scripts/native-marketing-dossier.test.mts scripts/native-source-restrictions.test.mts",
+        "evidence": null
+      },
+      "fix_plan": "Replace only the facts mandatory text with explicit support score, honest-empty and source-limit refusal rules, and independent current-evidence model judgment.",
+      "blast_radius": "All facts rubrics include the same mandatory scope; complete evidence, original decisions, one call per batch, archival failure and prompt/keyframe/subtitle boundaries stay authoritative.",
+      "conflict_paths": [
+        "packages/video-studio/src/producer-gate.ts",
+        "scripts/native-marketing-facts-scoring.test.mts",
+        "scripts/fixtures/marketing-facts-scoring/**"
+      ],
+      "rollback": "Ordinary revert of this task production patch; retain original failed archives and supplier response bytes.",
+      "notes": "Fixed replies are offline protocol evidence (B); no live model, media or PG calls. Real semantic model outcome remains D/unknown. Repair role ends atfixed. Added existing independent regression commands after the production patch; they supplement the pre-existing26 formal red/green contract, with fixed replies and mocked native production boundary.",
+      "verified_by": "native-entry-independent-acceptance",
+      "verified_at": "2026-10-05T23:31:26.157Z",
+      "verification_evidence": {
+        "path": "runs/MC-024-0-1791243084153.json",
+        "sha256": "1240742327cf0a8adaaa7ffccdb8ae591a3d2f30e2bac61f59d58dab04ddf725",
+        "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91"
+      },
+      "last_assertion_attempt": {
+        "actor": "native-entry-independent-acceptance",
+        "role": "acceptance",
+        "result": "pass",
+        "at": "2026-10-05T23:31:24.152Z",
+        "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91",
+        "finished_at": "2026-10-05T23:31:26.157Z"
+      },
+      "fixed_by": "/root/mc024_facts_scoring_repair",
+      "last_verification_attempt": {
+        "actor": "native-entry-independent-acceptance",
+        "result": "pass",
+        "at": "2026-10-05T23:31:26.157Z",
+        "runs": [
+          {
+            "path": "runs/MC-024-0-1791243084153.json",
+            "sha256": "1240742327cf0a8adaaa7ffccdb8ae591a3d2f30e2bac61f59d58dab04ddf725",
+            "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91"
+          },
+          {
+            "path": "runs/MC-024-1-1791243085376.json",
+            "sha256": "445c343af9d7e76d8409fecc1314f768da7a809282a0d5dfda5954c5ffda299d",
+            "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91"
+          }
+        ]
+      }
+    }
+  ],
+  "gates": [],
+  "handoff": {
+    "generated_at": "2026-10-05T23:31:32.817Z",
+    "acceptance_command": "node scripts/acceptance/fleet-run.mjs --repo growth-native-acceptance-9c69b8c --env local-preview",
+    "open_problem_ids": []
+  }
+}

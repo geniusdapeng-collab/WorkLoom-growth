@@ -1,0 +1,70 @@
+{
+  "startedAt": "2026-10-05T22:24:35.593Z",
+  "completedAt": "2026-10-05T22:24:36.042Z",
+  "repo": "workloom-ai/WorkLoom-growth",
+  "path": "/-/issues/332",
+  "method": "GET",
+  "ok": true,
+  "data": {
+    "number": "332",
+    "state": "open",
+    "state_reason": "open",
+    "title": "[T-2026-1006-0002] 明确事实支持评分域并保留完整模型审核",
+    "invisible": false,
+    "author": {
+      "username": "cnb.dYiF05kxAGA",
+      "nickname": "Genius",
+      "email": "XYpmztfpCvez6l8z5BBAvJ+cnb.dYiF05kxAGA@noreply.cnb.cool",
+      "is_npc": false
+    },
+    "assignees": [],
+    "comment_count": 0,
+    "priority": "",
+    "created_at": "2026-10-05T22:23:52Z",
+    "updated_at": "2026-10-05T22:23:52Z",
+    "started_at": "",
+    "ended_at": "",
+    "last_acted_at": "2026-10-05T22:23:52Z",
+    "closed_at": "",
+    "body": "原生实际制作 VID-1015 / RUN-edfd69c7 在 A3 事实支持审核停止，尚未提交任何图像或视频。原回包 approved=true、score=76，理由明确将诚实空主张的支持关系与检索覆盖不足混在一个分数内。当前宿主按照原 85 门槛拒绝是正确行为；本卡不改写旧裁决，不重抽该原请求。\n\n本任务拟接续源提交 c523e9e24300755a6f65c018712ad85c1005838d。该提交与已发表 9877680 完整文件树相同，修正了提交标题；MC-023 当前独立 39+1 及 gate/handoff/postgate 实际通过。原生电影制作、签名发行与后续两个隔离仓的定向移植仍未完成。本 Issue 将正式记录此后继事实评分合同修复与路径锁；此前外部准备不升格为正式红绿或生产效果。\n\n授权：本聊天已明确授权本仓机制修复、真实测试、生产发布，再依次在 growthtest 与 growthmatrix 定向移植并发布；每项完成修复及时发表。中间环节由系统审核，人类验收最终成片。平台已有必需评审仍按真实状态处理，不用任务标签或会话角色替代平台批准。\n\n四问：\n1. 归属 Growth 原生营销片事实审核提示合同，不回流基座，不 fanout；隔离副本移植只在源仓生产完成后各自开卡/锁/验收。\n2. 涉及审核输入和原裁决回执，标记 risk/review；原批准、原分数、完整证据、单次模型调用、85 门槛与失败关闭保持。用户本聊天的机制修复与测试授权已提供，不另加人工制片审核。\n3. 改动只在当前实验仓的既有 producer gate 及其必要请求合同回归；不修改 vendor、模型路由、数据库、产品档案或来源授权。\n4. 先正式 test-only 提交执行 MCD 红断言，再最小提示补丁，完整 clean SHA 正式修复绿；独立角色实际执行本卡与必要受影响请求/事实回归；新提交合格后由协调角色使用原客户意图重新原生预生产一次，尊重新模型原判。回滚为仅本任务修复提交的普通 Revert，保留所有旧失败和供应商账本。\n\n需求与场景：\n- A1 有明确商品主张时，逐项核验保存正文的支持关系，型号、数字、单位、否定或限定冲突仍拒绝；不能把引用存在当成支持。\n- A2/A3 如实返回 no_evidence 时，由模型检查完整正文、缺证据理由及用途限制；空值不直接通过，也不推断市场没有竞品或用户没有评价。\n- 空值理由与正文不符、已经提出的主张缺证据、来源限制被遗漏或弱化时仍拒绝；缺模型、非法结构、原回包归档失败或 approved=false 均不能补调用换批准。\n- 非事实的 prompt、image/keyframe、subtitle 继续各自审核口径；本卡的 score 定义不能授予图像、镜头、字幕或交付资格。\n\n候选方案：\nA. 在 facts 实际强制提示内明确 score 只评价主张支持、status/noEvidenceReason 和来源限制的忠实性；采集数量、相关性与覆盖不足保留在 issues/suggestions，不能混入这个支持分。默认和自定义 rubric 都进入同一完整单次 LLM 审核。成本为最小提示变更和请求合同回归；风险是模型仍可能不遵循，因此新实模分数未知且原判仍停线。选择 A。\nB. 对空 claims/no_evidence 确定性自动通过或跳过模型。成本较低，但无法查虚假空值和缺证据理由，违反原事实资格边界；不选。\n\n精确路径锁（本 Issue 实际创建并回读后生效）：\n- packages/video-studio/src/producer-gate.ts\n- scripts/native-marketing-facts-scoring.test.mts\n- scripts/fixtures/marketing-facts-scoring/**\n- docs/repairs/T-2026-1006-0002.md\n- outputs/mine-clear/T-2026-1006-0002/**\n\n接口、数据与异常：\nreviewStage 的函数参数、返回、stage 枚举、HTTP 请求/响应结构、85 门槛、归档接口及错误状态保持原合同，无数据库/索引/迁移或新增模型通道。仅 facts 专属强制文本替换原歧义句，自定义 rubric 不能省略评分域与拒绝边界。已有完整 text 批次与请求/回包散列继续归档；任何批准不足85、否定裁决、模型/解析/归档失败仍停止。\n\n先行证据：\n- 当前 producer-gate.ts:522@c523e9e24300755a6f65c018712ad85c1005838d 的笼统缺证据指令，与 :93-97 的仅主张支持 rubric 及实际自定义 rubric 共同产生评分域歧义。\n- 原源提交 19fff17247c075a2bb6c2bbcd8016db42643f682 的 A3.review.json SHA256 5334c64f2a145c0ed788e18387cd80fd453e914b3c314da2e6bb6fdfae0c5884；原 judge-exchange SHA256 023e2b206de3ef2f69aca7ecd63f03c862b59574236aaf28dc5a535913c57fd0。原完整回包 true/76、stop、单批与原请求/来源散列保存。\n- 外部准备测试对实际 c523 原实现 26 项为 21 通过、5 失败；仅证明提示请求合同缺口，不是正式 MCD 红基线。外部复制 producer 模块应用拟补丁后，新26与原营销审核5共31通过；固定回包不因关键词变分，该结果不代表新模型语义通过。\n\n不解决与后续：\n不修采集器“其他”查询与单词命中相关性问题，不自猜商品类别、不替换竞品网址；独立检索质量缺口另记。不伪造缺证据事实，不升级客户档案或图片授权，不手写 PRD/分镜/提示词，不改供应商提交次数。不以本地测试、Git tree 或已发表分支冒充云端生产发行、成片或隔离仓完成。\n\n分支与状态：task/T-2026-1006-0002；当前会话凭据使用已由产品所有者明确授权。必须实际回读唯一 Issue 与上述路径锁后，协调者才发出正式 NEW_TASK；修复角色自行 fetch 并记录三基线，先在 test-only 干净提交跑真实红断言，再按最小20行提示补丁修复。当前生产源码仍为未应用补丁的c523。源 main 刚回读为52a600e；前置 PR328 与规范替代 PR330 串行普通合入。producer-gate.ts 仅接续本会话前置任务，不抢占其它会话锁。未解除隔离或更改平台保护。\n",
+    "labels": [
+      {
+        "id": "2100968353592967168",
+        "name": "risk/review",
+        "description": "WorkLoom 开发协议（CNB 上限 10）",
+        "color": "#fd7e14",
+        "creator": {
+          "username": "cnb.dYiF05kxAGA",
+          "nickname": "Genius",
+          "email": "XYpmztfpCvez6l8z5BBAvJ+cnb.dYiF05kxAGA@noreply.cnb.cool",
+          "is_npc": false
+        },
+        "applied_by": {
+          "username": "cnb.dYiF05kxAGA",
+          "nickname": "Genius",
+          "email": "XYpmztfpCvez6l8z5BBAvJ+cnb.dYiF05kxAGA@noreply.cnb.cool",
+          "is_npc": false
+        }
+      },
+      {
+        "id": "2100968298043609088",
+        "name": "t/doing",
+        "description": "WorkLoom 开发协议（CNB 上限 10）",
+        "color": "#0d6efd",
+        "creator": {
+          "username": "cnb.dYiF05kxAGA",
+          "nickname": "Genius",
+          "email": "XYpmztfpCvez6l8z5BBAvJ+cnb.dYiF05kxAGA@noreply.cnb.cool",
+          "is_npc": false
+        },
+        "applied_by": {
+          "username": "cnb.dYiF05kxAGA",
+          "nickname": "Genius",
+          "email": "XYpmztfpCvez6l8z5BBAvJ+cnb.dYiF05kxAGA@noreply.cnb.cool",
+          "is_npc": false
+        }
+      }
+    ],
+    "statuses": {}
+  }
+}

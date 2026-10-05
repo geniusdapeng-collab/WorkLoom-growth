@@ -1,0 +1,4 @@
+✓ 5bee55d6a754 fix(video): define facts support score without preset approval [T-2026-1006-0002]
+✓ 6e0606c78c21 test(video): pin facts score scope and immutable verdicts [T-2026-1006-0002]
+
+✓ 提交信息校验通过（2 条，范围 c523e9e24300755a6f65c018712ad85c1005838d..HEAD）

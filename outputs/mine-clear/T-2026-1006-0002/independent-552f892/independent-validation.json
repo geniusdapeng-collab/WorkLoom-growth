@@ -1,0 +1,71 @@
+{
+  "schema": "workloom.independent-mc024-readback/v1",
+  "source_commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91",
+  "grade": "B",
+  "tracked_files_current_equals_full_git_blob_inventory": 5663,
+  "finalization_only_document_archive_paths": 335,
+  "eight_behavior_file_hashes_match_repair_source": true,
+  "original_red_green_source_and_observer_history_preserved": true,
+  "formal_node_summary_counts": [
+    26,
+    30
+  ],
+  "narrow_vitest_passed": 90,
+  "all_test_failed_cancelled_skipped_todo": 0,
+  "actual_operations": [
+    {
+      "path": "operations/ffmpeg-identity.run.json",
+      "sha256": "ee4a934d63d981164194174a6fd081c7b00ac295b0af5016b5b02da63b715277",
+      "exit_code": 0
+    },
+    {
+      "path": "operations/ffprobe-identity.run.json",
+      "sha256": "68d03eebc5e6286c83a53a402ba9f7beebfd3f006b9e2736fedaa535d5028b5f",
+      "exit_code": 0
+    },
+    {
+      "path": "operations/formal-independent-assertions.run.json",
+      "sha256": "64406ef62654fa697271a5e59cf396375bbbac658604a9cf32e3d0e1be0ca8be",
+      "exit_code": 0
+    },
+    {
+      "path": "operations/formal-independent-gate.run.json",
+      "sha256": "082355ec3a070d7cd630a808b7ca7ab34b3b981ea6056389209571ed9b778d87",
+      "exit_code": 0
+    },
+    {
+      "path": "operations/formal-independent-handoff.run.json",
+      "sha256": "32deb3c721d59e5aa29692245a566158a0d387f73950467962604df4eb9982cf",
+      "exit_code": 0
+    },
+    {
+      "path": "operations/formal-independent-posthandoff-gate.run.json",
+      "sha256": "618e672306d0b6fda5d9a484effe110c381e245de89ac5f2f0db85949b44be8f",
+      "exit_code": 0
+    },
+    {
+      "path": "operations/narrow-producer-facts-authority-regression.run.json",
+      "sha256": "e46a310da62f176783ddd4dcd48b9e6cbb3bd526f908c4484cc5c1a32884540f",
+      "exit_code": 0
+    },
+    {
+      "path": "operations/owned-industry-contract-build.run.json",
+      "sha256": "60c6e2305ca6f4ef96502351667db2410271d56b9e2b508316e9548cfd0481cf",
+      "exit_code": 0
+    },
+    {
+      "path": "operations/server-typecheck.run.json",
+      "sha256": "076b68ad85c3e3f4b30242e6c1894afe4e00fe9a44be902dc69ea8b26636653a",
+      "exit_code": 0
+    },
+    {
+      "path": "operations/video-studio-typecheck.run.json",
+      "sha256": "c101fa8c843c7e91d8096bdf7cc1ba15d0a6dd13269e5e0715952408bae8cc73",
+      "exit_code": 0
+    }
+  ],
+  "actor_separation": true,
+  "baseline_alignment": true,
+  "original_operational_root": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/outputs/mine-clear/T-2026-1006-0002/independent-552f892",
+  "performed_at": "2026-10-05T23:40:30.812712+00:00"
+}

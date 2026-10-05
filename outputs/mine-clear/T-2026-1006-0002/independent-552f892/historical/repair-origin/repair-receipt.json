@@ -1,0 +1,35 @@
+{
+  "schema": "workloom.mc024-formal-repair-receipt/v1",
+  "taskId": "T-2026-1006-0002",
+  "issue": "https://cnb.cool/workloom-ai/WorkLoom-growth/-/issues/332",
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "branch": "task/T-2026-1006-0002",
+  "auditCommit": "c523e9e24300755a6f65c018712ad85c1005838d",
+  "testOnlyCommit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7",
+  "productionCommit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+  "sourceFingerprints": {
+    "packages/video-studio/src/producer-gate.ts": "8306427eb4fcb91804a23975478df47de27a30051b7cb3fada948216e3ba38dd",
+    "scripts/native-marketing-facts-scoring.test.mts": "dcdf62dc459b039115ab268af95ee995fbd0ba2c9c9118d10a29b5f5e6e46c11"
+  },
+  "pinnedSyntheticMediaBinaries": {
+    "/Users/mac/.workloom-color/bin/ffmpeg": "a90e3db6a3fd35f6074b013f948b1aa45b31c6375489d39e572bea3f18336584",
+    "/Users/mac/.workloom-color/bin/ffprobe": "bb2db6f5d8cef919da12fbf592119a987202a8c060a886f3cab091f9cab90b64"
+  },
+  "state": "fixed",
+  "independentAcceptance": false,
+  "mcdOperationalArtifactRoot": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-green",
+  "redOriginalArtifactRoot": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-current",
+  "archivesAreOriginalByteCopiesNotNewExecutions": true,
+  "realModelOutcomeVerified": false,
+  "originalApprovedTrue76StillDeniedAt85": true,
+  "realModelOrProviderCalls": 0,
+  "pgCalls": 0,
+  "customerOrVendorMediaWork": 0,
+  "deterministicSyntheticLocalVideoTest": true,
+  "pendingCoordinatorSteps": [
+    "Independent acceptance on the combined final source commit",
+    "Remote PR/review/publication",
+    "New authorized native preproduction honoring its original model verdict"
+  ]
+}

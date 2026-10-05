@@ -1,0 +1,217 @@
+TAP version 13
+# [pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+# [ProcessGuard] 实例 default 安装完成（含SIGTERM/SIGINT处理）
+# ⚠️ [confirmation-crypto] HUMAN_CONFIRMATION_SECRET 未设置
+#  人工确认环节将不可用（无法生成/验证签名），但系统其余功能正常
+#  配置方法: export HUMAN_CONFIRMATION_SECRET=$(openssl rand -hex 32)，或写入 .env
+# Subtest: host G1 never promotes discovery-only model into any native fact/card
+ok 1 - host G1 never promotes discovery-only model into any native fact/card
+  ---
+  duration_ms: 23.441416
+  type: 'test'
+  ...
+# Subtest: host G1 never promotes discovery-only brand into any native fact/card
+ok 2 - host G1 never promotes discovery-only brand into any native fact/card
+  ---
+  duration_ms: 10.051375
+  type: 'test'
+  ...
+# Subtest: host G1 never promotes discovery-only category into any native fact/card
+ok 3 - host G1 never promotes discovery-only category into any native fact/card
+  ---
+  duration_ms: 8.278709
+  type: 'test'
+  ...
+# Subtest: host native specs keep actual source provenance without contradictory no-source gaps
+ok 4 - host native specs keep actual source provenance without contradictory no-source gaps
+  ---
+  duration_ms: 8.416
+  type: 'test'
+  ...
+# Subtest: native assembly preserves five stations, chain, empty A2/A3, source restrictions and unchanged vendor prototypes
+ok 5 - native assembly preserves five stations, chain, empty A2/A3, source restrictions and unchanged vendor prototypes
+  ---
+  duration_ms: 2.064791
+  type: 'test'
+  ...
+# Subtest: supported identity, escaped specs, zero/boolean values, prices and selling points map only to actual cited URLs
+ok 6 - supported identity, escaped specs, zero/boolean values, prices and selling points map only to actual cited URLs
+  ---
+  duration_ms: 2.7345
+  type: 'test'
+  ...
+# Subtest: candidate images keep unverified mapping/license statement, unknown angle and actual source; unsupported metadata is rejected
+ok 7 - candidate images keep unverified mapping/license statement, unknown angle and actual source; unsupported metadata is rejected
+  ---
+  duration_ms: 1.411083
+  type: 'test'
+  ...
+# Subtest: missing, duplicate, mismatched, foreign and invalid claims cannot be wrapped as sourced native facts
+ok 8 - missing, duplicate, mismatched, foreign and invalid claims cannot be wrapped as sourced native facts
+  ---
+  duration_ms: 0.675959
+  type: 'test'
+  ...
+# Subtest: malformed stage/source records, empty evidence, unbound URLs and deleted policy limits fail closed
+ok 9 - malformed stage/source records, empty evidence, unbound URLs and deleted policy limits fail closed
+  ---
+  duration_ms: 1.115625
+  type: 'test'
+  ...
+# Subtest: native price and visual source URLs must belong to the specific cited competitor attribute
+ok 10 - native price and visual source URLs must belong to the specific cited competitor attribute
+  ---
+  duration_ms: 1.130084
+  type: 'test'
+  ...
+# Subtest: adapter proof rejects altered raw, query, native values, source URLs, mappings and restrictions even when outer SHA is recomputed
+ok 11 - adapter proof rejects altered raw, query, native values, source URLs, mappings and restrictions even when outer SHA is recomputed
+  ---
+  duration_ms: 1.952875
+  type: 'test'
+  ...
+# Subtest: host proof and handoff restrictions remain bound through final fact qualification
+ok 12 - host proof and handoff restrictions remain bound through final fact qualification
+  ---
+  duration_ms: 16.405
+  type: 'test'
+  ...
+# [LLM接线] 使用调用方注入的 LLM 引擎
+# [LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+# [ScriptGenerator] 使用LLMEngine (kimi-k2p6)
+# [LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+# [ContinuityReviewAgent] LLM引擎加载成功 | model=fixture
+# [ProductionEngine v2.0] LLM Agents 已启用 | deep=fixture fast=fixture
+# [HealthMonitor] 🏥 健康监控已启动，检查间隔: 30000ms
+# [StabilityShield] 🛡️ 三层稳定性护盾已初始化（通用化版本）
+# [StabilityShield] constructor called
+# [PandaAdapter][INFO] PandaCineForgeAdapter 已禁用（默认） {}
+# [StabilityShield] initialize called with productionEngine
+# [HealthMonitor] ✅ Agent已注册: ProductionEngine
+# [ProductionEngine] setHealthMonitor called with HealthMonitor instance
+# [ProductionEngine] Phases re-initialized with healthMonitor: yes
+# [StabilityShield] ✅ 护盾已激活
+# Subtest: actual VideoStudio entry reassembles the same source-bound facts without any query fallback or prototype mutation
+ok 13 - actual VideoStudio entry reassembles the same source-bound facts without any query fallback or prototype mutation
+  ---
+  duration_ms: 102.207667
+  type: 'test'
+  ...
+# Subtest: actual studio rejects missing or altered native adapter proof before production boundary
+ok 14 - actual studio rejects missing or altered native adapter proof before production boundary
+  ---
+  duration_ms: 2.373958
+  type: 'test'
+  ...
+# [pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+# Subtest: a native extraction gets one schema correction and preserves both original responses
+ok 15 - a native extraction gets one schema correction and preserves both original responses
+  ---
+  duration_ms: 160.864708
+  type: 'test'
+  ...
+# Subtest: persistent structural errors stop after exactly two recorded responses
+ok 16 - persistent structural errors stop after exactly two recorded responses
+  ---
+  duration_ms: 1.124042
+  type: 'test'
+  ...
+# Subtest: invented citations cannot enter the format correction path
+ok 17 - invented citations cannot enter the format correction path
+  ---
+  duration_ms: 0.712791
+  type: 'test'
+  ...
+# Subtest: a failed extraction call or receipt write stops without additional provider work
+ok 18 - a failed extraction call or receipt write stops without additional provider work
+  ---
+  duration_ms: 1.06875
+  type: 'test'
+  ...
+# Subtest: native fact review examines complete source support without an imaginary shot contract
+ok 19 - native fact review examines complete source support without an imaginary shot contract
+  ---
+  duration_ms: 24.880709
+  type: 'test'
+  ...
+# Subtest: source-support rejection remains a failed verdict and does not retry the semantic decision
+ok 20 - source-support rejection remains a failed verdict and does not retry the semantic decision
+  ---
+  duration_ms: 8.781709
+  type: 'test'
+  ...
+# Subtest: fact review cannot grant visual or shot-contract qualification
+ok 21 - fact review cannot grant visual or shot-contract qualification
+  ---
+  duration_ms: 5.279542
+  type: 'test'
+  ...
+# Subtest: missing source-review model remains unverified rather than a fact approval
+ok 22 - missing source-review model remains unverified rather than a fact approval
+  ---
+  duration_ms: 1.289542
+  type: 'test'
+  ...
+# Subtest: ordinary prompt review retains its missing shot-contract boundary
+ok 23 - ordinary prompt review retains its missing shot-contract boundary
+  ---
+  duration_ms: 0.765291
+  type: 'test'
+  ...
+# [pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+# [LLMEngine] ❌ 未检测到 API Key，请确认环境变量 KIMI_API_KEY / MOONSHOT_API_KEY / KIMI_PLUGIN_API_KEY
+# Subtest: all native adapter interfaces carry complete restrictions despite custom system prompts
+ok 24 - all native adapter interfaces carry complete restrictions despite custom system prompts
+  ---
+  duration_ms: 21.706292
+  type: 'test'
+  ...
+# Subtest: vendor-owned engine prototype calls inherit the native run limits
+ok 25 - vendor-owned engine prototype calls inherit the native run limits
+  ---
+  duration_ms: 5.759792
+  type: 'test'
+  ...
+# Subtest: routed primary/fast calls retain restrictions, timeout and model billing traces
+ok 26 - routed primary/fast calls retain restrictions, timeout and model billing traces
+  ---
+  duration_ms: 14.033042
+  type: 'test'
+  ...
+# Subtest: concurrent scopes and later narrative requests do not share source limitations
+ok 27 - concurrent scopes and later narrative requests do not share source limitations
+  ---
+  duration_ms: 0.532042
+  type: 'test'
+  ...
+# Subtest: mutated input cannot change a running restriction snapshot and raw binding changes its hash
+ok 28 - mutated input cannot change a running restriction snapshot and raw binding changes its hash
+  ---
+  duration_ms: 1.029375
+  type: 'test'
+  ...
+# Subtest: missing, malformed and oversized limits stop before the model callback without truncation
+ok 29 - missing, malformed and oversized limits stop before the model callback without truncation
+  ---
+  duration_ms: 0.467833
+  type: 'test'
+  ...
+# Subtest: failed and completed scopes close, preventing detached late model submissions
+ok 30 - failed and completed scopes close, preventing detached late model submissions
+  ---
+  duration_ms: 0.597333
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 501.637834
+
+
+exit_code=0 signal=none error=none
+assertion_validation={"ok":true,"errors":[],"testSummary":{"total":30,"passed":30,"failed":0,"cancelled":0,"skipped":0,"todo":0}}

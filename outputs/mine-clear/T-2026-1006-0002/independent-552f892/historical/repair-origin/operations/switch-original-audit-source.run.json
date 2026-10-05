@@ -1,0 +1,21 @@
+{
+  "schema": "workloom.mc024-actual-operation/v1",
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024",
+  "argv": [
+    "git",
+    "switch",
+    "--detach",
+    "c523e9e24300755a6f65c018712ad85c1005838d"
+  ],
+  "startedAt": "2026-10-05T22:44:15.611879+00:00",
+  "finishedAt": "2026-10-05T22:44:15.682353+00:00",
+  "commit": "c523e9e24300755a6f65c018712ad85c1005838d",
+  "workingTreeDirtyAfter": false,
+  "exitCode": 0,
+  "stdout": "operations/switch-original-audit-source.stdout.txt",
+  "stderr": "operations/switch-original-audit-source.stderr.txt",
+  "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderrSha256": "b8d1ebdb55b0704a21b7a7b238f4b4eb15ac80f12a6e20f1fabfa615e40b8f10"
+}

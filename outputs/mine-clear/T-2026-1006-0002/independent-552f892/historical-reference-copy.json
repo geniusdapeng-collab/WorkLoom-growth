@@ -1,0 +1,60 @@
+{
+  "copies": [
+    {
+      "original": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-green/runs/MC-024-0-1791240978615.json",
+      "copy": "runs/MC-024-0-1791240978615.json",
+      "sha256": "99ffa806436153cd36ff8a26911871ddb259de05cc694d4e39e1989e12b48fb1",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+    },
+    {
+      "original": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-green/evidence/MC-024-0-1791240978615.txt",
+      "copy": "evidence/MC-024-0-1791240978615.txt",
+      "sha256": "1ca66f44330c1de93abdf59e845ba40499e45dd2406961e9006a3dcf961b9d6f",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+    },
+    {
+      "original": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-green/evidence/MC-024-0-1791240978615-node-tests.jsonl",
+      "copy": "evidence/MC-024-0-1791240978615-node-tests.jsonl",
+      "sha256": "1f1c2ac0dbeed4b91b1582593437748fbe6f5652e7e8ac764b0ce1b9c2179a53",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+    },
+    {
+      "original": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-green/runs/MC-024-1-1791240979320.json",
+      "copy": "runs/MC-024-1-1791240979320.json",
+      "sha256": "96ba4d4db1717b10c6b703eb6a71d3aaf78cf4996b72a5eb8fdac028a7441fcc",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+    },
+    {
+      "original": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-green/evidence/MC-024-1-1791240979320.txt",
+      "copy": "evidence/MC-024-1-1791240979320.txt",
+      "sha256": "ac745dd8c55aebbab3c0ef70652d1bd809bb02b2992bb50fe434c7c6bd7c0041",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+    },
+    {
+      "original": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-green/evidence/MC-024-1-1791240979320-node-tests.jsonl",
+      "copy": "evidence/MC-024-1-1791240979320-node-tests.jsonl",
+      "sha256": "d484f252a09edac03fae676c3f060d8d72496bc7fb6eba59cc6e9e0379d01361",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+    },
+    {
+      "original": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-current/runs/MC-024-0-1791240490774.json",
+      "copy": "runs/MC-024-0-1791240490774.json",
+      "sha256": "75e8e0b377d6b4c001359740744c898c58e5e7f5cfc5f7fcc2343036f83267e8",
+      "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7"
+    },
+    {
+      "original": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-current/evidence/MC-024-0-1791240490774.txt",
+      "copy": "evidence/MC-024-0-1791240490774.txt",
+      "sha256": "1e57125713ba4bf6ade55b94c72afa887743387f3bb9cfb6f703e2fd53702bc7",
+      "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7"
+    },
+    {
+      "original": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-current/evidence/MC-024-0-1791240490774-node-tests.jsonl",
+      "copy": "evidence/MC-024-0-1791240490774-node-tests.jsonl",
+      "sha256": "cc0b2325ac834a248a6a14178b4f19c0e2ffbb4c4d643200c83b288153f007e8",
+      "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7"
+    }
+  ],
+  "observer_paths_preserved": true,
+  "copy_is_not_an_execution": true
+}

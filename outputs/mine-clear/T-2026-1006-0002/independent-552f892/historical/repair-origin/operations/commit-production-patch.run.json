@@ -1,0 +1,21 @@
+{
+  "schema": "workloom.mc024-actual-operation/v1",
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024",
+  "argv": [
+    "git",
+    "commit",
+    "-m",
+    "fix(video): define facts support score without preset approval [T-2026-1006-0002]"
+  ],
+  "startedAt": "2026-10-05T22:51:27.364715+00:00",
+  "finishedAt": "2026-10-05T22:51:27.441845+00:00",
+  "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+  "workingTreeDirtyAfter": false,
+  "exitCode": 0,
+  "stdout": "operations/commit-production-patch.stdout.txt",
+  "stderr": "operations/commit-production-patch.stderr.txt",
+  "stdoutSha256": "4d93ed294778da9580e7988be996485bbfd6aa44b3dac299dcd9f5abd16ba7ce",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

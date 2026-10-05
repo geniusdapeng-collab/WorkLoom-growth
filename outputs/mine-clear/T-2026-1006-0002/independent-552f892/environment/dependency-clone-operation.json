@@ -1,0 +1,15 @@
+[
+  {
+    "argv": [
+      "/bin/cp",
+      "-cR",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/node_modules",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules"
+    ],
+    "started_at": "2026-10-05T23:18:18.328611+00:00",
+    "finished_at": "2026-10-05T23:18:28.033374+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

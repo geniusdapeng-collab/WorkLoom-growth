@@ -1,0 +1,79 @@
+{
+  "schema": "workloom.evidence-run/v1",
+  "id": "MC-024-0-1791243084153",
+  "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tsx@4.23.13/node_modules/tsx/dist/loader.mjs --test scripts/native-marketing-facts-scoring.test.mts",
+  "exec": {
+    "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "--test-reporter=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/scripts/delivery/node-test-reporter.mjs",
+      "--test-reporter-destination=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/outputs/mine-clear/T-2026-1006-0002/independent-552f892/evidence/MC-024-0-1791243084153-node-tests.jsonl",
+      "--test-reporter=tap",
+      "--test-reporter-destination=stdout",
+      "--import",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tsx@4.23.13/node_modules/tsx/dist/loader.mjs",
+      "--test",
+      "scripts/native-marketing-facts-scoring.test.mts"
+    ]
+  },
+  "requested_exec": {
+    "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "--import",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/tsx@4.23.13/node_modules/tsx/dist/loader.mjs",
+      "--test",
+      "scripts/native-marketing-facts-scoring.test.mts"
+    ]
+  },
+  "node_observer": {
+    "schema": "workloom.node-test-observer/v1",
+    "reporter_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/scripts/delivery/node-test-reporter.mjs",
+    "reporter_sha256": "286448a4dee571759fc1703564477d27bf5319bcb05ff66db2186deda60bc78f",
+    "destination": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/outputs/mine-clear/T-2026-1006-0002/independent-552f892/evidence/MC-024-0-1791243084153-node-tests.jsonl",
+    "summary": {
+      "path": "evidence/MC-024-0-1791243084153-node-tests.jsonl",
+      "sha256": "1f1c2ac0dbeed4b91b1582593437748fbe6f5652e7e8ac764b0ce1b9c2179a53",
+      "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91"
+    }
+  },
+  "node_executable": {
+    "path": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "sha256": "27db838bb204ef7c21df2931f5656e4c8fb32e6e947f363a402b49714d32b5b1"
+  },
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "subject": {
+    "card_id": "MC-024",
+    "assertion_index": 0
+  },
+  "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91",
+  "working_tree_dirty": false,
+  "started_at": "2026-10-05T23:31:24.153Z",
+  "finished_at": "2026-10-05T23:31:25.330Z",
+  "exit_code": 0,
+  "signal": null,
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "testSummary": {
+      "total": 26,
+      "passed": 26,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "result": "pass",
+  "outputs": [
+    {
+      "path": "evidence/MC-024-0-1791243084153.txt",
+      "sha256": "3d1f57f41d44d6443585709e41b88d8a06dca9201906e5e73602910ef7df76cf",
+      "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91"
+    },
+    {
+      "path": "evidence/MC-024-0-1791243084153-node-tests.jsonl",
+      "sha256": "1f1c2ac0dbeed4b91b1582593437748fbe6f5652e7e8ac764b0ce1b9c2179a53",
+      "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91"
+    }
+  ]
+}

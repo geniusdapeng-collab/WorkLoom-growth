@@ -1,0 +1,171 @@
+TAP version 13
+# [pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+# Subtest: actual A3 fixtures preserve complete original bytes, nested exchanges and the true/76 denial input
+ok 1 - actual A3 fixtures preserve complete original bytes, nested exchanges and the true/76 denial input
+  ---
+  duration_ms: 1.511375
+  type: 'test'
+  ...
+# Subtest: facts request separates support score from retrieval coverage while retaining the complete actual A3 empty record
+ok 2 - facts request separates support score from retrieval coverage while retaining the complete actual A3 empty record
+  ---
+  duration_ms: 12.855625
+  type: 'test'
+  ...
+# Subtest: custom facts rubric cannot omit the mandatory score and honest-empty boundaries
+ok 3 - custom facts rubric cannot omit the mandatory score and honest-empty boundaries
+  ---
+  duration_ms: 1.255792
+  type: 'test'
+  ...
+# Subtest: the unchanged original approved=true score=76 response remains denied, archived byte-for-byte, and called once
+ok 4 - the unchanged original approved=true score=76 response remains denied, archived byte-for-byte, and called once
+  ---
+  duration_ms: 0.931792
+  type: 'test'
+  ...
+# Subtest: an original approved=false score=10 is never replaced or promoted
+ok 5 - an original approved=false score=10 is never replaced or promoted
+  ---
+  duration_ms: 0.945041
+  type: 'test'
+  ...
+# Subtest: an original approved=false score=85 is never replaced or promoted
+ok 6 - an original approved=false score=85 is never replaced or promoted
+  ---
+  duration_ms: 1.371375
+  type: 'test'
+  ...
+# Subtest: an original approved=false score=96 is never replaced or promoted
+ok 7 - an original approved=false score=96 is never replaced or promoted
+  ---
+  duration_ms: 1.034583
+  type: 'test'
+  ...
+# Subtest: fixed positive protocol reply score=84 obeys the unchanged 85 boundary
+ok 8 - fixed positive protocol reply score=84 obeys the unchanged 85 boundary
+  ---
+  duration_ms: 0.843083
+  type: 'test'
+  ...
+# Subtest: fixed positive protocol reply score=85 obeys the unchanged 85 boundary
+ok 9 - fixed positive protocol reply score=85 obeys the unchanged 85 boundary
+  ---
+  duration_ms: 0.856792
+  type: 'test'
+  ...
+# Subtest: fixed positive protocol reply score=96 obeys the unchanged 85 boundary
+ok 10 - fixed positive protocol reply score=96 obeys the unchanged 85 boundary
+  ---
+  duration_ms: 1.086041
+  type: 'test'
+  ...
+# Subtest: A2 honest no_evidence stays a full LLM request and cannot become a deterministic approval
+ok 11 - A2 honest no_evidence stays a full LLM request and cannot become a deterministic approval
+  ---
+  duration_ms: 2.738791
+  type: 'test'
+  ...
+# Subtest: A3 honest no_evidence stays a full LLM request and cannot become a deterministic approval
+ok 12 - A3 honest no_evidence stays a full LLM request and cannot become a deterministic approval
+  ---
+  duration_ms: 1.924875
+  type: 'test'
+  ...
+# Subtest: nonempty cited facts preserve complete evidence and apply the unchanged positive 85 protocol boundary
+ok 13 - nonempty cited facts preserve complete evidence and apply the unchanged positive 85 protocol boundary
+  ---
+  duration_ms: 2.705292
+  type: 'test'
+  ...
+# Subtest: false-empty keeps contradictory evidence and explicit refusal criteria in the one facts request
+ok 14 - false-empty keeps contradictory evidence and explicit refusal criteria in the one facts request
+  ---
+  duration_ms: 1.260833
+  type: 'test'
+  ...
+# Subtest: negated-claim keeps contradictory evidence and explicit refusal criteria in the one facts request
+ok 15 - negated-claim keeps contradictory evidence and explicit refusal criteria in the one facts request
+  ---
+  duration_ms: 1.719917
+  type: 'test'
+  ...
+# Subtest: missing-limit keeps contradictory evidence and explicit refusal criteria in the one facts request
+ok 16 - missing-limit keeps contradictory evidence and explicit refusal criteria in the one facts request
+  ---
+  duration_ms: 1.783792
+  type: 'test'
+  ...
+# Subtest: missing facts model stays unverified even for an honest empty record
+ok 17 - missing facts model stays unverified even for an honest empty record
+  ---
+  duration_ms: 0.410917
+  type: 'test'
+  ...
+# Subtest: facts cannot acquire image or storyboard qualification before any model call
+ok 18 - facts cannot acquire image or storyboard qualification before any model call
+  ---
+  duration_ms: 0.760583
+  type: 'test'
+  ...
+# Subtest: archive failure preserves refusal without obtaining a replacement model decision
+ok 19 - archive failure preserves refusal without obtaining a replacement model decision
+  ---
+  duration_ms: 0.762667
+  type: 'test'
+  ...
+# Subtest: invalid-json original response is archived once and never retried into an approval
+ok 20 - invalid-json original response is archived once and never retried into an approval
+  ---
+  duration_ms: 0.870792
+  type: 'test'
+  ...
+# Subtest: duplicate-approved original response is archived once and never retried into an approval
+ok 21 - duplicate-approved original response is archived once and never retried into an approval
+  ---
+  duration_ms: 0.855333
+  type: 'test'
+  ...
+# Subtest: truncated original response is archived once and never retried into an approval
+ok 22 - truncated original response is archived once and never retried into an approval
+  ---
+  duration_ms: 0.76325
+  type: 'test'
+  ...
+# Subtest: http-failure original response is archived once and never retried into an approval
+ok 23 - http-failure original response is archived once and never retried into an approval
+  ---
+  duration_ms: 0.762125
+  type: 'test'
+  ...
+# Subtest: prompt retains its own evidence/refusal boundary without facts support-score instructions
+ok 24 - prompt retains its own evidence/refusal boundary without facts support-score instructions
+  ---
+  duration_ms: 0.706625
+  type: 'test'
+  ...
+# Subtest: keyframe retains its own evidence/refusal boundary without facts support-score instructions
+ok 25 - keyframe retains its own evidence/refusal boundary without facts support-score instructions
+  ---
+  duration_ms: 0.713417
+  type: 'test'
+  ...
+# Subtest: subtitle retains its own evidence/refusal boundary without facts support-score instructions
+ok 26 - subtitle retains its own evidence/refusal boundary without facts support-score instructions
+  ---
+  duration_ms: 0.62875
+  type: 'test'
+  ...
+1..26
+# tests 26
+# suites 0
+# pass 26
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 318.867
+
+
+exit_code=0 signal=none error=none
+assertion_validation={"ok":true,"errors":[],"testSummary":{"total":26,"passed":26,"failed":0,"cancelled":0,"skipped":0,"todo":0}}

@@ -1,0 +1,98 @@
+[
+  {
+    "argv": [
+      "/bin/cp",
+      "-cR",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/apps/server/node_modules",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/apps/server/node_modules"
+    ],
+    "exit_code": 0,
+    "retained_previous_owned_wrapper": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-mc024-preparation/retained-owned-dependency-wrappers/apps/server/node_modules",
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/bin/cp",
+      "-cR",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/video-studio/node_modules",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/video-studio/node_modules"
+    ],
+    "exit_code": 0,
+    "retained_previous_owned_wrapper": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-mc024-preparation/retained-owned-dependency-wrappers/packages/video-studio/node_modules",
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/bin/cp",
+      "-cR",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/base/node_modules",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/base/node_modules"
+    ],
+    "exit_code": 0,
+    "retained_previous_owned_wrapper": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-mc024-preparation/retained-owned-dependency-wrappers/packages/base/node_modules",
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/bin/cp",
+      "-cR",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/runtime/node_modules",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/runtime/node_modules"
+    ],
+    "exit_code": 0,
+    "retained_previous_owned_wrapper": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-mc024-preparation/retained-owned-dependency-wrappers/packages/runtime/node_modules",
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/bin/cp",
+      "-cR",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/shared/node_modules",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/shared/node_modules"
+    ],
+    "exit_code": 0,
+    "retained_previous_owned_wrapper": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-mc024-preparation/retained-owned-dependency-wrappers/packages/shared/node_modules",
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/bin/cp",
+      "-cR",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/db/node_modules",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/db/node_modules"
+    ],
+    "exit_code": 0,
+    "retained_previous_owned_wrapper": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-mc024-preparation/retained-owned-dependency-wrappers/packages/db/node_modules",
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/bin/cp",
+      "-cR",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/audit-engine/node_modules",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/audit-engine/node_modules"
+    ],
+    "exit_code": 0,
+    "retained_previous_owned_wrapper": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-mc024-preparation/retained-owned-dependency-wrappers/packages/audit-engine/node_modules",
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/bin/cp",
+      "-cR",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-pipeline/packages/industry-contract/node_modules",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/packages/industry-contract/node_modules"
+    ],
+    "exit_code": 0,
+    "retained_previous_owned_wrapper": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/native-mc024-preparation/retained-owned-dependency-wrappers/packages/industry-contract/node_modules",
+    "stdout": "",
+    "stderr": ""
+  }
+]

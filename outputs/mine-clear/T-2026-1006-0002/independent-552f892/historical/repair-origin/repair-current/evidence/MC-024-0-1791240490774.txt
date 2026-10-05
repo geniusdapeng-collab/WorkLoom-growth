@@ -1,0 +1,336 @@
+TAP version 13
+# [pii] PII_SALT 未配置，使用 dev 占位盐（仅限开发/测试，生产必须注入 PII_SALT）
+# Subtest: actual A3 fixtures preserve complete original bytes, nested exchanges and the true/76 denial input
+ok 1 - actual A3 fixtures preserve complete original bytes, nested exchanges and the true/76 denial input
+  ---
+  duration_ms: 1.44
+  type: 'test'
+  ...
+# Subtest: facts request separates support score from retrieval coverage while retaining the complete actual A3 empty record
+not ok 2 - facts request separates support score from retrieval coverage while retaining the complete actual A3 empty record
+  ---
+  duration_ms: 17.631625
+  type: 'test'
+  location: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/native-marketing-facts-scoring.test.mts:1:6712'
+  failureType: 'testCodeFailure'
+  error: 'facts score must explicitly be the support dimension'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    你是视频监制。项目 MC024-OFFLINE，环节 facts，证据批次 1/1。
+    1. 逐主张对照保存的完整来源、引文与实际值；否定、限定、型号、数字及单位必须相符
+    2. 仅判断已提取主张的支持关系；未选字段的冲突应记录并限制使用，不使无关主张自动通过或自动失败
+    3. 来源限制与未核实提示必须保留；引文存在不等于语义支持，不能核实授权或生成后的画面质量
+    只核验实际收到的完整原文与逐主张证据；缺证据必须拒绝，不能从常识补事实。
+    - [json] /private/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/mc024-facts-InaWkY/complete-evidence.json
+    确定性检查（含失败与不适用）：
+    claims-source-bound: passed offline structural citation fixture; semantic support still needs review
+    
+    只核验当前提取的事实主张及完整来源限制；不评估生成后的画面质量或素材授权。
+    只输出一个完整 JSON 对象，字段类型必须符合此 JSON Schema：{"type":"object","additionalProperties":false,"required":["approved","score","issues","suggestions","reason"],"properties":{"approved":{"type":"boolean"},"score":{"type":"number","minimum":0,"maximum":100},"issues":{"type":"array","items":{"type":"string"}},"suggestions":{"type":"array","items":{"type":"string"}},"reason":{"type":"string"}}}
+    合法格式示例：{"approved":false,"score":0,"issues":["缺少支持此主张的证据"],"suggestions":["补齐证据"],"reason":"无法核实"}。示例只规定格式；批准、分数与问题必须按本次实际证据独立判断，不照抄示例结论。
+  operator: 'match'
+  stack: |-
+    assertScoreScope (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/native-marketing-facts-scoring.test.mts:77:10)
+    TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/native-marketing-facts-scoring.test.mts:112:3)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: custom facts rubric cannot omit the mandatory score and honest-empty boundaries
+not ok 3 - custom facts rubric cannot omit the mandatory score and honest-empty boundaries
+  ---
+  duration_ms: 1.552958
+  type: 'test'
+  location: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/native-marketing-facts-scoring.test.mts:1:7046'
+  failureType: 'testCodeFailure'
+  error: 'facts score must explicitly be the support dimension'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    你是视频监制。项目 MC024-OFFLINE，环节 facts，证据批次 1/1。
+    1. MC024 custom source-support rubric
+    只核验实际收到的完整原文与逐主张证据；缺证据必须拒绝，不能从常识补事实。
+    - [json] /private/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/mc024-facts-REIPcv/complete-evidence.json
+    确定性检查（含失败与不适用）：
+    claims-source-bound: passed offline structural citation fixture; semantic support still needs review
+    
+    只核验当前提取的事实主张及完整来源限制；不评估生成后的画面质量或素材授权。
+    只输出一个完整 JSON 对象，字段类型必须符合此 JSON Schema：{"type":"object","additionalProperties":false,"required":["approved","score","issues","suggestions","reason"],"properties":{"approved":{"type":"boolean"},"score":{"type":"number","minimum":0,"maximum":100},"issues":{"type":"array","items":{"type":"string"}},"suggestions":{"type":"array","items":{"type":"string"}},"reason":{"type":"string"}}}
+    合法格式示例：{"approved":false,"score":0,"issues":["缺少支持此主张的证据"],"suggestions":["补齐证据"],"reason":"无法核实"}。示例只规定格式；批准、分数与问题必须按本次实际证据独立判断，不照抄示例结论。
+  operator: 'match'
+  stack: |-
+    assertScoreScope (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/native-marketing-facts-scoring.test.mts:77:10)
+    TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/native-marketing-facts-scoring.test.mts:120:3)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: the unchanged original approved=true score=76 response remains denied, archived byte-for-byte, and called once
+ok 4 - the unchanged original approved=true score=76 response remains denied, archived byte-for-byte, and called once
+  ---
+  duration_ms: 0.932458
+  type: 'test'
+  ...
+# Subtest: an original approved=false score=10 is never replaced or promoted
+ok 5 - an original approved=false score=10 is never replaced or promoted
+  ---
+  duration_ms: 79.808542
+  type: 'test'
+  ...
+# Subtest: an original approved=false score=85 is never replaced or promoted
+ok 6 - an original approved=false score=85 is never replaced or promoted
+  ---
+  duration_ms: 2.472083
+  type: 'test'
+  ...
+# Subtest: an original approved=false score=96 is never replaced or promoted
+ok 7 - an original approved=false score=96 is never replaced or promoted
+  ---
+  duration_ms: 1.456792
+  type: 'test'
+  ...
+# Subtest: fixed positive protocol reply score=84 obeys the unchanged 85 boundary
+ok 8 - fixed positive protocol reply score=84 obeys the unchanged 85 boundary
+  ---
+  duration_ms: 1.146958
+  type: 'test'
+  ...
+# Subtest: fixed positive protocol reply score=85 obeys the unchanged 85 boundary
+ok 9 - fixed positive protocol reply score=85 obeys the unchanged 85 boundary
+  ---
+  duration_ms: 1.633625
+  type: 'test'
+  ...
+# Subtest: fixed positive protocol reply score=96 obeys the unchanged 85 boundary
+ok 10 - fixed positive protocol reply score=96 obeys the unchanged 85 boundary
+  ---
+  duration_ms: 1.541833
+  type: 'test'
+  ...
+# Subtest: A2 honest no_evidence stays a full LLM request and cannot become a deterministic approval
+ok 11 - A2 honest no_evidence stays a full LLM request and cannot become a deterministic approval
+  ---
+  duration_ms: 2.728
+  type: 'test'
+  ...
+# Subtest: A3 honest no_evidence stays a full LLM request and cannot become a deterministic approval
+ok 12 - A3 honest no_evidence stays a full LLM request and cannot become a deterministic approval
+  ---
+  duration_ms: 1.088708
+  type: 'test'
+  ...
+# Subtest: nonempty cited facts preserve complete evidence and apply the unchanged positive 85 protocol boundary
+ok 13 - nonempty cited facts preserve complete evidence and apply the unchanged positive 85 protocol boundary
+  ---
+  duration_ms: 2.468
+  type: 'test'
+  ...
+# Subtest: false-empty keeps contradictory evidence and explicit refusal criteria in the one facts request
+not ok 14 - false-empty keeps contradictory evidence and explicit refusal criteria in the one facts request
+  ---
+  duration_ms: 0.962708
+  type: 'test'
+  location: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/native-marketing-facts-scoring.test.mts:1:13371'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /虚假空值[^\n]*不实[^\n]*noEvidenceReason[^\n]*拒绝/. Input:
+    
+    '你是视频监制。项目 MC024-OFFLINE，环节 facts，证据批次 1/1。\n' +
+      '1. 逐主张对照保存的完整来源、引文与实际值；否定、限定、型号、数字及单位必须相符\n' +
+      '2. 仅判断已提取主张的支持关系；未选字段的冲突应记录并限制使用，不使无关主张自动通过或自动失败\n' +
+      '3. 来源限制与未核实提示必须保留；引文存在不等于语义支持，不能核实授权或生成后的画面质量\n' +
+      '只核验实际收到的完整原文与逐主张证据；缺证据必须拒绝，不能从常识补事实。\n' +
+      '- [json] /private/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/mc024-facts-SuihEe/complete-evidence.json\n' +
+      '确定性检查（含失败与不适用）：\n' +
+      'claims-source-bound: passed offline structural citation fixture; semantic support still needs review\n' +
+      '\n' +
+      '只核验当前提取的事实主张及完整来源限制；不评估生成后的画面质量或素材授权。\n' +
+      '只输出一个完整 JSON 对象，字段类型必须符合此 JSON Schema：{"type":"object","additionalProperties":false,"required":["approved","score","issues","suggestions","reason"],"properties":{"approved":{"type":"boolean"},"score":{"type":"number","minimum":0,"maximum":100},"issues":{"type":"array","items":{"type":"string"}},"suggestions":{"type":"array","items":{"type":"string"}},"reason":{"type":"string"}}}\n' +
+      '合法格式示例：{"approved":false,"score":0,"issues":["缺少支持此主张的证据"],"suggestions":["补齐证据"],"reason":"无法核实"}。示例只规定格式；批准、分数与问题必须按本次实际证据独立判断，不照抄示例结论。'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    你是视频监制。项目 MC024-OFFLINE，环节 facts，证据批次 1/1。
+    1. 逐主张对照保存的完整来源、引文与实际值；否定、限定、型号、数字及单位必须相符
+    2. 仅判断已提取主张的支持关系；未选字段的冲突应记录并限制使用，不使无关主张自动通过或自动失败
+    3. 来源限制与未核实提示必须保留；引文存在不等于语义支持，不能核实授权或生成后的画面质量
+    只核验实际收到的完整原文与逐主张证据；缺证据必须拒绝，不能从常识补事实。
+    - [json] /private/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/mc024-facts-SuihEe/complete-evidence.json
+    确定性检查（含失败与不适用）：
+    claims-source-bound: passed offline structural citation fixture; semantic support still needs review
+    
+    只核验当前提取的事实主张及完整来源限制；不评估生成后的画面质量或素材授权。
+    只输出一个完整 JSON 对象，字段类型必须符合此 JSON Schema：{"type":"object","additionalProperties":false,"required":["approved","score","issues","suggestions","reason"],"properties":{"approved":{"type":"boolean"},"score":{"type":"number","minimum":0,"maximum":100},"issues":{"type":"array","items":{"type":"string"}},"suggestions":{"type":"array","items":{"type":"string"}},"reason":{"type":"string"}}}
+    合法格式示例：{"approved":false,"score":0,"issues":["缺少支持此主张的证据"],"suggestions":["补齐证据"],"reason":"无法核实"}。示例只规定格式；批准、分数与问题必须按本次实际证据独立判断，不照抄示例结论。
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/native-marketing-facts-scoring.test.mts:203:10)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: negated-claim keeps contradictory evidence and explicit refusal criteria in the one facts request
+not ok 15 - negated-claim keeps contradictory evidence and explicit refusal criteria in the one facts request
+  ---
+  duration_ms: 1.090875
+  type: 'test'
+  location: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/native-marketing-facts-scoring.test.mts:1:13371'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /虚假空值[^\n]*不实[^\n]*noEvidenceReason[^\n]*拒绝/. Input:
+    
+    '你是视频监制。项目 MC024-OFFLINE，环节 facts，证据批次 1/1。\n' +
+      '1. 逐主张对照保存的完整来源、引文与实际值；否定、限定、型号、数字及单位必须相符\n' +
+      '2. 仅判断已提取主张的支持关系；未选字段的冲突应记录并限制使用，不使无关主张自动通过或自动失败\n' +
+      '3. 来源限制与未核实提示必须保留；引文存在不等于语义支持，不能核实授权或生成后的画面质量\n' +
+      '只核验实际收到的完整原文与逐主张证据；缺证据必须拒绝，不能从常识补事实。\n' +
+      '- [json] /private/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/mc024-facts-uYj3zm/complete-evidence.json\n' +
+      '确定性检查（含失败与不适用）：\n' +
+      'claims-source-bound: passed offline structural citation fixture; semantic support still needs review\n' +
+      '\n' +
+      '只核验当前提取的事实主张及完整来源限制；不评估生成后的画面质量或素材授权。\n' +
+      '只输出一个完整 JSON 对象，字段类型必须符合此 JSON Schema：{"type":"object","additionalProperties":false,"required":["approved","score","issues","suggestions","reason"],"properties":{"approved":{"type":"boolean"},"score":{"type":"number","minimum":0,"maximum":100},"issues":{"type":"array","items":{"type":"string"}},"suggestions":{"type":"array","items":{"type":"string"}},"reason":{"type":"string"}}}\n' +
+      '合法格式示例：{"approved":false,"score":0,"issues":["缺少支持此主张的证据"],"suggestions":["补齐证据"],"reason":"无法核实"}。示例只规定格式；批准、分数与问题必须按本次实际证据独立判断，不照抄示例结论。'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    你是视频监制。项目 MC024-OFFLINE，环节 facts，证据批次 1/1。
+    1. 逐主张对照保存的完整来源、引文与实际值；否定、限定、型号、数字及单位必须相符
+    2. 仅判断已提取主张的支持关系；未选字段的冲突应记录并限制使用，不使无关主张自动通过或自动失败
+    3. 来源限制与未核实提示必须保留；引文存在不等于语义支持，不能核实授权或生成后的画面质量
+    只核验实际收到的完整原文与逐主张证据；缺证据必须拒绝，不能从常识补事实。
+    - [json] /private/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/mc024-facts-uYj3zm/complete-evidence.json
+    确定性检查（含失败与不适用）：
+    claims-source-bound: passed offline structural citation fixture; semantic support still needs review
+    
+    只核验当前提取的事实主张及完整来源限制；不评估生成后的画面质量或素材授权。
+    只输出一个完整 JSON 对象，字段类型必须符合此 JSON Schema：{"type":"object","additionalProperties":false,"required":["approved","score","issues","suggestions","reason"],"properties":{"approved":{"type":"boolean"},"score":{"type":"number","minimum":0,"maximum":100},"issues":{"type":"array","items":{"type":"string"}},"suggestions":{"type":"array","items":{"type":"string"}},"reason":{"type":"string"}}}
+    合法格式示例：{"approved":false,"score":0,"issues":["缺少支持此主张的证据"],"suggestions":["补齐证据"],"reason":"无法核实"}。示例只规定格式；批准、分数与问题必须按本次实际证据独立判断，不照抄示例结论。
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/native-marketing-facts-scoring.test.mts:203:10)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: missing-limit keeps contradictory evidence and explicit refusal criteria in the one facts request
+not ok 16 - missing-limit keeps contradictory evidence and explicit refusal criteria in the one facts request
+  ---
+  duration_ms: 0.848834
+  type: 'test'
+  location: '/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/native-marketing-facts-scoring.test.mts:1:13371'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /虚假空值[^\n]*不实[^\n]*noEvidenceReason[^\n]*拒绝/. Input:
+    
+    '你是视频监制。项目 MC024-OFFLINE，环节 facts，证据批次 1/1。\n' +
+      '1. 逐主张对照保存的完整来源、引文与实际值；否定、限定、型号、数字及单位必须相符\n' +
+      '2. 仅判断已提取主张的支持关系；未选字段的冲突应记录并限制使用，不使无关主张自动通过或自动失败\n' +
+      '3. 来源限制与未核实提示必须保留；引文存在不等于语义支持，不能核实授权或生成后的画面质量\n' +
+      '只核验实际收到的完整原文与逐主张证据；缺证据必须拒绝，不能从常识补事实。\n' +
+      '- [json] /private/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/mc024-facts-GSMuxp/complete-evidence.json\n' +
+      '确定性检查（含失败与不适用）：\n' +
+      'claims-source-bound: passed offline structural citation fixture; semantic support still needs review\n' +
+      '\n' +
+      '只核验当前提取的事实主张及完整来源限制；不评估生成后的画面质量或素材授权。\n' +
+      '只输出一个完整 JSON 对象，字段类型必须符合此 JSON Schema：{"type":"object","additionalProperties":false,"required":["approved","score","issues","suggestions","reason"],"properties":{"approved":{"type":"boolean"},"score":{"type":"number","minimum":0,"maximum":100},"issues":{"type":"array","items":{"type":"string"}},"suggestions":{"type":"array","items":{"type":"string"}},"reason":{"type":"string"}}}\n' +
+      '合法格式示例：{"approved":false,"score":0,"issues":["缺少支持此主张的证据"],"suggestions":["补齐证据"],"reason":"无法核实"}。示例只规定格式；批准、分数与问题必须按本次实际证据独立判断，不照抄示例结论。'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    你是视频监制。项目 MC024-OFFLINE，环节 facts，证据批次 1/1。
+    1. 逐主张对照保存的完整来源、引文与实际值；否定、限定、型号、数字及单位必须相符
+    2. 仅判断已提取主张的支持关系；未选字段的冲突应记录并限制使用，不使无关主张自动通过或自动失败
+    3. 来源限制与未核实提示必须保留；引文存在不等于语义支持，不能核实授权或生成后的画面质量
+    只核验实际收到的完整原文与逐主张证据；缺证据必须拒绝，不能从常识补事实。
+    - [json] /private/var/folders/dj/mkh6fwbd4mb6ycp933xfty4h0000gn/T/mc024-facts-GSMuxp/complete-evidence.json
+    确定性检查（含失败与不适用）：
+    claims-source-bound: passed offline structural citation fixture; semantic support still needs review
+    
+    只核验当前提取的事实主张及完整来源限制；不评估生成后的画面质量或素材授权。
+    只输出一个完整 JSON 对象，字段类型必须符合此 JSON Schema：{"type":"object","additionalProperties":false,"required":["approved","score","issues","suggestions","reason"],"properties":{"approved":{"type":"boolean"},"score":{"type":"number","minimum":0,"maximum":100},"issues":{"type":"array","items":{"type":"string"}},"suggestions":{"type":"array","items":{"type":"string"}},"reason":{"type":"string"}}}
+    合法格式示例：{"approved":false,"score":0,"issues":["缺少支持此主张的证据"],"suggestions":["补齐证据"],"reason":"无法核实"}。示例只规定格式；批准、分数与问题必须按本次实际证据独立判断，不照抄示例结论。
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/native-marketing-facts-scoring.test.mts:203:10)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: missing facts model stays unverified even for an honest empty record
+ok 17 - missing facts model stays unverified even for an honest empty record
+  ---
+  duration_ms: 0.52675
+  type: 'test'
+  ...
+# Subtest: facts cannot acquire image or storyboard qualification before any model call
+ok 18 - facts cannot acquire image or storyboard qualification before any model call
+  ---
+  duration_ms: 1.378417
+  type: 'test'
+  ...
+# Subtest: archive failure preserves refusal without obtaining a replacement model decision
+ok 19 - archive failure preserves refusal without obtaining a replacement model decision
+  ---
+  duration_ms: 0.708958
+  type: 'test'
+  ...
+# Subtest: invalid-json original response is archived once and never retried into an approval
+ok 20 - invalid-json original response is archived once and never retried into an approval
+  ---
+  duration_ms: 0.977625
+  type: 'test'
+  ...
+# Subtest: duplicate-approved original response is archived once and never retried into an approval
+ok 21 - duplicate-approved original response is archived once and never retried into an approval
+  ---
+  duration_ms: 2.163
+  type: 'test'
+  ...
+# Subtest: truncated original response is archived once and never retried into an approval
+ok 22 - truncated original response is archived once and never retried into an approval
+  ---
+  duration_ms: 0.764542
+  type: 'test'
+  ...
+# Subtest: http-failure original response is archived once and never retried into an approval
+ok 23 - http-failure original response is archived once and never retried into an approval
+  ---
+  duration_ms: 1.024667
+  type: 'test'
+  ...
+# Subtest: prompt retains its own evidence/refusal boundary without facts support-score instructions
+ok 24 - prompt retains its own evidence/refusal boundary without facts support-score instructions
+  ---
+  duration_ms: 0.733125
+  type: 'test'
+  ...
+# Subtest: keyframe retains its own evidence/refusal boundary without facts support-score instructions
+ok 25 - keyframe retains its own evidence/refusal boundary without facts support-score instructions
+  ---
+  duration_ms: 0.7755
+  type: 'test'
+  ...
+# Subtest: subtitle retains its own evidence/refusal boundary without facts support-score instructions
+ok 26 - subtitle retains its own evidence/refusal boundary without facts support-score instructions
+  ---
+  duration_ms: 0.615042
+  type: 'test'
+  ...
+1..26
+# tests 26
+# suites 0
+# pass 21
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 631.207375
+
+
+exit_code=1 signal=none error=none
+assertion_validation={"ok":false,"errors":["Node TestsStream 没有非零实际 passed/逐文件摘要或存在失败/取消；文件加载成功不能替代逐文件真实断言"],"testSummary":{"total":26,"passed":21,"failed":5,"cancelled":0,"skipped":0,"todo":0}}

@@ -1,0 +1,39 @@
+{
+  "schema": "workloom.independent-mc024-actual-operation/v1",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/typescript@7.0.2/node_modules/typescript/bin/tsc",
+    "-p",
+    "packages/industry-contract/tsconfig.build.json"
+  ],
+  "started_at": "2026-10-05T23:31:20.605875+00:00",
+  "finished_at": "2026-10-05T23:31:23.655070+00:00",
+  "exit_code": 0,
+  "timed_out": false,
+  "source_before": {
+    "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91",
+    "working_tree_dirty": false
+  },
+  "source_after": {
+    "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91",
+    "working_tree_dirty": false
+  },
+  "environment_keys": [
+    "CI",
+    "GIT_ASKPASS",
+    "GIT_TERMINAL_PROMPT",
+    "LANG",
+    "PATH",
+    "TMPDIR",
+    "TZ",
+    "WL_FFMPEG",
+    "WL_FFPROBE"
+  ],
+  "stdout": "operations/owned-industry-contract-build.stdout.txt",
+  "stderr": "operations/owned-industry-contract-build.stderr.txt",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

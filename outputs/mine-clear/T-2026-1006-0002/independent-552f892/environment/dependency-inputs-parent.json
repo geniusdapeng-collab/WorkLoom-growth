@@ -1,0 +1,13 @@
+{
+  "package.json": "a68f32fc925d77093e0dcc91ffaa71f63c5d5bb2aae722343d770398280774ed",
+  "pnpm-lock.yaml": "834833a61b50ff153fd0ed456a306d5fe0a3d2bffb51b8665fc0cf8b85d684e8",
+  "pnpm-workspace.yaml": "648a051411ed5ec599519247ff6af8ab5ca5dae011a58bb140ebbe16994a4a64",
+  "apps/server/package.json": "e394b4853e18c6b52f3f54090d291b64bc4ea94067915aeab2ca65bcca51750b",
+  "packages/video-studio/package.json": "04d675f0518aabf2b8983c17c9ea79e6e9a8ac545239261f94ab92bfd4200826",
+  "packages/base/package.json": "d6b309b67a0a23b7465b758210e3647194c44489ad2b9a3e19d68af8ebfe6e2a",
+  "packages/runtime/package.json": "9ec1a6bbfded34938f35b57ea94d9cfdd98ed6b29c93836a86e3df92b123ec81",
+  "packages/media-catalog/package.json": null,
+  "packages/db/package.json": "fea6bfee0ea381b1341fdfff6b31cb4b4a3f2b48329db2af610dfaa185e7d9c2",
+  "packages/shared/package.json": "26ed5c3a560c35730fe8f84343a83f5e7c3d7d2c488468584acfc524699b4cb2",
+  "packages/industry-contract/package.json": "bd21ee1c58e618051105a46fe08c772eb736f28658d184f26f105564a4862d2c"
+}

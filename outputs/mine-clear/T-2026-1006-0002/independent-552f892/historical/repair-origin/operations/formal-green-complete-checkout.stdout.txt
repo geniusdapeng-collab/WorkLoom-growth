@@ -1,0 +1,25 @@
+{
+  "id": "MC-024",
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "result": "pass",
+  "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+  "assertions": [
+    {
+      "result": "pass",
+      "run": {
+        "path": "runs/MC-024-0-1791240978615.json",
+        "sha256": "99ffa806436153cd36ff8a26911871ddb259de05cc694d4e39e1989e12b48fb1",
+        "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+      }
+    },
+    {
+      "result": "pass",
+      "run": {
+        "path": "runs/MC-024-1-1791240979320.json",
+        "sha256": "96ba4d4db1717b10c6b703eb6a71d3aaf78cf4996b72a5eb8fdac028a7441fcc",
+        "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+      }
+    }
+  ]
+}

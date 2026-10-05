@@ -1,0 +1,146 @@
+{
+  "schema": "workloom.independent-environment-preparation-failure/v1",
+  "source_commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+  "actual_prepare_exit_code": 1,
+  "failure": "Dependency link audit failed; formal acceptance not started",
+  "links": [
+    {
+      "path": "node_modules/.pnpm/three-mesh-bvh@0.8.3_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/maath@0.10.8_@types+three@0.186.0_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/@react-three+fiber@9.7.0_@types+react@19.2.18_react-dom@19.2.8_react@19.2.8__react@19.2.8_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/@react-three+drei@10.7.8_@react-three+fiber@9.7.0_@types+react@19.2.18_react-dom@19.2.8_fc38ec7e1dcab4948c131694999da806/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/vite@8.3.0_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0/node_modules/rolldown",
+      "raw": "../../rolldown@1.2.11/node_modules/rolldown",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rolldown@1.2.11/node_modules/rolldown",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/n8ao@2.0.1_postprocessing@6.39.5_three@0.186.1__three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/@vitest+mocker@5.0.3_vite@8.3.0_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/spy",
+      "raw": "../../../@vitest+spy@5.0.3/node_modules/@vitest/spy",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+spy@5.0.3/node_modules/@vitest/spy",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/vitest@4.1.11_@opentelemetry+api@1.9.1_@types+node@24.13.3_jsdom@30.1.0_@noble+hashes@2_d75771d39ee1ae546364ec7492c243ff/node_modules/@vitest/mocker",
+      "raw": "../../../@vitest+mocker@4.1.11_vite@8.3.0_@types+node@24.13.3_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.12_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+mocker@4.1.11_vite@8.3.0_@types+node@24.13.3_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.12_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/@monogrid+gainmap-js@3.4.0_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/vitest@5.0.3_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_b434669d5eb0d3789812b9f871cfb5e3/node_modules/why-is-node-running",
+      "raw": "../../why-is-node-running@3.2.1/node_modules/why-is-node-running",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/why-is-node-running@3.2.1/node_modules/why-is-node-running",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/vitest@5.0.3_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_b434669d5eb0d3789812b9f871cfb5e3/node_modules/@vitest/mocker",
+      "raw": "../../../@vitest+mocker@5.0.3_vite@8.3.0_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+mocker@5.0.3_vite@8.3.0_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/stats-gl@2.4.2_@types+three@0.186.0_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/three-stdlib@2.36.1_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/troika-three-utils@0.52.5_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/postprocessing@6.39.5_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/meshline@3.3.1_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/camera-controls@3.1.2_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/vitest@4.1.11_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2._62611b52b6daaaf55fbb4a381fe5a20a/node_modules/@vitest/mocker",
+      "raw": "../../../@vitest+mocker@4.1.11_vite@8.3.0_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@vitest+mocker@4.1.11_vite@8.3.0_@types+node@26.3.0_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.13_yaml@2.9.0_/node_modules/@vitest/mocker",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/troika-three-text@0.52.5_three@0.186.1/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/@react-three+postprocessing@3.1.1_@react-three+fiber@9.7.0_@types+react@19.2.18_react-d_2123a27a3ecb7820a1b813b08477307f/node_modules/three",
+      "raw": "../../three@0.186.1/node_modules/three",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/three@0.186.1/node_modules/three",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/rolldown@1.2.11/node_modules/@rolldown/binding-darwin-arm64",
+      "raw": "../../../@rolldown+binding-darwin-arm64@1.2.11/node_modules/@rolldown/binding-darwin-arm64",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@rolldown+binding-darwin-arm64@1.2.11/node_modules/@rolldown/binding-darwin-arm64",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/rolldown@1.2.11/node_modules/@oxc-project/types",
+      "raw": "../../../@oxc-project+types@0.151.0/node_modules/@oxc-project/types",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/@oxc-project+types@0.151.0/node_modules/@oxc-project/types",
+      "exists": false
+    },
+    {
+      "path": "node_modules/.pnpm/vite@8.3.0_@types+node@24.13.3_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.12_yaml@2.9.0/node_modules/rolldown",
+      "raw": "../../rolldown@1.2.11/node_modules/rolldown",
+      "resolved": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/rolldown@1.2.11/node_modules/rolldown",
+      "exists": false
+    }
+  ]
+}

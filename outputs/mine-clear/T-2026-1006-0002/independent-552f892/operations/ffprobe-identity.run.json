@@ -1,0 +1,37 @@
+{
+  "schema": "workloom.independent-mc024-actual-operation/v1",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+  "argv": [
+    "/Users/mac/.local/bin/ffprobe",
+    "-version"
+  ],
+  "started_at": "2026-10-05T23:31:23.885393+00:00",
+  "finished_at": "2026-10-05T23:31:23.936807+00:00",
+  "exit_code": 0,
+  "timed_out": false,
+  "source_before": {
+    "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91",
+    "working_tree_dirty": false
+  },
+  "source_after": {
+    "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91",
+    "working_tree_dirty": false
+  },
+  "environment_keys": [
+    "CI",
+    "GIT_ASKPASS",
+    "GIT_TERMINAL_PROMPT",
+    "LANG",
+    "PATH",
+    "TMPDIR",
+    "TZ",
+    "WL_FFMPEG",
+    "WL_FFPROBE"
+  ],
+  "stdout": "operations/ffprobe-identity.stdout.txt",
+  "stderr": "operations/ffprobe-identity.stderr.txt",
+  "stdout_sha256": "6ec2f9d89f75965dc2bb79a60f8d6b92413f187bdb53a6243eaad028e4908463",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

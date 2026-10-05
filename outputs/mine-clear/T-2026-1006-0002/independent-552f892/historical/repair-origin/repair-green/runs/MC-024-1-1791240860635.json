@@ -1,0 +1,87 @@
+{
+  "schema": "workloom.evidence-run/v1",
+  "id": "MC-024-1-1791240860635",
+  "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import /Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/node_modules/tsx/dist/loader.mjs --test scripts/native-marketing-review.test.mts scripts/native-marketing-extraction.test.mts scripts/native-marketing-dossier.test.mts scripts/native-source-restrictions.test.mts",
+  "exec": {
+    "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "--test-reporter=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/delivery/node-test-reporter.mjs",
+      "--test-reporter-destination=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-green/evidence/MC-024-1-1791240860635-node-tests.jsonl",
+      "--test-reporter=tap",
+      "--test-reporter-destination=stdout",
+      "--import",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/node_modules/tsx/dist/loader.mjs",
+      "--test",
+      "scripts/native-marketing-review.test.mts",
+      "scripts/native-marketing-extraction.test.mts",
+      "scripts/native-marketing-dossier.test.mts",
+      "scripts/native-source-restrictions.test.mts"
+    ]
+  },
+  "requested_exec": {
+    "file": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "--import",
+      "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/node_modules/tsx/dist/loader.mjs",
+      "--test",
+      "scripts/native-marketing-review.test.mts",
+      "scripts/native-marketing-extraction.test.mts",
+      "scripts/native-marketing-dossier.test.mts",
+      "scripts/native-source-restrictions.test.mts"
+    ]
+  },
+  "node_observer": {
+    "schema": "workloom.node-test-observer/v1",
+    "reporter_path": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/scripts/delivery/node-test-reporter.mjs",
+    "reporter_sha256": "286448a4dee571759fc1703564477d27bf5319bcb05ff66db2186deda60bc78f",
+    "destination": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-green/evidence/MC-024-1-1791240860635-node-tests.jsonl",
+    "summary": {
+      "path": "evidence/MC-024-1-1791240860635-node-tests.jsonl",
+      "sha256": "a93433f99cd243733a5f706d52baba2065ea5988479b546caeb40431755cdc30",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+    }
+  },
+  "node_executable": {
+    "path": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "sha256": "27db838bb204ef7c21df2931f5656e4c8fb32e6e947f363a402b49714d32b5b1"
+  },
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "subject": {
+    "card_id": "MC-024",
+    "assertion_index": 1
+  },
+  "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+  "working_tree_dirty": false,
+  "started_at": "2026-10-05T22:54:20.635Z",
+  "finished_at": "2026-10-05T22:54:21.669Z",
+  "exit_code": 1,
+  "signal": null,
+  "validation": {
+    "ok": false,
+    "errors": [
+      "Node TestsStream 没有非零实际 passed/逐文件摘要或存在失败/取消；文件加载成功不能替代逐文件真实断言"
+    ],
+    "testSummary": {
+      "total": 30,
+      "passed": 29,
+      "failed": 1,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "result": "fail",
+  "outputs": [
+    {
+      "path": "evidence/MC-024-1-1791240860635.txt",
+      "sha256": "e1be752643df0357736547710f2e73d08783ec11cfb6fc251ebc53ed246cbfd4",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+    },
+    {
+      "path": "evidence/MC-024-1-1791240860635-node-tests.jsonl",
+      "sha256": "a93433f99cd243733a5f706d52baba2065ea5988479b546caeb40431755cdc30",
+      "commit": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+    }
+  ]
+}

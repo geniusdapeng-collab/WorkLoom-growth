@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-10-05T23:13:05.010080+00:00",
+  "argv": [
+    "git",
+    "checkout",
+    "--detach",
+    "5bee55d6a754462ca60cdf2a98bd9b1e6807193d"
+  ],
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+  "before_head": "c523e9e24300755a6f65c018712ad85c1005838d",
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "Previous HEAD position was c523e9e test(video): align native C1 fixture interfaces [T-2026-1006-0001]\nHEAD is now at 5bee55d fix(video): define facts support score without preset approval [T-2026-1006-0002]\n",
+  "after_head": "5bee55d6a754462ca60cdf2a98bd9b1e6807193d",
+  "after_status": "",
+  "prior_mc023_manifest_sha256": "2a5c5bfe4cf630533cb55586cb320ce7509906be5a1ff227c6710060fa03f93f",
+  "prior_mc023_manifest_unchanged": true,
+  "formal_acceptance_started": false
+}

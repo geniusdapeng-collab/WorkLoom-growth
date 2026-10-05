@@ -1,0 +1,13 @@
+{
+  "source_commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "environment": "local-preview",
+  "official_assertion_case_count": 56,
+  "narrow_vitest_case_count": 90,
+  "source_final": {
+    "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91",
+    "working_tree_dirty": false
+  },
+  "completed_at": "2026-10-05T23:31:33.342799+00:00"
+}

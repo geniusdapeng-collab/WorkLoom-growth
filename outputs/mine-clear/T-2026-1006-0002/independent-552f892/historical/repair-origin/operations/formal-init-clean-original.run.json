@@ -1,0 +1,31 @@
+{
+  "schema": "workloom.mc024-actual-operation/v1",
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "scripts/delivery/mine-clear.mjs",
+    "init",
+    "--repo",
+    ".",
+    "--task",
+    "T-2026-1006-0002",
+    "--env",
+    "local-preview",
+    "--no-fetch",
+    "--out",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/outputs/mine-clear/T-2026-1006-0002/repair-current",
+    "--title",
+    "MC024-facts-support-score-contract"
+  ],
+  "startedAt": "2026-10-05T22:44:26.900640+00:00",
+  "finishedAt": "2026-10-05T22:44:27.281219+00:00",
+  "commit": "c523e9e24300755a6f65c018712ad85c1005838d",
+  "workingTreeDirtyAfter": false,
+  "exitCode": 0,
+  "stdout": "operations/formal-init-clean-original.stdout.txt",
+  "stderr": "operations/formal-init-clean-original.stderr.txt",
+  "stdoutSha256": "faa329030e0ddc1dec4c09bb4cbe170280e15d876327a6df7db48b61411bf5d0",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

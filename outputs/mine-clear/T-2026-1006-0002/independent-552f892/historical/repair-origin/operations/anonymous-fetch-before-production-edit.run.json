@@ -1,0 +1,28 @@
+{
+  "schema": "workloom.mc024-actual-operation/v1",
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024",
+  "argv": [
+    "git",
+    "-c",
+    "credential.helper=",
+    "-c",
+    "core.askPass=",
+    "-c",
+    "credential.interactive=false",
+    "fetch",
+    "--quiet",
+    "https://cnb.cool/workloom-ai/WorkLoom-growth.git",
+    "refs/heads/main:refs/remotes/origin/main"
+  ],
+  "startedAt": "2026-10-05T22:50:01.934434+00:00",
+  "finishedAt": "2026-10-05T22:50:02.313453+00:00",
+  "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7",
+  "workingTreeDirtyAfter": false,
+  "exitCode": 0,
+  "stdout": "operations/anonymous-fetch-before-production-edit.stdout.txt",
+  "stderr": "operations/anonymous-fetch-before-production-edit.stderr.txt",
+  "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

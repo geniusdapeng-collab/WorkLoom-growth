@@ -1,0 +1,50 @@
+{
+  "schema": "workloom.independent-mc024-actual-operation/v1",
+  "actor": "native-entry-independent-acceptance",
+  "role": "acceptance",
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/node_modules/.pnpm/vitest@5.0.2_@opentelemetry+api@1.9.1_@types+node@26.3.0_jsdom@30.1.0_@noble+hashes@2.4_7ee656f5c3f5175d596ca0235a70f107/node_modules/vitest/vitest.mjs",
+    "run",
+    "packages/video-studio/src/producer-gate.test.ts",
+    "apps/server/src/video/marketing-facts.test.ts",
+    "apps/server/src/video/marketing-authority.test.ts",
+    "--maxWorkers=1",
+    "--no-file-parallelism",
+    "--exclude",
+    "**/outputs/**",
+    "--exclude",
+    "**/dist-payload/**",
+    "--reporter=json",
+    "--outputFile=/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-native-acceptance-9c69b8c/outputs/mine-clear/T-2026-1006-0002/independent-552f892/narrow-producer-facts-authority-vitest.json",
+    "--testTimeout=30000"
+  ],
+  "started_at": "2026-10-05T23:31:26.690258+00:00",
+  "finished_at": "2026-10-05T23:31:29.362145+00:00",
+  "exit_code": 0,
+  "timed_out": false,
+  "source_before": {
+    "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91",
+    "working_tree_dirty": false
+  },
+  "source_after": {
+    "commit": "552f892edd2d97f264c7bfc2d23c8c7db472ff91",
+    "working_tree_dirty": false
+  },
+  "environment_keys": [
+    "CI",
+    "GIT_ASKPASS",
+    "GIT_TERMINAL_PROMPT",
+    "LANG",
+    "PATH",
+    "TMPDIR",
+    "TZ",
+    "WL_FFMPEG",
+    "WL_FFPROBE"
+  ],
+  "stdout": "operations/narrow-producer-facts-authority-regression.stdout.txt",
+  "stderr": "operations/narrow-producer-facts-authority-regression.stderr.txt",
+  "stdout_sha256": "49051e555125c40d3f965ddeff8c1912c3ed66b60fd95173c585d33d10597d27",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

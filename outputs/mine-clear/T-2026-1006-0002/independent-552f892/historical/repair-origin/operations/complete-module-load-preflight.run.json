@@ -1,0 +1,23 @@
+{
+  "schema": "workloom.mc024-actual-operation/v1",
+  "actor": "/root/mc024_facts_scoring_repair",
+  "role": "repair",
+  "cwd": "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024",
+  "argv": [
+    "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "--import",
+    "/Users/mac/Documents/Codex/2026-10-05/growth-codex-growth-growth-ceo-30/work/growth-facts-scoring-mc024/node_modules/tsx/dist/loader.mjs",
+    "--input-type=module",
+    "-e",
+    "import { createRequire } from \"node:module\"; await Promise.all([import(\"./packages/video-studio/src/producer-gate.ts\"), import(\"./apps/server/src/video/marketing-facts.ts\"), import(\"./apps/server/src/video/marketing-authority.ts\"), import(\"./apps/server/src/video/marketing-extraction.ts\"), import(\"./packages/video-studio/src/studio.ts\")]); const require = createRequire(import.meta.url); require(\"./vendor/supermickey/hyperreality-system/engines/data-mining-engine/index.js\"); require(\"./vendor/supermickey/hyperreality-system/index.js\"); console.log(\"Owned facts and affected regression dependency modules loaded; no tests or provider work claimed.\");"
+  ],
+  "startedAt": "2026-10-05T22:47:57.590527+00:00",
+  "finishedAt": "2026-10-05T22:47:58.275432+00:00",
+  "commit": "6e0606c78c21d64856b9e9966a445d88ef24fbd7",
+  "workingTreeDirtyAfter": false,
+  "exitCode": 0,
+  "stdout": "operations/complete-module-load-preflight.stdout.txt",
+  "stderr": "operations/complete-module-load-preflight.stderr.txt",
+  "stdoutSha256": "37b8510681fc40d888bfa71a3a14083b5c8f22cd2bb142fdc7fc3cbddc8b20e2",
+  "stderrSha256": "c80b78ec75a128f98e6798840bb6d079aa47d3d7696b1c8c5c91cfcd1caca0cb"
+}
