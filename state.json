@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 144,
+  "revision": 147,
   "tasks": {
     "328": {
       "number": 328,
@@ -646,7 +646,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.stderr.txt"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791315290864,
+      "updatedAt": 1791315316724,
       "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "blockedUntil": 0,
       "alignmentCount": 1,
@@ -660,8 +660,8 @@
       },
       "admission": {
         "number": 331,
-        "headSha": "1c5b58211620194311831ef7da17507cd8a1fac0",
-        "mainSha": "afdc7b93a76b92b8b53e29582e2dd6b8f1cd24c6",
+        "headSha": "4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2",
+        "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
         "filesHash": "61921304413910d502116b728e26436bb4efd32a24aae153ddb4126c9dd894ed",
         "scopes": [],
         "owner": "admission/pr-331",
@@ -10229,6 +10229,53 @@
       },
       "previous": "57f47c2a64be4cd5f0ebcb2f24d3fb4c4c3a5d6c53cc80557b03f520ea8eefac",
       "digest": "863b6bd6e17973e8c049a619eaac78772e703d5df2da84a720cf5285b1059ec7"
+    },
+    {
+      "sequence": 145,
+      "at": "2026-10-06T19:35:16.724Z",
+      "kind": "source_admitted",
+      "data": {
+        "number": 331,
+        "headSha": "4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2",
+        "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
+        "filesHash": "61921304413910d502116b728e26436bb4efd32a24aae153ddb4126c9dd894ed",
+        "scopes": [],
+        "owner": "admission/pr-331",
+        "generation": {}
+      },
+      "previous": "863b6bd6e17973e8c049a619eaac78772e703d5df2da84a720cf5285b1059ec7",
+      "digest": "3ecd0f6f7331fcf37e4b25b912ec8b1345fd969858b2994bf3b0fb574b18ee84"
+    },
+    {
+      "sequence": 146,
+      "at": "2026-10-06T19:35:16.724Z",
+      "kind": "task",
+      "data": {
+        "number": 331,
+        "patch": {
+          "admission": {
+            "number": 331,
+            "headSha": "4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2",
+            "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
+            "filesHash": "61921304413910d502116b728e26436bb4efd32a24aae153ddb4126c9dd894ed",
+            "scopes": [],
+            "owner": "admission/pr-331",
+            "generation": {}
+          }
+        }
+      },
+      "previous": "3ecd0f6f7331fcf37e4b25b912ec8b1345fd969858b2994bf3b0fb574b18ee84",
+      "digest": "93cee8543c55c5ac0e7678c652464ffdc9a6f67a2a821da6b6f354c3e5a5bda7"
+    },
+    {
+      "sequence": 147,
+      "at": "2026-10-06T19:35:16.275Z",
+      "kind": "transaction",
+      "data": {
+        "id": "source-admit:331:4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2:73767dc51658171e97673969780f06ca52994b7a"
+      },
+      "previous": "93cee8543c55c5ac0e7678c652464ffdc9a6f67a2a821da6b6f354c3e5a5bda7",
+      "digest": "23ad0224191e745558d6a0cf5b3f32aea72982ec8babaf07927738dec6497396"
     }
   ]
 }
