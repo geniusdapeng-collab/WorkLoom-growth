@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 71,
+  "revision": 74,
   "tasks": {
     "328": {
       "number": 328,
@@ -942,7 +942,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791313276569,
-      "updatedAt": 1791313276569,
+      "updatedAt": 1791313304443,
       "alignmentCount": 1,
       "alignmentIntent": null,
       "developerReview": null,
@@ -951,6 +951,15 @@
         "previousHead": "79f0697cfa920e9406035e67cc68c2dc7b5303bc",
         "mainSha": "afdc7b93a76b92b8b53e29582e2dd6b8f1cd24c6",
         "verifiedAt": "2026-10-06T19:01:28.547Z"
+      },
+      "admission": {
+        "number": 333,
+        "headSha": "1aa296d778674bb79f8ed5ce74d1669d6eed0335",
+        "mainSha": "afdc7b93a76b92b8b53e29582e2dd6b8f1cd24c6",
+        "filesHash": "4533a72b438a16e24f917b43b79ad3b187efd2798ab2563df02c3cca559d25e3",
+        "scopes": [],
+        "owner": "admission/pr-333",
+        "generation": {}
       }
     },
     "336": {
@@ -6336,6 +6345,53 @@
       },
       "previous": "4a0b8c57d117d5262afe68d4d605ac518370b9be37327c8909ecec442bd47e57",
       "digest": "a035ef2d647fe8fa5f9805f6a63dad4b8e67670ebe3cee39cb6a067c38f9dfe4"
+    },
+    {
+      "sequence": 72,
+      "at": "2026-10-06T19:01:44.443Z",
+      "kind": "source_admitted",
+      "data": {
+        "number": 333,
+        "headSha": "1aa296d778674bb79f8ed5ce74d1669d6eed0335",
+        "mainSha": "afdc7b93a76b92b8b53e29582e2dd6b8f1cd24c6",
+        "filesHash": "4533a72b438a16e24f917b43b79ad3b187efd2798ab2563df02c3cca559d25e3",
+        "scopes": [],
+        "owner": "admission/pr-333",
+        "generation": {}
+      },
+      "previous": "a035ef2d647fe8fa5f9805f6a63dad4b8e67670ebe3cee39cb6a067c38f9dfe4",
+      "digest": "3d8a8651156ea7c9e00735a1e9640385f449505e98b26a7b6af836ed5942e61d"
+    },
+    {
+      "sequence": 73,
+      "at": "2026-10-06T19:01:44.443Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "admission": {
+            "number": 333,
+            "headSha": "1aa296d778674bb79f8ed5ce74d1669d6eed0335",
+            "mainSha": "afdc7b93a76b92b8b53e29582e2dd6b8f1cd24c6",
+            "filesHash": "4533a72b438a16e24f917b43b79ad3b187efd2798ab2563df02c3cca559d25e3",
+            "scopes": [],
+            "owner": "admission/pr-333",
+            "generation": {}
+          }
+        }
+      },
+      "previous": "3d8a8651156ea7c9e00735a1e9640385f449505e98b26a7b6af836ed5942e61d",
+      "digest": "a89a091b5517dc121ed478280382d8fbc12fc8bcb70af17c6bc43ea2f20de38d"
+    },
+    {
+      "sequence": 74,
+      "at": "2026-10-06T19:01:44.097Z",
+      "kind": "transaction",
+      "data": {
+        "id": "source-admit:333:1aa296d778674bb79f8ed5ce74d1669d6eed0335:afdc7b93a76b92b8b53e29582e2dd6b8f1cd24c6"
+      },
+      "previous": "a89a091b5517dc121ed478280382d8fbc12fc8bcb70af17c6bc43ea2f20de38d",
+      "digest": "11c2ff68668599d1eab1b1a96f7815edb1c332a91a149fb057d25f8f6035e48f"
     }
   ]
 }
