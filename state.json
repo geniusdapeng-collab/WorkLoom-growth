@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 228,
+  "revision": 230,
   "tasks": {
     "328": {
       "number": 328,
@@ -1004,7 +1004,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791321016803,
+      "updatedAt": 1791321911941,
       "alignmentCount": 1,
       "alignmentIntent": null,
       "developerReview": null,
@@ -1025,9 +1025,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791321616803,
+      "blockedUntil": 1791322511941,
       "candidate": null,
-      "error": "检查/评审阻断：Developer has not handed off; Codex review identity differs from the exact repository/source/main/policy",
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -18297,6 +18297,31 @@
       },
       "previous": "28950aec406314b522da01c6473b7d2935663354f6ab3e1a65285273d2ee0f9d",
       "digest": "e1a656ebbff6774e92102ed7a83686215b4d873afab3ca0ad2c5d85127c75786"
+    },
+    {
+      "sequence": 229,
+      "at": "2026-10-06T21:25:11.941Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791322511941
+        }
+      },
+      "previous": "e1a656ebbff6774e92102ed7a83686215b4d873afab3ca0ad2c5d85127c75786",
+      "digest": "65ce89593b3afe8082747a6f95db470126f3b2be24739def7b8b9fb4f3604b47"
+    },
+    {
+      "sequence": 230,
+      "at": "2026-10-06T21:25:17.892Z",
+      "kind": "transaction",
+      "data": {
+        "id": "faab454e-d1f2-4870-a77b-24b7c52a8e8e"
+      },
+      "previous": "65ce89593b3afe8082747a6f95db470126f3b2be24739def7b8b9fb4f3604b47",
+      "digest": "2f352fb2b0c872b2ce6faf4b786f4038651cabaa408b653f8d59bccc2371ae35"
     }
   ]
 }
