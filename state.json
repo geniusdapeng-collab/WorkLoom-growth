@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 129,
+  "revision": 131,
   "tasks": {
     "328": {
       "number": 328,
-      "status": "aligning",
+      "status": "waiting_ci",
       "firstSeen": 1791310212664,
       "attempts": {},
-      "headSha": "3cca18834d2c657617cbfdb68da1ce9c8b41fcd0",
+      "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
       "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
       "branch": "task/T-2026-1005-0002-final",
       "intent": {
@@ -299,22 +299,18 @@
         "scripts/tools/video-request-regression.test.ts",
         "scripts/video-capabilities.test.mjs"
       ],
-      "ciSince": 1791314169560,
+      "ciSince": 1791315290864,
       "updatedAt": 1791315290864,
       "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "blockedUntil": 0,
       "alignmentCount": 1,
-      "alignmentIntent": {
-        "headSha": "3cca18834d2c657617cbfdb68da1ce9c8b41fcd0",
-        "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
-        "at": 1791315290864
-      },
+      "alignmentIntent": null,
       "developerReview": null,
       "alignment": {
-        "sha": "3cca18834d2c657617cbfdb68da1ce9c8b41fcd0",
-        "previousHead": "76d7e7896e6fa6544bfd8393214f828fd6d299a1",
-        "mainSha": "afdc7b93a76b92b8b53e29582e2dd6b8f1cd24c6",
-        "verifiedAt": "2026-10-06T19:16:19.659Z"
+        "sha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
+        "previousHead": "3cca18834d2c657617cbfdb68da1ce9c8b41fcd0",
+        "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
+        "verifiedAt": "2026-10-06T19:34:59.481Z"
       },
       "admission": {
         "number": 328,
@@ -9363,6 +9359,38 @@
       },
       "previous": "8834f0ae36ff4532882c845ffc1fa1b07b32b8b42149b56d450dda2a965c2350",
       "digest": "433949815544656856af2c6d9d0fae480bfca9799202766cdae2ad2e0477b6a1"
+    },
+    {
+      "sequence": 130,
+      "at": "2026-10-06T19:34:50.864Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "waiting_ci",
+          "alignment": {
+            "sha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
+            "previousHead": "3cca18834d2c657617cbfdb68da1ce9c8b41fcd0",
+            "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
+            "verifiedAt": "2026-10-06T19:34:59.481Z"
+          },
+          "alignmentIntent": null,
+          "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
+          "ciSince": 1791315290864
+        }
+      },
+      "previous": "433949815544656856af2c6d9d0fae480bfca9799202766cdae2ad2e0477b6a1",
+      "digest": "e97d037b636cce19836df33cfbd8e65cab8846c475ed210279a90d83f95ff233"
+    },
+    {
+      "sequence": 131,
+      "at": "2026-10-06T19:34:59.580Z",
+      "kind": "transaction",
+      "data": {
+        "id": "d3c8870f-e999-46d7-9c11-228baba7dac1"
+      },
+      "previous": "e97d037b636cce19836df33cfbd8e65cab8846c475ed210279a90d83f95ff233",
+      "digest": "3e191e67cbd2f0dca8d42fb5ca1c4fc88206052d2d54ac334a74e0e7fb2e846b"
     }
   ]
 }
