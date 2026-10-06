@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 91,
+  "revision": 93,
   "tasks": {
     "328": {
       "number": 328,
@@ -2379,7 +2379,7 @@
           "protocol": 6
         }
       },
-      "updatedAt": 1791313276569,
+      "updatedAt": 1791314169560,
       "headSha": "87658d5ac91283931eda85948ca1ce0d22905bf4",
       "mainSha": "afdc7b93a76b92b8b53e29582e2dd6b8f1cd24c6",
       "branch": "chore/protocol-onboarding-delivery-0b3ca2b2eae4a920-afdc7b93a76b",
@@ -2528,7 +2528,14 @@
         ]
       },
       "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/339 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791313876569
+      "blockedUntil": 1791313876569,
+      "originalBody": "原仓必需检查保留，新增 Codex 审查回执 和交付回归。安装范围及四问见 Issue #338 [T-2026-1006-1429]。\n\n<!-- delivery-install:0b3ca2b2eae4a920cf618a4a2bd57e780df5208bc5ef42ef1498b52dbaab4a03 -->\n\n<!-- workloom-delivery\n{\n  \"task_id\": \"T-2026-1006-1429\",\n  \"ready\": true,\n  \"depends_on\": [],\n  \"releases\": []\n}\n-->",
+      "files": [
+        ".workloom-delivery-install.json",
+        "scripts/delivery/git-state.mjs",
+        "scripts/delivery/queue.test.mjs"
+      ],
+      "ciSince": 1791314169560
     }
   },
   "leases": {
@@ -7284,6 +7291,45 @@
       },
       "previous": "ab525fbee208c384849bc61dd9e310ccb2c2eed6c01f721cdca67239be60d679",
       "digest": "e1bfdc2b392b83340241712a9193e2b0a53f3298df01dd35e70078649243b255"
+    },
+    {
+      "sequence": 92,
+      "at": "2026-10-06T19:16:09.560Z",
+      "kind": "task",
+      "data": {
+        "number": 339,
+        "patch": {
+          "headSha": "87658d5ac91283931eda85948ca1ce0d22905bf4",
+          "mainSha": "afdc7b93a76b92b8b53e29582e2dd6b8f1cd24c6",
+          "branch": "chore/protocol-onboarding-delivery-0b3ca2b2eae4a920-afdc7b93a76b",
+          "intent": {
+            "taskId": "T-2026-1006-1429",
+            "ready": true,
+            "dependsOn": [],
+            "releases": []
+          },
+          "originalBody": "原仓必需检查保留，新增 Codex 审查回执 和交付回归。安装范围及四问见 Issue #338 [T-2026-1006-1429]。\n\n<!-- delivery-install:0b3ca2b2eae4a920cf618a4a2bd57e780df5208bc5ef42ef1498b52dbaab4a03 -->\n\n<!-- workloom-delivery\n{\n  \"task_id\": \"T-2026-1006-1429\",\n  \"ready\": true,\n  \"depends_on\": [],\n  \"releases\": []\n}\n-->",
+          "files": [
+            ".workloom-delivery-install.json",
+            "scripts/delivery/git-state.mjs",
+            "scripts/delivery/queue.test.mjs"
+          ],
+          "status": "parked",
+          "ciSince": 1791314169560
+        }
+      },
+      "previous": "e1bfdc2b392b83340241712a9193e2b0a53f3298df01dd35e70078649243b255",
+      "digest": "1f643449c3bc7e3574f2295d406cf046c420948521edb37cbaaff69e604cbc9b"
+    },
+    {
+      "sequence": 93,
+      "at": "2026-10-06T19:16:30.614Z",
+      "kind": "transaction",
+      "data": {
+        "id": "205a2363-29fd-4d68-95d7-50973684fe00"
+      },
+      "previous": "1f643449c3bc7e3574f2295d406cf046c420948521edb37cbaaff69e604cbc9b",
+      "digest": "e3ea81ccb7ae9554e298d546810812069fe422881961032e49f3a359c568e995"
     }
   ]
 }
