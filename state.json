@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 270,
+  "revision": 272,
   "tasks": {
     "328": {
       "number": 328,
@@ -1004,7 +1004,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791324025955,
+      "updatedAt": 1791324908626,
       "alignmentCount": 1,
       "alignmentIntent": null,
       "developerReview": null,
@@ -1025,9 +1025,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791324625955,
+      "blockedUntil": 1791325508626,
       "candidate": null,
-      "error": "检查/评审阻断：Developer has not handed off; Codex review identity differs from the exact repository/source/main/policy",
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -21934,6 +21934,31 @@
       },
       "previous": "fb5c9c4c64d795fc78896f20b0bfb948bfbdd06b15eebe94bd3d67383dbf9e69",
       "digest": "878755222c964181f040aabaeac1466d75bdbe65712d014fddc49fc0e14c4874"
+    },
+    {
+      "sequence": 271,
+      "at": "2026-10-06T22:15:08.626Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791325508626
+        }
+      },
+      "previous": "878755222c964181f040aabaeac1466d75bdbe65712d014fddc49fc0e14c4874",
+      "digest": "cc3050509b9f215dd0e1a5e2daae3e08d7284d3fd69ee7f8eda89c1a97b7d7c2"
+    },
+    {
+      "sequence": 272,
+      "at": "2026-10-06T22:15:19.885Z",
+      "kind": "transaction",
+      "data": {
+        "id": "cb385acc-8669-4399-ae8e-f85ca42c4463"
+      },
+      "previous": "cc3050509b9f215dd0e1a5e2daae3e08d7284d3fd69ee7f8eda89c1a97b7d7c2",
+      "digest": "979e975a4702f8fef1f5889a7fc183fc161e439b8a80e986af0038514a79a167"
     }
   ]
 }
