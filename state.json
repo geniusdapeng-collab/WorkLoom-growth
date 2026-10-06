@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 153,
+  "revision": 155,
   "tasks": {
     "328": {
       "number": 328,
@@ -673,7 +673,7 @@
     },
     "333": {
       "number": 333,
-      "status": "waiting_ci",
+      "status": "parked",
       "firstSeen": 1791313276569,
       "attempts": {},
       "headSha": "1aa296d778674bb79f8ed5ce74d1669d6eed0335",
@@ -988,7 +988,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791313276569,
-      "updatedAt": 1791315290864,
+      "updatedAt": 1791316213138,
       "alignmentCount": 0,
       "alignmentIntent": null,
       "developerReview": null,
@@ -1009,8 +1009,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 0,
-      "candidate": null
+      "blockedUntil": 1791316813138,
+      "candidate": null,
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n"
     },
     "336": {
       "number": 336,
@@ -10955,6 +10956,31 @@
       },
       "previous": "ca650b8b9b5351fec932e0dd6435c52e9689f01e11c3100dae736733ed615b17",
       "digest": "63c68c3f454128705593019c1ccf4030db7da45c13063ad16cfc4cbab00b6486"
+    },
+    {
+      "sequence": 154,
+      "at": "2026-10-06T19:50:13.138Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791316813138
+        }
+      },
+      "previous": "63c68c3f454128705593019c1ccf4030db7da45c13063ad16cfc4cbab00b6486",
+      "digest": "65a0d0439bd21e0e7a96322c341c0ac7ec600a87ac3159c5d75ae6d415afea9b"
+    },
+    {
+      "sequence": 155,
+      "at": "2026-10-06T19:50:22.353Z",
+      "kind": "transaction",
+      "data": {
+        "id": "3178b9a1-f163-43cb-9166-de23dd14fe96"
+      },
+      "previous": "65a0d0439bd21e0e7a96322c341c0ac7ec600a87ac3159c5d75ae6d415afea9b",
+      "digest": "eb4ad1150d61d4599ca4e0946ac7ea5171cac5284d64cffd81c8d3b1b567e43a"
     }
   ]
 }
