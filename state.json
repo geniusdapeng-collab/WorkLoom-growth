@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 167,
+  "revision": 169,
   "tasks": {
     "328": {
       "number": 328,
@@ -673,10 +673,10 @@
     },
     "333": {
       "number": 333,
-      "status": "aligning",
+      "status": "waiting_ci",
       "firstSeen": 1791313276569,
       "attempts": {},
-      "headSha": "1aa296d778674bb79f8ed5ce74d1669d6eed0335",
+      "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
       "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
       "branch": "task/T-2026-1006-0002",
       "intent": {
@@ -987,20 +987,16 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-3.stdout.txt",
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
-      "ciSince": 1791313276569,
+      "ciSince": 1791317412440,
       "updatedAt": 1791317412440,
       "alignmentCount": 1,
-      "alignmentIntent": {
-        "headSha": "1aa296d778674bb79f8ed5ce74d1669d6eed0335",
-        "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
-        "at": 1791317412440
-      },
+      "alignmentIntent": null,
       "developerReview": null,
       "alignment": {
-        "sha": "1aa296d778674bb79f8ed5ce74d1669d6eed0335",
-        "previousHead": "79f0697cfa920e9406035e67cc68c2dc7b5303bc",
-        "mainSha": "afdc7b93a76b92b8b53e29582e2dd6b8f1cd24c6",
-        "verifiedAt": "2026-10-06T19:01:28.547Z"
+        "sha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
+        "previousHead": "1aa296d778674bb79f8ed5ce74d1669d6eed0335",
+        "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
+        "verifiedAt": "2026-10-06T20:10:31.018Z"
       },
       "admission": {
         "number": 333,
@@ -12340,6 +12336,38 @@
       },
       "previous": "8b8293b51dc3343d8d3e86636aa3d323bf86862d9ec4692b5e815550b4d0534e",
       "digest": "bb5ffea0da8ea8ede063f88ed3f02f4c5f1fa89a129cb2601856806286e0ce28"
+    },
+    {
+      "sequence": 168,
+      "at": "2026-10-06T20:10:12.440Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "waiting_ci",
+          "alignment": {
+            "sha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
+            "previousHead": "1aa296d778674bb79f8ed5ce74d1669d6eed0335",
+            "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
+            "verifiedAt": "2026-10-06T20:10:31.018Z"
+          },
+          "alignmentIntent": null,
+          "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
+          "ciSince": 1791317412440
+        }
+      },
+      "previous": "bb5ffea0da8ea8ede063f88ed3f02f4c5f1fa89a129cb2601856806286e0ce28",
+      "digest": "80d166cd69765fda1a7c3c35c2ef0d29006bb8e8019c7fde70ffb09a5a3e3035"
+    },
+    {
+      "sequence": 169,
+      "at": "2026-10-06T20:10:31.131Z",
+      "kind": "transaction",
+      "data": {
+        "id": "b37ecca7-4c47-451e-8838-fd5446504e2b"
+      },
+      "previous": "80d166cd69765fda1a7c3c35c2ef0d29006bb8e8019c7fde70ffb09a5a3e3035",
+      "digest": "11fa7a98139801f916e91d033f745a288dec573a9dc7e662c69bd28d9e058c0a"
     }
   ]
 }
