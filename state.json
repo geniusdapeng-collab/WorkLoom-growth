@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 147,
+  "revision": 149,
   "tasks": {
     "328": {
       "number": 328,
@@ -10276,6 +10276,35 @@
       },
       "previous": "93cee8543c55c5ac0e7678c652464ffdc9a6f67a2a821da6b6f354c3e5a5bda7",
       "digest": "23ad0224191e745558d6a0cf5b3f32aea72982ec8babaf07927738dec6497396"
+    },
+    {
+      "sequence": 148,
+      "at": "2026-10-06T19:46:42.777Z",
+      "kind": "installation_updated",
+      "data": {
+        "installer": 339,
+        "merge": {
+          "sha": "73767dc51658171e97673969780f06ca52994b7a",
+          "sourceSha": "87658d5ac91283931eda85948ca1ce0d22905bf4",
+          "mainSha": "afdc7b93a76b92b8b53e29582e2dd6b8f1cd24c6",
+          "checkSha": "3a27a5b29a7fdf8648ebab788e5c6c70bbc58573",
+          "mergedBy": "cnb.dYiF05kxAGA",
+          "verifiedAt": "2026-10-06T19:46:38.621Z"
+        },
+        "mainSha": "73767dc51658171e97673969780f06ca52994b7a"
+      },
+      "previous": "23ad0224191e745558d6a0cf5b3f32aea72982ec8babaf07927738dec6497396",
+      "digest": "c1d2f0044f5353d1e1e3e07b55c270d4fcc42f5833c8cfd8a48ecda69d63d835"
+    },
+    {
+      "sequence": 149,
+      "at": "2026-10-06T19:46:41.765Z",
+      "kind": "transaction",
+      "data": {
+        "id": "install-updated:339:73767dc51658171e97673969780f06ca52994b7a"
+      },
+      "previous": "c1d2f0044f5353d1e1e3e07b55c270d4fcc42f5833c8cfd8a48ecda69d63d835",
+      "digest": "e257c4f376c0a132d1f3723ef017adadfd6f6de61f013044215ce635f96fa487"
     }
   ]
 }
