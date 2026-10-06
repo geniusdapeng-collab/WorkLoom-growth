@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 226,
+  "revision": 228,
   "tasks": {
     "328": {
       "number": 328,
@@ -654,9 +654,9 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.stderr.txt"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791320420359,
-      "error": "检查/评审阻断：Developer has not handed off; Codex review identity differs from the exact repository/source/main/policy",
-      "blockedUntil": 1791321020359,
+      "updatedAt": 1791321613210,
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "blockedUntil": 1791322213210,
       "alignmentCount": 1,
       "alignmentIntent": null,
       "developerReview": null,
@@ -18272,6 +18272,31 @@
       },
       "previous": "ac59da8f55561e9d6b117a94ef97d8c90ee0cc18185ed48a4ef28391dc0e7b06",
       "digest": "28c886178647adb820250986adc12d92b9269f9813f2c3106be406354d45faff"
+    },
+    {
+      "sequence": 227,
+      "at": "2026-10-06T21:20:13.210Z",
+      "kind": "task",
+      "data": {
+        "number": 331,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791322213210
+        }
+      },
+      "previous": "28c886178647adb820250986adc12d92b9269f9813f2c3106be406354d45faff",
+      "digest": "28950aec406314b522da01c6473b7d2935663354f6ab3e1a65285273d2ee0f9d"
+    },
+    {
+      "sequence": 228,
+      "at": "2026-10-06T21:20:20.339Z",
+      "kind": "transaction",
+      "data": {
+        "id": "bea31378-1da2-43d2-a9b0-c1b78cb6dbc4"
+      },
+      "previous": "28950aec406314b522da01c6473b7d2935663354f6ab3e1a65285273d2ee0f9d",
+      "digest": "e1a656ebbff6774e92102ed7a83686215b4d873afab3ca0ad2c5d85127c75786"
     }
   ]
 }
