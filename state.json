@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 350,
+  "revision": 352,
   "tasks": {
     "328": {
       "number": 328,
@@ -1004,7 +1004,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791330010697,
+      "updatedAt": 1791330614404,
       "alignmentCount": 1,
       "alignmentIntent": null,
       "developerReview": null,
@@ -1025,9 +1025,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791330610697,
+      "blockedUntil": 1791331214404,
       "candidate": null,
-      "error": "检查/评审阻断：Developer has not handed off; Codex review identity differs from the exact repository/source/main/policy",
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -28204,6 +28204,31 @@
       },
       "previous": "30fc9e84cf6f5315c60cac46ab895fc47bceefe53c0303d5f0d6c80cc55cabb6",
       "digest": "c9472a096216a8d57c4f032001e26d659e524ba4ddf1790b7abad43445cabb80"
+    },
+    {
+      "sequence": 351,
+      "at": "2026-10-06T23:50:14.404Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791331214404
+        }
+      },
+      "previous": "c9472a096216a8d57c4f032001e26d659e524ba4ddf1790b7abad43445cabb80",
+      "digest": "027de34aeac00cd791f3f2c2005a429d10edbdf47fad963c6cf9b9e6c5c9af99"
+    },
+    {
+      "sequence": 352,
+      "at": "2026-10-06T23:50:22.120Z",
+      "kind": "transaction",
+      "data": {
+        "id": "a7192e9f-41d9-46f6-b29d-cf0b011a6449"
+      },
+      "previous": "027de34aeac00cd791f3f2c2005a429d10edbdf47fad963c6cf9b9e6c5c9af99",
+      "digest": "7853c755ca77c12467de4a092b536817f96672247a8964f26933ea5809662ee6"
     }
   ]
 }
