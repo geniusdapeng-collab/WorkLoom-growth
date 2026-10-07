@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 811,
+  "revision": 814,
   "tasks": {
     "328": {
       "number": 328,
@@ -3266,7 +3266,7 @@
     },
     "346": {
       "number": 346,
-      "status": "developing",
+      "status": "waiting_ci",
       "firstSeen": 1791351676890,
       "attempts": {},
       "admission": {
@@ -3282,16 +3282,190 @@
           "protocol": 16
         }
       },
-      "updatedAt": 1791353712922,
+      "updatedAt": 1791353967234,
       "headSha": "3bed5986da8015c3785a923e950147996a6b5dcd",
       "intent": {
         "taskId": "T-2026-1007-0003",
-        "ready": false,
+        "ready": true,
         "dependsOn": [],
         "releases": []
       },
       "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/346 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791353415507
+      "blockedUntil": 1791353415507,
+      "mainSha": "5c92791fbef31111bef2b70f6b954963fbc19686",
+      "branch": "task/T-2026-1007-0003",
+      "developerReview": {
+        "schemaVersion": 1,
+        "provider": "codex",
+        "repo": "workloom-ai/WorkLoom-growth",
+        "number": 346,
+        "headSha": "3bed5986da8015c3785a923e950147996a6b5dcd",
+        "mainSha": "5c92791fbef31111bef2b70f6b954963fbc19686",
+        "policyHash": "04a4d19f557cfb18077108b472a8cee90216da7c4f691dab870673c7fe852eea",
+        "reviewedFiles": [
+          "bundles/ai-video/bundle.json",
+          "bundles/ai-video/connectors/bgm-bridge/README.md",
+          "bundles/ai-video/connectors/bgm-bridge/cli.mjs",
+          "bundles/ai-video/connectors/bgm-bridge/core.mjs",
+          "bundles/ai-video/connectors/bgm-bridge/declared-program-mix.test.mjs",
+          "bundles/ai-video/connectors/bgm-bridge/measure.mjs",
+          "bundles/ai-video/connectors/post-bridge/core.mjs",
+          "scripts/tools/full-chain-film.mts"
+        ],
+        "filesHash": "5d20cdd37e4e16d115f59645c125805557438a45ad84143287b1536e2852532d",
+        "dependsOn": [],
+        "ciPolicyChanges": [],
+        "ciPolicyChangesHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "tests": [
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --check bundles/ai-video/connectors/bgm-bridge/core.mjs",
+            "exitCode": 0,
+            "finishedAt": "2026-10-07T05:50:26.859512+00:00",
+            "result": "Exit code 0; command produced no stdout/stderr. Actual empty execution log SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855."
+          },
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --check bundles/ai-video/connectors/bgm-bridge/cli.mjs",
+            "exitCode": 0,
+            "finishedAt": "2026-10-07T05:50:26.913919+00:00",
+            "result": "Exit code 0; command produced no stdout/stderr. Actual empty execution log SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855."
+          },
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --check bundles/ai-video/connectors/bgm-bridge/measure.mjs",
+            "exitCode": 0,
+            "finishedAt": "2026-10-07T05:50:26.969156+00:00",
+            "result": "Exit code 0; command produced no stdout/stderr. Actual empty execution log SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855."
+          },
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --check bundles/ai-video/connectors/post-bridge/core.mjs",
+            "exitCode": 0,
+            "finishedAt": "2026-10-07T05:50:27.026395+00:00",
+            "result": "Exit code 0; command produced no stdout/stderr. Actual empty execution log SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855."
+          },
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --check scripts/tools/full-chain-film.mts",
+            "exitCode": 0,
+            "finishedAt": "2026-10-07T05:50:27.080199+00:00",
+            "result": "Exit code 0; command produced no stdout/stderr. Actual empty execution log SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855."
+          },
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import tsx scripts/bundle-governance.mts",
+            "exitCode": 0,
+            "finishedAt": "2026-10-07T05:50:27.650786+00:00",
+            "result": "✅ 行业包契约、兼容范围、资产、导航与完整性门禁通过（base 0.1.0 / ui 0.1.19）\n"
+          },
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/ci/verify-commit-msg.mjs --range 5c92791fbef31111bef2b70f6b954963fbc19686..HEAD",
+            "exitCode": 0,
+            "finishedAt": "2026-10-07T05:50:27.722877+00:00",
+            "result": "✓ 3bed5986da80 fix(growth): reject conflicting or invalid explicit audio sources [T-2026-1007-0003]\n✓ 0bc55939df4a fix(growth): preserve program audio in one-pass BGM processing [T-2026-1007-0003]\n\n✓ 提交信息校验通过（2 条，范围 5c92791fbef31111bef2b70f6b954963fbc19686..HEAD）\n"
+          },
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --test scripts/ci/protocol-rules.test.mjs scripts/ci/hard-gate-policy.test.mjs",
+            "exitCode": 0,
+            "finishedAt": "2026-10-07T05:50:39.049093+00:00",
+            "result": "▶ 硬闸口径规则（创作口径不得作出厂否决票）\n  ✔ 创作口径 + hard: true 命中（含模板字符串 id 与 shotId 后缀） (0.482ms)\n  ✔ hard: false / 按策略切换 / 事实类硬闸 都不拦 (0.098208ms)\n  ✔ 窗口外（>12 行）的 hard: true 不误伤 (0.351ms)\n  ✔ 清单本身可审计（不是魔法字符串） (0.046333ms)\n✔ 硬闸口径规则（创作口径不得作出厂否决票） (1.447334ms)\n▶ 提交信息规则\n  ✔ 接受合法提交并拒绝缺任务号 (0.800166ms)\n  ✔ 未知 type 失败；layer 不符仅告警 (0.168125ms)\n  ✔ 过渡期祖父规则：早于阈值的提交只校 type (0.12025ms)\n  ✔ 豁免自动化与审计提交 (0.086584ms)\n  ✔ 过渡开关允许缺任务号但保留格式校验 (0.061125ms)\n  ✔ layer 映射覆盖九仓 (0.055333ms)\n✔ 提交信息规则 (1.781375ms)\n▶ 并发冲突规则\n  ✔ 识别模块级互斥路径 (0.150125ms)\n  ✔ 不同文件但同一互斥模块也算冲突 (0.11525ms)\n  ✔ 同文件重叠判定 (0.066625ms)\n  ✔ push 事件降级为提醒：合并已发生，跨 PR 重叠不再判红（回归 2026-09-27 main 误报） (0.089958ms)\n✔ 并发冲突规则 (0.5315ms)\n▶ 限时开发租约代替 open PR 永久占位\n  ✔ 未首装敏感重叠在任一 PR 编号缺失或无效时拒绝，已启用仓不使用编号永久占位 (0.09675ms)\n  ✔ 原有互斥模块的每种路径都映射到敏感租约 (0.195666ms)\n  ✔ 敏感 PR 必须交接释放有效租约，普通文件和到期租约不阻止交付 (3.709083ms)\n  ✔ 仅分发文件不启用新门禁；未首装保留敏感重叠规则，普通产品 PR 不读账本 (0.185208ms)\n  ✔ 显式启用后缺失账本阻断；权限/网络/账本损坏不能伪装成尚未安装 (0.386333ms)\n  ✔ 已准备的敏感源码必须有准确正向接纳证明，main 自动接纳后释放锁再通过 CI (0.494083ms)\n✔ 限时开发租约代替 open PR 永久占位 (5.174167ms)\n▶ 路径解析与误判防护\n  ✔ 不同目录的同名文件不算冲突 (0.044875ms)\n  ✔ 根级 package.json 属于互斥模块，子目录 package.json 不属于 (0.024625ms)\n✔ 路径解析与误判防护 (0.103292ms)\n▶ PR 锁冲突门禁的新鲜度与失败闭合\n  ✔ 识别 PR 事件，合并后的 push 不再误判为 PR (0.082375ms)\n  ✔ 实时 source/target/main/merge base 一致时通过并取完整路径 (0.208042ms)\n  ✔ 事件 target 旧、分支未包含最新 main、事件 source 旧均拒绝 (0.107792ms)\n  ✔ PR/main 查询期间变动或 compare 缺失字段时拒绝 (0.079666ms)\n  ✔ API 快照交叉验证成功；API 失败不会吞异常 (0.271334ms)\n  ✔ 非 task 分支用当前 PR 意图识别租约 owner，意图在查询期间变化则拒绝 (0.168333ms)\n  ✔ 已知 PR 编号不同，不能凭祖先关系把并发 PR 排除 (0.049209ms)\n  ✔ open PR 全部分页扫描，并从 compare 读取完整路径 (0.580542ms)\n  ✔ 并发 PR 列表重复或 compare 丢字段时拒绝得出无冲突结论 (0.139042ms)\n  ✔ PR 事件没有 CNB_TOKEN 时脚本退出非零，包括本地 diff 为空的情况 (37.59925ms)\n  ✔ PR 查询失败仍退出非零，即使普通路径重叠只提醒 (11164.70325ms)\n✔ PR 锁冲突门禁的新鲜度与失败闭合 (11204.417125ms)\nℹ tests 33\nℹ suites 6\nℹ pass 33\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 11262.112708\n"
+          },
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/ci/verify-hard-gate-policy.mjs",
+            "exitCode": 0,
+            "finishedAt": "2026-10-07T05:50:39.178004+00:00",
+            "result": "[hard-gate-policy] 通过：扫描 111 个文件，未发现\"创作口径写成硬闸\"。\n"
+          },
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --test bundles/ai-video/connectors/bgm-bridge/declared-program-mix.test.mjs",
+            "exitCode": 0,
+            "finishedAt": "2026-10-07T05:50:47.566627+00:00",
+            "result": "▶ rendered source default acceptance in BGM CLI/core\n  ✔ preserves legacy declared authority and never claims signed stems (221.24225ms)\n  ✔ accepts continuous original audio and black/odd FPS source without signed stems or quiet windows (183.91525ms)\n  ✔ handles a clip with no source audio by making only the requested post audio bed (146.638875ms)\n  ✔ finishes finite short-music loops for continuous, quiet and no-audio programs with real binary receipts (4249.478833ms)\n  ✔ performs requested recipe once without source-quality score or network calls (1130.277709ms)\n  ✔ actual CLI succeeds without --audio-stems and reports no invented measurements (225.329459ms)\n  ✔ rejects conflicting CLI source flags before reference reads, media work or output writes (205.235541ms)\n  ✔ rejects independent invalid signed CLI references and tenant mismatch without falling back to original audio (1424.796416ms)\n  ✔ retains explicit signed-source verification, source permission and tenant authority (31.424084ms)\n  ✔ fails explicitly for missing/corrupt sources, illegal paths, overwrite, duplicate output and invalid request (164.26375ms)\n✔ rendered source default acceptance in BGM CLI/core (8120.8575ms)\nℹ tests 10\nℹ suites 1\nℹ pass 10\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 8308.981792\n"
+          },
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run bundles/ai-video/connectors/bgm-bridge/verify-message.test.ts bundles/ai-video/connectors/bgm-bridge/genre-mismatch.test.ts bundles/ai-video/connectors/bgm-bridge/recipes-expansion.test.ts bundles/ai-video/connectors/bgm-bridge/tonality-context.test.ts",
+            "exitCode": 0,
+            "finishedAt": "2026-10-07T05:50:48.134182+00:00",
+            "result": "\n RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/post-render-default-acceptance/incremental/growth-bgm/repo\n\n\n Test Files  4 passed (4)\n      Tests  107 passed (107)\n   Start at  13:50:47\n   Duration  252ms (transform 406ms, setup 0ms, import 533ms, tests 38ms, environment 0ms)\n\n"
+          },
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run bundles/ai-video/connectors/post-bridge/delivery-integration.test.ts",
+            "exitCode": 0,
+            "finishedAt": "2026-10-07T05:51:44.440261+00:00",
+            "result": "\n RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/post-render-default-acceptance/incremental/growth-bgm/repo\n\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  13:50:48\n   Duration  56.09s (transform 187ms, setup 0ms, import 268ms, tests 55.75s, environment 0ms)\n\n"
+          }
+        ],
+        "reviewedAt": "2026-10-07T06:18:53.402Z",
+        "summary": "Formal BGM keeps original program audio by default, uses one actual local requested mix without post-render quality review or retry, materializes finite music loops, and preserves signed scope/byte authority and real output failures. The two old production callers accept the technical receipt. No supplier or model calls. CLI rejects conflicting source flags and non-object/missing/untrusted explicit signed references before fallback; actual CLI negative fixtures prove explicit failures and source preservation.",
+        "passed": true,
+        "id": "56f98d584087eb8eaf347eacdbb0125ffccdd8c3898bfdf620a129d2261b5553"
+      },
+      "reviewSnapshot": {
+        "repo": "workloom-ai/WorkLoom-growth",
+        "number": 346,
+        "pull": {
+          "number": 346,
+          "state": "open",
+          "title": "fix(growth): BGM 单次处理保留原声，移除渲后音质二检 [T-2026-1007-0003]",
+          "body": "已完成渲染的视频进入正式 BGM 时，原流程仍要求源音质检查并可能重复处理；指定曲目还会先 best 再 mix 写同一目标，新技术回执也被旧 post 调用方的五项音质分数拒绝。现在正式 mix/best 默认从当前原片字节快照保留节目音轨，一次完成所请求混音；无音轨源仅制作实际混音所需的等长静音床，短音乐先准备有限重复 WAV。源音质评分、质量重混和模型放行不再参与正式 BGM。\n\nCLI 对两种来源旗标同时出现、无值、不存在、JSON null/标量/数组或异租户签章引用均明确拒绝（6个冲突与16个无效引用实际CLI组合），不把显式来源降级为原声。显式签章的音频来源继续验证租户、作用域、签名、有效期及当前字节；路径权限、文件覆盖、实际命令失败和输出音轨/哈希仍明确校验。回执 qualityReviewed=false、qualityScore=null，未测响度为 null。最小修正 full-chain BGM 块与 post 接收函数，使旧生产调用方兼容新回执；其余后期直通改动留在单独任务344。\n\n验证：当前提交 `3bed5986da8015c3785a923e950147996a6b5dcd` 的真实 FFmpeg 用例10/10（0跳过）、既有BGM回归107/107、旧post实际总装与返修4/4通过；提交后语法、协议、创作硬闸规则和官方完整 bundle 治理检查均 exit0。作者实际全链 BGM 与真实两变体 post 总装均完成，原源SHA不变，禁止外网夹具未发生外网调用。资源摘要由本仓官方生成器更新，556项资产逐项校验，无额外签名或发布模式。\n\n当前 source 保持 developing，独立完整代码复核与真实远端 required CI 完成后由正常 native handoff 发布；没有新供应商、付费媒体、TTS、ASR 或模型调用。回滚为 revert 本任务提交。任务卡 #345（T-2026-1007-0003）。\n\n<!-- workloom-delivery\n{\n  \"task_id\": \"T-2026-1007-0003\",\n  \"ready\": true,\n  \"depends_on\": [],\n  \"releases\": []\n}\n-->\n",
+          "author": {
+            "username": "cnb.dYiF05kxAGA",
+            "nickname": "Genius",
+            "email": "XYpmztfpCvez6l8z5BBAvJ+cnb.dYiF05kxAGA@noreply.cnb.cool",
+            "is_npc": false
+          },
+          "reviewers": [],
+          "labels": [],
+          "base": {
+            "ref": "refs/heads/main",
+            "sha": "5c92791fbef31111bef2b70f6b954963fbc19686",
+            "repo": {
+              "id": "2100917893030621184",
+              "name": "WorkLoom-growth",
+              "path": "workloom-ai/WorkLoom-growth",
+              "web_url": "https://cnb.cool/workloom-ai/WorkLoom-growth"
+            }
+          },
+          "head": {
+            "ref": "refs/heads/task/T-2026-1007-0003",
+            "sha": "3bed5986da8015c3785a923e950147996a6b5dcd",
+            "repo": {
+              "id": "2100917893030621184",
+              "name": "WorkLoom-growth",
+              "path": "workloom-ai/WorkLoom-growth",
+              "web_url": "https://cnb.cool/workloom-ai/WorkLoom-growth"
+            }
+          },
+          "blocked_on": "unblocked",
+          "merged_by": {
+            "is_npc": false
+          },
+          "mergeable_state": "mergeable",
+          "is_wip": false,
+          "is_merged": false,
+          "is_force_merged": false,
+          "statuses": {}
+        },
+        "headSha": "3bed5986da8015c3785a923e950147996a6b5dcd",
+        "mainSha": "5c92791fbef31111bef2b70f6b954963fbc19686",
+        "files": [
+          "bundles/ai-video/bundle.json",
+          "bundles/ai-video/connectors/bgm-bridge/README.md",
+          "bundles/ai-video/connectors/bgm-bridge/cli.mjs",
+          "bundles/ai-video/connectors/bgm-bridge/core.mjs",
+          "bundles/ai-video/connectors/bgm-bridge/declared-program-mix.test.mjs",
+          "bundles/ai-video/connectors/bgm-bridge/measure.mjs",
+          "bundles/ai-video/connectors/post-bridge/core.mjs",
+          "scripts/tools/full-chain-film.mts"
+        ],
+        "intent": {
+          "taskId": "T-2026-1007-0003",
+          "ready": true,
+          "dependsOn": [],
+          "releases": []
+        },
+        "headTime": 1791352226000,
+        "mergeBase": "5c92791fbef31111bef2b70f6b954963fbc19686",
+        "checkErrors": [],
+        "checkSha": null,
+        "hasFailedChecks": false,
+        "ciPolicyChanges": []
+      }
     }
   },
   "leases": {
@@ -52358,6 +52532,223 @@
       },
       "previous": "eb86a25f4bcf6034448d3b822351678e39738f9a05c6f3e60260e3f14fde4309",
       "digest": "a9d6e0ac0d687553feebd03a15dcfe3a836d2609d49b6a3f7e59a07b85568714"
+    },
+    {
+      "sequence": 812,
+      "at": "2026-10-07T06:19:27.233Z",
+      "kind": "developer_review",
+      "data": {
+        "number": 346,
+        "id": "56f98d584087eb8eaf347eacdbb0125ffccdd8c3898bfdf620a129d2261b5553",
+        "headSha": "3bed5986da8015c3785a923e950147996a6b5dcd",
+        "mainSha": "5c92791fbef31111bef2b70f6b954963fbc19686"
+      },
+      "previous": "a9d6e0ac0d687553feebd03a15dcfe3a836d2609d49b6a3f7e59a07b85568714",
+      "digest": "58fcc50973c1be798bec9893bc60502bcb234999f25c415d51a4b6e8880879f1"
+    },
+    {
+      "sequence": 813,
+      "at": "2026-10-07T06:19:27.234Z",
+      "kind": "task",
+      "data": {
+        "number": 346,
+        "patch": {
+          "status": "waiting_ci",
+          "headSha": "3bed5986da8015c3785a923e950147996a6b5dcd",
+          "mainSha": "5c92791fbef31111bef2b70f6b954963fbc19686",
+          "branch": "task/T-2026-1007-0003",
+          "intent": {
+            "taskId": "T-2026-1007-0003",
+            "ready": true,
+            "dependsOn": [],
+            "releases": []
+          },
+          "developerReview": {
+            "schemaVersion": 1,
+            "provider": "codex",
+            "repo": "workloom-ai/WorkLoom-growth",
+            "number": 346,
+            "headSha": "3bed5986da8015c3785a923e950147996a6b5dcd",
+            "mainSha": "5c92791fbef31111bef2b70f6b954963fbc19686",
+            "policyHash": "04a4d19f557cfb18077108b472a8cee90216da7c4f691dab870673c7fe852eea",
+            "reviewedFiles": [
+              "bundles/ai-video/bundle.json",
+              "bundles/ai-video/connectors/bgm-bridge/README.md",
+              "bundles/ai-video/connectors/bgm-bridge/cli.mjs",
+              "bundles/ai-video/connectors/bgm-bridge/core.mjs",
+              "bundles/ai-video/connectors/bgm-bridge/declared-program-mix.test.mjs",
+              "bundles/ai-video/connectors/bgm-bridge/measure.mjs",
+              "bundles/ai-video/connectors/post-bridge/core.mjs",
+              "scripts/tools/full-chain-film.mts"
+            ],
+            "filesHash": "5d20cdd37e4e16d115f59645c125805557438a45ad84143287b1536e2852532d",
+            "dependsOn": [],
+            "ciPolicyChanges": [],
+            "ciPolicyChangesHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "tests": [
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --check bundles/ai-video/connectors/bgm-bridge/core.mjs",
+                "exitCode": 0,
+                "finishedAt": "2026-10-07T05:50:26.859512+00:00",
+                "result": "Exit code 0; command produced no stdout/stderr. Actual empty execution log SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855."
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --check bundles/ai-video/connectors/bgm-bridge/cli.mjs",
+                "exitCode": 0,
+                "finishedAt": "2026-10-07T05:50:26.913919+00:00",
+                "result": "Exit code 0; command produced no stdout/stderr. Actual empty execution log SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855."
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --check bundles/ai-video/connectors/bgm-bridge/measure.mjs",
+                "exitCode": 0,
+                "finishedAt": "2026-10-07T05:50:26.969156+00:00",
+                "result": "Exit code 0; command produced no stdout/stderr. Actual empty execution log SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855."
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --check bundles/ai-video/connectors/post-bridge/core.mjs",
+                "exitCode": 0,
+                "finishedAt": "2026-10-07T05:50:27.026395+00:00",
+                "result": "Exit code 0; command produced no stdout/stderr. Actual empty execution log SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855."
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --check scripts/tools/full-chain-film.mts",
+                "exitCode": 0,
+                "finishedAt": "2026-10-07T05:50:27.080199+00:00",
+                "result": "Exit code 0; command produced no stdout/stderr. Actual empty execution log SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855."
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import tsx scripts/bundle-governance.mts",
+                "exitCode": 0,
+                "finishedAt": "2026-10-07T05:50:27.650786+00:00",
+                "result": "✅ 行业包契约、兼容范围、资产、导航与完整性门禁通过（base 0.1.0 / ui 0.1.19）\n"
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/ci/verify-commit-msg.mjs --range 5c92791fbef31111bef2b70f6b954963fbc19686..HEAD",
+                "exitCode": 0,
+                "finishedAt": "2026-10-07T05:50:27.722877+00:00",
+                "result": "✓ 3bed5986da80 fix(growth): reject conflicting or invalid explicit audio sources [T-2026-1007-0003]\n✓ 0bc55939df4a fix(growth): preserve program audio in one-pass BGM processing [T-2026-1007-0003]\n\n✓ 提交信息校验通过（2 条，范围 5c92791fbef31111bef2b70f6b954963fbc19686..HEAD）\n"
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --test scripts/ci/protocol-rules.test.mjs scripts/ci/hard-gate-policy.test.mjs",
+                "exitCode": 0,
+                "finishedAt": "2026-10-07T05:50:39.049093+00:00",
+                "result": "▶ 硬闸口径规则（创作口径不得作出厂否决票）\n  ✔ 创作口径 + hard: true 命中（含模板字符串 id 与 shotId 后缀） (0.482ms)\n  ✔ hard: false / 按策略切换 / 事实类硬闸 都不拦 (0.098208ms)\n  ✔ 窗口外（>12 行）的 hard: true 不误伤 (0.351ms)\n  ✔ 清单本身可审计（不是魔法字符串） (0.046333ms)\n✔ 硬闸口径规则（创作口径不得作出厂否决票） (1.447334ms)\n▶ 提交信息规则\n  ✔ 接受合法提交并拒绝缺任务号 (0.800166ms)\n  ✔ 未知 type 失败；layer 不符仅告警 (0.168125ms)\n  ✔ 过渡期祖父规则：早于阈值的提交只校 type (0.12025ms)\n  ✔ 豁免自动化与审计提交 (0.086584ms)\n  ✔ 过渡开关允许缺任务号但保留格式校验 (0.061125ms)\n  ✔ layer 映射覆盖九仓 (0.055333ms)\n✔ 提交信息规则 (1.781375ms)\n▶ 并发冲突规则\n  ✔ 识别模块级互斥路径 (0.150125ms)\n  ✔ 不同文件但同一互斥模块也算冲突 (0.11525ms)\n  ✔ 同文件重叠判定 (0.066625ms)\n  ✔ push 事件降级为提醒：合并已发生，跨 PR 重叠不再判红（回归 2026-09-27 main 误报） (0.089958ms)\n✔ 并发冲突规则 (0.5315ms)\n▶ 限时开发租约代替 open PR 永久占位\n  ✔ 未首装敏感重叠在任一 PR 编号缺失或无效时拒绝，已启用仓不使用编号永久占位 (0.09675ms)\n  ✔ 原有互斥模块的每种路径都映射到敏感租约 (0.195666ms)\n  ✔ 敏感 PR 必须交接释放有效租约，普通文件和到期租约不阻止交付 (3.709083ms)\n  ✔ 仅分发文件不启用新门禁；未首装保留敏感重叠规则，普通产品 PR 不读账本 (0.185208ms)\n  ✔ 显式启用后缺失账本阻断；权限/网络/账本损坏不能伪装成尚未安装 (0.386333ms)\n  ✔ 已准备的敏感源码必须有准确正向接纳证明，main 自动接纳后释放锁再通过 CI (0.494083ms)\n✔ 限时开发租约代替 open PR 永久占位 (5.174167ms)\n▶ 路径解析与误判防护\n  ✔ 不同目录的同名文件不算冲突 (0.044875ms)\n  ✔ 根级 package.json 属于互斥模块，子目录 package.json 不属于 (0.024625ms)\n✔ 路径解析与误判防护 (0.103292ms)\n▶ PR 锁冲突门禁的新鲜度与失败闭合\n  ✔ 识别 PR 事件，合并后的 push 不再误判为 PR (0.082375ms)\n  ✔ 实时 source/target/main/merge base 一致时通过并取完整路径 (0.208042ms)\n  ✔ 事件 target 旧、分支未包含最新 main、事件 source 旧均拒绝 (0.107792ms)\n  ✔ PR/main 查询期间变动或 compare 缺失字段时拒绝 (0.079666ms)\n  ✔ API 快照交叉验证成功；API 失败不会吞异常 (0.271334ms)\n  ✔ 非 task 分支用当前 PR 意图识别租约 owner，意图在查询期间变化则拒绝 (0.168333ms)\n  ✔ 已知 PR 编号不同，不能凭祖先关系把并发 PR 排除 (0.049209ms)\n  ✔ open PR 全部分页扫描，并从 compare 读取完整路径 (0.580542ms)\n  ✔ 并发 PR 列表重复或 compare 丢字段时拒绝得出无冲突结论 (0.139042ms)\n  ✔ PR 事件没有 CNB_TOKEN 时脚本退出非零，包括本地 diff 为空的情况 (37.59925ms)\n  ✔ PR 查询失败仍退出非零，即使普通路径重叠只提醒 (11164.70325ms)\n✔ PR 锁冲突门禁的新鲜度与失败闭合 (11204.417125ms)\nℹ tests 33\nℹ suites 6\nℹ pass 33\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 11262.112708\n"
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/ci/verify-hard-gate-policy.mjs",
+                "exitCode": 0,
+                "finishedAt": "2026-10-07T05:50:39.178004+00:00",
+                "result": "[hard-gate-policy] 通过：扫描 111 个文件，未发现\"创作口径写成硬闸\"。\n"
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --test bundles/ai-video/connectors/bgm-bridge/declared-program-mix.test.mjs",
+                "exitCode": 0,
+                "finishedAt": "2026-10-07T05:50:47.566627+00:00",
+                "result": "▶ rendered source default acceptance in BGM CLI/core\n  ✔ preserves legacy declared authority and never claims signed stems (221.24225ms)\n  ✔ accepts continuous original audio and black/odd FPS source without signed stems or quiet windows (183.91525ms)\n  ✔ handles a clip with no source audio by making only the requested post audio bed (146.638875ms)\n  ✔ finishes finite short-music loops for continuous, quiet and no-audio programs with real binary receipts (4249.478833ms)\n  ✔ performs requested recipe once without source-quality score or network calls (1130.277709ms)\n  ✔ actual CLI succeeds without --audio-stems and reports no invented measurements (225.329459ms)\n  ✔ rejects conflicting CLI source flags before reference reads, media work or output writes (205.235541ms)\n  ✔ rejects independent invalid signed CLI references and tenant mismatch without falling back to original audio (1424.796416ms)\n  ✔ retains explicit signed-source verification, source permission and tenant authority (31.424084ms)\n  ✔ fails explicitly for missing/corrupt sources, illegal paths, overwrite, duplicate output and invalid request (164.26375ms)\n✔ rendered source default acceptance in BGM CLI/core (8120.8575ms)\nℹ tests 10\nℹ suites 1\nℹ pass 10\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 8308.981792\n"
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run bundles/ai-video/connectors/bgm-bridge/verify-message.test.ts bundles/ai-video/connectors/bgm-bridge/genre-mismatch.test.ts bundles/ai-video/connectors/bgm-bridge/recipes-expansion.test.ts bundles/ai-video/connectors/bgm-bridge/tonality-context.test.ts",
+                "exitCode": 0,
+                "finishedAt": "2026-10-07T05:50:48.134182+00:00",
+                "result": "\n RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/post-render-default-acceptance/incremental/growth-bgm/repo\n\n\n Test Files  4 passed (4)\n      Tests  107 passed (107)\n   Start at  13:50:47\n   Duration  252ms (transform 406ms, setup 0ms, import 533ms, tests 38ms, environment 0ms)\n\n"
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run bundles/ai-video/connectors/post-bridge/delivery-integration.test.ts",
+                "exitCode": 0,
+                "finishedAt": "2026-10-07T05:51:44.440261+00:00",
+                "result": "\n RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/post-render-default-acceptance/incremental/growth-bgm/repo\n\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  13:50:48\n   Duration  56.09s (transform 187ms, setup 0ms, import 268ms, tests 55.75s, environment 0ms)\n\n"
+              }
+            ],
+            "reviewedAt": "2026-10-07T06:18:53.402Z",
+            "summary": "Formal BGM keeps original program audio by default, uses one actual local requested mix without post-render quality review or retry, materializes finite music loops, and preserves signed scope/byte authority and real output failures. The two old production callers accept the technical receipt. No supplier or model calls. CLI rejects conflicting source flags and non-object/missing/untrusted explicit signed references before fallback; actual CLI negative fixtures prove explicit failures and source preservation.",
+            "passed": true,
+            "id": "56f98d584087eb8eaf347eacdbb0125ffccdd8c3898bfdf620a129d2261b5553"
+          },
+          "reviewSnapshot": {
+            "repo": "workloom-ai/WorkLoom-growth",
+            "number": 346,
+            "pull": {
+              "number": 346,
+              "state": "open",
+              "title": "fix(growth): BGM 单次处理保留原声，移除渲后音质二检 [T-2026-1007-0003]",
+              "body": "已完成渲染的视频进入正式 BGM 时，原流程仍要求源音质检查并可能重复处理；指定曲目还会先 best 再 mix 写同一目标，新技术回执也被旧 post 调用方的五项音质分数拒绝。现在正式 mix/best 默认从当前原片字节快照保留节目音轨，一次完成所请求混音；无音轨源仅制作实际混音所需的等长静音床，短音乐先准备有限重复 WAV。源音质评分、质量重混和模型放行不再参与正式 BGM。\n\nCLI 对两种来源旗标同时出现、无值、不存在、JSON null/标量/数组或异租户签章引用均明确拒绝（6个冲突与16个无效引用实际CLI组合），不把显式来源降级为原声。显式签章的音频来源继续验证租户、作用域、签名、有效期及当前字节；路径权限、文件覆盖、实际命令失败和输出音轨/哈希仍明确校验。回执 qualityReviewed=false、qualityScore=null，未测响度为 null。最小修正 full-chain BGM 块与 post 接收函数，使旧生产调用方兼容新回执；其余后期直通改动留在单独任务344。\n\n验证：当前提交 `3bed5986da8015c3785a923e950147996a6b5dcd` 的真实 FFmpeg 用例10/10（0跳过）、既有BGM回归107/107、旧post实际总装与返修4/4通过；提交后语法、协议、创作硬闸规则和官方完整 bundle 治理检查均 exit0。作者实际全链 BGM 与真实两变体 post 总装均完成，原源SHA不变，禁止外网夹具未发生外网调用。资源摘要由本仓官方生成器更新，556项资产逐项校验，无额外签名或发布模式。\n\n当前 source 保持 developing，独立完整代码复核与真实远端 required CI 完成后由正常 native handoff 发布；没有新供应商、付费媒体、TTS、ASR 或模型调用。回滚为 revert 本任务提交。任务卡 #345（T-2026-1007-0003）。\n\n<!-- workloom-delivery\n{\n  \"task_id\": \"T-2026-1007-0003\",\n  \"ready\": true,\n  \"depends_on\": [],\n  \"releases\": []\n}\n-->\n",
+              "author": {
+                "username": "cnb.dYiF05kxAGA",
+                "nickname": "Genius",
+                "email": "XYpmztfpCvez6l8z5BBAvJ+cnb.dYiF05kxAGA@noreply.cnb.cool",
+                "is_npc": false
+              },
+              "reviewers": [],
+              "labels": [],
+              "base": {
+                "ref": "refs/heads/main",
+                "sha": "5c92791fbef31111bef2b70f6b954963fbc19686",
+                "repo": {
+                  "id": "2100917893030621184",
+                  "name": "WorkLoom-growth",
+                  "path": "workloom-ai/WorkLoom-growth",
+                  "web_url": "https://cnb.cool/workloom-ai/WorkLoom-growth"
+                }
+              },
+              "head": {
+                "ref": "refs/heads/task/T-2026-1007-0003",
+                "sha": "3bed5986da8015c3785a923e950147996a6b5dcd",
+                "repo": {
+                  "id": "2100917893030621184",
+                  "name": "WorkLoom-growth",
+                  "path": "workloom-ai/WorkLoom-growth",
+                  "web_url": "https://cnb.cool/workloom-ai/WorkLoom-growth"
+                }
+              },
+              "blocked_on": "unblocked",
+              "merged_by": {
+                "is_npc": false
+              },
+              "mergeable_state": "mergeable",
+              "is_wip": false,
+              "is_merged": false,
+              "is_force_merged": false,
+              "statuses": {}
+            },
+            "headSha": "3bed5986da8015c3785a923e950147996a6b5dcd",
+            "mainSha": "5c92791fbef31111bef2b70f6b954963fbc19686",
+            "files": [
+              "bundles/ai-video/bundle.json",
+              "bundles/ai-video/connectors/bgm-bridge/README.md",
+              "bundles/ai-video/connectors/bgm-bridge/cli.mjs",
+              "bundles/ai-video/connectors/bgm-bridge/core.mjs",
+              "bundles/ai-video/connectors/bgm-bridge/declared-program-mix.test.mjs",
+              "bundles/ai-video/connectors/bgm-bridge/measure.mjs",
+              "bundles/ai-video/connectors/post-bridge/core.mjs",
+              "scripts/tools/full-chain-film.mts"
+            ],
+            "intent": {
+              "taskId": "T-2026-1007-0003",
+              "ready": true,
+              "dependsOn": [],
+              "releases": []
+            },
+            "headTime": 1791352226000,
+            "mergeBase": "5c92791fbef31111bef2b70f6b954963fbc19686",
+            "checkErrors": [],
+            "checkSha": null,
+            "hasFailedChecks": false,
+            "ciPolicyChanges": []
+          }
+        }
+      },
+      "previous": "58fcc50973c1be798bec9893bc60502bcb234999f25c415d51a4b6e8880879f1",
+      "digest": "fad43f61bfef7b5f769c0c025505c71db5388877a3c1269269c14cbb723588dc"
+    },
+    {
+      "sequence": 814,
+      "at": "2026-10-07T06:19:22.021Z",
+      "kind": "transaction",
+      "data": {
+        "id": "d62e7e9d-cd53-4850-aed1-c39fc38752d1"
+      },
+      "previous": "fad43f61bfef7b5f769c0c025505c71db5388877a3c1269269c14cbb723588dc",
+      "digest": "129271568a4b31a9861785f0750e8c7628c709c28ec9e4d5c40a5c71a8adb4ee"
     }
   ]
 }
