@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 915,
+  "revision": 917,
   "tasks": {
     "328": {
       "number": 328,
-      "status": "parked",
+      "status": "aligning",
       "firstSeen": 1791310212664,
       "attempts": {},
       "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -303,11 +303,11 @@
       "updatedAt": 1791356708688,
       "error": "主干对齐失败：Command failed: git merge --no-ff --no-edit 0fb91083bea784f1714188c3fb63fd519f717e5f\n",
       "blockedUntil": 1791356218489,
-      "alignmentCount": 1,
+      "alignmentCount": 2,
       "alignmentIntent": {
         "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
         "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
-        "at": 1791355618489
+        "at": 1791356708688
       },
       "developerReview": null,
       "alignment": {
@@ -57212,6 +57212,36 @@
       },
       "previous": "d858c907ca3beabffc3ab49a2effece23dd4560a591011392528448f833ce532",
       "digest": "1ba4d726649aa1e2d5864c35986739c6f00f02b8c60a6f2dfabba8a0d706f3f7"
+    },
+    {
+      "sequence": 916,
+      "at": "2026-10-07T07:05:08.688Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "aligning",
+          "alignmentCount": 2,
+          "alignmentIntent": {
+            "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
+            "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+            "at": 1791356708688
+          },
+          "developerReview": null
+        }
+      },
+      "previous": "1ba4d726649aa1e2d5864c35986739c6f00f02b8c60a6f2dfabba8a0d706f3f7",
+      "digest": "c4aa242803ab627ebe4933c85f29588da0b646915c227b86ccf57acf0e96cfe4"
+    },
+    {
+      "sequence": 917,
+      "at": "2026-10-07T07:05:19.949Z",
+      "kind": "transaction",
+      "data": {
+        "id": "7a2f4372-7eb6-473a-91c7-a9f285714b94"
+      },
+      "previous": "c4aa242803ab627ebe4933c85f29588da0b646915c227b86ccf57acf0e96cfe4",
+      "digest": "406ef876615634618f98c3f2abafe4eae97899eadd690b2f6d5edc1da83b5470"
     }
   ]
 }
