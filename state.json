@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1027,
+  "revision": 1029,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791361511938,
+      "updatedAt": 1791362413214,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,7 +1037,7 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791362111938,
+      "blockedUntil": 1791363013214,
       "candidate": null,
       "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
@@ -60874,6 +60874,31 @@
       },
       "previous": "8cb8333d401d46ef9b95e0ec84945592dca004713e8c7fa9d84bf6829d8e82d3",
       "digest": "8f62e3f04ca111d46dea125d6feeb89a295298c0b7d2f0a74ad53a4b3e9ee4b3"
+    },
+    {
+      "sequence": 1028,
+      "at": "2026-10-07T08:40:13.214Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791363013214
+        }
+      },
+      "previous": "8f62e3f04ca111d46dea125d6feeb89a295298c0b7d2f0a74ad53a4b3e9ee4b3",
+      "digest": "be43c33f4a7215b344f1df0ee74c9d3c21f0db276e0013a7761a44e7f630d06e"
+    },
+    {
+      "sequence": 1029,
+      "at": "2026-10-07T08:40:44.822Z",
+      "kind": "transaction",
+      "data": {
+        "id": "20a2df35-6e18-491c-b5a3-17c6f384e3f4"
+      },
+      "previous": "be43c33f4a7215b344f1df0ee74c9d3c21f0db276e0013a7761a44e7f630d06e",
+      "digest": "0c8cf2a29a82eed31a6e34e3c4df10988d3d6938db887323a091c8e6b77f3834"
     }
   ]
 }
