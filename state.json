@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1207,
+  "revision": 1209,
   "tasks": {
     "328": {
       "number": 328,
@@ -658,9 +658,9 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.stderr.txt"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791371414592,
-      "error": "需按实际代码语义更新 main 并解决冲突；自动主干对齐预算已耗尽",
-      "blockedUntil": 1791372014592,
+      "updatedAt": 1791372310245,
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "blockedUntil": 1791372910245,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2",
@@ -66959,6 +66959,31 @@
       },
       "previous": "c911f909617e5295a2cd9e4ab3f42f0b922de085efb4125a4a47769406334b13",
       "digest": "0a050106ad429591e0b830614fbc576f1eb3bb83cb7e709514a961d63d4fc7b0"
+    },
+    {
+      "sequence": 1208,
+      "at": "2026-10-07T11:25:10.245Z",
+      "kind": "task",
+      "data": {
+        "number": 331,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791372910245
+        }
+      },
+      "previous": "0a050106ad429591e0b830614fbc576f1eb3bb83cb7e709514a961d63d4fc7b0",
+      "digest": "cfa05b433ff82b93f2310b92c00b8347b6565d6ac47bde40782e2342bbd93423"
+    },
+    {
+      "sequence": 1209,
+      "at": "2026-10-07T11:25:16.064Z",
+      "kind": "transaction",
+      "data": {
+        "id": "e5687335-a15c-4995-a2cb-2d2336796fdd"
+      },
+      "previous": "cfa05b433ff82b93f2310b92c00b8347b6565d6ac47bde40782e2342bbd93423",
+      "digest": "149eaa83586aa85c3f8ebf15054fda77ea9c173a34927182a6b2f29185151b5c"
     }
   ]
 }
