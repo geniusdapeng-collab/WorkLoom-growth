@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1746,
+  "revision": 1748,
   "tasks": {
     "328": {
       "number": 328,
@@ -659,8 +659,8 @@
       ],
       "ciSince": 1791315290864,
       "updatedAt": 1791395112147,
-      "error": "Alignment retry budget exhausted",
-      "blockedUntil": 1791394818687,
+      "error": "需按实际代码语义更新 main 并解决冲突；自动主干对齐预算已耗尽",
+      "blockedUntil": 1791395712147,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2",
@@ -691,7 +691,7 @@
         "headSha": "4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2",
         "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
         "reason": "需按实际代码语义更新 main 并解决冲突；自动主干对齐预算已耗尽",
-        "at": 1791394218687
+        "at": 1791395112147
       },
       "recoveryIntent": null
     },
@@ -92695,6 +92695,39 @@
       },
       "previous": "0b98d2c994138f66144d56f88d032621fd307f1b7898022530c309587d634577",
       "digest": "70cc7c37bdc78e39c9de901bacbdb05a62a354d5d034d7be62a08777a537cd00"
+    },
+    {
+      "sequence": 1747,
+      "at": "2026-10-07T17:45:12.147Z",
+      "kind": "task",
+      "data": {
+        "number": 331,
+        "patch": {
+          "status": "parked",
+          "error": "需按实际代码语义更新 main 并解决冲突；自动主干对齐预算已耗尽",
+          "repairRequired": {
+            "provider": "codex",
+            "headSha": "4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2",
+            "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+            "reason": "需按实际代码语义更新 main 并解决冲突；自动主干对齐预算已耗尽",
+            "at": 1791395112147
+          },
+          "recoveryIntent": null,
+          "blockedUntil": 1791395712147
+        }
+      },
+      "previous": "70cc7c37bdc78e39c9de901bacbdb05a62a354d5d034d7be62a08777a537cd00",
+      "digest": "6f1563531c5051b6fe9c8e261a16e910dda463257b933befb294267860093e04"
+    },
+    {
+      "sequence": 1748,
+      "at": "2026-10-07T17:46:11.895Z",
+      "kind": "transaction",
+      "data": {
+        "id": "59d17a72-389c-4e33-9d5c-c2d4bde11763"
+      },
+      "previous": "6f1563531c5051b6fe9c8e261a16e910dda463257b933befb294267860093e04",
+      "digest": "a14b6b28c18ba56c06e706a260c5e581cc41282b91f7e5c8254b84e6a007de1d"
     }
   ]
 }
