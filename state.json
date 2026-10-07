@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1406,
+  "revision": 1408,
   "tasks": {
     "328": {
       "number": 328,
@@ -75526,6 +75526,30 @@
       },
       "previous": "8361f0f1e699a4e44e5c45848f2538fd91c5b1321ea7dfa3d924c6a2a829acd9",
       "digest": "6826c97f7659473a22fc18ee132cfd38b1259f96cd69de8fb7e91ddcd77bd11b"
+    },
+    {
+      "sequence": 1407,
+      "at": "2026-10-07T13:55:10.337Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "Alignment retry budget exhausted"
+        }
+      },
+      "previous": "6826c97f7659473a22fc18ee132cfd38b1259f96cd69de8fb7e91ddcd77bd11b",
+      "digest": "5d68b812c66b29a27cfc26126616e4a158b803fde867f020c876975af18bcd31"
+    },
+    {
+      "sequence": 1408,
+      "at": "2026-10-07T13:56:06.186Z",
+      "kind": "transaction",
+      "data": {
+        "id": "a2b72089-0254-4492-b738-4afc252900ff"
+      },
+      "previous": "5d68b812c66b29a27cfc26126616e4a158b803fde867f020c876975af18bcd31",
+      "digest": "e9060dbf32747116e29410b82a115030983af9e6be03233ef1a26fb8225944c9"
     }
   ]
 }
