@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 398,
+  "revision": 400,
   "tasks": {
     "328": {
       "number": 328,
@@ -1004,7 +1004,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791333311980,
+      "updatedAt": 1791333915127,
       "alignmentCount": 1,
       "alignmentIntent": null,
       "developerReview": null,
@@ -1025,7 +1025,7 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791333911980,
+      "blockedUntil": 1791334515127,
       "candidate": null,
       "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
@@ -31924,6 +31924,31 @@
       },
       "previous": "8ab4be4d90864b2b98d87396367c9af2ce7da3de621cff308137b36d8624bcb6",
       "digest": "e61519b2c8348483ab7c29ce49b6f448d91610ce3f75b09bd57535bd3b7e4c81"
+    },
+    {
+      "sequence": 399,
+      "at": "2026-10-07T00:45:15.127Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791334515127
+        }
+      },
+      "previous": "e61519b2c8348483ab7c29ce49b6f448d91610ce3f75b09bd57535bd3b7e4c81",
+      "digest": "47a18d52c1dbee33b0aaa1c9da74de90537339cf411deabad1e37efa610346bf"
+    },
+    {
+      "sequence": 400,
+      "at": "2026-10-07T00:45:22.599Z",
+      "kind": "transaction",
+      "data": {
+        "id": "f50279af-3007-4a55-a9c9-eaae81845aca"
+      },
+      "previous": "47a18d52c1dbee33b0aaa1c9da74de90537339cf411deabad1e37efa610346bf",
+      "digest": "d0579b392d5e54b2e0f1d699c53ad975ab583c76cbd99a40fc0b688f0e2614ca"
     }
   ]
 }
