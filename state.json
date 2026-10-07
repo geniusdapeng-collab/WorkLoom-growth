@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2316,
+  "revision": 2318,
   "tasks": {
     "328": {
       "number": 328,
@@ -658,9 +658,9 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.stderr.txt"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791416109158,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791416709158,
+      "updatedAt": 1791416711083,
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "blockedUntil": 1791417311083,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2",
@@ -121886,6 +121886,31 @@
       },
       "previous": "ad1576c935e792d7d3e3d64c4f47459b06b9caec163975a4746d264fe4faa86e",
       "digest": "a7e12da8b3f6f2ed30bc264d0a9c56264c3375473e3a34445f6c2087551329bb"
+    },
+    {
+      "sequence": 2317,
+      "at": "2026-10-07T23:45:11.083Z",
+      "kind": "task",
+      "data": {
+        "number": 331,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791417311083
+        }
+      },
+      "previous": "a7e12da8b3f6f2ed30bc264d0a9c56264c3375473e3a34445f6c2087551329bb",
+      "digest": "bc28d613cd77e76a8bad3a7f5a40f63cc66f01ad1ab2d4fe59ec92772cb2b49d"
+    },
+    {
+      "sequence": 2318,
+      "at": "2026-10-07T23:45:19.008Z",
+      "kind": "transaction",
+      "data": {
+        "id": "6bd4d95c-721b-4d0a-b13a-323825be05ff"
+      },
+      "previous": "bc28d613cd77e76a8bad3a7f5a40f63cc66f01ad1ab2d4fe59ec92772cb2b49d",
+      "digest": "a1ec30f3205199796362e2f7e799da178646ba590743eae2e556ae2a301bb396"
     }
   ]
 }
