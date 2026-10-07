@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 437,
+  "revision": 440,
   "tasks": {
     "328": {
       "number": 328,
@@ -2743,7 +2743,7 @@
     },
     "342": {
       "number": 342,
-      "status": "waiting_ci",
+      "status": "merging",
       "firstSeen": 1791334791665,
       "attempts": {},
       "admission": {
@@ -3039,6 +3039,172 @@
         "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
         "marker": "delivery-origin:342:051ba97cf604fa4cc73fee4eb036f1b4f99ecd73:73767dc51658171e97673969780f06ca52994b7a",
         "at": 1791335114454
+      },
+      "mergePhase": "prepared",
+      "mergeSnapshot": {
+        "repo": "workloom-ai/WorkLoom-growth",
+        "number": 343,
+        "pull": {
+          "number": 343,
+          "state": "open",
+          "title": "chore(ci): deliver #342 feat(industry): 内置 AI 工作台视频调用指南 [T-2026-1007-0001]",
+          "body": "Immutable delivery candidate for #342. Exact source 051ba97cf604fa4cc73fee4eb036f1b4f99ecd73; tested main 73767dc51658171e97673969780f06ca52994b7a.\n\n<!-- delivery-origin:342:051ba97cf604fa4cc73fee4eb036f1b4f99ecd73:73767dc51658171e97673969780f06ca52994b7a -->\n\n<!-- workloom-delivery\n{\"ready\":true,\"depends_on\":[],\"releases\":[]}\n-->",
+          "author": {
+            "username": "OCI",
+            "nickname": "Cloud Native Build",
+            "is_npc": true
+          },
+          "reviewers": [],
+          "labels": [],
+          "base": {
+            "ref": "refs/heads/main",
+            "sha": "73767dc51658171e97673969780f06ca52994b7a",
+            "repo": {
+              "id": "2100917893030621184",
+              "name": "WorkLoom-growth",
+              "path": "workloom-ai/WorkLoom-growth",
+              "web_url": "https://cnb.cool/workloom-ai/WorkLoom-growth"
+            }
+          },
+          "head": {
+            "ref": "refs/heads/delivery/candidate/pr-342-dab407d3a82d833e68927498b0f0f5cf",
+            "sha": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+            "repo": {
+              "id": "2100917893030621184",
+              "name": "WorkLoom-growth",
+              "path": "workloom-ai/WorkLoom-growth",
+              "web_url": "https://cnb.cool/workloom-ai/WorkLoom-growth"
+            }
+          },
+          "blocked_on": "unblocked",
+          "merged_by": {
+            "is_npc": false
+          },
+          "mergeable_state": "mergeable",
+          "is_wip": false,
+          "is_merged": false,
+          "is_force_merged": false,
+          "statuses": {}
+        },
+        "headSha": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+        "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
+        "files": [
+          "AGENTS.repo.md",
+          "README.md",
+          "bundles/ai-video/README.md",
+          "bundles/geo-growth/agent-capabilities.json",
+          "bundles/geo-growth/capabilities/video.mjs",
+          "bundles/geo-growth/capabilities/workbench-guide.mjs",
+          "docs/AGENT-CLIENTS.md",
+          "docs/ai-video-workbench-guide.md",
+          "docs/capabilities.auto.json",
+          "docs/capabilities.auto.md",
+          "scripts/AGENT-CAPABILITIES.md",
+          "scripts/ai-video-workbench-guide.test.mjs",
+          "scripts/pack-electron-payload.sh",
+          "scripts/pack-macos.sh",
+          "scripts/pack-windows.sh",
+          "scripts/video-capabilities.test.mjs"
+        ],
+        "intent": {
+          "taskId": "T-2026-1007-0001",
+          "ready": true,
+          "dependsOn": [],
+          "releases": []
+        },
+        "headTime": 1791334613000,
+        "mergeBase": "73767dc51658171e97673969780f06ca52994b7a",
+        "checkErrors": [],
+        "checkSha": "8fb6e1c9776de612a2ab7a3e79173fdf57093fc4",
+        "hasFailedChecks": false,
+        "ciPolicyChanges": [
+          {
+            "id": "CI-001",
+            "file": "scripts/pack-windows.sh",
+            "before": {
+              "ref": "73767dc51658171e97673969780f06ca52994b7a",
+              "path": "scripts/pack-windows.sh",
+              "absent": false
+            },
+            "after": {
+              "ref": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+              "path": "scripts/pack-windows.sh",
+              "absent": false
+            },
+            "digest": "203262ea2b55bf50d26b51517a5a64072919766b15091532ef211e3f716f282f"
+          },
+          {
+            "id": "CI-002",
+            "file": "scripts/video-capabilities.test.mjs",
+            "before": {
+              "ref": "73767dc51658171e97673969780f06ca52994b7a",
+              "path": "scripts/video-capabilities.test.mjs",
+              "absent": false
+            },
+            "after": {
+              "ref": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+              "path": "scripts/video-capabilities.test.mjs",
+              "absent": false
+            },
+            "digest": "30223297bc4681f043d1359b0a196f8fd3984822ec71bcea254c0f050ff37e78"
+          },
+          {
+            "id": "CI-003",
+            "file": "scripts/ai-video-workbench-guide.test.mjs",
+            "before": {
+              "ref": "73767dc51658171e97673969780f06ca52994b7a",
+              "path": "scripts/ai-video-workbench-guide.test.mjs",
+              "absent": true
+            },
+            "after": {
+              "ref": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+              "path": "scripts/ai-video-workbench-guide.test.mjs",
+              "absent": false
+            },
+            "digest": "3d3cee97547b9cb0dc105358d43df3c83f274d089fc999c504e3eeb622b6b47a"
+          },
+          {
+            "id": "CI-004",
+            "file": "scripts/pack-macos.sh",
+            "before": {
+              "ref": "73767dc51658171e97673969780f06ca52994b7a",
+              "path": "scripts/pack-macos.sh",
+              "absent": false
+            },
+            "after": {
+              "ref": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+              "path": "scripts/pack-macos.sh",
+              "absent": false
+            },
+            "digest": "566e3ba68e6fcfd32026ccbc588fca9ef2652dcf599a5b0b0676d11639a6b098"
+          },
+          {
+            "id": "CI-005",
+            "file": "scripts/pack-electron-payload.sh",
+            "before": {
+              "ref": "73767dc51658171e97673969780f06ca52994b7a",
+              "path": "scripts/pack-electron-payload.sh",
+              "absent": false
+            },
+            "after": {
+              "ref": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+              "path": "scripts/pack-electron-payload.sh",
+              "absent": false
+            },
+            "digest": "aa734c69abf55e507fc8c8b16af670b8dbb84d4eb4950956f4318fb49c6dd5f2"
+          }
+        ],
+        "originNumber": 342,
+        "pendingDependencies": []
+      },
+      "integrationLease": {
+        "owner": "integration/pr-342",
+        "scopes": [
+          "protocol"
+        ],
+        "generation": {
+          "protocol": 13
+        }
       }
     },
     "343": {
@@ -3064,10 +3230,10 @@
   },
   "leases": {
     "protocol": {
-      "owner": null,
-      "generation": 12,
-      "acquiredAt": 1791335156662,
-      "expiresAt": 1791335156662
+      "owner": "integration/pr-342",
+      "generation": 13,
+      "acquiredAt": 1791335415939,
+      "expiresAt": 1791336315939
     }
   },
   "releases": {},
@@ -33731,6 +33897,211 @@
       },
       "previous": "8ca43a61ca97de734b289aa6da6b1652b0ec1fc79b76066ba07e475692adc53c",
       "digest": "e7feaa8e1852b8881c8f4e0c5616b145c1edd6eb886050a9bc114629d16395ba"
+    },
+    {
+      "sequence": 438,
+      "at": "2026-10-07T01:10:15.939Z",
+      "kind": "lease_acquire",
+      "data": {
+        "scopes": [
+          "protocol"
+        ],
+        "owner": "integration/pr-342",
+        "generation": {
+          "protocol": 13
+        }
+      },
+      "previous": "e7feaa8e1852b8881c8f4e0c5616b145c1edd6eb886050a9bc114629d16395ba",
+      "digest": "b4133e7390406aad382735e5defda5b5f87546762f2e18e1d6fe9e3af8c86c58"
+    },
+    {
+      "sequence": 439,
+      "at": "2026-10-07T01:10:15.939Z",
+      "kind": "task",
+      "data": {
+        "number": 342,
+        "patch": {
+          "status": "merging",
+          "mergePhase": "prepared",
+          "mergeSnapshot": {
+            "repo": "workloom-ai/WorkLoom-growth",
+            "number": 343,
+            "pull": {
+              "number": 343,
+              "state": "open",
+              "title": "chore(ci): deliver #342 feat(industry): 内置 AI 工作台视频调用指南 [T-2026-1007-0001]",
+              "body": "Immutable delivery candidate for #342. Exact source 051ba97cf604fa4cc73fee4eb036f1b4f99ecd73; tested main 73767dc51658171e97673969780f06ca52994b7a.\n\n<!-- delivery-origin:342:051ba97cf604fa4cc73fee4eb036f1b4f99ecd73:73767dc51658171e97673969780f06ca52994b7a -->\n\n<!-- workloom-delivery\n{\"ready\":true,\"depends_on\":[],\"releases\":[]}\n-->",
+              "author": {
+                "username": "OCI",
+                "nickname": "Cloud Native Build",
+                "is_npc": true
+              },
+              "reviewers": [],
+              "labels": [],
+              "base": {
+                "ref": "refs/heads/main",
+                "sha": "73767dc51658171e97673969780f06ca52994b7a",
+                "repo": {
+                  "id": "2100917893030621184",
+                  "name": "WorkLoom-growth",
+                  "path": "workloom-ai/WorkLoom-growth",
+                  "web_url": "https://cnb.cool/workloom-ai/WorkLoom-growth"
+                }
+              },
+              "head": {
+                "ref": "refs/heads/delivery/candidate/pr-342-dab407d3a82d833e68927498b0f0f5cf",
+                "sha": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+                "repo": {
+                  "id": "2100917893030621184",
+                  "name": "WorkLoom-growth",
+                  "path": "workloom-ai/WorkLoom-growth",
+                  "web_url": "https://cnb.cool/workloom-ai/WorkLoom-growth"
+                }
+              },
+              "blocked_on": "unblocked",
+              "merged_by": {
+                "is_npc": false
+              },
+              "mergeable_state": "mergeable",
+              "is_wip": false,
+              "is_merged": false,
+              "is_force_merged": false,
+              "statuses": {}
+            },
+            "headSha": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+            "mainSha": "73767dc51658171e97673969780f06ca52994b7a",
+            "files": [
+              "AGENTS.repo.md",
+              "README.md",
+              "bundles/ai-video/README.md",
+              "bundles/geo-growth/agent-capabilities.json",
+              "bundles/geo-growth/capabilities/video.mjs",
+              "bundles/geo-growth/capabilities/workbench-guide.mjs",
+              "docs/AGENT-CLIENTS.md",
+              "docs/ai-video-workbench-guide.md",
+              "docs/capabilities.auto.json",
+              "docs/capabilities.auto.md",
+              "scripts/AGENT-CAPABILITIES.md",
+              "scripts/ai-video-workbench-guide.test.mjs",
+              "scripts/pack-electron-payload.sh",
+              "scripts/pack-macos.sh",
+              "scripts/pack-windows.sh",
+              "scripts/video-capabilities.test.mjs"
+            ],
+            "intent": {
+              "taskId": "T-2026-1007-0001",
+              "ready": true,
+              "dependsOn": [],
+              "releases": []
+            },
+            "headTime": 1791334613000,
+            "mergeBase": "73767dc51658171e97673969780f06ca52994b7a",
+            "checkErrors": [],
+            "checkSha": "8fb6e1c9776de612a2ab7a3e79173fdf57093fc4",
+            "hasFailedChecks": false,
+            "ciPolicyChanges": [
+              {
+                "id": "CI-001",
+                "file": "scripts/pack-windows.sh",
+                "before": {
+                  "ref": "73767dc51658171e97673969780f06ca52994b7a",
+                  "path": "scripts/pack-windows.sh",
+                  "absent": false
+                },
+                "after": {
+                  "ref": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+                  "path": "scripts/pack-windows.sh",
+                  "absent": false
+                },
+                "digest": "203262ea2b55bf50d26b51517a5a64072919766b15091532ef211e3f716f282f"
+              },
+              {
+                "id": "CI-002",
+                "file": "scripts/video-capabilities.test.mjs",
+                "before": {
+                  "ref": "73767dc51658171e97673969780f06ca52994b7a",
+                  "path": "scripts/video-capabilities.test.mjs",
+                  "absent": false
+                },
+                "after": {
+                  "ref": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+                  "path": "scripts/video-capabilities.test.mjs",
+                  "absent": false
+                },
+                "digest": "30223297bc4681f043d1359b0a196f8fd3984822ec71bcea254c0f050ff37e78"
+              },
+              {
+                "id": "CI-003",
+                "file": "scripts/ai-video-workbench-guide.test.mjs",
+                "before": {
+                  "ref": "73767dc51658171e97673969780f06ca52994b7a",
+                  "path": "scripts/ai-video-workbench-guide.test.mjs",
+                  "absent": true
+                },
+                "after": {
+                  "ref": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+                  "path": "scripts/ai-video-workbench-guide.test.mjs",
+                  "absent": false
+                },
+                "digest": "3d3cee97547b9cb0dc105358d43df3c83f274d089fc999c504e3eeb622b6b47a"
+              },
+              {
+                "id": "CI-004",
+                "file": "scripts/pack-macos.sh",
+                "before": {
+                  "ref": "73767dc51658171e97673969780f06ca52994b7a",
+                  "path": "scripts/pack-macos.sh",
+                  "absent": false
+                },
+                "after": {
+                  "ref": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+                  "path": "scripts/pack-macos.sh",
+                  "absent": false
+                },
+                "digest": "566e3ba68e6fcfd32026ccbc588fca9ef2652dcf599a5b0b0676d11639a6b098"
+              },
+              {
+                "id": "CI-005",
+                "file": "scripts/pack-electron-payload.sh",
+                "before": {
+                  "ref": "73767dc51658171e97673969780f06ca52994b7a",
+                  "path": "scripts/pack-electron-payload.sh",
+                  "absent": false
+                },
+                "after": {
+                  "ref": "051ba97cf604fa4cc73fee4eb036f1b4f99ecd73",
+                  "path": "scripts/pack-electron-payload.sh",
+                  "absent": false
+                },
+                "digest": "aa734c69abf55e507fc8c8b16af670b8dbb84d4eb4950956f4318fb49c6dd5f2"
+              }
+            ],
+            "originNumber": 342,
+            "pendingDependencies": []
+          },
+          "integrationLease": {
+            "owner": "integration/pr-342",
+            "scopes": [
+              "protocol"
+            ],
+            "generation": {
+              "protocol": 13
+            }
+          }
+        }
+      },
+      "previous": "b4133e7390406aad382735e5defda5b5f87546762f2e18e1d6fe9e3af8c86c58",
+      "digest": "79cbe99bfa35da6b9d7e2bb246f38f232bdf0c90714064001f738a62581a7c7b"
+    },
+    {
+      "sequence": 440,
+      "at": "2026-10-07T01:10:47.117Z",
+      "kind": "transaction",
+      "data": {
+        "id": "7e5afe8a-3425-4452-bc2b-931bc90f4db7"
+      },
+      "previous": "79cbe99bfa35da6b9d7e2bb246f38f232bdf0c90714064001f738a62581a7c7b",
+      "digest": "912ddbe04ea0f384e7647a3618884822936bcd2bf260bef50646d179e3e5fa8c"
     }
   ]
 }
