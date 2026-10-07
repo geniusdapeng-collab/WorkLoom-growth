@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1386,
+  "revision": 1388,
   "tasks": {
     "328": {
       "number": 328,
-      "status": "aligning",
+      "status": "parked",
       "firstSeen": 1791310212664,
       "attempts": {},
       "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -301,8 +301,8 @@
       ],
       "ciSince": 1791315290864,
       "updatedAt": 1791381013258,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791381013040,
+      "error": "Command failed: git merge --no-ff --no-edit 0fb91083bea784f1714188c3fb63fd519f717e5f\n",
+      "blockedUntil": 1791381613258,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -74327,6 +74327,31 @@
       },
       "previous": "53549c2b6dc65cb2d116d7b77dd8b9a6c52cbbf73d9e10ce770e75a11cdb08df",
       "digest": "b3fcc45093fe4fb38d7c245c471dcd6b02a861e3b1ed414cda09d7d05d6f9e60"
+    },
+    {
+      "sequence": 1387,
+      "at": "2026-10-07T13:50:13.258Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "parked",
+          "error": "Command failed: git merge --no-ff --no-edit 0fb91083bea784f1714188c3fb63fd519f717e5f\n",
+          "blockedUntil": 1791381613258
+        }
+      },
+      "previous": "b3fcc45093fe4fb38d7c245c471dcd6b02a861e3b1ed414cda09d7d05d6f9e60",
+      "digest": "88cd9628bbe772919efa1750f051ad1a0ad5ccecd7eec39250ecf67be945e6e2"
+    },
+    {
+      "sequence": 1388,
+      "at": "2026-10-07T13:51:01.718Z",
+      "kind": "transaction",
+      "data": {
+        "id": "635eb71b-d2ec-43ec-8975-a6db8df49452"
+      },
+      "previous": "88cd9628bbe772919efa1750f051ad1a0ad5ccecd7eec39250ecf67be945e6e2",
+      "digest": "baf4f0b294365165fb7032e34f2f51d4f9462642d47ab83e41cdde403f0b24e2"
     }
   ]
 }
