@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1063,
+  "revision": 1065,
   "tasks": {
     "328": {
       "number": 328,
@@ -300,9 +300,9 @@
         "scripts/video-capabilities.test.mjs"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791364511230,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791365111230,
+      "updatedAt": 1791365109675,
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "blockedUntil": 1791365709675,
       "alignmentCount": 2,
       "alignmentIntent": {
         "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -61649,6 +61649,31 @@
       },
       "previous": "5c3dfbf099852bb98d6122cc9406e68eea283366756d495e2396bf0d3b5aa1d7",
       "digest": "9211c426b3ab1027e06e667f742a4d65508d67d9ab1a595ce3994441a422bf08"
+    },
+    {
+      "sequence": 1064,
+      "at": "2026-10-07T09:25:09.675Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791365709675
+        }
+      },
+      "previous": "9211c426b3ab1027e06e667f742a4d65508d67d9ab1a595ce3994441a422bf08",
+      "digest": "8a1fa7cf8ff7d53c237126af3e92fd43a2f9c6ea1441071f56a86dfa79f052c0"
+    },
+    {
+      "sequence": 1065,
+      "at": "2026-10-07T09:25:16.539Z",
+      "kind": "transaction",
+      "data": {
+        "id": "90e70cb5-ed5a-4262-86e8-41c8fb673672"
+      },
+      "previous": "8a1fa7cf8ff7d53c237126af3e92fd43a2f9c6ea1441071f56a86dfa79f052c0",
+      "digest": "8aa759fddb2b032579983ad807321886028c7d2ce5c885bb7d7a96e9d7fa0c2e"
     }
   ]
 }
