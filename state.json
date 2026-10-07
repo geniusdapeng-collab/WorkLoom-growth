@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 469,
+  "revision": 471,
   "tasks": {
     "328": {
       "number": 328,
@@ -697,7 +697,7 @@
     },
     "333": {
       "number": 333,
-      "status": "aligning",
+      "status": "parked",
       "firstSeen": 1791313276569,
       "attempts": {},
       "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 0,
+      "blockedUntil": 1791336084065,
       "candidate": null,
-      "error": "检查/评审阻断：Developer has not handed off; Codex review identity differs from the exact repository/source/main/policy",
+      "error": "Command failed: git merge --no-ff --no-edit 5c92791fbef31111bef2b70f6b954963fbc19686\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -35489,6 +35489,31 @@
       },
       "previous": "ca88ec9bde46caef799274b9268cba25b0c93c9140b05d70b382d14fe85f881e",
       "digest": "495e4755435da8621efea2167d2988983fe8b7271f2d6a50124f1e37d19a1dd6"
+    },
+    {
+      "sequence": 470,
+      "at": "2026-10-07T01:11:24.065Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "Command failed: git merge --no-ff --no-edit 5c92791fbef31111bef2b70f6b954963fbc19686\n",
+          "blockedUntil": 1791336084065
+        }
+      },
+      "previous": "495e4755435da8621efea2167d2988983fe8b7271f2d6a50124f1e37d19a1dd6",
+      "digest": "9024824e66fec97b2c5bd1c762ab54703aba6f21cd86046790e4011a4878e96a"
+    },
+    {
+      "sequence": 471,
+      "at": "2026-10-07T01:12:40.918Z",
+      "kind": "transaction",
+      "data": {
+        "id": "faa255df-046f-49b2-adb8-caf32d10a520"
+      },
+      "previous": "9024824e66fec97b2c5bd1c762ab54703aba6f21cd86046790e4011a4878e96a",
+      "digest": "59ac5b25f27e2d52c13fcdefcd0a174161f1731726c6a4468d21fce569a5976b"
     }
   ]
 }
