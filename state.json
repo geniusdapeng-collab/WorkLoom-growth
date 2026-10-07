@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 491,
+  "revision": 493,
   "tasks": {
     "328": {
       "number": 328,
-      "status": "aligning",
+      "status": "parked",
       "firstSeen": 1791310212664,
       "attempts": {},
       "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -301,8 +301,8 @@
       ],
       "ciSince": 1791315290864,
       "updatedAt": 1791337214061,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791336912711,
+      "error": "Command failed: git merge --no-ff --no-edit 5c92791fbef31111bef2b70f6b954963fbc19686\n",
+      "blockedUntil": 1791337814061,
       "alignmentCount": 2,
       "alignmentIntent": {
         "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -36382,6 +36382,31 @@
       },
       "previous": "6dd4c1675d63a0e41515b282cc7f6415f489439d3d7778ff1428c79be409d140",
       "digest": "bd2c540580d4f2154a7e09c691e17f3c24c6b84a6d002e75ee47643dcc8f5714"
+    },
+    {
+      "sequence": 492,
+      "at": "2026-10-07T01:40:14.061Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "parked",
+          "error": "Command failed: git merge --no-ff --no-edit 5c92791fbef31111bef2b70f6b954963fbc19686\n",
+          "blockedUntil": 1791337814061
+        }
+      },
+      "previous": "bd2c540580d4f2154a7e09c691e17f3c24c6b84a6d002e75ee47643dcc8f5714",
+      "digest": "3e45255a01176ea9fa75760c881207cce861751e6447925496e876df3c4dfcff"
+    },
+    {
+      "sequence": 493,
+      "at": "2026-10-07T01:40:34.266Z",
+      "kind": "transaction",
+      "data": {
+        "id": "1286c953-7b7d-46d0-830e-dc75a0bbdde6"
+      },
+      "previous": "3e45255a01176ea9fa75760c881207cce861751e6447925496e876df3c4dfcff",
+      "digest": "cfe1a310509ce7065a64f7564ee45d6fc5221399fb72a85d26488a9220e8a16f"
     }
   ]
 }
