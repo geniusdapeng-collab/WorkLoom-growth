@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2188,
+  "revision": 2190,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791411015954,
+      "updatedAt": 1791411610476,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791411615954,
+      "blockedUntil": 1791412210476,
       "candidate": null,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -115225,6 +115225,31 @@
       },
       "previous": "870a8215aa3d33a5e85e8ab4ecf80287b1869f1457351f8ecf213153ce09e735",
       "digest": "5e2d1aaef320d7f0ce58749ef90b5ece07e44199bb166c5a723cec9a71f981b4"
+    },
+    {
+      "sequence": 2189,
+      "at": "2026-10-07T22:20:10.476Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791412210476
+        }
+      },
+      "previous": "5e2d1aaef320d7f0ce58749ef90b5ece07e44199bb166c5a723cec9a71f981b4",
+      "digest": "e3504055952e3fe82b32f46b93c0d390e5188edfb04b8672e88948c58f173544"
+    },
+    {
+      "sequence": 2190,
+      "at": "2026-10-07T22:20:18.210Z",
+      "kind": "transaction",
+      "data": {
+        "id": "5b5752ea-78b9-4e86-8f7f-4a44f0c92611"
+      },
+      "previous": "e3504055952e3fe82b32f46b93c0d390e5188edfb04b8672e88948c58f173544",
+      "digest": "89350b7288d0ae0da5e3eefd82bf4c95e17327fcd6396cba3a3ddd43f338d204"
     }
   ]
 }
