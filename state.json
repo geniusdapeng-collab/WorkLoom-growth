@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 517,
+  "revision": 519,
   "tasks": {
     "328": {
       "number": 328,
@@ -697,7 +697,7 @@
     },
     "333": {
       "number": 333,
-      "status": "aligning",
+      "status": "parked",
       "firstSeen": 1791313276569,
       "attempts": {},
       "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791337215913,
+      "blockedUntil": 1791339021784,
       "candidate": null,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "error": "Command failed: git merge --no-ff --no-edit 5c92791fbef31111bef2b70f6b954963fbc19686\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -37676,6 +37676,31 @@
       },
       "previous": "ad9f0533345a905b9cae861e28b1a6e3127868691e4bb6a70472a290feb4ef90",
       "digest": "5daf38dd48b75f585fd1e8381048c50f2213b8705fc4e01220e9c26de4573d45"
+    },
+    {
+      "sequence": 518,
+      "at": "2026-10-07T02:00:21.784Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "Command failed: git merge --no-ff --no-edit 5c92791fbef31111bef2b70f6b954963fbc19686\n",
+          "blockedUntil": 1791339021784
+        }
+      },
+      "previous": "5daf38dd48b75f585fd1e8381048c50f2213b8705fc4e01220e9c26de4573d45",
+      "digest": "939cbed4e940bf9c6ec15ea025b9044edac936d58a203d0e56292440df282327"
+    },
+    {
+      "sequence": 519,
+      "at": "2026-10-07T02:01:36.754Z",
+      "kind": "transaction",
+      "data": {
+        "id": "ebe94c11-b5ed-4c75-849c-7621b1333121"
+      },
+      "previous": "939cbed4e940bf9c6ec15ea025b9044edac936d58a203d0e56292440df282327",
+      "digest": "c24651638b50c7ded35b3957cc98a430ea28f788fd637ea5230a04e8371ed4b9"
     }
   ]
 }
