@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 803,
+  "revision": 805,
   "tasks": {
     "328": {
       "number": 328,
@@ -300,9 +300,9 @@
         "scripts/video-capabilities.test.mjs"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791353116476,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791353716476,
+      "updatedAt": 1791353712922,
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "blockedUntil": 1791354312922,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -52253,6 +52253,31 @@
       },
       "previous": "343d878616c3059162b2878be6eb56b02f648b7565472b6b88f94192e1c87a51",
       "digest": "f3263b67a1a2018cbba7a8693641b600476feefb9a887fe7f24dde42a6bec8cc"
+    },
+    {
+      "sequence": 804,
+      "at": "2026-10-07T06:15:12.922Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791354312922
+        }
+      },
+      "previous": "f3263b67a1a2018cbba7a8693641b600476feefb9a887fe7f24dde42a6bec8cc",
+      "digest": "b14e1ef52833c5a141166fba1cb5492a92c55f795315094435ef088f257fcefa"
+    },
+    {
+      "sequence": 805,
+      "at": "2026-10-07T06:15:18.801Z",
+      "kind": "transaction",
+      "data": {
+        "id": "e2026484-c9d6-46b6-9d45-03b2c45f442a"
+      },
+      "previous": "b14e1ef52833c5a141166fba1cb5492a92c55f795315094435ef088f257fcefa",
+      "digest": "64bb673ee66b1032ff5a721880de91907d8c56f751000517c7764b3f8b68f63f"
     }
   ]
 }
