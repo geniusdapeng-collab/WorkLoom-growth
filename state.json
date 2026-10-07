@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1590,
+  "revision": 1592,
   "tasks": {
     "328": {
       "number": 328,
@@ -3615,7 +3615,7 @@
     },
     "348": {
       "number": 348,
-      "status": "developing",
+      "status": "parked",
       "firstSeen": 1791380295521,
       "attempts": {},
       "admission": {
@@ -3631,14 +3631,16 @@
           "protocol": 21
         }
       },
-      "updatedAt": 1791387610596,
+      "updatedAt": 1791388511677,
       "headSha": "5264b79ef1a2d50fe207111360410fccb548162f",
       "intent": {
         "taskId": "T-2026-1007-0002",
         "ready": false,
         "dependsOn": [],
         "releases": []
-      }
+      },
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/348 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "blockedUntil": 1791389111677
     }
   },
   "leases": {
@@ -84778,6 +84780,31 @@
       },
       "previous": "159efb1882c145b0915c02dadd15005b2398aee3a1eeb7c70376e3f154fbd6b2",
       "digest": "0a56a5aff340cab9a39c0a89d789ab54b7f8f243540254546d0f59b483916c74"
+    },
+    {
+      "sequence": 1591,
+      "at": "2026-10-07T15:55:11.677Z",
+      "kind": "task",
+      "data": {
+        "number": 348,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/348 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791389111677
+        }
+      },
+      "previous": "0a56a5aff340cab9a39c0a89d789ab54b7f8f243540254546d0f59b483916c74",
+      "digest": "39a65496cb632753b536a0fbf36735a46d923b492201bf58615722ad32f4e9e7"
+    },
+    {
+      "sequence": 1592,
+      "at": "2026-10-07T15:57:58.863Z",
+      "kind": "transaction",
+      "data": {
+        "id": "2e4f83ac-2c01-4107-a349-f52821d1c7b1"
+      },
+      "previous": "39a65496cb632753b536a0fbf36735a46d923b492201bf58615722ad32f4e9e7",
+      "digest": "95a7da86fb172a0d171824463aa06b0522d811c927d4528e7722905cc0d232d2"
     }
   ]
 }
