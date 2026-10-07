@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1111,
+  "revision": 1113,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791366911446,
+      "updatedAt": 1791367510727,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791367511446,
+      "blockedUntil": 1791368110727,
       "candidate": null,
-      "error": "需按实际代码语义更新 main 并解决冲突；自动主干对齐预算已耗尽",
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -63525,6 +63525,31 @@
       },
       "previous": "a5bb72d8b025c8ec254df5de2f9ffdcdf0d56b7a1890a23d841831dd80546ab6",
       "digest": "1e1d6ae05a14ec566ae5a30524202e1164c95271324612a79dc8bbad814c64c9"
+    },
+    {
+      "sequence": 1112,
+      "at": "2026-10-07T10:05:10.727Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791368110727
+        }
+      },
+      "previous": "1e1d6ae05a14ec566ae5a30524202e1164c95271324612a79dc8bbad814c64c9",
+      "digest": "9f2c278f8f97943cd21a664c739afb79fa11a86b3d7505fa549019fa2798b681"
+    },
+    {
+      "sequence": 1113,
+      "at": "2026-10-07T10:05:18.094Z",
+      "kind": "transaction",
+      "data": {
+        "id": "0bf39899-42f1-49b0-ad12-5f6c8336222b"
+      },
+      "previous": "9f2c278f8f97943cd21a664c739afb79fa11a86b3d7505fa549019fa2798b681",
+      "digest": "86335bb1b7b04ee496b6385869a5b0573e1fafdc32ac37169064f85f1dda9245"
     }
   ]
 }
