@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 388,
+  "revision": 390,
   "tasks": {
     "328": {
       "number": 328,
@@ -1004,7 +1004,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791333015286,
+      "updatedAt": 1791333311980,
       "alignmentCount": 1,
       "alignmentIntent": null,
       "developerReview": null,
@@ -1025,9 +1025,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791333615286,
+      "blockedUntil": 1791333911980,
       "candidate": null,
-      "error": "检查/评审阻断：Developer has not handed off; Codex review identity differs from the exact repository/source/main/policy",
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -31183,6 +31183,31 @@
       },
       "previous": "de012eaaeee325e30b7ac9d92a29da8a5dee9ffdf8cded5b2084d8733b9b6a35",
       "digest": "bf37ad0fbdc1e87cfeb40a6d3c8234829cb84f6e14daa4355d97ec82bf2a7a7b"
+    },
+    {
+      "sequence": 389,
+      "at": "2026-10-07T00:35:11.980Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791333911980
+        }
+      },
+      "previous": "bf37ad0fbdc1e87cfeb40a6d3c8234829cb84f6e14daa4355d97ec82bf2a7a7b",
+      "digest": "7c9e148839bbcbe98702405cedc16f454d4cb49eaa799f6a4a22eadfd44030f5"
+    },
+    {
+      "sequence": 390,
+      "at": "2026-10-07T00:35:19.183Z",
+      "kind": "transaction",
+      "data": {
+        "id": "f6817d38-0bf6-4b9f-8d65-2180d8d13681"
+      },
+      "previous": "7c9e148839bbcbe98702405cedc16f454d4cb49eaa799f6a4a22eadfd44030f5",
+      "digest": "676bc25b6a066caa7db1e145e2a732c4918682c4bfd193230372c27154442106"
     }
   ]
 }
