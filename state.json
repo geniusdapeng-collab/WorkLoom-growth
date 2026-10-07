@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2170,
+  "revision": 2172,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791410419331,
+      "updatedAt": 1791411015954,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791410118738,
+      "blockedUntil": 1791411615954,
       "candidate": null,
-      "error": "Alignment retry budget exhausted",
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -114376,6 +114376,31 @@
       },
       "previous": "13f423807974b8b52cd184d05337349233b603b6a22e69f334e6aeb8a264fcfe",
       "digest": "0b4d8f9609ffbc6d6cb3ab0382425196c8d99b50bacdd5e23791a62a54617453"
+    },
+    {
+      "sequence": 2171,
+      "at": "2026-10-07T22:10:15.954Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791411615954
+        }
+      },
+      "previous": "0b4d8f9609ffbc6d6cb3ab0382425196c8d99b50bacdd5e23791a62a54617453",
+      "digest": "5188073a7f7b4f2c9ae4403e7cf378975ac0aef47209c0709944d863a790a534"
+    },
+    {
+      "sequence": 2172,
+      "at": "2026-10-07T22:10:35.425Z",
+      "kind": "transaction",
+      "data": {
+        "id": "400644d0-e5ae-4aca-ac05-855512a77698"
+      },
+      "previous": "5188073a7f7b4f2c9ae4403e7cf378975ac0aef47209c0709944d863a790a534",
+      "digest": "1ff1ed8a01660b842bcad94a404e45881bb30a98df073c404c572a05e505f8fd"
     }
   ]
 }
