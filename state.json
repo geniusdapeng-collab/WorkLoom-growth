@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2332,
+  "revision": 2334,
   "tasks": {
     "328": {
       "number": 328,
@@ -3639,8 +3639,8 @@
         "dependsOn": [],
         "releases": []
       },
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/348/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791417010506,
+      "error": "检查/评审阻断：Required check test-gate missing/failed/ambiguous; Codex review identity differs from the exact repository/source/main/policy",
+      "blockedUntil": 1791417615976,
       "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
       "branch": "task/T-2026-1007-0002",
       "developerReview": {
@@ -4141,7 +4141,7 @@
         "headSha": "50001033cb305c178234c1b764c98ab9cc20dc0f",
         "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
         "reason": "检查/评审阻断：Required check test-gate missing/failed/ambiguous; Codex review identity differs from the exact repository/source/main/policy",
-        "at": 1791415508449
+        "at": 1791417015976
       },
       "recoveryIntent": null
     }
@@ -122808,6 +122808,39 @@
       },
       "previous": "d9d832577f8426756dfb58068738483b1f4e2008be1a1713e42daa0e50d20bf0",
       "digest": "3037e6662662756a28ef5b3aa41381a92005633ce6305195824927986657d9c6"
+    },
+    {
+      "sequence": 2333,
+      "at": "2026-10-07T23:50:15.976Z",
+      "kind": "task",
+      "data": {
+        "number": 348,
+        "patch": {
+          "status": "parked",
+          "error": "检查/评审阻断：Required check test-gate missing/failed/ambiguous; Codex review identity differs from the exact repository/source/main/policy",
+          "repairRequired": {
+            "provider": "codex",
+            "headSha": "50001033cb305c178234c1b764c98ab9cc20dc0f",
+            "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+            "reason": "检查/评审阻断：Required check test-gate missing/failed/ambiguous; Codex review identity differs from the exact repository/source/main/policy",
+            "at": 1791417015976
+          },
+          "recoveryIntent": null,
+          "blockedUntil": 1791417615976
+        }
+      },
+      "previous": "3037e6662662756a28ef5b3aa41381a92005633ce6305195824927986657d9c6",
+      "digest": "53a898c03c7a72dfe96d93311082f384642f1d6f7bb5873ddd8a451587e80960"
+    },
+    {
+      "sequence": 2334,
+      "at": "2026-10-07T23:51:38.894Z",
+      "kind": "transaction",
+      "data": {
+        "id": "f63ad91e-4f5e-48f3-923f-599267be5023"
+      },
+      "previous": "53a898c03c7a72dfe96d93311082f384642f1d6f7bb5873ddd8a451587e80960",
+      "digest": "ce1d9b7d1157d3d87e06ae834239fdd225907182bbdcff7cfb2027bbf91eca44"
     }
   ]
 }
