@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2130,
+  "revision": 2132,
   "tasks": {
     "328": {
       "number": 328,
@@ -300,9 +300,9 @@
         "scripts/video-capabilities.test.mjs"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791408911818,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791409511818,
+      "updatedAt": 1791409518738,
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "blockedUntil": 1791410118738,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -112299,6 +112299,31 @@
       },
       "previous": "6feb71023efce4d2431d24ae71714c3e9e555078fbcde4cac723024d3a48e157",
       "digest": "d730baa20431863513c77125e53609822b04f8f1869c92b55688127c85314773"
+    },
+    {
+      "sequence": 2131,
+      "at": "2026-10-07T21:45:18.738Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791410118738
+        }
+      },
+      "previous": "d730baa20431863513c77125e53609822b04f8f1869c92b55688127c85314773",
+      "digest": "a85064fc79b4fda0878a13b9af453d995b6d1949ed7f1fe5d73a30f9660a7cf1"
+    },
+    {
+      "sequence": 2132,
+      "at": "2026-10-07T21:45:23.793Z",
+      "kind": "transaction",
+      "data": {
+        "id": "5c599842-1e24-4a50-96f9-50aabdd5aba1"
+      },
+      "previous": "a85064fc79b4fda0878a13b9af453d995b6d1949ed7f1fe5d73a30f9660a7cf1",
+      "digest": "4013c734b932c80a5c3ceb89acbeba8d5e93512c3d9060d0010b25ffaa10855e"
     }
   ]
 }
