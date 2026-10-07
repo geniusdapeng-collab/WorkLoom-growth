@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 997,
+  "revision": 999,
   "tasks": {
     "328": {
       "number": 328,
@@ -658,9 +658,9 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.stderr.txt"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791360013746,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791360613746,
+      "updatedAt": 1791360911005,
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "blockedUntil": 1791361511005,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2",
@@ -60177,6 +60177,31 @@
       },
       "previous": "70617cb43cf668a37011c4dcd827b6db696d32695c3e62a8b5959f65e218a613",
       "digest": "44a0f84e7291178f43c84055de7f3a42dad542a417e22a5a1a5f2ef0f1335472"
+    },
+    {
+      "sequence": 998,
+      "at": "2026-10-07T08:15:11.005Z",
+      "kind": "task",
+      "data": {
+        "number": 331,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791361511005
+        }
+      },
+      "previous": "44a0f84e7291178f43c84055de7f3a42dad542a417e22a5a1a5f2ef0f1335472",
+      "digest": "a73cad9d55553ffad60770482ad7c06669f33027a7be469dacdb267f698d2ffa"
+    },
+    {
+      "sequence": 999,
+      "at": "2026-10-07T08:15:16.236Z",
+      "kind": "transaction",
+      "data": {
+        "id": "e5f2667a-6144-47f0-a4c3-9917c093b0f7"
+      },
+      "previous": "a73cad9d55553ffad60770482ad7c06669f33027a7be469dacdb267f698d2ffa",
+      "digest": "aabf4d98c7fc75cb1df1487c555af93c48231744b774be44368f983d7fa05b17"
     }
   ]
 }
