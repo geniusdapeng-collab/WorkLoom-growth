@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 937,
+  "revision": 939,
   "tasks": {
     "328": {
       "number": 328,
@@ -697,7 +697,7 @@
     },
     "333": {
       "number": 333,
-      "status": "aligning",
+      "status": "parked",
       "firstSeen": 1791313276569,
       "attempts": {},
       "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791357014569,
+      "blockedUntil": 1791358210671,
       "candidate": null,
-      "error": "主干对齐失败：Command failed: git merge --no-ff --no-edit 0fb91083bea784f1714188c3fb63fd519f717e5f\n",
+      "error": "Command failed: git merge --no-ff --no-edit 0fb91083bea784f1714188c3fb63fd519f717e5f\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -58140,6 +58140,31 @@
       },
       "previous": "7b8ee9f46a94e4673acfa9047cc99072de53b538db3800dbd93710a7e2adf19c",
       "digest": "11d70c0fd1893e40dfe1edcfaade5a7f2e95656acf539eaa8ce44316fc4f63f4"
+    },
+    {
+      "sequence": 938,
+      "at": "2026-10-07T07:20:10.671Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "Command failed: git merge --no-ff --no-edit 0fb91083bea784f1714188c3fb63fd519f717e5f\n",
+          "blockedUntil": 1791358210671
+        }
+      },
+      "previous": "11d70c0fd1893e40dfe1edcfaade5a7f2e95656acf539eaa8ce44316fc4f63f4",
+      "digest": "feb4d283c74325cf6c5882a124b0f378d1dd99b344e5a1ce91bbdc63a4c6aeae"
+    },
+    {
+      "sequence": 939,
+      "at": "2026-10-07T07:20:55.471Z",
+      "kind": "transaction",
+      "data": {
+        "id": "bd0bfb99-1e84-455e-aef7-a8727d184d25"
+      },
+      "previous": "feb4d283c74325cf6c5882a124b0f378d1dd99b344e5a1ce91bbdc63a4c6aeae",
+      "digest": "88b949677d7d091b429858897e91b260ee451976b92d82c657f78fde44faaaf9"
     }
   ]
 }
