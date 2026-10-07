@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1776,
+  "revision": 1778,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791395709327,
+      "updatedAt": 1791396313563,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,7 +1037,7 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791396309327,
+      "blockedUntil": 1791396913563,
       "candidate": null,
       "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
@@ -94029,6 +94029,31 @@
       },
       "previous": "4ab8a57da8be886b4d295abb39fedaf6d01f29f1c5d13df34851013cd892a5ac",
       "digest": "763a524670ba7f65582331a470bac574a975eb1b1730526303e915f6b25efd65"
+    },
+    {
+      "sequence": 1777,
+      "at": "2026-10-07T18:05:13.563Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791396913563
+        }
+      },
+      "previous": "763a524670ba7f65582331a470bac574a975eb1b1730526303e915f6b25efd65",
+      "digest": "11f197271d9e78e337c7b508563821a7de5c4b4abfd941b71dc1c804dc744a01"
+    },
+    {
+      "sequence": 1778,
+      "at": "2026-10-07T18:05:22.503Z",
+      "kind": "transaction",
+      "data": {
+        "id": "ec8ec078-f483-4bbd-b1dd-a8e153794341"
+      },
+      "previous": "11f197271d9e78e337c7b508563821a7de5c4b4abfd941b71dc1c804dc744a01",
+      "digest": "5836e1f6eb4b38497d79632d2e7f4e28d9b07c101a98f2b3878f0c8cd56fe1d6"
     }
   ]
 }
