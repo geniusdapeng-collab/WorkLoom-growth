@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 762,
+  "revision": 764,
   "tasks": {
     "328": {
       "number": 328,
@@ -1039,7 +1039,7 @@
       "reviewFailures": null,
       "blockedUntil": 1791351910399,
       "candidate": null,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "error": "Alignment retry budget exhausted",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -50757,6 +50757,30 @@
       },
       "previous": "257395fb46c208982b072b736553cd4d11f13bd273ffa37313adc05c9edf5269",
       "digest": "11c52e1ddf1c10bf6899647ce09c9cc6adfb34e0ea41918f02566ba8c6560980"
+    },
+    {
+      "sequence": 763,
+      "at": "2026-10-07T05:50:10.424Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "Alignment retry budget exhausted"
+        }
+      },
+      "previous": "11c52e1ddf1c10bf6899647ce09c9cc6adfb34e0ea41918f02566ba8c6560980",
+      "digest": "e2941c30d8ce5c4b2cb52bc686a1e5acdcdba4cba3b9d136ea5dea82e184f8f2"
+    },
+    {
+      "sequence": 764,
+      "at": "2026-10-07T05:50:44.534Z",
+      "kind": "transaction",
+      "data": {
+        "id": "2f82e1c6-7451-4cc0-9b28-836cf5d35378"
+      },
+      "previous": "e2941c30d8ce5c4b2cb52bc686a1e5acdcdba4cba3b9d136ea5dea82e184f8f2",
+      "digest": "9a593a9cf955c7e138cb4bfb1d5e44aa03ccaf6ba52dafc0640cf0653a47a5a0"
     }
   ]
 }
