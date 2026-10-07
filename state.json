@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 831,
+  "revision": 833,
   "tasks": {
     "328": {
       "number": 328,
@@ -53069,6 +53069,36 @@
       },
       "previous": "e749cacdfaaa9f7f3f3b27a2d3ed55bc3033d919b76103c926830412a327466c",
       "digest": "8a97a238cf5bb8de10de9c50994e1b5b865968e9ebbfb13d49131d84faaf8710"
+    },
+    {
+      "sequence": 832,
+      "at": "2026-10-07T06:25:09.800Z",
+      "kind": "task",
+      "data": {
+        "number": 346,
+        "patch": {
+          "candidate": {
+            "number": 347,
+            "branch": "delivery/candidate/pr-346-9bb2bae8ce45c6e1ee11eb7702f24223",
+            "headSha": "3bed5986da8015c3785a923e950147996a6b5dcd",
+            "mainSha": "5c92791fbef31111bef2b70f6b954963fbc19686",
+            "marker": "delivery-origin:346:3bed5986da8015c3785a923e950147996a6b5dcd:5c92791fbef31111bef2b70f6b954963fbc19686",
+            "at": 1791354223123
+          }
+        }
+      },
+      "previous": "8a97a238cf5bb8de10de9c50994e1b5b865968e9ebbfb13d49131d84faaf8710",
+      "digest": "daa231ef2b7c717bdb307d6167e1a75a27d852645b5b5e0375a011ecb32a4909"
+    },
+    {
+      "sequence": 833,
+      "at": "2026-10-07T06:25:49.209Z",
+      "kind": "transaction",
+      "data": {
+        "id": "b664e04b-686c-499f-a691-b89713af5b66"
+      },
+      "previous": "daa231ef2b7c717bdb307d6167e1a75a27d852645b5b5e0375a011ecb32a4909",
+      "digest": "275d615894f22f7ccbe7865263776ad1ed51ea479192a26fb871d3ee35c507ce"
     }
   ]
 }
