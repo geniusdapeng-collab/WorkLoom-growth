@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1221,
+  "revision": 1223,
   "tasks": {
     "328": {
       "number": 328,
@@ -300,9 +300,9 @@
         "scripts/video-capabilities.test.mjs"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791366911446,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791367511446,
+      "updatedAt": 1791372911704,
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "blockedUntil": 1791373511704,
       "alignmentCount": 2,
       "alignmentIntent": {
         "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -67453,6 +67453,31 @@
       },
       "previous": "1f897e4736803204cb1af1c2e9451fba9a70d713d83ef640fcf57f68bca7b442",
       "digest": "7cece4df3f51875e731c2a03855359b8435d59b812faa1256bfc2398bb7f4d29"
+    },
+    {
+      "sequence": 1222,
+      "at": "2026-10-07T11:35:11.704Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791373511704
+        }
+      },
+      "previous": "7cece4df3f51875e731c2a03855359b8435d59b812faa1256bfc2398bb7f4d29",
+      "digest": "3bbc22f6f5f71847c863e93415e156cee7dda2ae078a61e54e0978083b6cf294"
+    },
+    {
+      "sequence": 1223,
+      "at": "2026-10-07T11:35:15.908Z",
+      "kind": "transaction",
+      "data": {
+        "id": "ecd4c7f0-6f2c-4aba-a4a2-ab07f55746a3"
+      },
+      "previous": "3bbc22f6f5f71847c863e93415e156cee7dda2ae078a61e54e0978083b6cf294",
+      "digest": "e35de37de2f16595862d23f07c2780b0bc4a4819446499c39767242fda7a96ea"
     }
   ]
 }
