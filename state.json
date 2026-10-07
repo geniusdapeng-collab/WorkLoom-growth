@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2088,
+  "revision": 2090,
   "tasks": {
     "328": {
       "number": 328,
@@ -301,7 +301,7 @@
       ],
       "ciSince": 1791315290864,
       "updatedAt": 1791408016776,
-      "error": "需按实际代码语义更新 main 并解决冲突；自动主干对齐预算已耗尽",
+      "error": "Alignment retry budget exhausted",
       "blockedUntil": 1791407711672,
       "alignmentCount": 3,
       "alignmentIntent": {
@@ -110474,6 +110474,30 @@
       },
       "previous": "8de4be218c70c05a1f02b953d8308e049f7aee6f1da21905b03c2d8a7cd83c6c",
       "digest": "e8346382b610478febffa88379f8a2dc4c478932aacffd617fa64ce1e1e837b6"
+    },
+    {
+      "sequence": 2089,
+      "at": "2026-10-07T21:20:16.776Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "parked",
+          "error": "Alignment retry budget exhausted"
+        }
+      },
+      "previous": "e8346382b610478febffa88379f8a2dc4c478932aacffd617fa64ce1e1e837b6",
+      "digest": "a271520ceefdc9a827dd548cd8ad80d0e37f019cb8f2354fb8922d6514c0633e"
+    },
+    {
+      "sequence": 2090,
+      "at": "2026-10-07T21:20:31.770Z",
+      "kind": "transaction",
+      "data": {
+        "id": "d13f4388-470f-4dfe-97ff-b245219ed856"
+      },
+      "previous": "a271520ceefdc9a827dd548cd8ad80d0e37f019cb8f2354fb8922d6514c0633e",
+      "digest": "64a3f0271e54b05e0ee176b8cf1d649972579f76d0e24cb42289de3d4d80ab64"
     }
   ]
 }
