@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1259,
+  "revision": 1261,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791374712519,
+      "updatedAt": 1791375310111,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791375312519,
+      "blockedUntil": 1791375910111,
       "candidate": null,
-      "error": "需按实际代码语义更新 main 并解决冲突；自动主干对齐预算已耗尽",
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -68570,6 +68570,31 @@
       },
       "previous": "55174ad56e042194665d9fe134be233867da651e364f81b185853ae76ede49a4",
       "digest": "e3dfac4ffdca79a01ce202dc4c3868b7e823632f06921518a3806968e891b0ca"
+    },
+    {
+      "sequence": 1260,
+      "at": "2026-10-07T12:15:10.111Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791375910111
+        }
+      },
+      "previous": "e3dfac4ffdca79a01ce202dc4c3868b7e823632f06921518a3806968e891b0ca",
+      "digest": "1ed8d0506e9b959a0bbc7c0536cd1be084665ca0542266f66f7832fa8a27a91f"
+    },
+    {
+      "sequence": 1261,
+      "at": "2026-10-07T12:15:15.487Z",
+      "kind": "transaction",
+      "data": {
+        "id": "dc7e91d4-34b3-438f-bf11-351063d21839"
+      },
+      "previous": "1ed8d0506e9b959a0bbc7c0536cd1be084665ca0542266f66f7832fa8a27a91f",
+      "digest": "c4cd173b505238492db0c9773d7295a061446eb409a19bc86e2843454482bcc3"
     }
   ]
 }
