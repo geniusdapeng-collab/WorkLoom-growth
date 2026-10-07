@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 833,
+  "revision": 835,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791354309800,
+      "updatedAt": 1791354909576,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,7 +1037,7 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791354909800,
+      "blockedUntil": 1791355509576,
       "candidate": null,
       "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
@@ -53099,6 +53099,31 @@
       },
       "previous": "daa231ef2b7c717bdb307d6167e1a75a27d852645b5b5e0375a011ecb32a4909",
       "digest": "275d615894f22f7ccbe7865263776ad1ed51ea479192a26fb871d3ee35c507ce"
+    },
+    {
+      "sequence": 834,
+      "at": "2026-10-07T06:35:09.576Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791355509576
+        }
+      },
+      "previous": "275d615894f22f7ccbe7865263776ad1ed51ea479192a26fb871d3ee35c507ce",
+      "digest": "e13e4109863a4afff874df2a998d92eb3b5e37e459c45398aacf6152ffb3b4a2"
+    },
+    {
+      "sequence": 835,
+      "at": "2026-10-07T06:35:15.716Z",
+      "kind": "transaction",
+      "data": {
+        "id": "8c1efffc-fd3e-4fe0-925d-4c1b035f795f"
+      },
+      "previous": "e13e4109863a4afff874df2a998d92eb3b5e37e459c45398aacf6152ffb3b4a2",
+      "digest": "5653c2e968f67f8bfbe9571d77730bfd311b14e95193f3e7a81a93f63f3e3afa"
     }
   ]
 }
