@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 814,
+  "revision": 816,
   "tasks": {
     "328": {
       "number": 328,
@@ -3282,7 +3282,7 @@
           "protocol": 16
         }
       },
-      "updatedAt": 1791353967234,
+      "updatedAt": 1791354223123,
       "headSha": "3bed5986da8015c3785a923e950147996a6b5dcd",
       "intent": {
         "taskId": "T-2026-1007-0003",
@@ -3465,7 +3465,19 @@
         "checkSha": null,
         "hasFailedChecks": false,
         "ciPolicyChanges": []
-      }
+      },
+      "originalBody": "已完成渲染的视频进入正式 BGM 时，原流程仍要求源音质检查并可能重复处理；指定曲目还会先 best 再 mix 写同一目标，新技术回执也被旧 post 调用方的五项音质分数拒绝。现在正式 mix/best 默认从当前原片字节快照保留节目音轨，一次完成所请求混音；无音轨源仅制作实际混音所需的等长静音床，短音乐先准备有限重复 WAV。源音质评分、质量重混和模型放行不再参与正式 BGM。\n\nCLI 对两种来源旗标同时出现、无值、不存在、JSON null/标量/数组或异租户签章引用均明确拒绝（6个冲突与16个无效引用实际CLI组合），不把显式来源降级为原声。显式签章的音频来源继续验证租户、作用域、签名、有效期及当前字节；路径权限、文件覆盖、实际命令失败和输出音轨/哈希仍明确校验。回执 qualityReviewed=false、qualityScore=null，未测响度为 null。最小修正 full-chain BGM 块与 post 接收函数，使旧生产调用方兼容新回执；其余后期直通改动留在单独任务344。\n\n验证：当前提交 `3bed5986da8015c3785a923e950147996a6b5dcd` 的真实 FFmpeg 用例10/10（0跳过）、既有BGM回归107/107、旧post实际总装与返修4/4通过；提交后语法、协议、创作硬闸规则和官方完整 bundle 治理检查均 exit0。作者实际全链 BGM 与真实两变体 post 总装均完成，原源SHA不变，禁止外网夹具未发生外网调用。资源摘要由本仓官方生成器更新，556项资产逐项校验，无额外签名或发布模式。\n\n当前 source 保持 developing，独立完整代码复核与真实远端 required CI 完成后由正常 native handoff 发布；没有新供应商、付费媒体、TTS、ASR 或模型调用。回滚为 revert 本任务提交。任务卡 #345（T-2026-1007-0003）。\n\n<!-- workloom-delivery\n{\n  \"task_id\": \"T-2026-1007-0003\",\n  \"ready\": true,\n  \"depends_on\": [],\n  \"releases\": []\n}\n-->\n",
+      "files": [
+        "bundles/ai-video/bundle.json",
+        "bundles/ai-video/connectors/bgm-bridge/README.md",
+        "bundles/ai-video/connectors/bgm-bridge/cli.mjs",
+        "bundles/ai-video/connectors/bgm-bridge/core.mjs",
+        "bundles/ai-video/connectors/bgm-bridge/declared-program-mix.test.mjs",
+        "bundles/ai-video/connectors/bgm-bridge/measure.mjs",
+        "bundles/ai-video/connectors/post-bridge/core.mjs",
+        "scripts/tools/full-chain-film.mts"
+      ],
+      "ciSince": 1791354223123
     }
   },
   "leases": {
@@ -52749,6 +52761,50 @@
       },
       "previous": "fad43f61bfef7b5f769c0c025505c71db5388877a3c1269269c14cbb723588dc",
       "digest": "129271568a4b31a9861785f0750e8c7628c709c28ec9e4d5c40a5c71a8adb4ee"
+    },
+    {
+      "sequence": 815,
+      "at": "2026-10-07T06:23:43.123Z",
+      "kind": "task",
+      "data": {
+        "number": 346,
+        "patch": {
+          "headSha": "3bed5986da8015c3785a923e950147996a6b5dcd",
+          "mainSha": "5c92791fbef31111bef2b70f6b954963fbc19686",
+          "branch": "task/T-2026-1007-0003",
+          "intent": {
+            "taskId": "T-2026-1007-0003",
+            "ready": true,
+            "dependsOn": [],
+            "releases": []
+          },
+          "originalBody": "已完成渲染的视频进入正式 BGM 时，原流程仍要求源音质检查并可能重复处理；指定曲目还会先 best 再 mix 写同一目标，新技术回执也被旧 post 调用方的五项音质分数拒绝。现在正式 mix/best 默认从当前原片字节快照保留节目音轨，一次完成所请求混音；无音轨源仅制作实际混音所需的等长静音床，短音乐先准备有限重复 WAV。源音质评分、质量重混和模型放行不再参与正式 BGM。\n\nCLI 对两种来源旗标同时出现、无值、不存在、JSON null/标量/数组或异租户签章引用均明确拒绝（6个冲突与16个无效引用实际CLI组合），不把显式来源降级为原声。显式签章的音频来源继续验证租户、作用域、签名、有效期及当前字节；路径权限、文件覆盖、实际命令失败和输出音轨/哈希仍明确校验。回执 qualityReviewed=false、qualityScore=null，未测响度为 null。最小修正 full-chain BGM 块与 post 接收函数，使旧生产调用方兼容新回执；其余后期直通改动留在单独任务344。\n\n验证：当前提交 `3bed5986da8015c3785a923e950147996a6b5dcd` 的真实 FFmpeg 用例10/10（0跳过）、既有BGM回归107/107、旧post实际总装与返修4/4通过；提交后语法、协议、创作硬闸规则和官方完整 bundle 治理检查均 exit0。作者实际全链 BGM 与真实两变体 post 总装均完成，原源SHA不变，禁止外网夹具未发生外网调用。资源摘要由本仓官方生成器更新，556项资产逐项校验，无额外签名或发布模式。\n\n当前 source 保持 developing，独立完整代码复核与真实远端 required CI 完成后由正常 native handoff 发布；没有新供应商、付费媒体、TTS、ASR 或模型调用。回滚为 revert 本任务提交。任务卡 #345（T-2026-1007-0003）。\n\n<!-- workloom-delivery\n{\n  \"task_id\": \"T-2026-1007-0003\",\n  \"ready\": true,\n  \"depends_on\": [],\n  \"releases\": []\n}\n-->\n",
+          "files": [
+            "bundles/ai-video/bundle.json",
+            "bundles/ai-video/connectors/bgm-bridge/README.md",
+            "bundles/ai-video/connectors/bgm-bridge/cli.mjs",
+            "bundles/ai-video/connectors/bgm-bridge/core.mjs",
+            "bundles/ai-video/connectors/bgm-bridge/declared-program-mix.test.mjs",
+            "bundles/ai-video/connectors/bgm-bridge/measure.mjs",
+            "bundles/ai-video/connectors/post-bridge/core.mjs",
+            "scripts/tools/full-chain-film.mts"
+          ],
+          "status": "waiting_ci",
+          "ciSince": 1791354223123
+        }
+      },
+      "previous": "129271568a4b31a9861785f0750e8c7628c709c28ec9e4d5c40a5c71a8adb4ee",
+      "digest": "3cec153d3a6d8844787be5da56a7cff851e449b86bf7903e5a97498100af2588"
+    },
+    {
+      "sequence": 816,
+      "at": "2026-10-07T06:23:47.254Z",
+      "kind": "transaction",
+      "data": {
+        "id": "ba5083b3-3edc-4c70-baf0-87d7dd834601"
+      },
+      "previous": "3cec153d3a6d8844787be5da56a7cff851e449b86bf7903e5a97498100af2588",
+      "digest": "869dbfb34102553d45ca86416d4e6f3c41143601dc13fe569fb757c510266114"
     }
   ]
 }
