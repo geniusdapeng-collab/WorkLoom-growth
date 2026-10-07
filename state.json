@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1131,
+  "revision": 1133,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791367808860,
+      "updatedAt": 1791368409977,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,7 +1037,7 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791368408860,
+      "blockedUntil": 1791369009977,
       "candidate": null,
       "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
@@ -64095,6 +64095,31 @@
       },
       "previous": "7fc7a16ebbc2762058b7681a3a4f1f97ff5766b0eb663403b59c7d74212058a4",
       "digest": "75530568c16e0de95c3d999d7136fc52322259010ea3241be5eaac6d3d9ae6c2"
+    },
+    {
+      "sequence": 1132,
+      "at": "2026-10-07T10:20:09.977Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791369009977
+        }
+      },
+      "previous": "75530568c16e0de95c3d999d7136fc52322259010ea3241be5eaac6d3d9ae6c2",
+      "digest": "dd44176c92b3d8949da9c2e8dc8d428d18a4b8e3556aacd06e82a5544ca92163"
+    },
+    {
+      "sequence": 1133,
+      "at": "2026-10-07T10:20:29.991Z",
+      "kind": "transaction",
+      "data": {
+        "id": "45ea3f44-6884-4a6e-b6d9-8e1abfe8f4d1"
+      },
+      "previous": "dd44176c92b3d8949da9c2e8dc8d428d18a4b8e3556aacd06e82a5544ca92163",
+      "digest": "388b1d54203e8fb31758357a4cb02639ef69294e76de1489957ad1b91ded7d31"
     }
   ]
 }
