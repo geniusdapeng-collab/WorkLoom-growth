@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 883,
+  "revision": 885,
   "tasks": {
     "328": {
       "number": 328,
@@ -343,7 +343,7 @@
     },
     "331": {
       "number": 331,
-      "status": "parked",
+      "status": "aligning",
       "firstSeen": 1791311417346,
       "attempts": {},
       "headSha": "4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2",
@@ -661,11 +661,11 @@
       "updatedAt": 1791355618489,
       "error": "需按实际代码语义更新 main 并解决冲突；自动主干对齐预算已耗尽",
       "blockedUntil": 0,
-      "alignmentCount": 0,
+      "alignmentCount": 1,
       "alignmentIntent": {
         "headSha": "4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2",
-        "mainSha": "5c92791fbef31111bef2b70f6b954963fbc19686",
-        "at": 1791338421784
+        "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+        "at": 1791355618489
       },
       "developerReview": null,
       "alignment": {
@@ -55541,6 +55541,36 @@
       },
       "previous": "b08428baa838095fcad7b8896b77a570e8adf3ec92668a04dbbdc6ddbc99c89e",
       "digest": "351d3a570249ba1332539d4633d571076f538556886d1cd11f1fb19e896f6efe"
+    },
+    {
+      "sequence": 884,
+      "at": "2026-10-07T06:46:58.489Z",
+      "kind": "task",
+      "data": {
+        "number": 331,
+        "patch": {
+          "status": "aligning",
+          "alignmentCount": 1,
+          "alignmentIntent": {
+            "headSha": "4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2",
+            "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+            "at": 1791355618489
+          },
+          "developerReview": null
+        }
+      },
+      "previous": "351d3a570249ba1332539d4633d571076f538556886d1cd11f1fb19e896f6efe",
+      "digest": "238b34a6606ab34f1b8625ee9cafd48f46c97a4cbad515ac3d212df80fd701b0"
+    },
+    {
+      "sequence": 885,
+      "at": "2026-10-07T06:47:47.786Z",
+      "kind": "transaction",
+      "data": {
+        "id": "789e0045-fafe-4901-8fb8-0ae402d8a8dc"
+      },
+      "previous": "238b34a6606ab34f1b8625ee9cafd48f46c97a4cbad515ac3d212df80fd701b0",
+      "digest": "d0feb562b8d271034c02c7acb1ba0d764839a4711227fc131418ff552268a279"
     }
   ]
 }
