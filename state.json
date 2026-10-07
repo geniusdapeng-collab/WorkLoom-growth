@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 485,
+  "revision": 487,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791336312711,
+      "updatedAt": 1791336615913,
       "alignmentCount": 2,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791336912711,
+      "blockedUntil": 1791337215913,
       "candidate": null,
-      "error": "主干对齐失败：Command failed: git merge --no-ff --no-edit 5c92791fbef31111bef2b70f6b954963fbc19686\n",
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -36012,6 +36012,31 @@
       },
       "previous": "767f33aab78f6bcdf907cc48b16348075abb25a5682c409a9bfd4a23494779ab",
       "digest": "351959ac982364665e2ff9c590b26caf9e35fb1896504b264fecae401a2ef98e"
+    },
+    {
+      "sequence": 486,
+      "at": "2026-10-07T01:30:15.913Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791337215913
+        }
+      },
+      "previous": "351959ac982364665e2ff9c590b26caf9e35fb1896504b264fecae401a2ef98e",
+      "digest": "092e64e954ae43559069b645b81bb6878e018c3d7409d3a37b857e582e0b7726"
+    },
+    {
+      "sequence": 487,
+      "at": "2026-10-07T01:30:21.027Z",
+      "kind": "transaction",
+      "data": {
+        "id": "4221fa14-6dbd-4e55-808a-2617ef5af0ee"
+      },
+      "previous": "092e64e954ae43559069b645b81bb6878e018c3d7409d3a37b857e582e0b7726",
+      "digest": "8f6e23f8b7d7f5fbb43e0270fc17473d63676c9a7404abd6383aa83e0a26db09"
     }
   ]
 }
