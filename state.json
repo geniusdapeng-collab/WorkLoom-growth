@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 695,
+  "revision": 697,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791348309482,
+      "updatedAt": 1791348910949,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,7 +1037,7 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791348909482,
+      "blockedUntil": 1791349510949,
       "candidate": null,
       "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
@@ -47362,6 +47362,31 @@
       },
       "previous": "af0ed3f99f1ad1b60d76dddcef5fed358d4ab15bc8d74be06f40fae3534a0382",
       "digest": "6cfe7d6576a74da4905bfa033ec9a1e8cdfebaf6c7545828a43ca56698533e58"
+    },
+    {
+      "sequence": 696,
+      "at": "2026-10-07T04:55:10.949Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791349510949
+        }
+      },
+      "previous": "6cfe7d6576a74da4905bfa033ec9a1e8cdfebaf6c7545828a43ca56698533e58",
+      "digest": "d1b3221ebccc653ca71612656880b7369781fe04b4921f7a8bd715dcc24a6f87"
+    },
+    {
+      "sequence": 697,
+      "at": "2026-10-07T04:55:22.024Z",
+      "kind": "transaction",
+      "data": {
+        "id": "914b3e08-93fb-42be-b416-9d362d1b5074"
+      },
+      "previous": "d1b3221ebccc653ca71612656880b7369781fe04b4921f7a8bd715dcc24a6f87",
+      "digest": "be853b48525a9085e5d17e573fd3c94ba32c5758e1f8c2db93438ea21816d289"
     }
   ]
 }
