@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 875,
+  "revision": 877,
   "tasks": {
     "328": {
       "number": 328,
-      "status": "parked",
+      "status": "aligning",
       "firstSeen": 1791310212664,
       "attempts": {},
       "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -303,11 +303,11 @@
       "updatedAt": 1791355618489,
       "error": "需按实际代码语义更新 main 并解决冲突；自动主干对齐预算已耗尽",
       "blockedUntil": 0,
-      "alignmentCount": 0,
+      "alignmentCount": 1,
       "alignmentIntent": {
         "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
-        "mainSha": "5c92791fbef31111bef2b70f6b954963fbc19686",
-        "at": 1791339616919
+        "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+        "at": 1791355618489
       },
       "developerReview": null,
       "alignment": {
@@ -55112,6 +55112,36 @@
       },
       "previous": "573b1b95df3224e220251a11a1fa326d6b97ef5f6b8b052483d03c64cbb7674b",
       "digest": "09716c0e5334a994b60c6ea9824bfb0aa31b3ce1d3a2257963bc241ee01dd163"
+    },
+    {
+      "sequence": 876,
+      "at": "2026-10-07T06:46:58.489Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "aligning",
+          "alignmentCount": 1,
+          "alignmentIntent": {
+            "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
+            "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+            "at": 1791355618489
+          },
+          "developerReview": null
+        }
+      },
+      "previous": "09716c0e5334a994b60c6ea9824bfb0aa31b3ce1d3a2257963bc241ee01dd163",
+      "digest": "c8dc4138741cb8d34c6a9506a2db1fca085af20f906b370c5e178ace61facda5"
+    },
+    {
+      "sequence": 877,
+      "at": "2026-10-07T06:47:08.242Z",
+      "kind": "transaction",
+      "data": {
+        "id": "1aa9d041-dc4d-47a5-be5e-7e0a17dce970"
+      },
+      "previous": "c8dc4138741cb8d34c6a9506a2db1fca085af20f906b370c5e178ace61facda5",
+      "digest": "72a72c4ddbf47dc90f69f8c427b6941cc4313fb7d52dfab377ef1c47172a4a66"
     }
   ]
 }
