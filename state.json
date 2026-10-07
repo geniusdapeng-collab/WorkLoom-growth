@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1009,
+  "revision": 1011,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791361212220,
+      "updatedAt": 1791361511938,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,7 +1037,7 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791361812220,
+      "blockedUntil": 1791362111938,
       "candidate": null,
       "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
@@ -60329,6 +60329,31 @@
       },
       "previous": "7a03842a82c9638208bfcaec12c05c682e06a8b8e85a89b5cd2774b2a824ed3b",
       "digest": "105e8b05322e364c0c73439002eebf8b22fbe8388aa982a492ede5a6e1577dcb"
+    },
+    {
+      "sequence": 1010,
+      "at": "2026-10-07T08:25:11.938Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791362111938
+        }
+      },
+      "previous": "105e8b05322e364c0c73439002eebf8b22fbe8388aa982a492ede5a6e1577dcb",
+      "digest": "e4589c9a79956b022f6a6924906686df16843c8a0884e51c2066f52ee3872bcd"
+    },
+    {
+      "sequence": 1011,
+      "at": "2026-10-07T08:25:30.951Z",
+      "kind": "transaction",
+      "data": {
+        "id": "7ec7adc8-5cb3-4f16-aaa3-316935848ba2"
+      },
+      "previous": "e4589c9a79956b022f6a6924906686df16843c8a0884e51c2066f52ee3872bcd",
+      "digest": "32f9704b85ff2f2ff65e208558c340875618142b3d281834ec788b735ab92fc5"
     }
   ]
 }
