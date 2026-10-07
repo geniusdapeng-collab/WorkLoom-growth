@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2056,
+  "revision": 2058,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791406214407,
+      "updatedAt": 1791406510824,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791405915450,
+      "blockedUntil": 1791407110824,
       "candidate": null,
-      "error": "Alignment retry budget exhausted",
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -108529,6 +108529,31 @@
       },
       "previous": "ed3231ba781438668e554f0af8994b17488b7cecf522ab715b8edd6e3347315d",
       "digest": "e513854a0935c0463332ba45fe7ae00a3e12ca0a9eb821972ff1f4480c75fb65"
+    },
+    {
+      "sequence": 2057,
+      "at": "2026-10-07T20:55:10.824Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791407110824
+        }
+      },
+      "previous": "e513854a0935c0463332ba45fe7ae00a3e12ca0a9eb821972ff1f4480c75fb65",
+      "digest": "21faf76cb6a5a631868844a0ad2e6ed17d32a0ffe148dc6b060a6178ef2943f3"
+    },
+    {
+      "sequence": 2058,
+      "at": "2026-10-07T20:55:16.856Z",
+      "kind": "transaction",
+      "data": {
+        "id": "90287da5-0ec2-4f15-a8c7-d200d97af891"
+      },
+      "previous": "21faf76cb6a5a631868844a0ad2e6ed17d32a0ffe148dc6b060a6178ef2943f3",
+      "digest": "2d7ec760ca9562d16ec9ea6053ed5e9ae0956516c2669603fbbe3434bbfb1076"
     }
   ]
 }
