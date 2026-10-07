@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1366,
+  "revision": 1368,
   "tasks": {
     "328": {
       "number": 328,
@@ -300,9 +300,9 @@
         "scripts/video-capabilities.test.mjs"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791379512044,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791380112044,
+      "updatedAt": 1791380413040,
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "blockedUntil": 1791381013040,
       "alignmentCount": 2,
       "alignmentIntent": {
         "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -73136,6 +73136,31 @@
       },
       "previous": "a52a3873c074bed4c9883134611b03d7828194582fee9b33ac991bf197041213",
       "digest": "bbbd3af3d67372e239876702a55fb82228376a9f162f3df7e76695e522a52a77"
+    },
+    {
+      "sequence": 1367,
+      "at": "2026-10-07T13:40:13.040Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791381013040
+        }
+      },
+      "previous": "bbbd3af3d67372e239876702a55fb82228376a9f162f3df7e76695e522a52a77",
+      "digest": "3d174002a35ab127a6bdbae35ea5aeecf9fc1fb054ab279548b212fac83b337b"
+    },
+    {
+      "sequence": 1368,
+      "at": "2026-10-07T13:40:20.379Z",
+      "kind": "transaction",
+      "data": {
+        "id": "3fa03eb3-b624-499a-9aea-419dc7ccb89a"
+      },
+      "previous": "3d174002a35ab127a6bdbae35ea5aeecf9fc1fb054ab279548b212fac83b337b",
+      "digest": "911efaeb1e62f465e986733865192203883b85259ac212605aeae94f219b8908"
     }
   ]
 }
