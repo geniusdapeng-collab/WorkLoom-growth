@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 559,
+  "revision": 561,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791340810272,
+      "updatedAt": 1791341112301,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791341410272,
+      "blockedUntil": 1791341712301,
       "candidate": null,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -39772,6 +39772,31 @@
       },
       "previous": "5634a0a542b146ffe8a27ec5b396cfd05fdedd2cd7777f866b2ead285971122e",
       "digest": "5fe69a029ec41ab44db66915279ec1e2d57eb591ff12b69206663719767385d7"
+    },
+    {
+      "sequence": 560,
+      "at": "2026-10-07T02:45:12.301Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791341712301
+        }
+      },
+      "previous": "5fe69a029ec41ab44db66915279ec1e2d57eb591ff12b69206663719767385d7",
+      "digest": "553cd08521e4fed0ea44b3773a7bce3c90c6ac2ba26b80fd8e20c9f1300bea91"
+    },
+    {
+      "sequence": 561,
+      "at": "2026-10-07T02:45:29.981Z",
+      "kind": "transaction",
+      "data": {
+        "id": "b11f2778-3ef5-49e2-8c00-a1de46d77127"
+      },
+      "previous": "553cd08521e4fed0ea44b3773a7bce3c90c6ac2ba26b80fd8e20c9f1300bea91",
+      "digest": "04b63434ff69d321ce2a531a0b12dd375afa94169e67aba43e2253a621aba6a1"
     }
   ]
 }
