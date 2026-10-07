@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 1420,
+  "revision": 1422,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791381310337,
+      "updatedAt": 1791381909214,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791381910337,
+      "blockedUntil": 1791382509214,
       "candidate": null,
-      "error": "需按实际代码语义更新 main 并解决冲突；自动主干对齐预算已耗尽",
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -76015,6 +76015,31 @@
       },
       "previous": "cabcbd671718a68b07487f1f54cf169f366175c5b6a598acd4c9fee4ce5729a6",
       "digest": "c19e93ce7f95213ce671a837e01c47d9880e336bc26344a54b96fb95f8474d16"
+    },
+    {
+      "sequence": 1421,
+      "at": "2026-10-07T14:05:09.214Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791382509214
+        }
+      },
+      "previous": "c19e93ce7f95213ce671a837e01c47d9880e336bc26344a54b96fb95f8474d16",
+      "digest": "8e163050899fc26972fbefc9a7c7375f3f120beead0847d0c61933bbf2298bcd"
+    },
+    {
+      "sequence": 1422,
+      "at": "2026-10-07T14:05:15.181Z",
+      "kind": "transaction",
+      "data": {
+        "id": "e0a11db9-5e46-4304-aa0d-3cd163e78a21"
+      },
+      "previous": "8e163050899fc26972fbefc9a7c7375f3f120beead0847d0c61933bbf2298bcd",
+      "digest": "a185cb3a82f9fb1e4996a836f552ce8933c9fdb173f4eb6d79c24b7a554cb438"
     }
   ]
 }
