@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 981,
+  "revision": 983,
   "tasks": {
     "328": {
       "number": 328,
@@ -658,9 +658,9 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.stderr.txt"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791359709669,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791360309669,
+      "updatedAt": 1791360013746,
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "blockedUntil": 1791360613746,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "4245a4fbcddb24d2b71ab185bce8ac8acf62ceb2",
@@ -59657,6 +59657,31 @@
       },
       "previous": "f7fa673049e9dc45c91b4ab1784b97abcf73094f9240c01991f24620927a319b",
       "digest": "95912b7c958744657b74676570f8efa607445294b653d3976a051053fa8be73a"
+    },
+    {
+      "sequence": 982,
+      "at": "2026-10-07T08:00:13.746Z",
+      "kind": "task",
+      "data": {
+        "number": 331,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/331/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791360613746
+        }
+      },
+      "previous": "95912b7c958744657b74676570f8efa607445294b653d3976a051053fa8be73a",
+      "digest": "ab0ac7a5ff10c6bde1c159899b608ced6e30afe8d49f1c7256366e0acbd10472"
+    },
+    {
+      "sequence": 983,
+      "at": "2026-10-07T08:00:19.615Z",
+      "kind": "transaction",
+      "data": {
+        "id": "162b7b82-0731-488c-8561-c59e887bd182"
+      },
+      "previous": "ab0ac7a5ff10c6bde1c159899b608ced6e30afe8d49f1c7256366e0acbd10472",
+      "digest": "40011cd623d8b8a423f7eb8bac31dd710750b04c35b56b08077f4c09b917d2d4"
     }
   ]
 }
