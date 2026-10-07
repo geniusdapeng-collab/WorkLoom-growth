@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 827,
+  "revision": 829,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791353712922,
+      "updatedAt": 1791354309800,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,7 +1037,7 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791354312922,
+      "blockedUntil": 1791354909800,
       "candidate": null,
       "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
       "repairRequired": {
@@ -53000,6 +53000,31 @@
       },
       "previous": "9f7ec7d5f7801d80937dd2461c4724d8598b3a3f96bd568c3177e9da71b18d1d",
       "digest": "a25afe0958ee483a6dc541d9fcbbf74194875e3f002929455791c23a5f856e51"
+    },
+    {
+      "sequence": 828,
+      "at": "2026-10-07T06:25:09.800Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/333 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791354909800
+        }
+      },
+      "previous": "a25afe0958ee483a6dc541d9fcbbf74194875e3f002929455791c23a5f856e51",
+      "digest": "296bb4c7dc4f576f012cfd6e0de16f3569bdae40b450b9bf3fb526fab15ff751"
+    },
+    {
+      "sequence": 829,
+      "at": "2026-10-07T06:25:33.769Z",
+      "kind": "transaction",
+      "data": {
+        "id": "01878b66-d345-4205-a10b-1fa087e58714"
+      },
+      "previous": "296bb4c7dc4f576f012cfd6e0de16f3569bdae40b450b9bf3fb526fab15ff751",
+      "digest": "2c1d49e4b4c9b859597c5cb54f8a6a56031c39a2c82c7a736542383d7f1061b9"
     }
   ]
 }
