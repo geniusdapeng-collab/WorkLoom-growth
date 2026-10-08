@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2936,
+  "revision": 2938,
   "tasks": {
     "328": {
       "number": 328,
@@ -697,7 +697,7 @@
     },
     "333": {
       "number": 333,
-      "status": "aligning",
+      "status": "parked",
       "firstSeen": 1791313276569,
       "attempts": {},
       "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791439220914,
+      "blockedUntil": 1791440716196,
       "candidate": null,
-      "error": "主干对齐失败：Command failed: git merge --no-ff --no-edit 7509809a7f72b6e5cb646f97615b727b23da5cd6\n",
+      "error": "Command failed: git merge --no-ff --no-edit 7509809a7f72b6e5cb646f97615b727b23da5cd6\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -154369,6 +154369,31 @@
       },
       "previous": "00027da651b5097b82b5fec2afee9019c4aa4d398dead43cae6e306c5a64d5a5",
       "digest": "ffb46f196e5cd02bd83d471f6e07993ec6017f7780769b21d3b4b28603569cf5"
+    },
+    {
+      "sequence": 2937,
+      "at": "2026-10-08T06:15:16.196Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "Command failed: git merge --no-ff --no-edit 7509809a7f72b6e5cb646f97615b727b23da5cd6\n",
+          "blockedUntil": 1791440716196
+        }
+      },
+      "previous": "ffb46f196e5cd02bd83d471f6e07993ec6017f7780769b21d3b4b28603569cf5",
+      "digest": "f0dec623d40ac356a236cf795a27b6cae62092e52ac90cde941bc06f9813b415"
+    },
+    {
+      "sequence": 2938,
+      "at": "2026-10-08T06:18:05.107Z",
+      "kind": "transaction",
+      "data": {
+        "id": "3ef4fadb-fb37-4b5c-b217-53ea0883baca"
+      },
+      "previous": "f0dec623d40ac356a236cf795a27b6cae62092e52ac90cde941bc06f9813b415",
+      "digest": "9fd9d5ab8a9ace21cb066b9e4d28d7ddf5d37326bc7fff82709d2ebfd16d4eae"
     }
   ]
 }
