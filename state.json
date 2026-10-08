@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2950,
+  "revision": 2952,
   "tasks": {
     "328": {
       "number": 328,
@@ -1012,7 +1012,7 @@
         "outputs/mine-clear/T-2026-1006-0001/evidence/video-typecheck-4.run.json"
       ],
       "ciSince": 1791317412440,
-      "updatedAt": 1791440116196,
+      "updatedAt": 1791440722345,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791440716196,
+      "blockedUntil": 1791441322345,
       "candidate": null,
-      "error": "主干对齐失败：Command failed: git merge --no-ff --no-edit 7509809a7f72b6e5cb646f97615b727b23da5cd6\n",
+      "error": "Command failed: git fetch --quiet --no-tags https://cnb.cool/workloom-ai/WorkLoom-growth.git refs/heads/automation/delivery-state\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -154869,6 +154869,31 @@
       },
       "previous": "e9d0074788f10f737cdfae372a51f615211222a1a26d23dd1f7ffd8e11d5437d",
       "digest": "db1497b45a4dabe1619b7da99699edec4baeebf2c5283a9b339180257ea858ed"
+    },
+    {
+      "sequence": 2951,
+      "at": "2026-10-08T06:25:22.345Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "Command failed: git fetch --quiet --no-tags https://cnb.cool/workloom-ai/WorkLoom-growth.git refs/heads/automation/delivery-state\n",
+          "blockedUntil": 1791441322345
+        }
+      },
+      "previous": "db1497b45a4dabe1619b7da99699edec4baeebf2c5283a9b339180257ea858ed",
+      "digest": "a7e2298f1f17bc79b089f5e15ddae154b3a079be12e52055de0310602290521c"
+    },
+    {
+      "sequence": 2952,
+      "at": "2026-10-08T06:27:32.367Z",
+      "kind": "transaction",
+      "data": {
+        "id": "806b8813-aa0f-405b-b6ec-5c17f2638caf"
+      },
+      "previous": "a7e2298f1f17bc79b089f5e15ddae154b3a079be12e52055de0310602290521c",
+      "digest": "d3222e0a72f2c5e17fc9eb169aa7aa81ca79135e1edac4de657aefd19ae83c67"
     }
   ]
 }
