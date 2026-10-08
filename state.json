@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2902,
+  "revision": 2904,
   "tasks": {
     "328": {
       "number": 328,
@@ -697,7 +697,7 @@
     },
     "333": {
       "number": 333,
-      "status": "aligning",
+      "status": "parked",
       "firstSeen": 1791313276569,
       "attempts": {},
       "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -1037,9 +1037,9 @@
       },
       "recoveryCount": 0,
       "reviewFailures": null,
-      "blockedUntil": 1791438019416,
+      "blockedUntil": 1791439220914,
       "candidate": null,
-      "error": "主干对齐失败：Command failed: git merge --no-ff --no-edit 7509809a7f72b6e5cb646f97615b727b23da5cd6\n",
+      "error": "Command failed: git merge --no-ff --no-edit 7509809a7f72b6e5cb646f97615b727b23da5cd6\n",
       "repairRequired": {
         "provider": "codex",
         "headSha": "0fcae43b6852b5cdb77456ffd8d6a8670376f6b7",
@@ -152686,6 +152686,31 @@
       },
       "previous": "79a64b76828c8d75d4be2fa132e404dce3755849340fa5f22ad9463b43ae0de6",
       "digest": "8091c5f3828ae45d1919b214570779026e54fee330e25be3375b25a56a690fc2"
+    },
+    {
+      "sequence": 2903,
+      "at": "2026-10-08T05:50:20.914Z",
+      "kind": "task",
+      "data": {
+        "number": 333,
+        "patch": {
+          "status": "parked",
+          "error": "Command failed: git merge --no-ff --no-edit 7509809a7f72b6e5cb646f97615b727b23da5cd6\n",
+          "blockedUntil": 1791439220914
+        }
+      },
+      "previous": "8091c5f3828ae45d1919b214570779026e54fee330e25be3375b25a56a690fc2",
+      "digest": "ba81be42eb3ac4de5c7d87acd7a90df0b93a56c04dd0848c9c82435d318acbea"
+    },
+    {
+      "sequence": 2904,
+      "at": "2026-10-08T05:52:49.200Z",
+      "kind": "transaction",
+      "data": {
+        "id": "74a6998a-c4f1-44ed-b926-5ca357fb15ea"
+      },
+      "previous": "ba81be42eb3ac4de5c7d87acd7a90df0b93a56c04dd0848c9c82435d318acbea",
+      "digest": "da9297c18791b52ef0cf33a922d985d3dc078a7b93ee080f7c239395bbac368f"
     }
   ]
 }
