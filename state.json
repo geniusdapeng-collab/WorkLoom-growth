@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2940,
+  "revision": 2942,
   "tasks": {
     "328": {
       "number": 328,
@@ -300,9 +300,9 @@
         "scripts/video-capabilities.test.mjs"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791440116196,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791440716196,
+      "updatedAt": 1791440429436,
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "blockedUntil": 1791441029436,
       "alignmentCount": 2,
       "alignmentIntent": {
         "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -154427,6 +154427,31 @@
       },
       "previous": "c72dbc37db825b99a1d7eb5abd985f600dd922e8365c1fcaefe7c7a288f401cc",
       "digest": "74a5df0050a526d4adb1a0423f4773bd5947e2c84dab0824a49d8380587d905c"
+    },
+    {
+      "sequence": 2941,
+      "at": "2026-10-08T06:20:29.436Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791441029436
+        }
+      },
+      "previous": "74a5df0050a526d4adb1a0423f4773bd5947e2c84dab0824a49d8380587d905c",
+      "digest": "343bc352bc44c473780f5adece02cfc621ae0019926d6f5d773302d137ca4bdb"
+    },
+    {
+      "sequence": 2942,
+      "at": "2026-10-08T06:20:36.858Z",
+      "kind": "transaction",
+      "data": {
+        "id": "0e7b9e47-c915-40b2-a043-c468923f3921"
+      },
+      "previous": "343bc352bc44c473780f5adece02cfc621ae0019926d6f5d773302d137ca4bdb",
+      "digest": "b13736578a237c2c8a1ed92b1410d48746707739e329cb3c7dff5df79315726d"
     }
   ]
 }
