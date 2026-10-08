@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2485,
+  "revision": 2488,
   "tasks": {
     "328": {
       "number": 328,
@@ -3615,7 +3615,7 @@
     },
     "348": {
       "number": 348,
-      "status": "developing",
+      "status": "waiting_ci",
       "firstSeen": 1791380295521,
       "attempts": {},
       "admission": {
@@ -3631,11 +3631,11 @@
           "protocol": 25
         }
       },
-      "updatedAt": 1791422418126,
+      "updatedAt": 1791422864247,
       "headSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
       "intent": {
         "taskId": "T-2026-1007-0002",
-        "ready": false,
+        "ready": true,
         "dependsOn": [],
         "releases": []
       },
@@ -3648,9 +3648,9 @@
         "provider": "codex",
         "repo": "workloom-ai/WorkLoom-growth",
         "number": 348,
-        "headSha": "50001033cb305c178234c1b764c98ab9cc20dc0f",
+        "headSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
         "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
-        "policyHash": "b264f5d3049aae86aa9ec66f740629dd4761f8d87757df41afaa47e3f9e1f7c0",
+        "policyHash": "04a4d19f557cfb18077108b472a8cee90216da7c4f691dab870673c7fe852eea",
         "reviewedFiles": [
           ".cnb.yml",
           "AGENTS.repo.md",
@@ -3670,6 +3670,8 @@
           "apps/server/src/video/whiteboard/whiteboard.test.ts",
           "bundles/ai-video/README.md",
           "bundles/ai-video/bundle.json",
+          "bundles/ai-video/connectors/bgm-bridge/audio-stems-mix.test.mjs",
+          "bundles/ai-video/connectors/bgm-bridge/measure.mjs",
           "bundles/ai-video/connectors/color-bridge/cli.mjs",
           "bundles/ai-video/connectors/color-bridge/core.mjs",
           "bundles/ai-video/connectors/color-bridge/core.test.ts",
@@ -3722,6 +3724,7 @@
           "docs/ai-video-workbench-guide.md",
           "docs/real-person-asset.md",
           "packages/base/bundles/bgm-capability.test.ts",
+          "packages/base/bundles/bgm-measure-compatibility.test.ts",
           "packages/base/bundles/color-capability.test.ts",
           "packages/base/bundles/post-av-sync.test.ts",
           "packages/base/bundles/post-delivery-capability.test.ts",
@@ -3750,69 +3753,85 @@
           "vendor/supermickey/hyperreality-system/engines/post-production-engine/post-production-engine.js",
           "vendor/supermickey/systems/post-production-pipeline.js"
         ],
-        "filesHash": "ac62ed282ea69d67b5922faf3ea24fa34604969ab29975a0e33c965908530c0b",
+        "filesHash": "6b574aa422bd3107ddc306f0460b3c7ecd04a6053d481dd581a020d176a832cc",
         "dependsOn": [],
         "ciPolicyChanges": [
           {
             "id": "CI-001",
-            "rationale": "当前加工事实取代旧逐PCM质检：保留实际CFR帧数/PTS/声画时基、转场像素与来源SHA，不将实际加工回执伪造成口型或听感认证。额外测试保持请求的真实输出时轴，不混入phase2软时長算法；root当前5264 whole-video包与原始test:scripts均实跑通过。未改5000ms治理超时、未删测试、未改必需CI集合。"
+            "rationale": "当前.2实际指南/bodySHA与CLI/MCP/物理载荷回读及默认成功镜头官方后期策略；新增与真实官方CLI/post/vendor/宿主的离线调用链测试导入。保留缺件/权限/字节/错误边界，不执行生产provider/model/ASRTTS。当前5264 root15原始script入口与已登记sourcebinding全部实际通过，等待真实独立最终接受。"
           },
           {
             "id": "CI-002",
-            "rationale": "当前50001033的唯一增量CI配置。test-gate原pgvector容器未声明FFmpeg/ffprobe/Python安装，云端44个媒体夹具spawn结果为空的真实失败日志保留，不把候选原因当已证因果。补充apt ffmpeg和python3及三工具版本实际回读；必需流水线、原命令、阈值、失败传播均未更改。当前独立YAML解析+真实bash-n/root6项通过；Linux安装和全量CI仅认当前云端回执。其余96源文件及旧15项root/20项独立历史测试字节一致，准确身份时间保留。"
+            "rationale": "当前 trusted main 0fb91083 的必需五流水线及原检查集合、阈值和失败传播保持。当前100快照 CI-002 是 test-gate 准备环境的结构化变更，增加 ffmpeg/ffprobe、Python 安装及真实版本回读；CI-003 绑定同一 .cnb.yml 文件字节变更，两项都按当前 IDs 解释。其余 Node/pnpm、DB 初始化与迁移、必需命令均保持。当前 fc03 ROOT8 本地检查、独立原生43及wrapper2通过；旧云363发现原生音频测试三项仍要求已撤销的品质门，fc03只迁移对应测试为原声真实处理/来源/失败语义，保留真实签章和频率隔离断言。此前云500安装成功但被终止及363测试失败的原始日志保留；本地结果不冒充 Linux 或当前云端全量通过。真实云端结果只认当前来源与 main 双亲的实际提交。"
           },
           {
             "id": "CI-003",
-            "rationale": "按产品所有者授权迁移成功镜头渲后品质门/canary/retry预期为实际任务和源字节采用；新增真正FFmpeg素材的原声/静音/17fps及qualityfailed历史adoption、材料恢复、真实后期/xfade各版本、来源篡改与host范围验证。归档每次独立临时目录，逐entrySHA原片/旧记录不变；保留真正供应商失败/坏源/越界/流程错误，不删除原required入口或改云CI集合。真实author110及root原始script267/Vitest等当前绿色，独立own严格等待实际完成。"
+            "rationale": "当前 trusted main 0fb91083 的必需五流水线及原检查集合、阈值和失败传播保持。当前100快照 CI-002 是 test-gate 准备环境的结构化变更，增加 ffmpeg/ffprobe、Python 安装及真实版本回读；CI-003 绑定同一 .cnb.yml 文件字节变更，两项都按当前 IDs 解释。其余 Node/pnpm、DB 初始化与迁移、必需命令均保持。当前 fc03 ROOT8 本地检查、独立原生43及wrapper2通过；旧云363发现原生音频测试三项仍要求已撤销的品质门，fc03只迁移对应测试为原声真实处理/来源/失败语义，保留真实签章和频率隔离断言。此前云500安装成功但被终止及363测试失败的原始日志保留；本地结果不冒充 Linux 或当前云端全量通过。真实云端结果只认当前来源与 main 双亲的实际提交。"
           },
           {
             "id": "CI-004",
-            "rationale": "当前.2实际指南/bodySHA与CLI/MCP/物理载荷回读及默认成功镜头官方后期策略；新增与真实官方CLI/post/vendor/宿主的离线调用链测试导入。保留缺件/权限/字节/错误边界，不执行生产provider/model/ASRTTS。当前5264 root15原始script入口与已登记sourcebinding全部实际通过，等待真实独立最终接受。"
+            "rationale": "按产品所有者授权迁移成功镜头渲后品质门/canary/retry预期为实际任务和源字节采用；新增真正FFmpeg素材的原声/静音/17fps及qualityfailed历史adoption、材料恢复、真实后期/xfade各版本、来源篡改与host范围验证。归档每次独立临时目录，逐entrySHA原片/旧记录不变；保留真正供应商失败/坏源/越界/流程错误，不删除原required入口或改云CI集合。真实author110及root原始script267/Vitest等当前绿色，独立own严格等待实际完成。"
+          },
+          {
+            "id": "CI-005",
+            "rationale": "当前加工事实取代旧逐PCM质检：保留实际CFR帧数/PTS/声画时基、转场像素与来源SHA，不将实际加工回执伪造成口型或听感认证。额外测试保持请求的真实输出时轴，不混入phase2软时長算法；root当前5264 whole-video包与原始test:scripts均实跑通过。未改5000ms治理超时、未删测试、未改必需CI集合。"
           }
         ],
-        "ciPolicyChangesHash": "f3d422c90935eebc2918108eb627feb35092dba827bcea59d77c489333c4bb28",
+        "ciPolicyChangesHash": "e5363346bfc6f7151287aa2552dcf81d9481ed172b6f48473940606ef0a3cac4",
         "tests": [
           {
             "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node /Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/post-render-default-acceptance/growth/native-ci-tool-deps/verify-current-config.mjs",
             "exitCode": 0,
-            "finishedAt": "2026-10-07T14:30:52.709794+00:00",
-            "result": "{\"schema\":\"native-config-current-delta-verification/v1\",\"headSha\":\"50001033cb305c178234c1b764c98ab9cc20dc0f\",\"sourceSha256\":\"138a38be1c300c16277dddca5702604b8045f1c0547cb676412e664bd7232d9b\",\"repositoryYamlParser\":true,\"realShellSyntaxExitCode\":0,\"existingCheckSetsUnchanged\":true,\"setupToolVersionsReadBackInNative\":[\"ffmpeg\",\"ffprobe\",\"python3\"],\"localContainerInstallationVerified\":false,\"priorSourceAndFullTestEvidence\":\"/Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/post-render-default-acceptance/growth/native-ci-tool-deps/before-accepted\",\"qualification\":\"Local config and shell validation only; actual Linux package installation and complete CI remain native checks.\"}"
+            "finishedAt": "2026-10-08T00:15:16.831143+00:00",
+            "result": "{\"schema\":\"native-config-current-delta-verification/v1\",\"headSha\":\"fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9\",\"sourceSha256\":\"138a38be1c300c16277dddca5702604b8045f1c0547cb676412e664bd7232d9b\",\"repositoryYamlParser\":true,\"realShellSyntaxExitCode\":0,\"existingCheckSetsUnchanged\":true,\"setupToolVersionsReadBackInNative\":[\"ffmpeg\",\"ffprobe\",\"python3\"],\"localContainerInstallationVerified\":false,\"priorSourceAndFullTestEvidence\":\"/Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/post-render-default-acceptance/growth/native-ci-tool-deps/before-accepted\",\"qualification\":\"Local config and shell validation only; actual Linux package installation and complete CI remain native checks.\"}"
           },
           {
             "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import tsx scripts/bundle-governance.mts",
             "exitCode": 0,
-            "finishedAt": "2026-10-07T14:30:58.010432+00:00",
+            "finishedAt": "2026-10-08T00:15:17.606588+00:00",
             "result": "✅ 行业包契约、兼容范围、资产、导航与完整性门禁通过（base 0.1.0 / ui 0.1.19）"
           },
           {
             "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/ci/verify-commit-msg.mjs --range 0fb91083bea784f1714188c3fb63fd519f717e5f..HEAD",
             "exitCode": 0,
-            "finishedAt": "2026-10-07T14:30:58.654648+00:00",
-            "result": "✓ 50001033cb30 fix(video): accept completed render sources into official post [T-2026-1007-0002]\n✓ 5264b79ef1a2 fix(video): accept completed render sources into official post [T-2026-1007-0002]\n\n✓ 提交信息校验通过（2 条，范围 0fb91083bea784f1714188c3fb63fd519f717e5f..HEAD）"
+            "finishedAt": "2026-10-08T00:15:17.728752+00:00",
+            "result": "✓ fc03c5b2e5e9 fix(video): accept completed render sources into official post [T-2026-1007-0002]\n✓ 3631fa39a81a fix(video): accept completed render sources into official post [T-2026-1007-0002]\n✓ 50001033cb30 fix(video): accept completed render sources into official post [T-2026-1007-0002]\n✓ 5264b79ef1a2 fix(video): accept completed render sources into official post [T-2026-1007-0002]\n\n✓ 提交信息校验通过（4 条，范围 0fb91083bea784f1714188c3fb63fd519f717e5f..HEAD）"
           },
           {
             "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/ci/verify-hard-gate-policy.mjs",
             "exitCode": 0,
-            "finishedAt": "2026-10-07T14:30:59.203482+00:00",
+            "finishedAt": "2026-10-08T00:15:17.865518+00:00",
             "result": "[hard-gate-policy] 通过：扫描 112 个文件，未发现\"创作口径写成硬闸\"。"
+          },
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node ../../node_modules/vitest/vitest.mjs run bundles/bgm-measure-compatibility.test.ts bundles/bgm-tag.test.ts bundles/bgm-capability.test.ts",
+            "exitCode": 0,
+            "finishedAt": "2026-10-08T00:15:38.393568+00:00",
+            "result": "RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/ai-workbench-guides/repos/growth/packages/base\n\n\n Test Files  3 passed (3)\n      Tests  70 passed (70)\n   Start at  08:15:18\n   Duration  19.73s (transform 461ms, setup 0ms, import 836ms, tests 18.31s, environment 0ms)"
           },
           {
             "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run apps/server/src/video/explainer/explainer.test.ts apps/server/src/video/whiteboard/whiteboard.test.ts apps/server/src/video/delivery-trust.test.ts",
             "exitCode": 0,
-            "finishedAt": "2026-10-07T22:51:38.412822+00:00",
-            "result": "RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/ai-workbench-guides/repos/growth\n\n\n Test Files  3 passed (3)\n      Tests  171 passed | 1 skipped (172)\n   Start at  06:51:25\n   Duration  12.17s (transform 5.65s, setup 0ms, import 7.60s, tests 17.23s, environment 0ms)\n\n字幕条: 11  总时长: 88.0s  建议场景: 3\n  幕 1     0.0-  32.1s (32.1s, 字幕1-4): 做过生意的人都懂这三笔账：流量越来越贵，询盘接不住，利润被平台抽走。 还有一笔正\n  幕 2    32.4-  64.0s (31.6s, 字幕5-8): WorkLoom 是系统化班组：老板一句话，系统自动分工、协作、交付。 它交付的\n  幕 3    64.3-  88.0s (23.7s, 字幕9-11): 断点档案让超长链路永不白跑，媒资库让素材越攒越值钱。 围栏治理、人审、事件账本，"
+            "finishedAt": "2026-10-08T00:15:48.747449+00:00",
+            "result": "RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/ai-workbench-guides/repos/growth\n\n\n Test Files  3 passed (3)\n      Tests  171 passed | 1 skipped (172)\n   Start at  08:15:38\n   Duration  9.72s (transform 2.13s, setup 0ms, import 5.86s, tests 14.48s, environment 0ms)\n\n字幕条: 11  总时长: 88.0s  建议场景: 3\n  幕 1     0.0-  32.1s (32.1s, 字幕1-4): 做过生意的人都懂这三笔账：流量越来越贵，询盘接不住，利润被平台抽走。 还有一笔正\n  幕 2    32.4-  64.0s (31.6s, 字幕5-8): WorkLoom 是系统化班组：老板一句话，系统自动分工、协作、交付。 它交付的\n  幕 3    64.3-  88.0s (23.7s, 字幕9-11): 断点档案让超长链路永不白跑，媒资库让素材越攒越值钱。 围栏治理、人审、事件账本，"
           },
           {
             "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/runtime-deps-lock.mjs verify",
             "exitCode": 0,
-            "finishedAt": "2026-10-07T22:51:39.077053+00:00",
+            "finishedAt": "2026-10-08T00:15:48.986790+00:00",
             "result": "✅ runtime 依赖锁有效：workloom-ai-growth · 12 个直接依赖"
+          },
+          {
+            "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node ../../node_modules/vitest/vitest.mjs run bundles/post-audio-stems.test.ts",
+            "exitCode": 0,
+            "finishedAt": "2026-10-08T00:16:18.402863+00:00",
+            "result": "RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/ai-workbench-guides/repos/growth/packages/base\n\n\n Test Files  1 passed (1)\n      Tests  2 passed (2)\n   Start at  08:15:49\n   Duration  28.98s (transform 12ms, setup 0ms, import 34ms, tests 28.83s, environment 0ms)"
           }
         ],
-        "reviewedAt": "2026-10-07T23:06:43.694Z",
-        "summary": "Successful completed provider shots enter official post by current task and byte provenance. Default post does not use identity, wardrobe, motion, raw specification, audio/lip/dialogue, model/human quality or canary review to veto or rerender sources. It preserves original program audio and performs requested actual processing once. Real provider failures, source tampering, prior authorization and actual requested export errors remain explicit. CLI, worker, bridges, fences and discoverable workbench guide follow this policy. No provider/model/ASR/TTS production call; phase2 completeness remains a separate later task. Current delta adds only ffmpeg and Python native test setup and reads tool versions. Prior96 source bytes and own root15 / genuine independent20 local checks are unchanged and preserved under native-ci-tool-deps/before-accepted; current source97 local checks target this CI configuration and affected actual media fixtures. Native Linux package installation and all required CI remain required, not locally certified.",
+        "reviewedAt": "2026-10-08T00:31:31.887Z",
+        "summary": "Successful completed provider shots enter official post by current task and byte provenance. Default post does not use identity, wardrobe, motion, raw specification, audio/lip/dialogue, model/human quality or canary review to veto or rerender sources. It preserves original program audio and performs requested actual processing once. Real provider failures, source tampering, prior authorization and actual requested export errors remain explicit. CLI, worker, bridges, fences and discoverable workbench guide follow this policy. No provider/model/ASR/TTS production call; phase2 completeness remains a separate later task.",
         "passed": true,
-        "id": "6cb525eb892d1609879c21d0656e8ff462206467131cc2ac2dca47cc2e912a44"
+        "id": "1b0e801dd6783ce61ca39e850c5846d81738ceccdc06f7c82c87de7231a9cf95"
       },
       "reviewSnapshot": {
         "repo": "workloom-ai/WorkLoom-growth",
@@ -3821,7 +3840,7 @@
           "number": 348,
           "state": "open",
           "title": "fix(video): 成功渲染素材直接进入正式后期 [T-2026-1007-0002]",
-          "body": "成功镜头此前可能被渲染后的身份、服装、画面、动作、规格、声音、口型或台词质量检查阻塞，并触发再次生成或多轮后期。现在按实际供应商任务、输入作用域和当前文件摘要接受已有成功素材，直接进入官方后期；默认保留原片节目音轨，按请求执行一次真实加工。\n\nCLI、服务端/子工作器、后期连接器、围栏、预设、技能与可发现的 CLI/MCP 工作台指南已同步。真实供应商失败、源文件缺失或篡改、事前权限/授权/资金，以及请求加工或导出失败继续明确报错。\n\n验证：精确提交 `50001033cb305c178234c1b764c98ab9cc20dc0f` 的 6 项当前增量检查已实际通过，覆盖 CI 配置解析、脚本语法和实际媒体加工夹具；原 96 份文件摘要未变，原提交的 15 项完整检查和独立复核者的 20 项实测作为准确历史证据保留。本提交在 test-gate 容器中安装 FFmpeg、ffprobe 与 Python 并回读版本。此前云端媒体夹具实际失败，容器配置未安装这些工具；该配置缺口是待原生 CI 验证的原因候选，未把仅有 spawn 状态为空的日志视为具体因果证明。当前 Linux 安装与完整原生 CI 仍须真实运行；不将本地配置复核冒充云端通过。真实独立增量复核及当前发布回执完成前 ready=false。\n\n边界：没有供应商、模型、图像/视频生成、ASR/TTS 或新生产影片调用；合成夹具耗时不作为生产测速。“作品完整性优先、普通时长允许自然浮动”是后续单独任务，本 PR 不冒充已落实。源码经原生交付队列与准确候选 CI 发布；不声称签名安装包发布。回滚为 revert 本任务提交。\n\n任务卡：#344（T-2026-1007-0002）。\n\n<!-- workloom-delivery\n{\n  \"task_id\": \"T-2026-1007-0002\",\n  \"ready\": true,\n  \"depends_on\": [],\n  \"releases\": []\n}\n-->",
+          "body": "成功镜头此前可能被渲染后的身份、服装、画面、动作、规格、声音、口型或台词质量检查阻塞，并触发再次生成或多轮后期。现在按实际供应商任务、输入作用域和当前文件摘要接受已有成功素材，直接进入官方后期；默认保留原片节目音轨，按请求执行一次真实加工。\n\nCLI、服务端/子工作器、后期连接器、围栏、预设、技能与可发现的 CLI/MCP 工作台指南已同步。真实供应商失败、源文件缺失或篡改、事前权限/授权/资金，以及请求加工或导出失败继续明确报错。\n\n验证：精确提交 `fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9` 的正式离线 CLI、实际围栏与工作器调用链、能力、指南 CLI/MCP、两个包类型检查、官方包生成器/完整性、提交协议及秘密扫描均已实际通过。准确命令、日志和源摘要保存在本次审查回执；真实独立语义复核正在进行，完成前 ready=false。\n\n边界：没有供应商、模型、图像/视频生成、ASR/TTS 或新生产影片调用；合成夹具耗时不作为生产测速。“作品完整性优先、普通时长允许自然浮动”是后续单独任务，本 PR 不冒充已落实。源码经原生交付队列与准确候选 CI 发布；不声称签名安装包发布。回滚为 revert 本任务提交。\n\n任务卡：#344（T-2026-1007-0002）。\n\n<!-- workloom-delivery\n{\n  \"task_id\": \"T-2026-1007-0002\",\n  \"ready\": true,\n  \"depends_on\": [],\n  \"releases\": []\n}\n-->",
           "author": {
             "username": "cnb.dYiF05kxAGA",
             "nickname": "Genius",
@@ -3842,7 +3861,7 @@
           },
           "head": {
             "ref": "refs/heads/task/T-2026-1007-0002",
-            "sha": "50001033cb305c178234c1b764c98ab9cc20dc0f",
+            "sha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
             "repo": {
               "id": "2100917893030621184",
               "name": "WorkLoom-growth",
@@ -3860,7 +3879,7 @@
           "is_force_merged": false,
           "statuses": {}
         },
-        "headSha": "50001033cb305c178234c1b764c98ab9cc20dc0f",
+        "headSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
         "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
         "files": [
           ".cnb.yml",
@@ -3881,6 +3900,8 @@
           "apps/server/src/video/whiteboard/whiteboard.test.ts",
           "bundles/ai-video/README.md",
           "bundles/ai-video/bundle.json",
+          "bundles/ai-video/connectors/bgm-bridge/audio-stems-mix.test.mjs",
+          "bundles/ai-video/connectors/bgm-bridge/measure.mjs",
           "bundles/ai-video/connectors/color-bridge/cli.mjs",
           "bundles/ai-video/connectors/color-bridge/core.mjs",
           "bundles/ai-video/connectors/color-bridge/core.test.ts",
@@ -3933,6 +3954,7 @@
           "docs/ai-video-workbench-guide.md",
           "docs/real-person-asset.md",
           "packages/base/bundles/bgm-capability.test.ts",
+          "packages/base/bundles/bgm-measure-compatibility.test.ts",
           "packages/base/bundles/color-capability.test.ts",
           "packages/base/bundles/post-av-sync.test.ts",
           "packages/base/bundles/post-delivery-capability.test.ts",
@@ -3967,7 +3989,7 @@
           "dependsOn": [],
           "releases": []
         },
-        "headTime": 1791383223000,
+        "headTime": 1791418486000,
         "mergeBase": "0fb91083bea784f1714188c3fb63fd519f717e5f",
         "checkErrors": [],
         "checkSha": null,
@@ -3975,51 +3997,6 @@
         "ciPolicyChanges": [
           {
             "id": "CI-001",
-            "file": "scripts/tools/video-request-regression.test.ts",
-            "before": {
-              "ref": "0fb91083bea784f1714188c3fb63fd519f717e5f",
-              "path": "scripts/tools/video-request-regression.test.ts",
-              "absent": false
-            },
-            "after": {
-              "ref": "50001033cb305c178234c1b764c98ab9cc20dc0f",
-              "path": "scripts/tools/video-request-regression.test.ts",
-              "absent": false
-            },
-            "digest": "1ac4c219b86f137597250a0347ce1ae99d91dc3ac89b40e59653301797083d1a"
-          },
-          {
-            "id": "CI-002",
-            "file": ".cnb.yml",
-            "before": {
-              "ref": "0fb91083bea784f1714188c3fb63fd519f717e5f",
-              "path": ".cnb.yml",
-              "absent": false
-            },
-            "after": {
-              "ref": "50001033cb305c178234c1b764c98ab9cc20dc0f",
-              "path": ".cnb.yml",
-              "absent": false
-            },
-            "digest": "d0881f9b8b239fa6e084660f07a2a750f0d645035f3a4d005c3cece096e7cff8"
-          },
-          {
-            "id": "CI-003",
-            "file": "scripts/tools/full-chain-failure.test.mjs",
-            "before": {
-              "ref": "0fb91083bea784f1714188c3fb63fd519f717e5f",
-              "path": "scripts/tools/full-chain-failure.test.mjs",
-              "absent": true
-            },
-            "after": {
-              "ref": "50001033cb305c178234c1b764c98ab9cc20dc0f",
-              "path": "scripts/tools/full-chain-failure.test.mjs",
-              "absent": false
-            },
-            "digest": "d9c80b62b51b76adea823e33044ddb04a73cfc0c4ff95f8c375f3168958a88e0"
-          },
-          {
-            "id": "CI-004",
             "file": "scripts/ai-video-workbench-guide.test.mjs",
             "before": {
               "ref": "0fb91083bea784f1714188c3fb63fd519f717e5f",
@@ -4027,11 +4004,85 @@
               "absent": false
             },
             "after": {
-              "ref": "50001033cb305c178234c1b764c98ab9cc20dc0f",
+              "ref": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
               "path": "scripts/ai-video-workbench-guide.test.mjs",
               "absent": false
             },
-            "digest": "e80f488183bddd89978d949cf747fa6bb96a2bc7026f26c874f15d787f96af3b"
+            "digest": "07229139145faeca7d29f5419fb22c3db52cfad9cea16c4db0cb66867eb3853d"
+          },
+          {
+            "id": "CI-002",
+            "pipeline": "test-gate",
+            "stage": "准备 Node 24 与 pnpm",
+            "file": ".cnb.yml",
+            "before": {
+              "ref": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+              "path": ".cnb.yml",
+              "absent": false,
+              "definition": {
+                "name": "准备 Node 24 与 pnpm",
+                "script": "set -eu\nNODE_VERSION=v24.19.0\napt-get update -qq\napt-get install -y -qq curl xz-utils ca-certificates git >/dev/null\nif [ ! -x /cnb-cache/node/bin/node ]; then\n  mkdir -p /cnb-cache/node\n  curl -fsSL \"https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.xz\" -o /tmp/node.tar.xz\n  tar -xJf /tmp/node.tar.xz -C /cnb-cache/node --strip-components=1\nfi\nfor bin in /cnb-cache/node/bin/*; do ln -sf \"$bin\" /usr/local/bin/; done\ncorepack enable --install-directory /usr/local/bin\ncorepack prepare pnpm@10.14.0 --activate\npnpm config set store-dir /cnb-cache/pnpm-store\npnpm install --frozen-lockfile\nexport PGDATA=/var/lib/postgresql/data\nif [ ! -s \"${PGDATA}/PG_VERSION\" ]; then\n  mkdir -p \"${PGDATA}\"; chown -R postgres:postgres \"${PGDATA}\"\n  su postgres -c \"initdb -D ${PGDATA} -U postgres --auth=trust --encoding=UTF8\"\nfi\nsu postgres -c \"pg_ctl -D ${PGDATA} -l /tmp/postgres.log -o '-c listen_addresses=localhost -c port=5432' start\"\nfor i in $(seq 1 60); do\n  if pg_isready -h localhost -p 5432 -U postgres >/dev/null 2>&1; then break; fi\n  sleep 1\ndone\nif ! psql -h localhost -p 5432 -U postgres -tAc \"SELECT 1 FROM pg_database WHERE datname='workloom'\" | grep -q 1; then\n  psql -h localhost -p 5432 -U postgres -c \"CREATE DATABASE workloom OWNER postgres;\" >/dev/null\nfi\npsql -h localhost -p 5432 -U postgres -d workloom -c \"CREATE EXTENSION IF NOT EXISTS vector;\" >/dev/null\ncp .env.example .env\nset -a\nwhile IFS= read -r line; do\n  case \"$line\" in ''|\\#*) continue ;; esac\n  export \"$line\"\ndone < .env\nset +a\npnpm db:migrate\npnpm db:seed\n"
+              }
+            },
+            "after": {
+              "ref": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+              "path": ".cnb.yml",
+              "absent": false,
+              "definition": {
+                "name": "准备 Node 24 与 pnpm",
+                "script": "set -eu\nNODE_VERSION=v24.19.0\napt-get update -qq\napt-get install -y -qq curl xz-utils ca-certificates git ffmpeg python3 >/dev/null\nffmpeg -version\nffprobe -version\npython3 --version\nif [ ! -x /cnb-cache/node/bin/node ]; then\n  mkdir -p /cnb-cache/node\n  curl -fsSL \"https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.xz\" -o /tmp/node.tar.xz\n  tar -xJf /tmp/node.tar.xz -C /cnb-cache/node --strip-components=1\nfi\nfor bin in /cnb-cache/node/bin/*; do ln -sf \"$bin\" /usr/local/bin/; done\ncorepack enable --install-directory /usr/local/bin\ncorepack prepare pnpm@10.14.0 --activate\npnpm config set store-dir /cnb-cache/pnpm-store\npnpm install --frozen-lockfile\nexport PGDATA=/var/lib/postgresql/data\nif [ ! -s \"${PGDATA}/PG_VERSION\" ]; then\n  mkdir -p \"${PGDATA}\"; chown -R postgres:postgres \"${PGDATA}\"\n  su postgres -c \"initdb -D ${PGDATA} -U postgres --auth=trust --encoding=UTF8\"\nfi\nsu postgres -c \"pg_ctl -D ${PGDATA} -l /tmp/postgres.log -o '-c listen_addresses=localhost -c port=5432' start\"\nfor i in $(seq 1 60); do\n  if pg_isready -h localhost -p 5432 -U postgres >/dev/null 2>&1; then break; fi\n  sleep 1\ndone\nif ! psql -h localhost -p 5432 -U postgres -tAc \"SELECT 1 FROM pg_database WHERE datname='workloom'\" | grep -q 1; then\n  psql -h localhost -p 5432 -U postgres -c \"CREATE DATABASE workloom OWNER postgres;\" >/dev/null\nfi\npsql -h localhost -p 5432 -U postgres -d workloom -c \"CREATE EXTENSION IF NOT EXISTS vector;\" >/dev/null\ncp .env.example .env\nset -a\nwhile IFS= read -r line; do\n  case \"$line\" in ''|\\#*) continue ;; esac\n  export \"$line\"\ndone < .env\nset +a\npnpm db:migrate\npnpm db:seed\n"
+              }
+            },
+            "origins": {
+              "before": ".cnb.yml",
+              "after": ".cnb.yml"
+            },
+            "digest": "09b7915b96ee5b1d0417aee3df2ce5e2a171a30229fc0e33018ce02150f289dd"
+          },
+          {
+            "id": "CI-003",
+            "file": ".cnb.yml",
+            "before": {
+              "ref": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+              "path": ".cnb.yml",
+              "absent": false
+            },
+            "after": {
+              "ref": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+              "path": ".cnb.yml",
+              "absent": false
+            },
+            "digest": "6e2c46a06cb50091458ffc30be030215821e16402516041d77e17a61ce53f4ee"
+          },
+          {
+            "id": "CI-004",
+            "file": "scripts/tools/full-chain-failure.test.mjs",
+            "before": {
+              "ref": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+              "path": "scripts/tools/full-chain-failure.test.mjs",
+              "absent": true
+            },
+            "after": {
+              "ref": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+              "path": "scripts/tools/full-chain-failure.test.mjs",
+              "absent": false
+            },
+            "digest": "b731ff0d36a3753555473e9eead34710bde037a6177e6d633d54f149e663cec6"
+          },
+          {
+            "id": "CI-005",
+            "file": "scripts/tools/video-request-regression.test.ts",
+            "before": {
+              "ref": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+              "path": "scripts/tools/video-request-regression.test.ts",
+              "absent": false
+            },
+            "after": {
+              "ref": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+              "path": "scripts/tools/video-request-regression.test.ts",
+              "absent": false
+            },
+            "digest": "e83cc2af32189dab8f1c31627f7323cbb912984ffc5a7417f19c46a1d6e81983"
           }
         ]
       },
@@ -130119,6 +130170,494 @@
       },
       "previous": "13283585a7ba6de62ea6f9d13851072c5ebdd94e80efef90eb7a18cccf755248",
       "digest": "ad7f56a52157b18a772287eaf5c2effde8c0c908426a52ddd7639b3ab9cd8049"
+    },
+    {
+      "sequence": 2486,
+      "at": "2026-10-08T01:27:44.246Z",
+      "kind": "developer_review",
+      "data": {
+        "number": 348,
+        "id": "1b0e801dd6783ce61ca39e850c5846d81738ceccdc06f7c82c87de7231a9cf95",
+        "headSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+        "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f"
+      },
+      "previous": "ad7f56a52157b18a772287eaf5c2effde8c0c908426a52ddd7639b3ab9cd8049",
+      "digest": "9387e1f96c99cf98028193c962a3c9af70e338221ec2dfbf9a6eecc2054f9666"
+    },
+    {
+      "sequence": 2487,
+      "at": "2026-10-08T01:27:44.247Z",
+      "kind": "task",
+      "data": {
+        "number": 348,
+        "patch": {
+          "status": "waiting_ci",
+          "headSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+          "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+          "branch": "task/T-2026-1007-0002",
+          "intent": {
+            "taskId": "T-2026-1007-0002",
+            "ready": true,
+            "dependsOn": [],
+            "releases": []
+          },
+          "developerReview": {
+            "schemaVersion": 1,
+            "provider": "codex",
+            "repo": "workloom-ai/WorkLoom-growth",
+            "number": 348,
+            "headSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+            "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+            "policyHash": "04a4d19f557cfb18077108b472a8cee90216da7c4f691dab870673c7fe852eea",
+            "reviewedFiles": [
+              ".cnb.yml",
+              "AGENTS.repo.md",
+              "apps/server/src/video/delivery-trust.test.ts",
+              "apps/server/src/video/delivery-trust.ts",
+              "apps/server/src/video/explainer/deliver.ts",
+              "apps/server/src/video/explainer/explainer.test.ts",
+              "apps/server/src/video/explainer/pipeline.ts",
+              "apps/server/src/video/explainer/qa-gates.ts",
+              "apps/server/src/video/explainer/remotion-provider.ts",
+              "apps/server/src/video/explainer/router.ts",
+              "apps/server/src/video/explainer/types.ts",
+              "apps/server/src/video/film-worker.test.ts",
+              "apps/server/src/video/film-worker.ts",
+              "apps/server/src/video/whiteboard/mux.ts",
+              "apps/server/src/video/whiteboard/router.ts",
+              "apps/server/src/video/whiteboard/whiteboard.test.ts",
+              "bundles/ai-video/README.md",
+              "bundles/ai-video/bundle.json",
+              "bundles/ai-video/connectors/bgm-bridge/audio-stems-mix.test.mjs",
+              "bundles/ai-video/connectors/bgm-bridge/measure.mjs",
+              "bundles/ai-video/connectors/color-bridge/cli.mjs",
+              "bundles/ai-video/connectors/color-bridge/core.mjs",
+              "bundles/ai-video/connectors/color-bridge/core.test.ts",
+              "bundles/ai-video/connectors/post-bridge/cli.mjs",
+              "bundles/ai-video/connectors/post-bridge/core.mjs",
+              "bundles/ai-video/connectors/post-bridge/delivery-integration.test.ts",
+              "bundles/ai-video/connectors/subtitle-bridge/cli.mjs",
+              "bundles/ai-video/connectors/subtitle-bridge/core.mjs",
+              "bundles/ai-video/connectors/subtitle-bridge/demo-artifacts.mjs",
+              "bundles/ai-video/connectors/subtitle-bridge/kit/selftest.sh",
+              "bundles/ai-video/connectors/subtitle-bridge/processing.test.ts",
+              "bundles/ai-video/connectors/subtitle-bridge/punctuation.test.ts",
+              "bundles/ai-video/connectors/subtitle-bridge/runtime-smoke.mts",
+              "bundles/ai-video/connectors/voice-bridge/core.mjs",
+              "bundles/ai-video/fences/ai-video-bgm.yml",
+              "bundles/ai-video/fences/ai-video-color.yml",
+              "bundles/ai-video/fences/ai-video-delivery.yml",
+              "bundles/ai-video/fences/ai-video-material.yml",
+              "bundles/ai-video/fences/ai-video-subtitle.yml",
+              "bundles/ai-video/fences/ai-video-voice.yml",
+              "bundles/ai-video/library/style-variants/bold-promo.json",
+              "bundles/ai-video/library/style-variants/clean-tech.json",
+              "bundles/ai-video/library/style-variants/index.json",
+              "bundles/ai-video/library/style-variants/warm-story.json",
+              "bundles/ai-video/pipelines/narrative-film.yml",
+              "bundles/ai-video/presets/bgm-composer.yml",
+              "bundles/ai-video/presets/colorist.yml",
+              "bundles/ai-video/presets/post-editor.yml",
+              "bundles/ai-video/presets/subtitle-stylist.yml",
+              "bundles/ai-video/presets/voice-artist.yml",
+              "bundles/ai-video/schemas/objects.json",
+              "bundles/ai-video/skills/bgm-audio-layering/SKILL.md",
+              "bundles/ai-video/skills/bgm-delivery-spec/SKILL.md",
+              "bundles/ai-video/skills/bgm-score-design/SKILL.md",
+              "bundles/ai-video/skills/caption-burnin-ops/SKILL.md",
+              "bundles/ai-video/skills/color-delivery-spec/SKILL.md",
+              "bundles/ai-video/skills/color-grade/SKILL.md",
+              "bundles/ai-video/skills/color-look-design/SKILL.md",
+              "bundles/ai-video/skills/color-shot-matching/SKILL.md",
+              "bundles/ai-video/skills/cover-design/SKILL.md",
+              "bundles/ai-video/skills/delivery-package-ops/SKILL.md",
+              "bundles/ai-video/skills/delivery-revision-ops/SKILL.md",
+              "bundles/ai-video/skills/producer-gate-review/SKILL.md",
+              "bundles/ai-video/skills/render-ops/SKILL.md",
+              "bundles/ai-video/skills/subtitle-delivery-spec/SKILL.md",
+              "bundles/ai-video/skills/subtitle-layout-design/SKILL.md",
+              "bundles/ai-video/skills/voice-delivery-spec/SKILL.md",
+              "bundles/ai-video/skills/voice-dubbing-sync/SKILL.md",
+              "bundles/geo-growth/capabilities/workbench-guide.mjs",
+              "docs/ai-video-workbench-guide.md",
+              "docs/real-person-asset.md",
+              "packages/base/bundles/bgm-capability.test.ts",
+              "packages/base/bundles/bgm-measure-compatibility.test.ts",
+              "packages/base/bundles/color-capability.test.ts",
+              "packages/base/bundles/post-av-sync.test.ts",
+              "packages/base/bundles/post-delivery-capability.test.ts",
+              "packages/base/bundles/subtitle-capability.test.ts",
+              "packages/base/bundles/voice-capability.test.ts",
+              "packages/video-studio/src/cover-design.ts",
+              "packages/video-studio/src/cover-request.test.ts",
+              "packages/video-studio/src/deliver-revise.test.ts",
+              "packages/video-studio/src/deliver.ts",
+              "packages/video-studio/src/film-contracts.test.ts",
+              "packages/video-studio/src/film-contracts.ts",
+              "packages/video-studio/src/film-worker-runtime.test.ts",
+              "packages/video-studio/src/film-worker-runtime.ts",
+              "packages/video-studio/src/index.ts",
+              "packages/video-studio/src/producer-gate.ts",
+              "packages/video-studio/src/real-person-asset.ts",
+              "packages/video-studio/src/rendered-shot-acceptance.test.ts",
+              "packages/video-studio/src/rendered-shot-acceptance.ts",
+              "scripts/ai-video-workbench-guide.test.mjs",
+              "scripts/tools/compose-film.mts",
+              "scripts/tools/explainer-run.mts",
+              "scripts/tools/full-chain-failure.test.mjs",
+              "scripts/tools/full-chain-film.mts",
+              "scripts/tools/post-production.mts",
+              "scripts/tools/video-request-regression.test.ts",
+              "vendor/supermickey/hyperreality-system/engines/post-production-engine/post-production-engine.js",
+              "vendor/supermickey/systems/post-production-pipeline.js"
+            ],
+            "filesHash": "6b574aa422bd3107ddc306f0460b3c7ecd04a6053d481dd581a020d176a832cc",
+            "dependsOn": [],
+            "ciPolicyChanges": [
+              {
+                "id": "CI-001",
+                "rationale": "当前.2实际指南/bodySHA与CLI/MCP/物理载荷回读及默认成功镜头官方后期策略；新增与真实官方CLI/post/vendor/宿主的离线调用链测试导入。保留缺件/权限/字节/错误边界，不执行生产provider/model/ASRTTS。当前5264 root15原始script入口与已登记sourcebinding全部实际通过，等待真实独立最终接受。"
+              },
+              {
+                "id": "CI-002",
+                "rationale": "当前 trusted main 0fb91083 的必需五流水线及原检查集合、阈值和失败传播保持。当前100快照 CI-002 是 test-gate 准备环境的结构化变更，增加 ffmpeg/ffprobe、Python 安装及真实版本回读；CI-003 绑定同一 .cnb.yml 文件字节变更，两项都按当前 IDs 解释。其余 Node/pnpm、DB 初始化与迁移、必需命令均保持。当前 fc03 ROOT8 本地检查、独立原生43及wrapper2通过；旧云363发现原生音频测试三项仍要求已撤销的品质门，fc03只迁移对应测试为原声真实处理/来源/失败语义，保留真实签章和频率隔离断言。此前云500安装成功但被终止及363测试失败的原始日志保留；本地结果不冒充 Linux 或当前云端全量通过。真实云端结果只认当前来源与 main 双亲的实际提交。"
+              },
+              {
+                "id": "CI-003",
+                "rationale": "当前 trusted main 0fb91083 的必需五流水线及原检查集合、阈值和失败传播保持。当前100快照 CI-002 是 test-gate 准备环境的结构化变更，增加 ffmpeg/ffprobe、Python 安装及真实版本回读；CI-003 绑定同一 .cnb.yml 文件字节变更，两项都按当前 IDs 解释。其余 Node/pnpm、DB 初始化与迁移、必需命令均保持。当前 fc03 ROOT8 本地检查、独立原生43及wrapper2通过；旧云363发现原生音频测试三项仍要求已撤销的品质门，fc03只迁移对应测试为原声真实处理/来源/失败语义，保留真实签章和频率隔离断言。此前云500安装成功但被终止及363测试失败的原始日志保留；本地结果不冒充 Linux 或当前云端全量通过。真实云端结果只认当前来源与 main 双亲的实际提交。"
+              },
+              {
+                "id": "CI-004",
+                "rationale": "按产品所有者授权迁移成功镜头渲后品质门/canary/retry预期为实际任务和源字节采用；新增真正FFmpeg素材的原声/静音/17fps及qualityfailed历史adoption、材料恢复、真实后期/xfade各版本、来源篡改与host范围验证。归档每次独立临时目录，逐entrySHA原片/旧记录不变；保留真正供应商失败/坏源/越界/流程错误，不删除原required入口或改云CI集合。真实author110及root原始script267/Vitest等当前绿色，独立own严格等待实际完成。"
+              },
+              {
+                "id": "CI-005",
+                "rationale": "当前加工事实取代旧逐PCM质检：保留实际CFR帧数/PTS/声画时基、转场像素与来源SHA，不将实际加工回执伪造成口型或听感认证。额外测试保持请求的真实输出时轴，不混入phase2软时長算法；root当前5264 whole-video包与原始test:scripts均实跑通过。未改5000ms治理超时、未删测试、未改必需CI集合。"
+              }
+            ],
+            "ciPolicyChangesHash": "e5363346bfc6f7151287aa2552dcf81d9481ed172b6f48473940606ef0a3cac4",
+            "tests": [
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node /Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/post-render-default-acceptance/growth/native-ci-tool-deps/verify-current-config.mjs",
+                "exitCode": 0,
+                "finishedAt": "2026-10-08T00:15:16.831143+00:00",
+                "result": "{\"schema\":\"native-config-current-delta-verification/v1\",\"headSha\":\"fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9\",\"sourceSha256\":\"138a38be1c300c16277dddca5702604b8045f1c0547cb676412e664bd7232d9b\",\"repositoryYamlParser\":true,\"realShellSyntaxExitCode\":0,\"existingCheckSetsUnchanged\":true,\"setupToolVersionsReadBackInNative\":[\"ffmpeg\",\"ffprobe\",\"python3\"],\"localContainerInstallationVerified\":false,\"priorSourceAndFullTestEvidence\":\"/Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/post-render-default-acceptance/growth/native-ci-tool-deps/before-accepted\",\"qualification\":\"Local config and shell validation only; actual Linux package installation and complete CI remain native checks.\"}"
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --import tsx scripts/bundle-governance.mts",
+                "exitCode": 0,
+                "finishedAt": "2026-10-08T00:15:17.606588+00:00",
+                "result": "✅ 行业包契约、兼容范围、资产、导航与完整性门禁通过（base 0.1.0 / ui 0.1.19）"
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/ci/verify-commit-msg.mjs --range 0fb91083bea784f1714188c3fb63fd519f717e5f..HEAD",
+                "exitCode": 0,
+                "finishedAt": "2026-10-08T00:15:17.728752+00:00",
+                "result": "✓ fc03c5b2e5e9 fix(video): accept completed render sources into official post [T-2026-1007-0002]\n✓ 3631fa39a81a fix(video): accept completed render sources into official post [T-2026-1007-0002]\n✓ 50001033cb30 fix(video): accept completed render sources into official post [T-2026-1007-0002]\n✓ 5264b79ef1a2 fix(video): accept completed render sources into official post [T-2026-1007-0002]\n\n✓ 提交信息校验通过（4 条，范围 0fb91083bea784f1714188c3fb63fd519f717e5f..HEAD）"
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/ci/verify-hard-gate-policy.mjs",
+                "exitCode": 0,
+                "finishedAt": "2026-10-08T00:15:17.865518+00:00",
+                "result": "[hard-gate-policy] 通过：扫描 112 个文件，未发现\"创作口径写成硬闸\"。"
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node ../../node_modules/vitest/vitest.mjs run bundles/bgm-measure-compatibility.test.ts bundles/bgm-tag.test.ts bundles/bgm-capability.test.ts",
+                "exitCode": 0,
+                "finishedAt": "2026-10-08T00:15:38.393568+00:00",
+                "result": "RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/ai-workbench-guides/repos/growth/packages/base\n\n\n Test Files  3 passed (3)\n      Tests  70 passed (70)\n   Start at  08:15:18\n   Duration  19.73s (transform 461ms, setup 0ms, import 836ms, tests 18.31s, environment 0ms)"
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run apps/server/src/video/explainer/explainer.test.ts apps/server/src/video/whiteboard/whiteboard.test.ts apps/server/src/video/delivery-trust.test.ts",
+                "exitCode": 0,
+                "finishedAt": "2026-10-08T00:15:48.747449+00:00",
+                "result": "RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/ai-workbench-guides/repos/growth\n\n\n Test Files  3 passed (3)\n      Tests  171 passed | 1 skipped (172)\n   Start at  08:15:38\n   Duration  9.72s (transform 2.13s, setup 0ms, import 5.86s, tests 14.48s, environment 0ms)\n\n字幕条: 11  总时长: 88.0s  建议场景: 3\n  幕 1     0.0-  32.1s (32.1s, 字幕1-4): 做过生意的人都懂这三笔账：流量越来越贵，询盘接不住，利润被平台抽走。 还有一笔正\n  幕 2    32.4-  64.0s (31.6s, 字幕5-8): WorkLoom 是系统化班组：老板一句话，系统自动分工、协作、交付。 它交付的\n  幕 3    64.3-  88.0s (23.7s, 字幕9-11): 断点档案让超长链路永不白跑，媒资库让素材越攒越值钱。 围栏治理、人审、事件账本，"
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/runtime-deps-lock.mjs verify",
+                "exitCode": 0,
+                "finishedAt": "2026-10-08T00:15:48.986790+00:00",
+                "result": "✅ runtime 依赖锁有效：workloom-ai-growth · 12 个直接依赖"
+              },
+              {
+                "command": "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node ../../node_modules/vitest/vitest.mjs run bundles/post-audio-stems.test.ts",
+                "exitCode": 0,
+                "finishedAt": "2026-10-08T00:16:18.402863+00:00",
+                "result": "RUN  v4.1.11 /Users/mac/Documents/Codex/2026-10-05/growthtest-codex-growthtest-growthtest-ceo-30/work/ai-workbench-guides/repos/growth/packages/base\n\n\n Test Files  1 passed (1)\n      Tests  2 passed (2)\n   Start at  08:15:49\n   Duration  28.98s (transform 12ms, setup 0ms, import 34ms, tests 28.83s, environment 0ms)"
+              }
+            ],
+            "reviewedAt": "2026-10-08T00:31:31.887Z",
+            "summary": "Successful completed provider shots enter official post by current task and byte provenance. Default post does not use identity, wardrobe, motion, raw specification, audio/lip/dialogue, model/human quality or canary review to veto or rerender sources. It preserves original program audio and performs requested actual processing once. Real provider failures, source tampering, prior authorization and actual requested export errors remain explicit. CLI, worker, bridges, fences and discoverable workbench guide follow this policy. No provider/model/ASR/TTS production call; phase2 completeness remains a separate later task.",
+            "passed": true,
+            "id": "1b0e801dd6783ce61ca39e850c5846d81738ceccdc06f7c82c87de7231a9cf95"
+          },
+          "reviewSnapshot": {
+            "repo": "workloom-ai/WorkLoom-growth",
+            "number": 348,
+            "pull": {
+              "number": 348,
+              "state": "open",
+              "title": "fix(video): 成功渲染素材直接进入正式后期 [T-2026-1007-0002]",
+              "body": "成功镜头此前可能被渲染后的身份、服装、画面、动作、规格、声音、口型或台词质量检查阻塞，并触发再次生成或多轮后期。现在按实际供应商任务、输入作用域和当前文件摘要接受已有成功素材，直接进入官方后期；默认保留原片节目音轨，按请求执行一次真实加工。\n\nCLI、服务端/子工作器、后期连接器、围栏、预设、技能与可发现的 CLI/MCP 工作台指南已同步。真实供应商失败、源文件缺失或篡改、事前权限/授权/资金，以及请求加工或导出失败继续明确报错。\n\n验证：精确提交 `fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9` 的正式离线 CLI、实际围栏与工作器调用链、能力、指南 CLI/MCP、两个包类型检查、官方包生成器/完整性、提交协议及秘密扫描均已实际通过。准确命令、日志和源摘要保存在本次审查回执；真实独立语义复核正在进行，完成前 ready=false。\n\n边界：没有供应商、模型、图像/视频生成、ASR/TTS 或新生产影片调用；合成夹具耗时不作为生产测速。“作品完整性优先、普通时长允许自然浮动”是后续单独任务，本 PR 不冒充已落实。源码经原生交付队列与准确候选 CI 发布；不声称签名安装包发布。回滚为 revert 本任务提交。\n\n任务卡：#344（T-2026-1007-0002）。\n\n<!-- workloom-delivery\n{\n  \"task_id\": \"T-2026-1007-0002\",\n  \"ready\": true,\n  \"depends_on\": [],\n  \"releases\": []\n}\n-->",
+              "author": {
+                "username": "cnb.dYiF05kxAGA",
+                "nickname": "Genius",
+                "email": "XYpmztfpCvez6l8z5BBAvJ+cnb.dYiF05kxAGA@noreply.cnb.cool",
+                "is_npc": false
+              },
+              "reviewers": [],
+              "labels": [],
+              "base": {
+                "ref": "refs/heads/main",
+                "sha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+                "repo": {
+                  "id": "2100917893030621184",
+                  "name": "WorkLoom-growth",
+                  "path": "workloom-ai/WorkLoom-growth",
+                  "web_url": "https://cnb.cool/workloom-ai/WorkLoom-growth"
+                }
+              },
+              "head": {
+                "ref": "refs/heads/task/T-2026-1007-0002",
+                "sha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+                "repo": {
+                  "id": "2100917893030621184",
+                  "name": "WorkLoom-growth",
+                  "path": "workloom-ai/WorkLoom-growth",
+                  "web_url": "https://cnb.cool/workloom-ai/WorkLoom-growth"
+                }
+              },
+              "blocked_on": "status_check",
+              "merged_by": {
+                "is_npc": false
+              },
+              "mergeable_state": "mergeable",
+              "is_wip": false,
+              "is_merged": false,
+              "is_force_merged": false,
+              "statuses": {}
+            },
+            "headSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+            "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+            "files": [
+              ".cnb.yml",
+              "AGENTS.repo.md",
+              "apps/server/src/video/delivery-trust.test.ts",
+              "apps/server/src/video/delivery-trust.ts",
+              "apps/server/src/video/explainer/deliver.ts",
+              "apps/server/src/video/explainer/explainer.test.ts",
+              "apps/server/src/video/explainer/pipeline.ts",
+              "apps/server/src/video/explainer/qa-gates.ts",
+              "apps/server/src/video/explainer/remotion-provider.ts",
+              "apps/server/src/video/explainer/router.ts",
+              "apps/server/src/video/explainer/types.ts",
+              "apps/server/src/video/film-worker.test.ts",
+              "apps/server/src/video/film-worker.ts",
+              "apps/server/src/video/whiteboard/mux.ts",
+              "apps/server/src/video/whiteboard/router.ts",
+              "apps/server/src/video/whiteboard/whiteboard.test.ts",
+              "bundles/ai-video/README.md",
+              "bundles/ai-video/bundle.json",
+              "bundles/ai-video/connectors/bgm-bridge/audio-stems-mix.test.mjs",
+              "bundles/ai-video/connectors/bgm-bridge/measure.mjs",
+              "bundles/ai-video/connectors/color-bridge/cli.mjs",
+              "bundles/ai-video/connectors/color-bridge/core.mjs",
+              "bundles/ai-video/connectors/color-bridge/core.test.ts",
+              "bundles/ai-video/connectors/post-bridge/cli.mjs",
+              "bundles/ai-video/connectors/post-bridge/core.mjs",
+              "bundles/ai-video/connectors/post-bridge/delivery-integration.test.ts",
+              "bundles/ai-video/connectors/subtitle-bridge/cli.mjs",
+              "bundles/ai-video/connectors/subtitle-bridge/core.mjs",
+              "bundles/ai-video/connectors/subtitle-bridge/demo-artifacts.mjs",
+              "bundles/ai-video/connectors/subtitle-bridge/kit/selftest.sh",
+              "bundles/ai-video/connectors/subtitle-bridge/processing.test.ts",
+              "bundles/ai-video/connectors/subtitle-bridge/punctuation.test.ts",
+              "bundles/ai-video/connectors/subtitle-bridge/runtime-smoke.mts",
+              "bundles/ai-video/connectors/voice-bridge/core.mjs",
+              "bundles/ai-video/fences/ai-video-bgm.yml",
+              "bundles/ai-video/fences/ai-video-color.yml",
+              "bundles/ai-video/fences/ai-video-delivery.yml",
+              "bundles/ai-video/fences/ai-video-material.yml",
+              "bundles/ai-video/fences/ai-video-subtitle.yml",
+              "bundles/ai-video/fences/ai-video-voice.yml",
+              "bundles/ai-video/library/style-variants/bold-promo.json",
+              "bundles/ai-video/library/style-variants/clean-tech.json",
+              "bundles/ai-video/library/style-variants/index.json",
+              "bundles/ai-video/library/style-variants/warm-story.json",
+              "bundles/ai-video/pipelines/narrative-film.yml",
+              "bundles/ai-video/presets/bgm-composer.yml",
+              "bundles/ai-video/presets/colorist.yml",
+              "bundles/ai-video/presets/post-editor.yml",
+              "bundles/ai-video/presets/subtitle-stylist.yml",
+              "bundles/ai-video/presets/voice-artist.yml",
+              "bundles/ai-video/schemas/objects.json",
+              "bundles/ai-video/skills/bgm-audio-layering/SKILL.md",
+              "bundles/ai-video/skills/bgm-delivery-spec/SKILL.md",
+              "bundles/ai-video/skills/bgm-score-design/SKILL.md",
+              "bundles/ai-video/skills/caption-burnin-ops/SKILL.md",
+              "bundles/ai-video/skills/color-delivery-spec/SKILL.md",
+              "bundles/ai-video/skills/color-grade/SKILL.md",
+              "bundles/ai-video/skills/color-look-design/SKILL.md",
+              "bundles/ai-video/skills/color-shot-matching/SKILL.md",
+              "bundles/ai-video/skills/cover-design/SKILL.md",
+              "bundles/ai-video/skills/delivery-package-ops/SKILL.md",
+              "bundles/ai-video/skills/delivery-revision-ops/SKILL.md",
+              "bundles/ai-video/skills/producer-gate-review/SKILL.md",
+              "bundles/ai-video/skills/render-ops/SKILL.md",
+              "bundles/ai-video/skills/subtitle-delivery-spec/SKILL.md",
+              "bundles/ai-video/skills/subtitle-layout-design/SKILL.md",
+              "bundles/ai-video/skills/voice-delivery-spec/SKILL.md",
+              "bundles/ai-video/skills/voice-dubbing-sync/SKILL.md",
+              "bundles/geo-growth/capabilities/workbench-guide.mjs",
+              "docs/ai-video-workbench-guide.md",
+              "docs/real-person-asset.md",
+              "packages/base/bundles/bgm-capability.test.ts",
+              "packages/base/bundles/bgm-measure-compatibility.test.ts",
+              "packages/base/bundles/color-capability.test.ts",
+              "packages/base/bundles/post-av-sync.test.ts",
+              "packages/base/bundles/post-delivery-capability.test.ts",
+              "packages/base/bundles/subtitle-capability.test.ts",
+              "packages/base/bundles/voice-capability.test.ts",
+              "packages/video-studio/src/cover-design.ts",
+              "packages/video-studio/src/cover-request.test.ts",
+              "packages/video-studio/src/deliver-revise.test.ts",
+              "packages/video-studio/src/deliver.ts",
+              "packages/video-studio/src/film-contracts.test.ts",
+              "packages/video-studio/src/film-contracts.ts",
+              "packages/video-studio/src/film-worker-runtime.test.ts",
+              "packages/video-studio/src/film-worker-runtime.ts",
+              "packages/video-studio/src/index.ts",
+              "packages/video-studio/src/producer-gate.ts",
+              "packages/video-studio/src/real-person-asset.ts",
+              "packages/video-studio/src/rendered-shot-acceptance.test.ts",
+              "packages/video-studio/src/rendered-shot-acceptance.ts",
+              "scripts/ai-video-workbench-guide.test.mjs",
+              "scripts/tools/compose-film.mts",
+              "scripts/tools/explainer-run.mts",
+              "scripts/tools/full-chain-failure.test.mjs",
+              "scripts/tools/full-chain-film.mts",
+              "scripts/tools/post-production.mts",
+              "scripts/tools/video-request-regression.test.ts",
+              "vendor/supermickey/hyperreality-system/engines/post-production-engine/post-production-engine.js",
+              "vendor/supermickey/systems/post-production-pipeline.js"
+            ],
+            "intent": {
+              "taskId": "T-2026-1007-0002",
+              "ready": true,
+              "dependsOn": [],
+              "releases": []
+            },
+            "headTime": 1791418486000,
+            "mergeBase": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+            "checkErrors": [],
+            "checkSha": null,
+            "hasFailedChecks": false,
+            "ciPolicyChanges": [
+              {
+                "id": "CI-001",
+                "file": "scripts/ai-video-workbench-guide.test.mjs",
+                "before": {
+                  "ref": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+                  "path": "scripts/ai-video-workbench-guide.test.mjs",
+                  "absent": false
+                },
+                "after": {
+                  "ref": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+                  "path": "scripts/ai-video-workbench-guide.test.mjs",
+                  "absent": false
+                },
+                "digest": "07229139145faeca7d29f5419fb22c3db52cfad9cea16c4db0cb66867eb3853d"
+              },
+              {
+                "id": "CI-002",
+                "pipeline": "test-gate",
+                "stage": "准备 Node 24 与 pnpm",
+                "file": ".cnb.yml",
+                "before": {
+                  "ref": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+                  "path": ".cnb.yml",
+                  "absent": false,
+                  "definition": {
+                    "name": "准备 Node 24 与 pnpm",
+                    "script": "set -eu\nNODE_VERSION=v24.19.0\napt-get update -qq\napt-get install -y -qq curl xz-utils ca-certificates git >/dev/null\nif [ ! -x /cnb-cache/node/bin/node ]; then\n  mkdir -p /cnb-cache/node\n  curl -fsSL \"https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.xz\" -o /tmp/node.tar.xz\n  tar -xJf /tmp/node.tar.xz -C /cnb-cache/node --strip-components=1\nfi\nfor bin in /cnb-cache/node/bin/*; do ln -sf \"$bin\" /usr/local/bin/; done\ncorepack enable --install-directory /usr/local/bin\ncorepack prepare pnpm@10.14.0 --activate\npnpm config set store-dir /cnb-cache/pnpm-store\npnpm install --frozen-lockfile\nexport PGDATA=/var/lib/postgresql/data\nif [ ! -s \"${PGDATA}/PG_VERSION\" ]; then\n  mkdir -p \"${PGDATA}\"; chown -R postgres:postgres \"${PGDATA}\"\n  su postgres -c \"initdb -D ${PGDATA} -U postgres --auth=trust --encoding=UTF8\"\nfi\nsu postgres -c \"pg_ctl -D ${PGDATA} -l /tmp/postgres.log -o '-c listen_addresses=localhost -c port=5432' start\"\nfor i in $(seq 1 60); do\n  if pg_isready -h localhost -p 5432 -U postgres >/dev/null 2>&1; then break; fi\n  sleep 1\ndone\nif ! psql -h localhost -p 5432 -U postgres -tAc \"SELECT 1 FROM pg_database WHERE datname='workloom'\" | grep -q 1; then\n  psql -h localhost -p 5432 -U postgres -c \"CREATE DATABASE workloom OWNER postgres;\" >/dev/null\nfi\npsql -h localhost -p 5432 -U postgres -d workloom -c \"CREATE EXTENSION IF NOT EXISTS vector;\" >/dev/null\ncp .env.example .env\nset -a\nwhile IFS= read -r line; do\n  case \"$line\" in ''|\\#*) continue ;; esac\n  export \"$line\"\ndone < .env\nset +a\npnpm db:migrate\npnpm db:seed\n"
+                  }
+                },
+                "after": {
+                  "ref": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+                  "path": ".cnb.yml",
+                  "absent": false,
+                  "definition": {
+                    "name": "准备 Node 24 与 pnpm",
+                    "script": "set -eu\nNODE_VERSION=v24.19.0\napt-get update -qq\napt-get install -y -qq curl xz-utils ca-certificates git ffmpeg python3 >/dev/null\nffmpeg -version\nffprobe -version\npython3 --version\nif [ ! -x /cnb-cache/node/bin/node ]; then\n  mkdir -p /cnb-cache/node\n  curl -fsSL \"https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.xz\" -o /tmp/node.tar.xz\n  tar -xJf /tmp/node.tar.xz -C /cnb-cache/node --strip-components=1\nfi\nfor bin in /cnb-cache/node/bin/*; do ln -sf \"$bin\" /usr/local/bin/; done\ncorepack enable --install-directory /usr/local/bin\ncorepack prepare pnpm@10.14.0 --activate\npnpm config set store-dir /cnb-cache/pnpm-store\npnpm install --frozen-lockfile\nexport PGDATA=/var/lib/postgresql/data\nif [ ! -s \"${PGDATA}/PG_VERSION\" ]; then\n  mkdir -p \"${PGDATA}\"; chown -R postgres:postgres \"${PGDATA}\"\n  su postgres -c \"initdb -D ${PGDATA} -U postgres --auth=trust --encoding=UTF8\"\nfi\nsu postgres -c \"pg_ctl -D ${PGDATA} -l /tmp/postgres.log -o '-c listen_addresses=localhost -c port=5432' start\"\nfor i in $(seq 1 60); do\n  if pg_isready -h localhost -p 5432 -U postgres >/dev/null 2>&1; then break; fi\n  sleep 1\ndone\nif ! psql -h localhost -p 5432 -U postgres -tAc \"SELECT 1 FROM pg_database WHERE datname='workloom'\" | grep -q 1; then\n  psql -h localhost -p 5432 -U postgres -c \"CREATE DATABASE workloom OWNER postgres;\" >/dev/null\nfi\npsql -h localhost -p 5432 -U postgres -d workloom -c \"CREATE EXTENSION IF NOT EXISTS vector;\" >/dev/null\ncp .env.example .env\nset -a\nwhile IFS= read -r line; do\n  case \"$line\" in ''|\\#*) continue ;; esac\n  export \"$line\"\ndone < .env\nset +a\npnpm db:migrate\npnpm db:seed\n"
+                  }
+                },
+                "origins": {
+                  "before": ".cnb.yml",
+                  "after": ".cnb.yml"
+                },
+                "digest": "09b7915b96ee5b1d0417aee3df2ce5e2a171a30229fc0e33018ce02150f289dd"
+              },
+              {
+                "id": "CI-003",
+                "file": ".cnb.yml",
+                "before": {
+                  "ref": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+                  "path": ".cnb.yml",
+                  "absent": false
+                },
+                "after": {
+                  "ref": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+                  "path": ".cnb.yml",
+                  "absent": false
+                },
+                "digest": "6e2c46a06cb50091458ffc30be030215821e16402516041d77e17a61ce53f4ee"
+              },
+              {
+                "id": "CI-004",
+                "file": "scripts/tools/full-chain-failure.test.mjs",
+                "before": {
+                  "ref": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+                  "path": "scripts/tools/full-chain-failure.test.mjs",
+                  "absent": true
+                },
+                "after": {
+                  "ref": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+                  "path": "scripts/tools/full-chain-failure.test.mjs",
+                  "absent": false
+                },
+                "digest": "b731ff0d36a3753555473e9eead34710bde037a6177e6d633d54f149e663cec6"
+              },
+              {
+                "id": "CI-005",
+                "file": "scripts/tools/video-request-regression.test.ts",
+                "before": {
+                  "ref": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+                  "path": "scripts/tools/video-request-regression.test.ts",
+                  "absent": false
+                },
+                "after": {
+                  "ref": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+                  "path": "scripts/tools/video-request-regression.test.ts",
+                  "absent": false
+                },
+                "digest": "e83cc2af32189dab8f1c31627f7323cbb912984ffc5a7417f19c46a1d6e81983"
+              }
+            ]
+          }
+        }
+      },
+      "previous": "9387e1f96c99cf98028193c962a3c9af70e338221ec2dfbf9a6eecc2054f9666",
+      "digest": "4080145849ca7e862bf23a276185791eac5a954d6a1803a0ca2832f6a7b18184"
+    },
+    {
+      "sequence": 2488,
+      "at": "2026-10-08T01:26:00.586Z",
+      "kind": "transaction",
+      "data": {
+        "id": "trusted-handoff:workloom-ai/WorkLoom-growth:348:fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9:0fb91083bea784f1714188c3fb63fd519f717e5f:1b0e801dd6783ce61ca39e850c5846d81738ceccdc06f7c82c87de7231a9cf95"
+      },
+      "previous": "4080145849ca7e862bf23a276185791eac5a954d6a1803a0ca2832f6a7b18184",
+      "digest": "c27a0b9c1f5c2c8a91fb3225b53b8ec95d24d913ef696d335a7797b2651c77c3"
     }
   ]
 }
