@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 3012,
+  "revision": 3014,
   "tasks": {
     "328": {
       "number": 328,
@@ -300,9 +300,9 @@
         "scripts/video-capabilities.test.mjs"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791451514842,
+      "updatedAt": 1791453913964,
       "error": "Command failed: git fetch --quiet --no-tags https://cnb.cool/workloom-ai/WorkLoom-growth.git refs/heads/automation/delivery-state\n",
-      "blockedUntil": 1791447912363,
+      "blockedUntil": 1791454513964,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -159281,6 +159281,31 @@
       },
       "previous": "f4d035b642a6b8ddc0c830490e7ed0c587d56c65d610a84b6cdbf35bbd176121",
       "digest": "cfdb42f318f788ae580e6aa427943317d035338071639197dcc1e815dab742ba"
+    },
+    {
+      "sequence": 3013,
+      "at": "2026-10-08T10:05:13.964Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "parked",
+          "error": "Command failed: git fetch --quiet --no-tags https://cnb.cool/workloom-ai/WorkLoom-growth.git refs/heads/automation/delivery-state\n",
+          "blockedUntil": 1791454513964
+        }
+      },
+      "previous": "cfdb42f318f788ae580e6aa427943317d035338071639197dcc1e815dab742ba",
+      "digest": "cc7a075fd0f5d7de2c84edad4e0cba21ae290140bf19394c4d5896a45681e275"
+    },
+    {
+      "sequence": 3014,
+      "at": "2026-10-08T10:06:17.381Z",
+      "kind": "transaction",
+      "data": {
+        "id": "bca65709-cff9-476d-a1c0-7aabc4f2c826"
+      },
+      "previous": "cc7a075fd0f5d7de2c84edad4e0cba21ae290140bf19394c4d5896a45681e275",
+      "digest": "467c62f50e03f2769c23ad9e3812d2977e59a3bbf7b9949a6d1061f33e289300"
     }
   ]
 }
