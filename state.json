@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2524,
+  "revision": 2526,
   "tasks": {
     "328": {
       "number": 328,
@@ -3640,7 +3640,7 @@
         "releases": []
       },
       "error": "检查/评审阻断：Required check static-gate missing/failed/ambiguous",
-      "blockedUntil": 1791423312084,
+      "blockedUntil": 1791424814751,
       "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
       "branch": "task/T-2026-1007-0002",
       "developerReview": {
@@ -4195,7 +4195,7 @@
         "headSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
         "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
         "reason": "检查/评审阻断：Required check static-gate missing/failed/ambiguous",
-        "at": 1791422712084
+        "at": 1791424214751
       },
       "recoveryIntent": null
     }
@@ -132589,6 +132589,39 @@
       },
       "previous": "98d12e870d7a2c20945332de56af5ca18a7b5fa94f404e6f832088a023caa37a",
       "digest": "5d9d96556f14f3ee5c078e613ff1a694c1bb3a77668536d2009f233ee4fc4763"
+    },
+    {
+      "sequence": 2525,
+      "at": "2026-10-08T01:50:14.751Z",
+      "kind": "task",
+      "data": {
+        "number": 348,
+        "patch": {
+          "status": "parked",
+          "error": "检查/评审阻断：Required check static-gate missing/failed/ambiguous",
+          "repairRequired": {
+            "provider": "codex",
+            "headSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+            "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+            "reason": "检查/评审阻断：Required check static-gate missing/failed/ambiguous",
+            "at": 1791424214751
+          },
+          "recoveryIntent": null,
+          "blockedUntil": 1791424814751
+        }
+      },
+      "previous": "5d9d96556f14f3ee5c078e613ff1a694c1bb3a77668536d2009f233ee4fc4763",
+      "digest": "0d7c2f6e19e3506a253ec03e191e5ea03d19691f2437a620f95763d9dc9911dc"
+    },
+    {
+      "sequence": 2526,
+      "at": "2026-10-08T01:51:44.711Z",
+      "kind": "transaction",
+      "data": {
+        "id": "b34d06f1-7973-441c-8399-cb9b10031e47"
+      },
+      "previous": "0d7c2f6e19e3506a253ec03e191e5ea03d19691f2437a620f95763d9dc9911dc",
+      "digest": "7440415eba08bf9065a64847012bd1559522d1f1b610ad9a5828abf4abff4803"
     }
   ]
 }
