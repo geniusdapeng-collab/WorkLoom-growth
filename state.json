@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2861,
+  "revision": 2864,
   "tasks": {
     "328": {
       "number": 328,
@@ -3615,7 +3615,7 @@
     },
     "348": {
       "number": 348,
-      "status": "merging",
+      "status": "integrated",
       "firstSeen": 1791380295521,
       "attempts": {},
       "admission": {
@@ -3639,7 +3639,7 @@
         "dependsOn": [],
         "releases": []
       },
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/348 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "error": null,
       "blockedUntil": 1791435910957,
       "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
       "branch": "task/T-2026-1007-0002",
@@ -4206,7 +4206,7 @@
         "marker": "delivery-origin:348:fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9:0fb91083bea784f1714188c3fb63fd519f717e5f",
         "at": 1791435916357
       },
-      "mergePhase": "merge_verified",
+      "mergePhase": null,
       "mergeSnapshot": {
         "repo": "workloom-ai/WorkLoom-growth",
         "number": 349,
@@ -4478,7 +4478,17 @@
         "checkSha": "c23a33d229cfb9326a9c52215411ddd22586a728",
         "mergedBy": "cnb.dYiF05kxAGA",
         "verifiedAt": "2026-10-08T05:26:45.904Z"
-      }
+      },
+      "integrationHistory": [
+        {
+          "sha": "7509809a7f72b6e5cb646f97615b727b23da5cd6",
+          "sourceSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+          "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+          "checkSha": "c23a33d229cfb9326a9c52215411ddd22586a728",
+          "mergedBy": "cnb.dYiF05kxAGA",
+          "verifiedAt": "2026-10-08T05:26:45.904Z"
+        }
+      ]
     },
     "349": {
       "number": 349,
@@ -4503,10 +4513,10 @@
   },
   "leases": {
     "protocol": {
-      "owner": "integration/pr-348",
+      "owner": null,
       "generation": 29,
       "acquiredAt": 1791436818160,
-      "expiresAt": 1791437718160
+      "expiresAt": 1791436818160
     }
   },
   "releases": {},
@@ -150839,6 +150849,65 @@
       },
       "previous": "ed3f1af6d79818a306a782ddfe229b10eb2514161cfd09b9891d9bce500bfc55",
       "digest": "a174605fd6c3d7c40bff80d92a88eecf310e4eb41fc0a5768d6f3642ba4dad09"
+    },
+    {
+      "sequence": 2862,
+      "at": "2026-10-08T05:20:18.160Z",
+      "kind": "lease_release",
+      "data": {
+        "scopes": [
+          "protocol"
+        ],
+        "owner": "integration/pr-348",
+        "generation": {
+          "protocol": 29
+        }
+      },
+      "previous": "a174605fd6c3d7c40bff80d92a88eecf310e4eb41fc0a5768d6f3642ba4dad09",
+      "digest": "8834e6a0c6875ae9e4c8691c90a5f1daa21b47c5556335644ca4d6916bfdf5d5"
+    },
+    {
+      "sequence": 2863,
+      "at": "2026-10-08T05:20:18.160Z",
+      "kind": "task",
+      "data": {
+        "number": 348,
+        "patch": {
+          "status": "integrated",
+          "merge": {
+            "sha": "7509809a7f72b6e5cb646f97615b727b23da5cd6",
+            "sourceSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+            "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+            "checkSha": "c23a33d229cfb9326a9c52215411ddd22586a728",
+            "mergedBy": "cnb.dYiF05kxAGA",
+            "verifiedAt": "2026-10-08T05:26:45.904Z"
+          },
+          "mergePhase": null,
+          "error": null,
+          "integrationHistory": [
+            {
+              "sha": "7509809a7f72b6e5cb646f97615b727b23da5cd6",
+              "sourceSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+              "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+              "checkSha": "c23a33d229cfb9326a9c52215411ddd22586a728",
+              "mergedBy": "cnb.dYiF05kxAGA",
+              "verifiedAt": "2026-10-08T05:26:45.904Z"
+            }
+          ]
+        }
+      },
+      "previous": "8834e6a0c6875ae9e4c8691c90a5f1daa21b47c5556335644ca4d6916bfdf5d5",
+      "digest": "336a839fc42221f2b5b4027a89031a21a113ed93ad84660b120ba44af95d46b4"
+    },
+    {
+      "sequence": 2864,
+      "at": "2026-10-08T05:27:26.274Z",
+      "kind": "transaction",
+      "data": {
+        "id": "2b2fa952-67eb-4193-b501-9daf85d26008"
+      },
+      "previous": "336a839fc42221f2b5b4027a89031a21a113ed93ad84660b120ba44af95d46b4",
+      "digest": "869dbd1061a9fc972a86c3da06ca85b5f8f356bb46f1259b34542f776e7f7bd2"
     }
   ]
 }
