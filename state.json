@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2912,
+  "revision": 2914,
   "tasks": {
     "328": {
       "number": 328,
@@ -301,7 +301,7 @@
       ],
       "ciSince": 1791315290864,
       "updatedAt": 1791438916317,
-      "error": "Command failed: git merge --no-ff --no-edit 7509809a7f72b6e5cb646f97615b727b23da5cd6\n",
+      "error": "主干对齐失败：Command failed: git merge --no-ff --no-edit 7509809a7f72b6e5cb646f97615b727b23da5cd6\n",
       "blockedUntil": 1791439516317,
       "alignmentCount": 1,
       "alignmentIntent": {
@@ -335,9 +335,9 @@
       "repairRequired": {
         "provider": "codex",
         "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
-        "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
-        "reason": "需按实际代码语义更新 main 并解决冲突；自动主干对齐预算已耗尽",
-        "at": 1791436818160
+        "mainSha": "7509809a7f72b6e5cb646f97615b727b23da5cd6",
+        "reason": "主干对齐失败：Command failed: git merge --no-ff --no-edit 7509809a7f72b6e5cb646f97615b727b23da5cd6\n",
+        "at": 1791438916317
       },
       "recoveryIntent": null
     },
@@ -153120,6 +153120,39 @@
       },
       "previous": "d4377f25768f30621552316b42a54c792e99e0c48b65c2eac86ef285502a3eaa",
       "digest": "ef97582d699a7e3986ba972af0038cfa6b1c68cd1a08598a029480c21993bd6d"
+    },
+    {
+      "sequence": 2913,
+      "at": "2026-10-08T05:55:16.317Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "parked",
+          "error": "主干对齐失败：Command failed: git merge --no-ff --no-edit 7509809a7f72b6e5cb646f97615b727b23da5cd6\n",
+          "repairRequired": {
+            "provider": "codex",
+            "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
+            "mainSha": "7509809a7f72b6e5cb646f97615b727b23da5cd6",
+            "reason": "主干对齐失败：Command failed: git merge --no-ff --no-edit 7509809a7f72b6e5cb646f97615b727b23da5cd6\n",
+            "at": 1791438916317
+          },
+          "recoveryIntent": null,
+          "blockedUntil": 1791439516317
+        }
+      },
+      "previous": "ef97582d699a7e3986ba972af0038cfa6b1c68cd1a08598a029480c21993bd6d",
+      "digest": "f307f778638caea77b0394aeff9248fa4afe1a3a3fa60934deeb083277b9bdbc"
+    },
+    {
+      "sequence": 2914,
+      "at": "2026-10-08T05:57:44.712Z",
+      "kind": "transaction",
+      "data": {
+        "id": "390fa56b-d79d-4ccb-9071-322360fc5882"
+      },
+      "previous": "f307f778638caea77b0394aeff9248fa4afe1a3a3fa60934deeb083277b9bdbc",
+      "digest": "b6a20050902d8525ab8b57d4355ecc610e990103faca1317663fdaf95bc28068"
     }
   ]
 }
