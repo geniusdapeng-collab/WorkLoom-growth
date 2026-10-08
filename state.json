@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2726,
+  "revision": 2728,
   "tasks": {
     "328": {
       "number": 328,
@@ -300,9 +300,9 @@
         "scripts/video-capabilities.test.mjs"
       ],
       "ciSince": 1791315290864,
-      "updatedAt": 1791431714468,
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791432314468,
+      "updatedAt": 1791432616804,
+      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+      "blockedUntil": 1791433216804,
       "alignmentCount": 3,
       "alignmentIntent": {
         "headSha": "dc19297c573a5f07add9609b2ba9cfc603f7112e",
@@ -143364,6 +143364,31 @@
       },
       "previous": "eeb5efedac6e199ce53dd4a4a331daafb99b1135e63eda8dc38040baac7d006a",
       "digest": "77560e58bb4611e49e40456d4b29f11aad1b765e1c952e3eaa74d60b4e40b888"
+    },
+    {
+      "sequence": 2727,
+      "at": "2026-10-08T04:10:16.804Z",
+      "kind": "task",
+      "data": {
+        "number": 328,
+        "patch": {
+          "status": "parked",
+          "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/328/commit-statuses :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
+          "blockedUntil": 1791433216804
+        }
+      },
+      "previous": "77560e58bb4611e49e40456d4b29f11aad1b765e1c952e3eaa74d60b4e40b888",
+      "digest": "7bfc2652623b5e928962fdfb2147965e0f7bac17788f32a1c5beba7db8599fc0"
+    },
+    {
+      "sequence": 2728,
+      "at": "2026-10-08T04:10:21.635Z",
+      "kind": "transaction",
+      "data": {
+        "id": "7e4b779a-6832-41ed-9291-ed904a7dc2b7"
+      },
+      "previous": "7bfc2652623b5e928962fdfb2147965e0f7bac17788f32a1c5beba7db8599fc0",
+      "digest": "ae86120d975d3cb091e72c554355e9366fa9fa6d52d311b4f5ec0c14b5978bae"
     }
   ]
 }
