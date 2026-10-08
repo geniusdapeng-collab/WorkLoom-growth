@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repo": "workloom-ai/WorkLoom-growth",
-  "revision": 2765,
+  "revision": 2767,
   "tasks": {
     "328": {
       "number": 328,
@@ -3639,8 +3639,8 @@
         "dependsOn": [],
         "releases": []
       },
-      "error": "CNB 429 https://api.cnb.cool/workloom-ai/WorkLoom-growth/-/pulls/348 :: {\"errcode\":8,\"errmsg\":\"Too many requests. Please try again later.\"}\n",
-      "blockedUntil": 1791432912755,
+      "error": "检查/评审阻断：Required check static-gate missing/failed/ambiguous",
+      "blockedUntil": 1791434416840,
       "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
       "branch": "task/T-2026-1007-0002",
       "developerReview": {
@@ -4195,7 +4195,7 @@
         "headSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
         "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
         "reason": "检查/评审阻断：Required check static-gate missing/failed/ambiguous",
-        "at": 1791431714468
+        "at": 1791433816840
       },
       "recoveryIntent": null
     }
@@ -145655,6 +145655,39 @@
       },
       "previous": "85935fc4b1ed22f12d3d8eb1ccdff05fc90cc5bb313778ba617148275044ec33",
       "digest": "a58612b612e4f40d8b85b1317e719cfc4a177c8bde95a05356962622fc561164"
+    },
+    {
+      "sequence": 2766,
+      "at": "2026-10-08T04:30:16.840Z",
+      "kind": "task",
+      "data": {
+        "number": 348,
+        "patch": {
+          "status": "parked",
+          "error": "检查/评审阻断：Required check static-gate missing/failed/ambiguous",
+          "repairRequired": {
+            "provider": "codex",
+            "headSha": "fc03c5b2e5e9295c1071c5bfa6626ce2fdf99ba9",
+            "mainSha": "0fb91083bea784f1714188c3fb63fd519f717e5f",
+            "reason": "检查/评审阻断：Required check static-gate missing/failed/ambiguous",
+            "at": 1791433816840
+          },
+          "recoveryIntent": null,
+          "blockedUntil": 1791434416840
+        }
+      },
+      "previous": "a58612b612e4f40d8b85b1317e719cfc4a177c8bde95a05356962622fc561164",
+      "digest": "3814ce78ad40379d92318b8fa4a67e7fe7c73b7218056f2d99cfdfdcd2e1330c"
+    },
+    {
+      "sequence": 2767,
+      "at": "2026-10-08T04:32:12.951Z",
+      "kind": "transaction",
+      "data": {
+        "id": "3909176f-46bd-41d4-af91-0b887b48c4e6"
+      },
+      "previous": "3814ce78ad40379d92318b8fa4a67e7fe7c73b7218056f2d99cfdfdcd2e1330c",
+      "digest": "dbfef1229b3a1d25c93ac5171157b53737f7334bcb333cc7982e271583757c07"
     }
   ]
 }
