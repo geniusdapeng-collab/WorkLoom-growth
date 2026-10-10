@@ -57,9 +57,10 @@ import {
   isDoubledNarration, speechAcceptance,
   termPronunciationCheck,
   REFERENCE_INDEPENDENCE_POLICY,
-  COVER_FONTS, COVER_LOWER_BAND_SAFE_AREA,
+  COVER_FONTS, COVER_LOWER_BAND_SAFE_AREA, COVER_INTERNAL_LABEL_BLOCKLIST,
   getCoverSpec, isKnownCoverPlatform, COVER_PLATFORM_IDS,
   requestedCoverPlan, findAngleFile, MATERIAL_POLICY_STATEMENT, MATERIAL_POLICY_VERSION, assessMaterialReuse,
+  buildCoverDesignPrompt, parseCoverPlan,
   assertMaterialGenerationProvenance, prepareShotPrompt, readMaterialSpec, resolveProducerLlm,
   detectProductAnchor, resolveRoutePreflight, RoutePreflightError, type RoutePreflightResult,
   buildSfxArgs, cutTimesFromShots, planCutSfxDetailed, CUT_SFX_POLICY, planHookSfx, HOOK_SFX_POLICY,
@@ -76,7 +77,7 @@ import {
   checkSpeechFit, speechRateProfile,
   deviceDefects, summarizeDeviceDefects, DEVICE_POLICY_VERSION, DEVICE_POLICY_VERIFIED_AT, allowedModelSummary,
   planMicromotion, MICROMOTION_MARKER, MICROMOTION_POLICY_VERSION,
-  type CoverAccountProfile, type CoverDesignInput,
+  type CoverAccountProfile, type CoverDesignInput, type CoverPlan, type CoverFontId,
   type CoverPlatformSpec, type GateCheck, type GateEvent, type PipelineGateStepKey,
   type DeviceCategory, type DeviceDefect, type EnvDefect, type HookCard, type MicromotionTrace, type PlatePromptShot,
   type ProducerVerdict, type SceneBible, type ScenePolicyReport
@@ -4526,10 +4527,20 @@ if (STAGES.has("bgm") && existsSync(danmakuOut)) {
   }
   const command = chosenTrack
     ? ["mix", "--in", danmakuOut, "--out", pending, "--bgm", trackPath, "--policy", policy,
-      "--music-level", arg("--bgm-level", "-26"), "--ducking", arg("--bgm-ducking", "14"), "--lufs", "-14",
+      /** 配乐师配方口径：显式曲目也按配方电平（`--bgm-level` 可覆写），默认不再是听不见的 -26dB。 */
+      "--music-level", arg("--bgm-level", "-18"), "--ducking", arg("--bgm-ducking", "14"), "--lufs", "-14",
       "--true-peak", arg("--bgm-true-peak", "-1.5"), "--section", arg("--bgm-section", "full"),
       ...(trackBpm ? ["--bgm-bpm", String(trackBpm)] : []), "--cut-times", CUT_GRID.join(",")]
     : ["best", "--in", danmakuOut, "--out", pending, "--genre", genre, "--mood", mood, "--policy", policy,
+      /** 把片子自述（brief.bgmBrief/--bgm-prompt 优先）喂给配乐师简报：配方与能量档由简报决定，而不是只看 genre/mood 标签。 */
+      "--prompt", (() => {
+        const briefDoc = BRIEF_FILE && existsSync(abs(BRIEF_FILE))
+          ? (JSON.parse(readFileSync(abs(BRIEF_FILE), "utf8")) as Record<string, unknown>) : {};
+        const declared = arg("--bgm-prompt", "").trim() || String(briefDoc.bgmBrief ?? "").trim();
+        if (declared) return declared;
+        return [String(briefDoc.goal ?? ""), String(briefDoc.tone ?? ""), String(briefDoc.editingStyle ?? ""), String(shotlist.title ?? "")]
+          .filter(Boolean).join("\n");
+      })(),
       "--source-policy", arg("--bgm-source-policy", "compose-only")];
   const result = runCli(BGM_CLI, [...command, ...(BGM_DECLARED_PROGRAM_MIX ? ["--declared-program-mix"] : [])]);
   const info = result.ok && existsSync(pending) ? probe(pending) : {};
@@ -4566,7 +4577,25 @@ if (STAGES.has("bgm") && existsSync(danmakuOut)) {
  *   ③ 合成音效 → 逐条 adelay 拼成 SFX 轨 → 与母版音轨混音（视频轨 copy）；
  *   ④ 复核：响度仍在 −14 LUFS ±1.5、剪辑点窗口内确有新增能量（"做了但听不见"要被抓出来）。
  */
-if (STAGES.has("sfx") && existsSync(scored) && !DRY_RUN) {
+/**
+ * 转场音效层启用口径（2026-10-09 产品所有者两轮反馈后定稿）：
+ * 原生硬切生产里，切点上的 whoosh/riser 会被听成"呲"（第一轮逐刀 whoosh；第二轮高潮 riser 收在最后一刀上）；
+ * 因此**默认不铺**这一层，只有显式声明才启用：`--sfx-layer`（整层）、`--sfx-cut-whoosh`（连硬切铺气流），
+ * 或声明了逐刀运动掩体转场；`--no-sfx` 永远优先关闭。
+ */
+const SFX_EXPLICIT = flag("--sfx-layer") || flag("--sfx-cut-whoosh") || Boolean(EFFECTIVE_CUT_TRANSITION);
+if (STAGES.has("sfx") && flag("--no-sfx")) {
+  record({ stage: "sfx", shotId: null, invoked: true, ok: true, cached: false, degraded: false, attempt: 1, ms: 0,
+    artifact: null, evidence: { applicable: false, skipReason: "调用方显式 --no-sfx：不铺转场音效层" },
+    verdict: null, note: "SFX 层按调用方声明关闭（保留原声 + 配乐）" });
+}
+if (STAGES.has("sfx") && !flag("--no-sfx") && !SFX_EXPLICIT && !DRY_RUN) {
+  record({ stage: "sfx", shotId: null, invoked: true, ok: true, cached: false, degraded: false, attempt: 1, ms: 0,
+    artifact: null,
+    evidence: { applicable: false, skipReason: "原生硬切生产默认不铺转场音效层（需 --sfx-layer / --sfx-cut-whoosh 显式开启）" },
+    verdict: null, note: "SFX 层按默认口径不适用：保留原声 + 配乐，不铺 whoosh/impact/riser" });
+}
+if (STAGES.has("sfx") && !flag("--no-sfx") && SFX_EXPLICIT && existsSync(scored) && !DRY_RUN) {
   rememberInputs("sfx", [scored]);
   const started = Date.now();
   const sfxDir = join(POST_DIR, "sfx");
@@ -4577,12 +4606,15 @@ if (STAGES.has("sfx") && existsSync(scored) && !DRY_RUN) {
     EFFECTIVE_CUT_TRANSITION ? EFFECTIVE_CUT_TRANSITION_AT.split(",").map((v) => Number(v.trim())).filter((v) => Number.isFinite(v) && v > 0) : []);
   /** 段落重音 = 进入快剪段的第一刀 + 最后一刀（模板可覆盖） */
   const accentTimes = cutTimes.length > 1 ? [cutTimes[0]!, cutTimes[cutTimes.length - 1]!] : cutTimes.slice(0, 1);
+  /** whoosh 只在**声明过逐刀运动掩体转场**时铺（硬切上的气流声是"呲"的主要来源）。 */
+  const whooshCuts = EFFECTIVE_CUT_TRANSITION ? cutTimes : (flag("--sfx-cut-whoosh") ? cutTimes : []);
+  const plannedCuts = [...new Set([...whooshCuts, ...accentTimes])].sort((a, b) => a - b);
   /**
    * 高潮那一刻 = 最后一个重音刀口（进入收尾镜之前）。
    * riser 由策划器**前置**到高潮之前（真机打回：riser 落在切点之后 = 高潮过去了才抬升）。
    */
   const climaxAtSec = accentTimes.length > 0 ? accentTimes[accentTimes.length - 1] : undefined;
-  const sfxPlan = planCutSfxDetailed({ cutTimes, durationSec: totalDuration, accentTimes, climaxAtSec }, CUT_SFX_POLICY);
+  const sfxPlan = planCutSfxDetailed({ cutTimes: plannedCuts, durationSec: totalDuration, accentTimes, climaxAtSec }, CUT_SFX_POLICY);
   /**
    * 开场钩子音（2026-09-27）：0–0.6s 是转场音效覆盖不到的窗口，单独摆一条。
    * 与转场音效的冲突在这里显式消解（不是静默丢弃）：钩子音**优先**——它是前 3 秒机制的一部分，
@@ -4692,6 +4724,45 @@ if (STAGES.has("sfx") && existsSync(scored) && !DRY_RUN) {
     });
     throw err;
   }
+}
+
+/**
+ * 封面设计师（数字员工）的模型调用：只产出设计稿 JSON，不产图、不评分。
+ * 产品口径（2026-10-09）：封面标题与副标题由封面设计师出稿，不许在管线里硬编码；
+ * 模型不可用/稿件非法时才退确定性稿（`designVia` 如实记录）。
+ */
+async function requestCoverDesign(
+  config: { baseUrl: string; apiKey: string; model: string },
+  prompt: string,
+  timeoutMs = 45_000
+): Promise<string> {
+  const body: Record<string, unknown> = {
+    model: config.model,
+    messages: [
+      { role: "system", content: "你是 WorkLoom 的封面设计师，只输出符合 schema 的 JSON 设计稿，不写解释文字。" },
+      { role: "user", content: prompt }
+    ],
+    temperature: 0,
+    response_format: { type: "json_object" }
+  };
+  if (/api\.deepseek\.com/i.test(config.baseUrl)) body.thinking = { type: "disabled" };
+  const response = await fetch(`${config.baseUrl}/chat/completions`, {
+    method: "POST",
+    headers: { "content-type": "application/json", authorization: `Bearer ${config.apiKey}` },
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(timeoutMs)
+  });
+  const text = await response.text();
+  if (!response.ok) throw new Error(`封面设计师调用失败 HTTP ${response.status}：${text.slice(0, 200)}`);
+  let parsed: { choices?: Array<{ message?: { content?: string } }> };
+  try {
+    parsed = JSON.parse(text) as typeof parsed;
+  } catch {
+    throw new Error(`封面设计师响应不是 JSON：${text.slice(0, 160)}`);
+  }
+  const content = parsed.choices?.[0]?.message?.content ?? "";
+  if (!content.trim()) throw new Error("封面设计师返回空稿件");
+  return content;
 }
 
 /* ---------- ⑨ 封面（请求设计稿 → 单次本地合成 → 输出回执） ---------- */
@@ -4854,13 +4925,61 @@ if (STAGES.has("cover") && existsSync(colored)) {
   const bgShot = COVER_HERO === "person" || COVER_HERO === "person-solo"
     ? personShot ?? shots[0]!
     : shots[0]!;
-  const plan = requestedCoverPlan(designInput, {
+  /**
+   * 封面文案**默认由封面设计师数字员工出稿**（2026-10-09 产品所有者口径："封面的标题都是有专门的
+   * 数字员工来设计的，标题特别重要，怎么能是硬编码呢"）；模型不可用/稿件非法才退 `requestedCoverPlan`
+   * 的确定性稿。另加两条红线：封面不得出现真人姓名（除非 `brief.coverSubline` 显式给出）、
+   * 副标题可用 `--cover-subline` 覆盖。
+   */
+  const coverDesignMode = arg("--cover-design", "agent");
+  const coverSublineOverride = arg("--cover-subline", "").trim();
+  const coverDesignInput: CoverDesignInput = coverSublineOverride
+    ? { ...designInput, brief: { ...(designInput.brief ?? {}), coverSubline: coverSublineOverride } }
+    : designInput;
+  const requestedPlan = (): CoverPlan => requestedCoverPlan(coverDesignInput, {
     headline: arg("--cover-hook", coverBrief?.coverHook ?? shotlist.title ?? "封面"),
     heroShotId: bgShot.shotId,
     ...(COVER_ARCHETYPE === "person-led" && personShot ? { personShotId: personShot.shotId } : {})
   });
-  const designVia = "deterministic-request";
-  const designNote = plan.rationale;
+  const forbiddenCoverNames = [lead?.name, lead?.id].map((value) => String(value ?? "").trim()).filter((value) => value.length >= 2);
+  const assertCoverCopyHasNoPersonName = (candidate: CoverPlan): void => {
+    const copy = [candidate.headline, candidate.subline, candidate.badge].filter(Boolean).join(" ");
+    const hit = forbiddenCoverNames.find((name) => copy.includes(name));
+    if (hit) throw new Error(`封面文案出现真人姓名「${hit}」（除 brief.coverSubline 显式声明外，封面不得出现姓名）`);
+  };
+  let plan = requestedPlan();
+  let designVia: "agent" | "fallback" | "deterministic-request" = "deterministic-request";
+  let designNote = plan.rationale;
+  const coverDesignerLlm = coverDesignMode === "agent" ? resolveProducerLlm(ENV) : null;
+  if (coverDesignMode === "agent" && coverDesignerLlm) {
+    let lastDesignError = "";
+    for (let attempt = 1; attempt <= 2; attempt += 1) {
+      try {
+        const basePrompt = buildCoverDesignPrompt(coverDesignInput);
+        const prompt = attempt === 1 ? basePrompt
+          : `${basePrompt}\n\n【上一稿被拒的原因（必须修正）】${lastDesignError}\n只输出修正后的 JSON 设计稿。`;
+        const raw = await requestCoverDesign(coverDesignerLlm, prompt);
+        const candidate = parseCoverPlan(raw, coverDesignInput, { personShotId: personShot?.shotId });
+        assertCoverCopyHasNoPersonName(candidate);
+        plan = candidate;
+        designVia = "agent";
+        designNote = `封面设计师（${coverDesignerLlm.model}）出稿：第 ${attempt} 次通过校验；未执行审美评分`;
+        break;
+      } catch (error) {
+        lastDesignError = error instanceof Error ? error.message.slice(0, 200) : String(error);
+      }
+    }
+    if (designVia !== "agent") {
+      plan = requestedPlan();
+      designVia = "fallback";
+      designNote = `封面设计师出稿未通过（${lastDesignError}）→ 确定性稿；未执行审美评分`;
+    }
+  } else {
+    designNote = coverDesignMode === "agent"
+      ? "未配置封面设计师模型 → 使用确定性稿（如实记录，不冒充设计师出稿）"
+      : "调用方显式 --cover-design deterministic：使用确定性稿";
+  }
+  log(`  ⇢ ${designNote}`);
   const bgPick = { atSec: plan.background.atSec };
   /**
    * 小图层（次要画面）与几何——必须在 `bgShot` 定稿**之后**再定：
@@ -5347,6 +5466,175 @@ if (STAGES.has("deliver") && !DRY_RUN && (QUALITY !== "uhd" || masterApprovedFor
    * 为什么不是每支重跑封面设计师：变体是**零 token 的后期层派生**，重跑设计稿会破坏这条纪律；
    * 三支封面的差异用"强调色 + 风格角标"保证**可区分且可核对**（sha256 进清单）。
    */
+  /**
+   * 三风格独立封面（2026-10-09 产品所有者口径）：不同风格要出**不同的封面**——
+   * 整体设计、标题文案、字体都要跟着风格走（旧实现只是"同一张封面 + 换强调色条 + 风格角标"）。
+   * 文案首选封面设计师数字员工一次出三套（校验：镜头存在/字数/字体在库/三套互不相同/不含真人姓名），
+   * 不合规退确定性表；渲染用各风格自己的字体、主视觉镜头、调色与版式。
+   */
+  const escapeStyleText = (text: string): string => String(text)
+    .replace(/\\/g, "／").replace(/"/g, "”").replace(/'/g, "’").replace(/:/g, "：").replace(/%/g, "％");
+  const styleCoverSpec = getCoverSpec(COVER_PLATFORM_ARG || PLATFORM);
+  const { width: SCW, height: SCH } = QUALITY === "uhd" ? OUTPUT_SIZE : styleCoverSpec.canvas;
+  /**
+   * `label`（暖调胶片/冷调技术/社交高对比）是**内部风格名**：只用于日志与证据，**绝不进封面文案**
+   * （2026-10-10 口径：封面默认对外投放）；对外只用 `audienceTag`（面向观众的题材词）。
+   */
+  const STYLE_COVER_FALLBACK: Record<string, { label: string; audienceTag: string; fontId: CoverFontId; second: string;
+    keywords: string[]; accent: string }> = {
+    "warm-film": { label: "暖调胶片", audienceTag: "城市漫游", fontId: "noto-serif", second: "黄昏再看一遍",
+      keywords: ["黄昏", "夕", "落日", "灯", "夜", "暖", "运河"], accent: "#FFB86B" },
+    "cool-tech": { label: "冷调技术", audienceTag: "城市夜景", fontId: "source-han-heavy", second: "夜色另一面",
+      keywords: ["夜", "灯", "天际线", "高楼", "桥", "水面", "现代"], accent: "#6FD3FF" },
+    "punchy-social": { label: "社交高对比", audienceTag: "城市快剪", fontId: "smiley-sans", second: "高能数秒",
+      keywords: ["雪", "市井", "街", "吃", "人", "集市", "烟火"], accent: "#FF5A5F" }
+  };
+  const styleCoverGrade: Record<string, string> = {
+    "warm-film": "colorbalance=rs=0.07:gs=0.015:bs=-0.06,eq=saturation=1.04:contrast=1.05",
+    "cool-tech": "colorbalance=rs=-0.05:gs=-0.01:bs=0.08,eq=saturation=0.90:contrast=1.07",
+    "punchy-social": "eq=saturation=1.16:contrast=1.12"
+  };
+  const styleShotFor = (keywords: string[]): { shotId: string; atSec: number } => {
+    const scored = shots.map((shot) => {
+      const card = shot as unknown as Record<string, unknown>;
+      const text = [card.scene, card.sceneDescription, card.color_palette, card.motion].map((value) => String(value ?? "")).join(" ");
+      return { shot, hit: keywords.reduce((sum, word) => sum + (text.includes(word) ? 1 : 0), 0) };
+    }).sort((a, b) => b.hit - a.hit);
+    const picked = scored[0]?.shot ?? shots[0]!;
+    const duration = Number(picked.duration ?? 4);
+    return { shotId: picked.shotId, atSec: Number(Math.min(1.2, Math.max(0.3, duration - 0.4)).toFixed(2)) };
+  };
+  const visualLengthOf = (value: string): number => [...String(value)]
+    .reduce((sum, ch) => sum + (/[\u4e00-\u9fff]/.test(ch) ? 1 : 0.55), 0);
+  const styleCoverPlans = new Map<string, { styleId: string; headline: string; subline: string; badge: string;
+    shotId: string; atSec: number; fontId: CoverFontId; accent: string; via: string }>();
+  const fallbackStylePlan = (styleId: string) => {
+    const def = STYLE_COVER_FALLBACK[styleId]!;
+    const hero = styleShotFor(def.keywords);
+    const mainTitle = String(arg("--cover-hook", "") || shotlist.title || "封面").split(/[\n·|｜（(]/)[0]!.trim().slice(0, 8) || "封面";
+    const seconds = Number.isFinite(Number(expectedMasterSeconds)) ? Math.round(Number(expectedMasterSeconds)) : null;
+    /** 对外文案只用观众向词（audienceTag + 时长），不使用内部风格名。 */
+    return { styleId, headline: `${mainTitle}\n${def.second}`, subline: `${def.audienceTag} · ${seconds ? `${seconds} 秒` : "全片"}`,
+      badge: def.audienceTag, shotId: hero.shotId, atSec: hero.atSec, fontId: def.fontId, accent: def.accent, via: "deterministic" };
+  };
+  for (const styleId of Object.keys(STYLE_COVER_FALLBACK)) styleCoverPlans.set(styleId, fallbackStylePlan(styleId));
+  const styleDesignMode = arg("--cover-design", "agent");
+  const styleDesignLlm = styleDesignMode === "agent" ? resolveProducerLlm(ENV) : null;
+  if (styleDesignMode === "agent" && styleDesignLlm) {
+    try {
+      const shotLines = shots.map((shot) => `- ${shot.shotId}：${String((shot as unknown as Record<string, unknown>).scene ?? "").slice(0, 60)}`).join("\n");
+      /** 三风格封面也要吃同一套封面知识库与账号视觉锤（trace 由封面环节落盘，就地读取）。 */
+      const styleKbTraceFile = join(WORK_DIR, "cover-kb", `${PROJECT}.json`);
+      const styleKbTrace = existsSync(styleKbTraceFile)
+        ? (JSON.parse(readFileSync(styleKbTraceFile, "utf8")) as { theme?: string | null; hints?: string[]; accountNotes?: string[] })
+        : {};
+      const styleKbLines = (styleKbTrace.hints ?? []).slice(0, 3).map((hint) => `- ${hint}`).join("\n");
+      const styleAccountLines = (styleKbTrace.accountNotes ?? []).slice(0, 4).map((line) => `- ${line}`).join("\n");
+      const prompt = `你是 WorkLoom 的封面设计师。为同一支片子设计**三支风格版封面**，每支的标题文案、主视觉镜头、字体都必须不同。
+片子：${String(shotlist.title ?? "")}
+可选镜头（backgroundShotId 必须来自这里）：
+${shotLines}
+题材（封面知识库判定）：${String(styleKbTrace.theme ?? "未匹配")}
+${styleKbLines ? `封面知识库要点：\n${styleKbLines}` : ""}
+${styleAccountLines ? `账号视觉锤（必须遵守）：\n${styleAccountLines}` : ""}
+可选字体 fontId：${Object.keys(COVER_FONTS).join(" / ")}
+风格定位：warm-film=黄昏暖光（书卷气）；cool-tech=夜景冷色（现代感）；punchy-social=高饱和短促（快剪节奏）
+硬约束：标题 ≤14 视觉字符且最多两行（用 \\n 断行）、副标题 ≤24 字、角标 ≤10 字；不得出现真人姓名（如「${lead?.name ?? "—"}」）；
+**不得出现任何内部风格/工序标签**（如"暖调胶片""冷调技术""高对比社交"）——封面默认对外投放，角标只写面向观众的题材词（城市漫游/城市夜景/城市快剪这类）；不得虚构镜头或字体。
+只输出 JSON：{"variants":[{"style":"warm-film","headline":"杭州\\n黄昏再看一遍","subline":"...","badge":"...","backgroundShotId":"HZ-12","backgroundAtSec":1.2,"fontId":"noto-serif","accentColor":"#FFB86B"},{"style":"cool-tech",...},{"style":"punchy-social",...}]}`;
+      const raw = await requestCoverDesign(styleDesignLlm, prompt);
+      const parsed = JSON.parse(raw.replace(/^```(?:json)?/m, "").replace(/```\s*$/m, "").trim()) as { variants?: Array<Record<string, unknown>> };
+      const variants = Array.isArray(parsed.variants) ? parsed.variants : [];
+      const forbidden = [lead?.name, lead?.id].map((value) => String(value ?? "").trim()).filter((value) => value.length >= 2);
+      const accepted: Array<{ styleId: string; headline: string; subline: string; badge: string; shotId: string;
+        atSec: number; fontId: CoverFontId; accent: string; via: string }> = [];
+      for (const entry of variants) {
+        const styleId = String(entry.style ?? "").trim();
+        if (!STYLE_COVER_FALLBACK[styleId]) continue;
+        /** 字段别名归一（真机实测：设计师写 title/subtitle/cornerTag，只认 headline/subline/badge 会把合法稿误判非法）。 */
+        const pick = (...keys: string[]): string => {
+          for (const key of keys) {
+            const value = entry[key];
+            if (typeof value === "string" && value.trim()) return value.trim();
+          }
+          return "";
+        };
+        const background = (entry.background ?? {}) as Record<string, unknown>;
+        const headline = pick("headline", "title", "mainTitle", "main_title");
+        const subline = pick("subline", "subtitle", "subTitle", "sub_title");
+        const badge = pick("badge", "cornerTag", "corner_tag", "tag");
+        const shotId = pick("backgroundShotId", "background_shot_id", "shotId", "shot") || String(background.shotId ?? "").trim();
+        const fontId = pick("fontId", "font", "font_id") as CoverFontId;
+        const accent = pick("accentColor", "accent_color", "accent");
+        const atSec = Number(entry.backgroundAtSec ?? entry.background_at_sec ?? entry.atSec ?? background.atSec ?? 1.2);
+        const lines = headline.split("\n");
+        if (!headline || lines.length > 2 || lines.some((line) => visualLengthOf(line) > 14)) continue;
+        if (visualLengthOf(subline) > 24 || visualLengthOf(badge) > 10) continue;
+        if (!shots.some((shot) => shot.shotId === shotId)) continue;
+        if (!Object.prototype.hasOwnProperty.call(COVER_FONTS, fontId)) continue;
+        if (!/^#[0-9a-f]{6}$/i.test(accent)) continue;
+        if (!Number.isFinite(atSec) || atSec < 0.2 || atSec > 3.5) continue;
+        if (forbidden.some((name) => [headline, subline, badge].join(" ").includes(name))) continue;
+        /** 内部标签硬闸：设计师稿同样不得出现内部风格/工序名（2026-10-10）。 */
+        if (COVER_INTERNAL_LABEL_BLOCKLIST.some((label) => [headline, subline, badge].join(" ").includes(label))) continue;
+        accepted.push({ styleId, headline, subline, badge, shotId, atSec: Number(atSec.toFixed(2)), fontId, accent, via: "agent" });
+      }
+      const distinct = new Set(accepted.map((entry) => entry.headline)).size === accepted.length
+        && new Set(accepted.map((entry) => entry.shotId)).size === accepted.length
+        && new Set(accepted.map((entry) => entry.fontId)).size === accepted.length;
+      if (accepted.length === 3 && distinct) {
+        for (const entry of accepted) styleCoverPlans.set(entry.styleId, entry);
+        log(`  · 三风格封面：封面设计师出稿通过（标题/主视觉/字体三套互不相同）`);
+      } else {
+        log(`  ↻ 三风格封面：设计师稿未满足"三套互不相同"（收 ${accepted.length}/3）→ 确定性表`);
+      }
+    } catch (error) {
+      log(`  ↻ 三风格封面：设计师出稿失败（${error instanceof Error ? error.message.slice(0, 120) : String(error)}）→ 确定性表`);
+    }
+  }
+  const renderStyledVariantCover = (styleId: string, masterPath: string): { path: string; sha256: string } | null => {
+    const style = styleCoverPlans.get(styleId);
+    if (!style || !existsSync(masterPath)) return null;
+    const fontFile = join(REPO_ROOT, "bundles/ai-video/library/fonts", COVER_FONTS[style.fontId].file);
+    if (!existsSync(fontFile)) throw new Error(`VARIANT_COVER_FONT_MISSING: ${styleId} → ${fontFile}`);
+    const shotIndex = shots.findIndex((shot) => shot.shotId === style.shotId);
+    if (shotIndex < 0) throw new Error(`VARIANT_COVER_SHOT_MISSING: ${styleId} → ${style.shotId}`);
+    const start = shotIndex === 0 ? 0 : (CUT_GRID[shotIndex - 1] ?? shots.slice(0, shotIndex).reduce((sum, shot) => sum + Number(shot.duration ?? 5), 0));
+    const duration = Number(shots[shotIndex]!.duration ?? 4);
+    const at = Math.min(Math.max(0.2, style.atSec), Math.max(0.2, duration - 0.2));
+    const target = join(OUT_DIR, `${PROJECT}-cover-${styleId}.png`);
+    const headLines = style.headline.split("\n").slice(0, 2);
+    const headSize = Math.round(SCH * 0.075);
+    const subSize = Math.round(SCH * 0.030);
+    const badgeSize = Math.round(SCH * 0.020);
+    const left = Math.round(SCW * 0.07);
+    const titleTop = styleId === "punchy-social" ? Math.round(SCH * 0.52) : Math.round(SCH * 0.58);
+    const filters = [
+      `scale=${SCW}:${SCH}:force_original_aspect_ratio=increase`, `crop=${SCW}:${SCH}`,
+      styleCoverGrade[styleId] ?? "null",
+      `drawbox=x=${left}:y=${titleTop - Math.round(headSize * 0.35)}:w=${Math.round(SCW * 0.12)}:h=${Math.max(4, Math.round(SCH * 0.006))}:color=${style.accent.replace("#", "0x")}@0.95:t=fill`
+    ];
+    headLines.forEach((line, index) => {
+      filters.push(`drawtext=fontfile='${fontFile}':text=${escapeStyleText(line)}:expansion=none:fontsize=${headSize}:fontcolor=#FFFFFF`
+        + `:borderw=${Math.max(3, Math.round(headSize * 0.04))}:bordercolor=black@0.55:shadowx=2:shadowy=3:shadowcolor=black@0.35`
+        + `:x=${left}:y=${titleTop + index * Math.round(headSize * 1.08)}`);
+    });
+    if (style.subline) {
+      filters.push(`drawtext=fontfile='${fontFile}':text=${escapeStyleText(style.subline)}:expansion=none:fontsize=${subSize}`
+        + `:fontcolor=${style.accent}:borderw=${Math.max(2, Math.round(subSize * 0.08))}:bordercolor=black@0.5`
+        + `:x=${left}:y=${titleTop + headLines.length * Math.round(headSize * 1.08) + Math.round(headSize * 0.1)}`);
+    }
+    if (style.badge) {
+      filters.push(`drawtext=fontfile='${fontFile}':text=${escapeStyleText(style.badge)}:expansion=none:fontsize=${badgeSize}`
+        + `:fontcolor=white@0.92:borderw=2:bordercolor=black@0.5:x=${left}:y=${Math.round(SCH * 0.90)}`);
+    }
+    execFileSync(FFMPEG, ["-v", "error", "-y", "-ss", String((start + at).toFixed(3)), "-i", masterPath,
+      "-vf", filters.join(","), "-frames:v", "1", target]);
+    const info = probe(target);
+    if (Number(info.width) !== SCW || Number(info.height) !== SCH) throw new Error(`VARIANT_COVER_CANVAS_INVALID: ${styleId} → ${info.width}x${info.height}`);
+    log(`  风格封面 ${styleId}（${style.via}）：${style.headline.replace(/\n/g, " / ")} · ${style.fontId} · ${style.shotId}@${style.atSec}s`);
+    return { path: target, sha256: sha256FileSync(target) };
+  };
   const renderVariantCover = (variantId: string, accent: string, label: string): { path: string; sha256: string } | null => {
     const source = join(OUT_DIR, `${PROJECT}-cover.png`);
     if (!existsSync(source)) return null;
@@ -5404,7 +5692,7 @@ if (STAGES.has("deliver") && !DRY_RUN && (QUALITY !== "uhd" || masterApprovedFor
           const mixed = plan.output.replace(/\.mp4$/i, "-bgm.mp4");
           const mix = runCli(BGM_CLI, [
             "mix", "--in", plan.output, "--out", mixed, "--bgm", bed.path, "--policy", "keep-dialogue",
-            "--music-level", String(-26 + plan.variant.musicLevelDeltaDb),
+            "--music-level", String(-18 + plan.variant.musicLevelDeltaDb),
             "--ducking", "14", "--lufs", "-14", "--section", "full",
             ...(BGM_DECLARED_PROGRAM_MIX ? ["--declared-program-mix"] : []),
             "--bpm-strategy", "cut-driven", "--cut-times", CUT_GRID.join(","),
@@ -5426,7 +5714,9 @@ if (STAGES.has("deliver") && !DRY_RUN && (QUALITY !== "uhd" || masterApprovedFor
           log(`  变体 ${plan.variant.id} 无本地授权曲库候选；保留当前母版原声音轨，不做声音品质裁决`);
         }
       }
-      const variantCover = renderVariantCover(plan.variant.id, plan.variant.coverAccent, `${plan.variant.label}${plan.variant.copySuffix}`);
+      /** 三风格独立封面优先（文案/字体/主视觉/调色各自不同）；渲染失败才退"主封面+强调色条"兼容路径。 */
+      const variantCover = renderStyledVariantCover(plan.variant.id, plan.output)
+        ?? renderVariantCover(plan.variant.id, plan.variant.coverAccent, `${plan.variant.label}${plan.variant.copySuffix}`);
       const info = probe(plan.output);
       if (Number(info.width) !== OUTPUT_SIZE.width || Number(info.height) !== OUTPUT_SIZE.height) {
         throw new Error(`变体 ${plan.variant.id} 分辨率 ${info.width}x${info.height}，要求 ${OUTPUT_SIZE.width}x${OUTPUT_SIZE.height}`);
@@ -5437,6 +5727,7 @@ if (STAGES.has("deliver") && !DRY_RUN && (QUALITY !== "uhd" || masterApprovedFor
         note: plan.variant.note, gradeProfile: plan.variant.gradeProfile,
         width: Number(info.width), height: Number(info.height),
         cover: variantCover, bgm: variantBgm,
+        coverDesign: styleCoverPlans.get(plan.variant.id) ?? null,
       });
       log(`  变体 ${plan.variant.id}（${plan.variant.label}）→ ${basename(plan.output)}`);
     } catch (err) {

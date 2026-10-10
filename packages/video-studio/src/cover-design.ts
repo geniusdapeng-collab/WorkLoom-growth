@@ -77,6 +77,16 @@ export const COVER_FONTS = {
 
 export type CoverFontId = keyof typeof COVER_FONTS;
 
+/**
+ * 封面**内部标签黑名单**（2026-10-10 产品所有者口径）：
+ * "封面不要出现这些给内部看的标签——产出的视频都是默认用来直接对外投放的。"
+ * 命中即判非法（设计师出稿同样拦截）；需要表达风格请用面向观众的题材词（如"城市漫游""夜色""快剪"）。
+ */
+export const COVER_INTERNAL_LABEL_BLOCKLIST = [
+  "暖调胶片", "冷调技术", "高对比社交", "社交高对比",
+  "胶片感", "变体版本", "内部样片", "内部版", "草稿版", "调色版", "测试版"
+] as const;
+
 export interface CoverPlan {
   /** 主标题（≤ 12 个视觉字符，最多两行，行内用 `\n` 断行） */
   headline: string;
@@ -178,7 +188,13 @@ export interface CoverDesignInput {
    * 禁止第三种"人物小图贴在地标/商品上"——两种主视觉打架，真机被打回三次。
    */
   archetype?: "person-led" | "subject-led";
-  brief?: { platform?: string; audience?: string; goal?: string; tone?: string; coverHook?: string } | null;
+  brief?: { platform?: string; audience?: string; goal?: string; tone?: string; coverHook?: string;
+    /**
+     * 副标题覆盖（可选，≤24 字）。
+     * 2026-10-09 产品所有者口径：**封面不得默认出现模特/真人的姓名**（"封面不要显示陈卓名字"）——
+     * 需要名字时必须由调用方在这里显式给出；不给则兜底稿使用不含姓名的文案。
+     */
+    coverSubline?: string } | null;
   /**
    * 平台（ID 或中文别名，如 `douyin` / `抖音` / `抖音/快手`）。
    * 语义已升格为一等参数：驱动的画幅、安全区、标题带、标题字数上限与文案政策；
@@ -217,7 +233,17 @@ export function accountProfilePromptLines(profile: CoverAccountProfile | null | 
   if (palette.length >= 1) bits.push(`主标题色 ${palette[0]}`);
   if (palette.length >= 2) bits.push(`强调色 ${palette[1]}`);
   if (hammer?.archetype_bias) bits.push(`版式偏好 ${hammer.archetype_bias}`);
-  if (hammer?.badge_series) bits.push(`系列角标「${String(hammer.badge_series).slice(0, 10)}」`);
+  /**
+   * 账号档案的系列角标是对外文案：含真人姓名时（如样例档案「跟着陈卓走」）会诱导设计师写出
+   * 违反"封面不得出现真人姓名"的稿件（真机 2026-10-10：连续两次出稿被红线拒 → 退兜底）。
+   */
+  const badgeSeries = hammer?.badge_series ? String(hammer.badge_series).slice(0, 10) : "";
+  const profileRealName = String(profile.display_name ?? "").trim();
+  if (badgeSeries && profileRealName.length >= 2 && badgeSeries.includes(profileRealName)) {
+    bits.push(`系列角标已移除（原角标含真人姓名「${profileRealName}」——对外投放封面不得出现真人姓名）`);
+  } else if (badgeSeries) {
+    bits.push(`系列角标「${badgeSeries}」`);
+  }
   const who = profile.display_name ? `${profile.display_name}（${profile.account_id}）` : profile.account_id;
   if (bits.length > 0) lines.push(`【账号视觉锤】${who}：${bits.join("；")}。同一账号的封面必须"长一个样"，不得偏离。`);
   /**
@@ -332,6 +358,14 @@ export function validateCoverPlan(plan: CoverPlan, input: CoverDesignInput = { s
    */
   const spec = getCoverSpec(input.platform);
   const warnings: string[] = [];
+  /**
+   * 内部标签硬闸（2026-10-10 产品所有者口径）：
+   * "封面不要出现这些给内部看的标签——产出的视频都是默认用来直接对外投放的。"
+   * 命中即判非法：设计师出稿与兜底稿一视同仁（风格表达请用面向观众的题材词，如"城市漫游""夜色""快剪"）。
+   */
+  const internalLabel = COVER_INTERNAL_LABEL_BLOCKLIST.find((label) =>
+    [plan.headline, plan.subline, plan.badge].map((value) => String(value ?? "")).join(" ").includes(label));
+  if (internalLabel) issues.push(`封面文案含内部标签「${internalLabel}」——对外投放封面不得出现内部风格/工序名`);
   /**
    * 版式一致性（2026-09-26 产品所有者口径）：
    *   `subject-led`（物体为主）不允许再挂人物层——人物小卡/竖带会与主视觉打架；
@@ -508,11 +542,18 @@ export function fallbackCoverPlan(
     ? hammer.fontId as CoverFontId
     : null;
   const hammerPalette = Array.isArray(hammer?.palette) ? hammer!.palette.filter((c) => HEX.test(String(c))) : [];
-  const sublineFallback = input.character?.name
-    ? (isEnglishCoverPlatform(spec)
-      ? (durationText ? `${input.character.name} · ${Math.round(seconds)}s` : input.character.name)
-      : (durationText ? `${input.character.name}带你 ${durationText}看懂` : `${input.character.name}带你一次看懂`))
-    : undefined;
+  /**
+   * 副标题（2026-10-09 产品所有者口径修订）：
+   *   · 旧行为把**模特/真人姓名**写进副标题（「陈卓带你 67 秒看懂」）——客户明确要求封面不出现姓名；
+   *   · 新行为：调用方显式给 `brief.coverSubline` 时用它（要写名字也由调用方负责），
+   *     否则生成不含姓名的时长钩子；无时长时不给副标题（宁缺毋滥）。
+   */
+  const sublineOverride = typeof input.brief?.coverSubline === "string" ? input.brief.coverSubline.trim() : "";
+  const sublineFallback = sublineOverride
+    ? sublineOverride
+    : (isEnglishCoverPlatform(spec)
+      ? (durationText ? `${Math.round(seconds)}s` : undefined)
+      : (durationText ? `${durationText}速览` : undefined));
   const plan: CoverPlan = {
     headline,
     subline: sublineFallback,
