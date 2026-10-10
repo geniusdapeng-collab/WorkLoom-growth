@@ -5523,10 +5523,20 @@ if (STAGES.has("deliver") && !DRY_RUN && (QUALITY !== "uhd" || masterApprovedFor
   if (styleDesignMode === "agent" && styleDesignLlm) {
     try {
       const shotLines = shots.map((shot) => `- ${shot.shotId}：${String((shot as unknown as Record<string, unknown>).scene ?? "").slice(0, 60)}`).join("\n");
+      /** 三风格封面也要吃同一套封面知识库与账号视觉锤（trace 由封面环节落盘，就地读取）。 */
+      const styleKbTraceFile = join(WORK_DIR, "cover-kb", `${PROJECT}.json`);
+      const styleKbTrace = existsSync(styleKbTraceFile)
+        ? (JSON.parse(readFileSync(styleKbTraceFile, "utf8")) as { theme?: string | null; hints?: string[]; accountNotes?: string[] })
+        : {};
+      const styleKbLines = (styleKbTrace.hints ?? []).slice(0, 3).map((hint) => `- ${hint}`).join("\n");
+      const styleAccountLines = (styleKbTrace.accountNotes ?? []).slice(0, 4).map((line) => `- ${line}`).join("\n");
       const prompt = `你是 WorkLoom 的封面设计师。为同一支片子设计**三支风格版封面**，每支的标题文案、主视觉镜头、字体都必须不同。
 片子：${String(shotlist.title ?? "")}
 可选镜头（backgroundShotId 必须来自这里）：
 ${shotLines}
+题材（封面知识库判定）：${String(styleKbTrace.theme ?? "未匹配")}
+${styleKbLines ? `封面知识库要点：\n${styleKbLines}` : ""}
+${styleAccountLines ? `账号视觉锤（必须遵守）：\n${styleAccountLines}` : ""}
 可选字体 fontId：${Object.keys(COVER_FONTS).join(" / ")}
 风格定位：warm-film=黄昏暖光（书卷气）；cool-tech=夜景冷色（现代感）；punchy-social=高饱和短促（快剪节奏）
 硬约束：标题 ≤14 视觉字符且最多两行（用 \\n 断行）、副标题 ≤24 字、角标 ≤10 字；不得出现真人姓名（如「${lead?.name ?? "—"}」）；
@@ -5541,13 +5551,22 @@ ${shotLines}
       for (const entry of variants) {
         const styleId = String(entry.style ?? "").trim();
         if (!STYLE_COVER_FALLBACK[styleId]) continue;
-        const headline = String(entry.headline ?? "").trim();
-        const subline = String(entry.subline ?? "").trim();
-        const badge = String(entry.badge ?? "").trim();
-        const shotId = String(entry.backgroundShotId ?? "").trim();
-        const fontId = String(entry.fontId ?? "").trim() as CoverFontId;
-        const accent = String(entry.accentColor ?? "").trim();
-        const atSec = Number(entry.backgroundAtSec ?? NaN);
+        /** 字段别名归一（真机实测：设计师写 title/subtitle/cornerTag，只认 headline/subline/badge 会把合法稿误判非法）。 */
+        const pick = (...keys: string[]): string => {
+          for (const key of keys) {
+            const value = entry[key];
+            if (typeof value === "string" && value.trim()) return value.trim();
+          }
+          return "";
+        };
+        const background = (entry.background ?? {}) as Record<string, unknown>;
+        const headline = pick("headline", "title", "mainTitle", "main_title");
+        const subline = pick("subline", "subtitle", "subTitle", "sub_title");
+        const badge = pick("badge", "cornerTag", "corner_tag", "tag");
+        const shotId = pick("backgroundShotId", "background_shot_id", "shotId", "shot") || String(background.shotId ?? "").trim();
+        const fontId = pick("fontId", "font", "font_id") as CoverFontId;
+        const accent = pick("accentColor", "accent_color", "accent");
+        const atSec = Number(entry.backgroundAtSec ?? entry.background_at_sec ?? entry.atSec ?? background.atSec ?? 1.2);
         const lines = headline.split("\n");
         if (!headline || lines.length > 2 || lines.some((line) => visualLengthOf(line) > 14)) continue;
         if (visualLengthOf(subline) > 24 || visualLengthOf(badge) > 10) continue;
