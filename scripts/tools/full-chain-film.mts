@@ -156,8 +156,36 @@ const ASPECT = arg("--aspect", typeof sourceDocument.aspect === "string" ? sourc
 /**
  * 云端生成保持原来的低价分辨率；UHD 只在本机取得镜头文件后执行。
  * `--resolution 2160p` 是旧参数风格的交付档别名，不传给模型提示词。
+ *
+ * 2026-10-11 产品所有者口径（不得**自行**把成片降到素材分辨率之下）：
+ * 分镜卡片里 `photo` 指向本机真实素材时，分辨率默认跟随**素材原生短边**——
+ * 素材是 4K（短边 >1080）时默认交付 2160p，而不是回落 1080p；显式 `--resolution` 优先。
+ * 纯生成片（没有本机真实素材文件）保持原云端成本口径：默认 1080p、本机再走 UHD 增强。
  */
-const REQUESTED_RESOLUTION = arg("--resolution", typeof sourceDocument.resolution === "string" ? sourceDocument.resolution : "1080p");
+function realMaterialShortEdge(doc: { shots?: Array<Record<string, unknown>> }): number | null {
+  const files = (doc.shots ?? [])
+    .map((shot) => String(shot.photo ?? "").trim())
+    .filter(Boolean)
+    .map((value) => abs(value))
+    .filter((file) => existsSync(file) && statSync(file).isFile());
+  let best: number | null = null;
+  for (const file of files) {
+    const info = probe(file);
+    const width = Number(info.width ?? 0);
+    const height = Number(info.height ?? 0);
+    if (width > 0 && height > 0) best = Math.max(best ?? 0, Math.min(width, height));
+  }
+  return best;
+}
+const materialShortEdge = realMaterialShortEdge(sourceDocument);
+const EXPLICIT_RESOLUTION = arg("--resolution", "");
+const DOCUMENT_RESOLUTION = typeof sourceDocument.resolution === "string" ? sourceDocument.resolution : "";
+const REQUESTED_RESOLUTION = EXPLICIT_RESOLUTION
+  || DOCUMENT_RESOLUTION
+  || (materialShortEdge && materialShortEdge > 1080 ? "2160p" : "1080p");
+if (!EXPLICIT_RESOLUTION && !DOCUMENT_RESOLUTION && materialShortEdge && materialShortEdge > 1080) {
+  log(`分辨率默认跟随真实素材：素材短边 ${materialShortEdge} → 交付 2160p（如需覆盖请显式传 --resolution）`);
+}
 const QUALITY_ARG = arg("--quality", "");
 if (!["720p", "1080p", "2160p"].includes(REQUESTED_RESOLUTION)) {
   throw new Error(`--resolution 不支持 ${REQUESTED_RESOLUTION}（可选 720p / 1080p / 2160p）`);
@@ -170,7 +198,16 @@ if (REQUESTED_RESOLUTION === "2160p" && QUALITY_ARG === "hd") {
 }
 type FilmQuality = "hd" | "uhd";
 const QUALITY: FilmQuality = (QUALITY_ARG || (REQUESTED_RESOLUTION === "2160p" ? "uhd" : "hd")) as FilmQuality;
-const SOURCE_RESOLUTION = REQUESTED_RESOLUTION === "2160p" ? "1080p" : REQUESTED_RESOLUTION;
+/**
+ * 全素材镜（没有云端生成）时，本机渲染直接按素材原生档处理，避免"4K 素材先降到 1080p 再回拉"的二次损失；
+ * 混合生成镜的片子仍保持 1080p 源档（云端成本口径），只把交付档抬到 2160p（本机 UHD 增强）。
+ */
+const ALL_MATERIAL_SHOTS = Array.isArray(sourceDocument.shots)
+  && sourceDocument.shots.length > 0
+  && sourceDocument.shots.every((shot) => String((shot as Record<string, unknown>).photo ?? "").trim().length > 0);
+const SOURCE_RESOLUTION = REQUESTED_RESOLUTION === "2160p"
+  ? (ALL_MATERIAL_SHOTS && materialShortEdge && materialShortEdge > 1080 ? "2160p" : "1080p")
+  : REQUESTED_RESOLUTION;
 const OUTPUT_RESOLUTION = QUALITY === "uhd" ? "2160p" : SOURCE_RESOLUTION;
 /** UHD 全套交付文件先留在与正式目录同卷的源版本暂存区，交付门全过后整体发布。 */
 const PUBLIC_OUT_DIR = QUALITY === "uhd" ? join(OUT_ROOT, "uhd") : OUT_ROOT;
