@@ -79,3 +79,16 @@ color-cli match --ref hero.mp4 --in a.mp4 --in b.mp4 --out-dir matched-v2/
 回执包含输入来源、实际滤镜链、profile/LUT、强度、输出路径/大小/实际时长/SHA256、处理错误和未评审声明。选型说明保留题材、场景、情绪、平台；独立诊断另存，不能冒充默认完成条件。
 
 知识入口：`library/color-kb/_INDEX.md`，CGRADE-001 肤色科学、CGRADE-005 示波器、CGRADE-006 白平衡、CGRADE-008 事故案例。历史 FC-COL-001 blend 权重、FC-COL-007 HSV/HUEAVG 混用用于工艺回归，不恢复自动品质闸。
+
+
+## 实体级局部调色（镜头级之下第二层）
+
+镜头级 LUT 不知道"同一个镜头里谁是谁"：同镜人物+食物时，食物需要暖黄，人像却被一起染黄（客户 2026-10-11 实测）。
+实体级调色把两类实体分开，在本模块的纯函数里只做计划与滤镜图，不做审美判断：
+
+- 人像 → 美白：提亮 + 略收饱和 + 去黄（`colorbalance rs=-0.02 / bs=+0.03`），只作用在**人物掩膜**内；
+- 食物 → 暖黄：加暖 + 提饱和 + 提对比（`rs=+0.05 / bs=-0.055`），只作用在**食物掩膜**内；
+- 同镜两类实体分别作用、互不串色；没有实例/人脸证据的"假人物掩膜"（俯拍食物镜的通用分割会把盘子当人）不美白。
+
+实现：`connectors/color-bridge/entity-grade.mjs`（`planEntityGrade` / `buildEntityFilterComplex` / `summarizeEntityPlans`，
+附单测 `entity-grade.test.mjs`）；掩膜生成（macOS Vision：人物实例分割 + 前景实例分类）与逐片段执行在视频剪辑管线负责。
