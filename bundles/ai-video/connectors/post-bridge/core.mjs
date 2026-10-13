@@ -35,8 +35,8 @@ import {
   extractFrame, probeMedia, round, runBin, sha256File, tempDir,
 } from "../subtitle-bridge/measure.mjs";
 import {
-  buildAssDocument, exportSidecars, loadFontCatalog, plan as planSubtitle,
-  softMux, srtSecondsToAss, SubtitleError,
+  buildAssDocument, buildTransitionTimemap, cuesToSrt, exportSidecars, loadFontCatalog,
+  parseSrt, plan as planSubtitle, retimeCuesForTransitions, softMux, srtSecondsToAss, SubtitleError,
 } from "../subtitle-bridge/core.mjs";
 import { grade as colorGrade } from "../color-bridge/core.mjs";
 import { findTracks, loadAllLocalTracks, mix as bgmMix } from "../bgm-bridge/core.mjs";
@@ -682,6 +682,13 @@ export async function assembleTimeline({
   return { output, mode, fadeSec: round(fadeSec, 3), shots: clips.length, avSync };
 }
 
+/** 旧口径转场（整段 mode/fadeSec）→ 逐刀口径；非 xfade 视为全部硬切。 */
+function legacyTransitionCuts(clips = [], transitions = {}) {
+  if (String(transitions?.mode ?? "hard") !== "xfade") return [];
+  const fadeSec = Math.max(0.05, Number(transitions?.fadeSec ?? 0.5));
+  return clips.slice(1).map((clip) => ({ incomingSegmentId: String(clip.shotId), durationSeconds: fadeSec }));
+}
+
 /* ============================ 音频层（选曲 + 混音） ============================ */
 
 /** 确定性选曲：按变体包的曲风/情绪过滤本地曲库，排序后取第一首可商用且文件在位者。 */
@@ -1031,13 +1038,14 @@ async function verifyStoredStems(reference, project, base, env, bins) {
     expectedRecipeSha256: restored.recipeSha256, scope: audioScope(project),
     verifySource: createAudioStemReceiptVerifier({ env, expectedTenant: env.WORKLOOM_POST_BRIDGE_TENANT }), allowedRoots: allowedRoots(env), bins });
 }
-async function timelineStems({ project, clips, transitions, workDir, env, bins }) {
+
+async function timelineStems({ project, clips, transitions, cuts = null, padToSeconds = null, workDir, env, bins }) {
   const shots = clips.map((clip) => ({ shotId: clip.shotId, videoSha256: clip.sourceHash,
     normalisedVideoSha256: clip.sha256, sourceDurationSec: clip.sourceDuration,
     durationSec: clip.duration, stems: clip.audioStems }));
   // Normalization is run from an owned original snapshot; hashes/durations here are measured, never caller assertions.
   for (const clip of clips) await assertStoredArtifact(clip.path, clip.sha256, `独立音轨画面 ${clip.shotId}`);
-  return renderAudioStems({ scope: audioScope(project), shots, transitions,
+  return renderAudioStems({ scope: audioScope(project), shots, transitions, cuts, padToSeconds,
     outDir: path.join(workDir, "audio-stems", randomUUID()), allowedRoots: allowedRoots(env),
     verifySource: createAudioStemReceiptVerifier({ env, expectedTenant: env.WORKLOOM_POST_BRIDGE_TENANT }), bins });
 }
@@ -1156,7 +1164,6 @@ export async function buildDeliveryPackage({
   const totalSeconds = normalised.reduce((sum, clip) => sum + Number(clip.duration), 0);
   if (quality === "uhd") await verifyUhdEvidence(normalised, [width, height], bins);
   const baseTransitions = { mode: project.transitions?.mode ?? "hard", fadeSec: project.transitions?.fadeSec ?? 0.5 };
-  const masterStems = hasIndependentAudio ? await timelineStems({ project, clips: normalised, transitions: baseTransitions, workDir, env, bins }) : null;
   const masterAssembly = await assembleTimeline({
     clips: normalised,
     transitions: baseTransitions,
@@ -1166,6 +1173,13 @@ export async function buildDeliveryPackage({
     quality,
     bins,
   });
+  /** 母版节目声在装配之后生成：按逐刀口径 + 画面实测时长补齐（T-2026-1013-0002 移植）。 */
+  const masterPictureProbe = normalised.some((clip) => Object.hasOwn(clip, "audioStems")) ? await probeMedia(masterAssembly.output, { bins }) : null;
+  const masterStems = normalised.some((clip) => Object.hasOwn(clip, "audioStems"))
+    ? await timelineStems({ project, clips: normalised, transitions: baseTransitions,
+      cuts: legacyTransitionCuts(normalised, baseTransitions),
+      padToSeconds: masterPictureProbe?.videoDuration ?? masterPictureProbe?.duration ?? null, workDir, env, bins })
+    : null;
   const cleanMaster = path.join(target, "master", "master-clean.mp4");
   await cleanProgramOutput({ gradedInput: masterAssembly.output, stems: masterStems, output: cleanMaster, env, bins });
   masterAssembly.output = cleanMaster;
@@ -1177,22 +1191,51 @@ export async function buildDeliveryPackage({
 
   /* ② 旁挂字幕（一次生成，全部变体共用同一份文字层；母版不烧字） */
   let sidecar = null;
+  let timelineCues = null;
+  let timelineCuesEn = [];
+  let subtitleTiming = null;
   if (subtitles?.zhPath || subtitles?.zhCues || subtitles?.zhText) {
-    const { parseSrt } = await import("../subtitle-bridge/core.mjs");
     const zhText = subtitles.zhText ?? (subtitles.zhPath ? await fsp.readFile(subtitles.zhPath, "utf8") : null);
     if (!zhText) throw new PostError("subtitles.zhText / zhPath 缺失（旁挂字幕需要内容）", "bad_request");
     const enText = subtitles.enText ?? (subtitles.enPath ? await fsp.readFile(subtitles.enPath, "utf8") : null);
+    /** 时间轴口径 cue：所有形态的重映射都从它出发（避免在已映射时间上二次映射）。 */
+    timelineCues = parseSrt(zhText);
+    timelineCuesEn = enText ? parseSrt(enText) : [];
+    const masterCuts = legacyTransitionCuts(normalised, baseTransitions);
+    const masterTimemap = buildTransitionTimemap(
+      normalised.map((clip) => ({ segmentId: String(clip.shotId), durationSeconds: Number(clip.duration ?? 0) })),
+      masterCuts,
+      { outputDurationSeconds: masterProbe.videoDuration ?? masterProbe.duration },
+    );
+    const masterRetime = retimeCuesForTransitions(timelineCues, masterTimemap);
+    if (!masterRetime.cues.length) throw new PostError("按母版转场重映射后没有可用字幕条", "verify_failed");
     sidecar = await exportSidecars({
       input: masterAssembly.output,
       outputDir: path.join(target, "subtitles"),
       name: projectId,
-      cues: parseSrt(zhText),
-      cuesEn: enText ? parseSrt(enText) : [],
+      cues: masterRetime.cues,
+      cuesEn: timelineCuesEn.length ? retimeCuesForTransitions(timelineCuesEn, masterTimemap).cues : [],
       platform,
       brief: { 平台: platform ?? "默认", 内容调性: project.copy?.tone ?? null },
       fontsDir: null,
       bins,
     });
+    /** 时间轴口径 SRT（返修基线）：旁挂已重映射，返修必须回到时间轴再算一次。 */
+    const timelineSrtPath = path.join(path.dirname(sidecar.files[0].path), `${projectId}.timeline.zh.srt`);
+    await fsp.writeFile(timelineSrtPath, cuesToSrt(timelineCues), "utf8");
+    subtitleTiming = {
+      policy: "timeline→output：按各形态实际转场重映射；旁挂/软轨/烧录同源",
+      timelineSrt: { path: path.relative(target, timelineSrtPath), sha256: await sha256File(timelineSrtPath), note: "时间轴口径：返修重映射基线" },
+      master: {
+        transitionCount: masterCuts.length,
+        totalOverlapSeconds: masterTimemap.totalOverlapSeconds,
+        cuesBefore: timelineCues.length,
+        cuesAfter: masterRetime.cues.length,
+        droppedCues: masterRetime.dropped.length,
+        shiftSeconds: masterRetime.shiftSeconds,
+      },
+      variants: [],
+    };
   }
 
   /* ③ 逐变体：拼接 → 调色 → 音频 → 封面 → 文案 →（可选）软字幕轨 / 硬字幕 */
@@ -1283,7 +1326,11 @@ export async function buildDeliveryPackage({
     // 音频层（BGM 选曲 + 混音；按内容哈希缓存，返修时可直接复用）
     const scoredPath = path.join(variantDir, `${pack.id}.mp4`);
     const stems = !hasIndependentAudio ? null : audioStemDigest(transitions) === audioStemDigest(baseTransitions) ? masterStems
-      : await timelineStems({ project, clips: normalised, transitions, workDir, env, bins });
+      : await timelineStems({ project, clips: normalised, transitions,
+        /** 逐刀口径与本变体一致 + 用待配音画面实测时长补齐。 */
+        cuts: legacyTransitionCuts(normalised, transitions),
+        padToSeconds: (await probeMedia(gradedInput, { bins })).videoDuration ?? null,
+        workDir, env, bins });
     const audioOutcome = await mixVariantAudio({ pack, gradedInput, workDir, output: scoredPath, bins, env, stems });
     const audioReport = audioOutcome.report;
     const track = audioOutcome.track;
@@ -1335,7 +1382,35 @@ export async function buildDeliveryPackage({
     // 软字幕轨（画面逐帧零改动）与可选硬字幕
     let softsub = null;
     let burned = null;
-    if (softSubtitles && sidecar) {
+    /** 变体字幕：从时间轴 cue 按**本变体**转场重映射（各变体 mode/fadeSec 可不同）。 */
+    let variantSubtitles = null;
+    let variantCues = null;
+    if (timelineCues && (softSubtitles || burnSubtitles)) {
+      const variantCuts = legacyTransitionCuts(normalised, transitions);
+      const variantTimemap = buildTransitionTimemap(
+        normalised.map((clip) => ({ segmentId: String(clip.shotId), durationSeconds: Number(clip.duration ?? 0) })),
+        variantCuts,
+        { outputDurationSeconds: scoredProbe.videoDuration ?? scoredProbe.duration },
+      );
+      const retimed = retimeCuesForTransitions(timelineCues, variantTimemap);
+      if (!retimed.cues.length) throw new PostError(`变体 ${pack.id} 按转场重映射后没有可用字幕条`, "verify_failed");
+      const zhPath = path.join(variantDir, `${pack.id}.zh.srt`);
+      await fsp.writeFile(zhPath, cuesToSrt(retimed.cues), "utf8");
+      variantCues = retimed.cues;
+      variantSubtitles = {
+        zhPath,
+        timing: {
+          transitionCount: variantCuts.length,
+          totalOverlapSeconds: variantTimemap.totalOverlapSeconds,
+          cuesBefore: timelineCues.length,
+          cuesAfter: retimed.cues.length,
+          droppedCues: retimed.dropped.length,
+          shiftSeconds: retimed.shiftSeconds,
+        },
+      };
+      subtitleTiming?.variants.push({ id: pack.id, ...variantSubtitles.timing });
+    }
+    if (softSubtitles && (variantSubtitles || sidecar)) {
       const softTarget = path.join(variantDir, `${pack.id}.softsub.mp4`);
       /**
        * 每种语言只挂一条字幕轨：mp4/mov 用 mov_text 承载，ASS 样式本来就会被压掉，
@@ -1354,18 +1429,19 @@ export async function buildDeliveryPackage({
           || (file.format === (preferAss ? "ass" : "srt") && current.format !== (preferAss ? "ass" : "srt"));
         if (better) byLang.set(lang, file);
       }
-      const tracks = [...byLang.entries()].map(([lang, file], index) => ({
-        path: file.path,
-        lang,
-        title: lang === "eng" ? "English" : "中文",
-        default: index === 0,
-      }));
+      const tracks = variantSubtitles
+        ? [{ path: variantSubtitles.zhPath, lang: "chi", title: "中文", default: true }]
+        : [...byLang.entries()].map(([lang, file], index) => ({
+          path: file.path,
+          lang,
+          title: lang === "eng" ? "English" : "中文",
+          default: index === 0,
+        }));
       softsub = await softMux({ input: scoredPath, output: softTarget, subtitles: tracks, bins });
     }
-    if (burnSubtitles && sidecar) {
-      const { renderWithSubtitles, parseSrt } = await import("../subtitle-bridge/core.mjs");
+    if (burnSubtitles && (variantCues || sidecar)) {
       const zh = sidecar.files.find((file) => file.format === "srt" && file.lang === "chi");
-      const cues = parseSrt(await fsp.readFile(zh.path, "utf8"));
+      const cues = variantCues ?? parseSrt(await fsp.readFile(zh.path, "utf8"));
       burned = await renderWithSubtitles({
         mode: "subtitle",
         input: scoredPath,
@@ -1594,6 +1670,7 @@ kind: "duration_consistent",
       subtitles: "none（母版不烧字；字幕走旁挂文件或软字幕轨）",
     },
     subtitles: sidecar ? {
+      timing: subtitleTiming,
       dir: path.relative(target, path.dirname(sidecar.files[0].path)),
       files: sidecar.files.map((file) => ({ path: path.relative(target, file.path), role: file.role, lang: file.lang, format: file.format, sha256: file.sha256, bytes: file.bytes })),
       manifest: path.relative(target, sidecar.manifestPath),
