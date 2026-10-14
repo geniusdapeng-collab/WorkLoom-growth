@@ -93,7 +93,7 @@ jobs:
         run: pnpm suite
 
       - name: 白板工作台生图与参考一致性回归
-        run: pnpm exec vitest run apps/server/src/video/whiteboard/imagegen-contract.test.ts apps/server/src/video/whiteboard/imagegen-router.test.ts scripts/tools/whiteboard-imagegen.test.ts apps/server/src/video/gen/compiled-request.test.ts
+        run: pnpm exec vitest run apps/server/src/video/whiteboard/imagegen-contract.test.ts apps/server/src/video/whiteboard/imagegen-router.test.ts apps/server/src/video/whiteboard/narration-verification.test.ts scripts/tools/whiteboard-imagegen.test.ts apps/server/src/video/gen/compiled-request.test.ts
 
       - name: web 构建
         run: pnpm -C apps/web build

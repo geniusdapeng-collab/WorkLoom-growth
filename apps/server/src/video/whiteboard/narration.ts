@@ -477,19 +477,39 @@ export async function verifyNarration(
   wavPath: string,
   expectText: string,
   opts: { env?: NodeJS.ProcessEnv } = {},
-): Promise<{ matchRatio: number | null; detail: string }> {
+): Promise<{ matchRatio: number | null; status: "passed" | "failed" | "unverified"; detail: string }> {
   const env = opts.env ?? process.env;
   const cfg = narrationConfig(env);
   const voiceCli = join(REPO_ROOT, "bundles/ai-video/connectors/voice-bridge/cli.mjs");
-  const out = await run(process.execPath, [
-    voiceCli, "verify", "--in", wavPath, "--expect-text", expectText, "--no-strict",
-  ], cfg.timeoutMs);
-  const parsed = JSON.parse(out) as { result?: { match_ratio?: number; detail?: string; heard_text?: string } };
-  const heard = parsed.result?.heard_text ?? "";
-  return {
-    matchRatio: parsed.result?.match_ratio ?? null,
-    detail: (parsed.result?.detail ?? `ASR 转写：${heard || "（空）"}`).slice(0, 400),
-  };
+  // The voice station only reads its own allowed roots. A repo job path is not one;
+  // copy current bytes into a private temp directory without widening global access.
+  const staging = mkdtempSync(join(tmpdir(), "workloom-wb-verify-"));
+  try {
+    const input = join(staging, "narration.wav");
+    copyFileSync(wavPath, input);
+    const out = await run(process.execPath, [
+      voiceCli, "verify", "--in", input, "--expect-text", expectText, "--no-strict",
+    ], cfg.timeoutMs);
+    return parseNarrationVerification(JSON.parse(out));
+  } finally { rmSync(staging, { recursive: true, force: true }); }
+}
+
+/** Read the station's actual checked fields; unavailable ASR never becomes a pass. */
+export function parseNarrationVerification(value: unknown): {
+  matchRatio: number | null; status: "passed" | "failed" | "unverified"; detail: string;
+} {
+  const result = (value as { result?: { status?: string; checked?: { match_ratio?: unknown; asr_text?: unknown };
+    failures?: unknown[]; unverified?: unknown[] } } | null)?.result;
+  if (!result || !["passed", "failed", "unverified"].includes(result.status ?? "")) throw new NarrationError("配音核查返回缺少实际状态");
+  const raw = result.checked?.match_ratio;
+  const matchRatio = typeof raw === "number" && Number.isFinite(raw) && raw >= 0 && raw <= 1 ? raw : null;
+  const heard = typeof result.checked?.asr_text === "string" ? result.checked.asr_text : "";
+  const status = result.status as "passed" | "failed" | "unverified";
+  if (status === "passed" && (matchRatio === null || !heard.trim())) throw new NarrationError("配音核查声称通过但缺少转写和匹配读数");
+  return { matchRatio, status, detail: [
+    `核查 ${status}；匹配率 ${matchRatio ?? "未核实"}；ASR 转写：${heard || "（不可用）"}`,
+    ...(result.failures ?? []).map(String), ...(result.unverified ?? []).map(String),
+  ].join("；").slice(0, 400) };
 }
 
 /** 读回已合成的 SRT（断点续跑时复用，不重跑 TTS） */
