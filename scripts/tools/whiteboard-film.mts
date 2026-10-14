@@ -141,6 +141,12 @@ async function main(): Promise<void> {
   if (arg("--imagegen-results") && preferredLineart !== "imagegen") throw new Error("--imagegen-results 只适用于 --lineart imagegen");
   if (unavailable && arg("--imagegen-results")) throw new Error("imagegen 产物和不可用声明不能同时使用");
   const quality = requestedQuality();
+  const sceneNo = flag("--scene") ? Number(arg("--scene", "NaN")) : undefined;
+  if (sceneNo !== undefined && (!Number.isSafeInteger(sceneNo) || sceneNo < 1)) throw new Error("--scene 须为正整数");
+  const durationSec = flag("--duration-sec") ? Number(arg("--duration-sec", "NaN")) : undefined;
+  if (durationSec !== undefined && (!Number.isFinite(durationSec) || durationSec < 1 || durationSec > 600)) {
+    throw new Error("--duration-sec 须为 1–600 秒；先修正参数，再创建或配音");
+  }
   if (quality === "uhd" && flag("--cap-long-edge")) {
     throw new Error("UHD 固定为 3840×2160，请移除 --cap-long-edge");
   }
@@ -225,7 +231,7 @@ async function main(): Promise<void> {
       targetSec: num("--target-sec", 30),
       minSec: num("--min-sec", 25),
       maxSec: num("--max-sec", 35),
-      ...(flag("--duration-sec") ? { durationSec: num("--duration-sec", NaN) } : {}),
+      ...(durationSec !== undefined ? { durationSec } : {}),
     }));
     evidence.artifacts = { ...(evidence.artifacts ?? {}), plan };
     console.log(`  分幕 ${(plan as { scenes?: unknown[] }).scenes?.length ?? "?"} 幕，总时长 ${((plan as { totalMs?: number }).totalMs ?? 0) / 1000}s`);
@@ -238,7 +244,7 @@ async function main(): Promise<void> {
         contractPath: arg("--imagegen-contract") || undefined,
         resultsPath: arg("--imagegen-results") || undefined,
         planPath: arg("--imagegen-plan", `${REPO_ROOT}/var/whiteboard-jobs/imagegen-${filmId}.json`),
-        ...(arg("--scene") ? { sceneNo: Number(arg("--scene")) } : {}),
+        ...(sceneNo !== undefined ? { sceneNo } : {}),
         force: flag("--force-lineart"), onStep: (name, fn) => step(name, fn),
       });
       evidence.artifacts = { ...(evidence.artifacts ?? {}), lineart: result };

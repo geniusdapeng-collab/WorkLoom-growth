@@ -49,6 +49,12 @@ function setup(existing: number[] = []) {
 }
 
 describe("imagegen 白板编排", () => {
+  it.each([0, -1, 1.5, NaN, Infinity])("非法幕号 %s 不会变为整片出图或付费备选", async sceneNo => {
+    const f = setup();
+    await expect(runImagegenLineart({ ...f.options, sceneNo,
+      unavailable: { reason: "unsupported-client", detail: "fixture unavailable tool" } })).rejects.toThrow("正整数");
+    expect(f.calls).toEqual([]);
+  });
   it("无产物是 pending，保存逐幕计划但不写入服务端，也不触发 Seedream", async () => {
     const f = setup();
     const out = await runImagegenLineart(f.options);
@@ -193,7 +199,7 @@ describe("imagegen 白板编排", () => {
 });
 
 describe("actual whiteboard-film CLI process", () => {
-  it.each(["pending", "import", "stage-failed", "invalid-mode"])("%s has a truthful exit and evidence", async scenario => {
+  it.each(["pending", "import", "stage-failed", "invalid-mode", "invalid-scene", "invalid-duration"])("%s has a truthful exit and evidence", async scenario => {
     const f = setup();
     const apiCalls: string[] = [];
     const server = createServer(async (req, res) => {
@@ -218,6 +224,8 @@ describe("actual whiteboard-film CLI process", () => {
       "--imagegen-contract", f.contract, "--imagegen-plan", join(f.dir, "plan-cli.json"), "--evidence", evidence,
       ...(scenario === "pending" || scenario === "invalid-mode" ? [] : ["--imagegen-results", f.manifest]),
       ...(scenario === "invalid-mode" ? ["--lineart", "unknown"] : [])];
+    if (scenario === "invalid-scene") args.push("--scene", "0");
+    if (scenario === "invalid-duration") args.push("--duration-sec", "bad-duration");
     try {
       const output = await new Promise<{ code: number | null; text: string }>((done, reject) => {
         const child = spawn(process.execPath, [join(root, "node_modules/tsx/dist/cli.mjs"), ...args], {
@@ -234,7 +242,7 @@ describe("actual whiteboard-film CLI process", () => {
       expect(JSON.stringify(saved)).not.toContain("test-only-local-cli-session");
       expect(apiCalls.some(path => /render|deliver/.test(path))).toBe(false);
       if (scenario === "pending" || scenario === "invalid-mode") expect(apiCalls).not.toContain("video.whiteboard.lineart");
-      if (scenario === "invalid-mode") expect(apiCalls).toEqual([]);
+      if (["invalid-mode", "invalid-scene", "invalid-duration"].includes(scenario)) expect(apiCalls).toEqual([]);
     } finally { await new Promise<void>((r, reject) => server.close(error => error ? reject(error) : r())); }
   }, 30_000);
 });

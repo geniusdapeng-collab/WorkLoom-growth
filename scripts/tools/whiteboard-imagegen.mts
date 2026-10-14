@@ -88,6 +88,9 @@ export async function runImagegenLineart(input: {
   onStep?: (name: string, fn: () => Promise<unknown>) => Promise<unknown>;
 }): Promise<{ status: "pending" | "completed"; filmId: string; planPath: string; planHash: string;
   selected: "imagegen" | "seedream"; results: unknown[] }> {
+  if (input.sceneNo !== undefined && (!Number.isSafeInteger(input.sceneNo) || input.sceneNo < 1)) {
+    throw new Error("imagegen 幕号须为正整数，非法幕号不能变成整片生成");
+  }
   if (input.unavailable && input.resultsPath) throw new Error("不能同时提交 imagegen 产物和工具不可用声明");
   if (input.unavailable) ImagegenUnavailableSchema.parse(input.unavailable);
   const contract = readContinuityContract(input.contractPath);
