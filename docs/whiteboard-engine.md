@@ -273,4 +273,6 @@ pnpm exec tsx --env-file=.env scripts/tools/whiteboard-film.mts \
 
 `video.whiteboard.lineart` 原 mutation 增加可选 mode、continuity、referencePaths、imagegenReceipt 和 imagegenUnavailable。imagegen 逐幕导入，数据库 source 保持 upload；备选直接沿用 Seedream 接缝。未认证为 UNAUTHORIZED，越权为 FORBIDDEN，缺分幕/文件为 PRECONDITION_FAILED，参数不合约为 BAD_REQUEST，当前计划/摘要漂移为 CONFLICT。批次中有失败会保留成功幕并将 film 标为 failed，CLI 非零退出，不继续渲染。
 
-不改配音音色、不绕过 G8、不自动社交外发；退出的 CLI 不代表成片成功。生成品质不能作百分之百一致保证，最终仍须看原图和实际成片。回滚可 revert 本项提交；旧来源和现有生产主流程保留。
+imagegen 工作资产按实际图片摘要分别保存；同幕的两个并发导入不会在异步机检期间覆盖彼此的文件，已有同摘要文件被篡改时拒绝覆盖。配音遵循建片时显式指定的音色，未指定时沿用环境默认；核查将当前音频字节暂存到工位允许的私有临时目录，并读取实际 checked.match_ratio/asr_text 和 passed/failed/unverified 状态，不把核查不可用写成通过。
+
+G8 和社交外发授权规则保持原口径；退出的 CLI 不代表成片成功。生成品质不能作百分之百一致保证，最终仍须看原图和实际成片。回滚可 revert 本项提交；旧来源和现有生产主流程保留。
