@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import type { Identity } from "@workloom/base/tenancy";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-const mocks = vi.hoisted(() => ({ query: vi.fn(), download: vi.fn(), authority: vi.fn() }));
+const mocks = vi.hoisted(() => ({ query: vi.fn(), download: vi.fn(), authority: vi.fn(), synthesize: vi.fn() }));
 vi.mock("../../service/access-authority.js", async original => ({
   ...await original<typeof import("../../service/access-authority.js")>(), currentMemberAuthority: mocks.authority,
 }));
@@ -14,6 +14,7 @@ vi.mock("../gen/ingest.js", async original => ({ ...await original<typeof import
 vi.mock("./engine.js", async original => ({ ...await original<typeof import("./engine.js")>(),
   runLineartTool: async () => ({ ok: true, checks: [{ id: "fixture", pass: true, detail: "mocked pixel tool" }], metrics: {} }),
 }));
+vi.mock("./narration.js", async original => ({ ...await original<typeof import("./narration.js")>(), synthesizeNarration: mocks.synthesize }));
 import { whiteboardRouter } from "./router.js";
 import { lineartSha256 } from "./imagegen-contract.js";
 
@@ -24,6 +25,7 @@ const hash = lineartSha256(bytes);
 const continuity = { references: [{ id: "master", role: "style" as const, description: "fixed master", sha256: hash }], lockedElements: [] };
 let root: string, source: string;
 let scene: Record<string, unknown>;
+let filmProfile: string | null;
 beforeEach(() => {
   root = mkdtempSync(join(tmpdir(), "wb-router-"));
   vi.stubEnv("WHITEBOARD_JOBS_DIR", join(root, "jobs"));
@@ -32,12 +34,15 @@ beforeEach(() => {
   mkdirSync(join(root, "jobs/film-VP-ONE/inputs"), { recursive: true });
   source = join(root, "jobs/film-VP-ONE/inputs/master.png"); writeFileSync(source, bytes);
   scene = { id: "scene-one", scene_no: 1, core_idea: "compare", subtitle_srt: "1\n00:00:00,000 --> 00:00:05,000\n比较结果。\n", cue_start_ms: 0, cue_end_ms: 5000, duration_ms: 5000, lineart_path: null, lineart_check: {} };
+  filmProfile = "film-specific-voice";
+  mocks.synthesize.mockReset().mockImplementation(async input => ({ wavPath: source, profile: input.env.WHITEBOARD_NARRATION_PROFILE,
+    srt: "fixture-srt", segments: [{}], reusedSegments: 0 }));
   mocks.authority.mockReset().mockImplementation(async identity => ({ identity, permissions: {} }));
   mocks.download.mockReset().mockResolvedValue({ relPath: "video/ws-router/actual.png", sha256: hash });
   mocks.query.mockReset().mockImplementation(async (_pool, scope, sql, params) => {
     if (scope.workspaceId !== owner.workspaceId || scope.tenantId !== owner.tenantId) return [];
     expect(params[0]).toBe(owner.workspaceId);
-    if (sql.includes("FROM whiteboard_films")) return [{ id: "WF-ONE", project_id: "VP-ONE", lineart_mode: "upload" }];
+    if (sql.includes("FROM whiteboard_films")) return [{ id: "WF-ONE", project_id: "VP-ONE", lineart_mode: "upload", script_md: "这是配音测试原文。", narration_profile: filmProfile }];
     if (sql.includes("FROM whiteboard_scenes")) return [scene];
     return [];
   });
@@ -52,6 +57,15 @@ async function request() {
       visualReview: { status: "passed" as const, reviewer: "fixture", note: "test declaration, no live provider claim" } } };
 }
 describe("whiteboard imagegen route boundaries", () => {
+  it.each(["film-specific-voice", null])("dispatch, synthesis and saved receipt use film voice %s before host default", async profile => {
+    vi.stubEnv("WHITEBOARD_NARRATION_PROFILE", "host-default-voice"); filmProfile = profile;
+    const chosen = profile || "host-default-voice";
+    expect(await caller().narrate({ filmId: "WF-ONE", verify: false })).toMatchObject({ profile: chosen });
+    await vi.waitFor(() => expect(mocks.query.mock.calls.some(call => call[2].includes("SET narration_path"))).toBe(true));
+    expect(mocks.synthesize.mock.calls[0]![0].env.WHITEBOARD_NARRATION_PROFILE).toBe(chosen);
+    const saved = mocks.query.mock.calls.find(call => call[2].includes("SET narration_path"));
+    expect(saved?.[3][3]).toBe(chosen);
+  });
   it("plan is read-only; import preserves original upload storage and explicit unverified model provenance", async () => {
     const input = await request();
     expect(mocks.query.mock.calls.every(call => call[2].startsWith("SELECT"))).toBe(true);

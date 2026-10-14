@@ -295,7 +295,7 @@ export const whiteboardRouter = router({
       return {
         started: true,
         total: sentences.length,
-        profile: narrationConfig().profile,
+        profile: narrationConfig(narrationEnv(film)).profile,
         concurrency: narrationConfig().concurrency,
         hint: "配音是长任务（本机单句 80–220s）：用 video.whiteboard.narrateStatus 看进度",
       };
@@ -1058,6 +1058,12 @@ function narrationSentences(film: FilmRow): string[] {
   return splitSentences(film.script_md);
 }
 
+/** A film's explicit voice wins over host defaults throughout dispatch, synthesis and receipts. */
+function narrationEnv(film: FilmRow): NodeJS.ProcessEnv {
+  return { ...process.env, ...(film.narration_profile?.trim()
+    ? { WHITEBOARD_NARRATION_PROFILE: film.narration_profile.trim() } : {}) };
+}
+
 /**
  * 确认关留痕（写入五元事件账本；D16：与动作同一事务同一 COMMIT）。
  *
@@ -1127,6 +1133,7 @@ async function runNarrationJob(args: {
   verify: boolean;
 }): Promise<void> {
   const { app, scope, film } = args;
+  const env = narrationEnv(film);
   const progress = async (done: number, note: string) => {
     await scopedQuery(
       app, scope,
@@ -1138,11 +1145,12 @@ async function runNarrationJob(args: {
     const narration = await synthesizeNarration({
       script: film.script_md,
       outDir: filmDir(film.project_id),
+      env,
       onProgress: (p) => { void progress(p.done, p.current); },
     });
     const stored = await storeLocal(narration.wavPath, scope.workspaceId);
     const verification = args.verify
-      ? await verifyNarration(narration.wavPath, film.script_md.replace(/\s+/g, " ").trim())
+      ? await verifyNarration(narration.wavPath, film.script_md.replace(/\s+/g, " ").trim(), { env })
         .catch((err) => ({ matchRatio: null, detail: `核查不可用：${(err as Error).message.slice(0, 200)}` }))
       : null;
     await scopedQuery(
