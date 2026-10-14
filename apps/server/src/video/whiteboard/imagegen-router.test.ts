@@ -1,22 +1,25 @@
 /** Actual auth middleware, route contracts, image bytes and scoped path validation. DB/tool boundaries are fixtures. */
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import type { Identity } from "@workloom/base/tenancy";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-const mocks = vi.hoisted(() => ({ query: vi.fn(), download: vi.fn(), authority: vi.fn(), synthesize: vi.fn() }));
+const mocks = vi.hoisted(() => ({ query: vi.fn(), download: vi.fn(), authority: vi.fn(), synthesize: vi.fn(), submit: vi.fn() }));
 vi.mock("../../service/access-authority.js", async original => ({
   ...await original<typeof import("../../service/access-authority.js")>(), currentMemberAuthority: mocks.authority,
 }));
-vi.mock("@workloom/db", async original => ({ ...await original<typeof import("@workloom/db")>(), getAppPool: () => ({}), getGatewayPool: () => ({}) }));
+vi.mock("@workloom/db", async original => ({ ...await original<typeof import("@workloom/db")>(),
+  getAppPool: () => ({ connect: async () => ({ query: async () => ({ rows: [] }), release: () => undefined }) }), getGatewayPool: () => ({}) }));
 vi.mock("../gen/db.js", () => ({ scopedQuery: mocks.query }));
 vi.mock("../gen/ingest.js", async original => ({ ...await original<typeof import("../gen/ingest.js")>(), downloadToMediaStore: mocks.download }));
 vi.mock("./engine.js", async original => ({ ...await original<typeof import("./engine.js")>(),
   runLineartTool: async () => ({ ok: true, checks: [{ id: "fixture", pass: true, detail: "mocked pixel tool" }], metrics: {} }),
 }));
 vi.mock("./narration.js", async original => ({ ...await original<typeof import("./narration.js")>(), synthesizeNarration: mocks.synthesize }));
+vi.mock("../gen/submit.js", () => ({ submitGenJob: mocks.submit }));
 import { whiteboardRouter } from "./router.js";
 import { lineartSha256 } from "./imagegen-contract.js";
+import { submissionRequestHash } from "../gen/submission-ledger.js";
 
 const owner: Identity = { kind: "member", memberId: "owner", memberNo: "MEM-OWNER", name: "Owner", role: "owner", plan: "pro", tenantId: "tenant-router", workspaceId: "ws-router" };
 const caller = (identity: Identity | null = owner) => whiteboardRouter.createCaller({ identity, session: identity, partnerIdentity: null, headers: new Headers() });
@@ -42,7 +45,7 @@ beforeEach(() => {
   mocks.query.mockReset().mockImplementation(async (_pool, scope, sql, params) => {
     if (scope.workspaceId !== owner.workspaceId || scope.tenantId !== owner.tenantId) return [];
     expect(params[0]).toBe(owner.workspaceId);
-    if (sql.includes("FROM whiteboard_films")) return [{ id: "WF-ONE", project_id: "VP-ONE", lineart_mode: "upload", script_md: "这是配音测试原文。", narration_profile: filmProfile }];
+    if (sql.includes("FROM whiteboard_films")) return [{ id: "WF-ONE", project_id: "VP-ONE", lineart_mode: "upload", render_fps: 30, cap_long_edge: 1280, script_md: "这是配音测试原文。", narration_profile: filmProfile }];
     if (sql.includes("FROM whiteboard_scenes")) return [scene];
     return [];
   });
@@ -57,6 +60,28 @@ async function request() {
       visualReview: { status: "passed" as const, reviewer: "fixture", note: "test declaration, no live provider claim" } } };
 }
 describe("whiteboard imagegen route boundaries", () => {
+  it("a real PG row's timestamp metadata cannot invalidate the exact approved render script JSON", async () => {
+    vi.stubEnv("WHITEBOARD_ENABLED", "1");
+    const previous = mocks.query.getMockImplementation()!;
+    const script = { id: "SCRIPT-7", project_id: "VP-ONE", shot_id: "WHITEBOARD", script_key: "whiteboard-VP-ONE",
+      version: 7, status: "approved", md: "exact approved body", fields: { engine: "whiteboard-local", durationMs: 5000 } };
+    mocks.query.mockImplementation(async (...args) => {
+      if (args[2].includes("SELECT s.* FROM render_scripts")) return [{ ...script, created_at: new Date(), approved_event_id: "EVENT-7" }];
+      if (args[2].includes("SELECT status FROM render_scripts")) return [{ status: "approved" }];
+      return previous(...args);
+    });
+    const cached = join(root, "media/video/ws-router/cached.png"); mkdirSync(join(root, "media/video/ws-router"), { recursive: true }); writeFileSync(cached, bytes);
+    Object.assign(scene, { lineart_path: "video/ws-router/cached.png", annotation: { elements: [{}] } });
+    mocks.submit.mockReset().mockResolvedValue({ jobId: "JOB-7", taskId: "fixture-task", provider: "whiteboard-local" });
+    // Readiness is the external Python prerequisite, not the subject of this route regression.
+    const { whiteboardEnv } = await import("./engine.js");
+    const python = whiteboardEnv().python;
+    if (!existsSync(python)) vi.stubEnv("WHITEBOARD_PYTHON", process.execPath);
+    await caller().render({ filmId: "WF-ONE" });
+    const request = mocks.submit.mock.calls[0]![0];
+    expect(request.script).toEqual(script);
+    expect(() => submissionRequestHash({ script: request.script, params: request.params })).not.toThrow();
+  });
   it.each(["film-specific-voice", null])("dispatch, synthesis and saved receipt use film voice %s before host default", async profile => {
     vi.stubEnv("WHITEBOARD_NARRATION_PROFILE", "host-default-voice"); filmProfile = profile;
     const chosen = profile || "host-default-voice";

@@ -811,7 +811,11 @@ export const whiteboardRouter = router({
         : "";
       const submit = await submitGenJob({
         app, gateway, scope, actor,
-        script: scriptRow,
+        // PG rows include Date-valued timestamps and unrelated audit columns.
+        // Preserve the exact approved script contract, which is JSON data for the ledger.
+        script: { id: scriptRow.id, project_id: scriptRow.project_id, shot_id: scriptRow.shot_id,
+          script_key: scriptRow.script_key, version: scriptRow.version, status: scriptRow.status,
+          md: scriptRow.md, fields: scriptRow.fields },
         modelId: WHITEBOARD_MODEL_ID,
         params: {
           durationSec: Math.max(1, Math.round(totalDurationMs / 1000)),
