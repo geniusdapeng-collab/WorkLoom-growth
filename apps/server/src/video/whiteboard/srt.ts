@@ -145,3 +145,13 @@ export function tileScenes(scenes: SceneGroup[], totalMs: number): SceneGroup[] 
     return { ...scene, endMs, sceneDurationMs: Math.max(0, endMs - scene.startMs) };
   });
 }
+
+/** An explicit runtime may add an ending hold; it never truncates or speeds up speech. */
+export function whiteboardTimelineMs(narrationMs: number, requestedSec?: number): number {
+  if (!Number.isFinite(narrationMs) || narrationMs <= 0) throw new Error("白板配音时间线为空或非法");
+  if (requestedSec === undefined) return narrationMs;
+  if (!Number.isFinite(requestedSec) || requestedSec < 1 || requestedSec > 600) throw new Error("白板目标时长须为 1–600 秒");
+  const target = Math.round(requestedSec * 1000);
+  if (target < narrationMs) throw new Error(`配音 ${narrationMs / 1000} 秒超过请求的 ${requestedSec} 秒：请先精简口播稿，不截断或加速声音`);
+  return target;
+}

@@ -1,6 +1,6 @@
 # WorkLoom Growth 视频调用指南：AI 工作台先读，再执行
 
-> guideVersion: 2026-10-14.1
+> guideVersion: 2026-10-15.1
 > 适用仓库：`workloom-ai/WorkLoom-growth`；本版范围：成功原片默认接受和本仓正式后期；实际源码 SHA 以本次冻结交付记录为准。
 > 读者：Codex、DeepSeek Harness 及能调用本仓 CLI / stdio MCP 的 AI 工作台。
 
@@ -155,6 +155,16 @@ git diff --check
 ```
 
 修改本仓生产入口或新增标准后期/音频契约时，更新本指南的能力边界与版本，并重新核对 CLI/MCP 返回正文、目录发现、路径与 SHA-256。受控共享文档和其它仓库的生产机制不在本指南修改范围内。
+
+## 9. 白板手绘：优先 Codex 内置 imagegen（2026-10-15）
+
+白板片沿用 `scripts/tools/whiteboard-film.mts`，CLI 默认出图选项为 imagegen，支持显式 seedream/sketch/upload。Codex 先检查自己当前工具菜单：有内置 `image_gen` 就按逐幕计划实际调用；没有工具或客户端明确不支持，才记录 `--imagegen-unavailable tool-unavailable|unsupported-client` 与具体原因，让原步骤选择 Seedream。后台不会自行调用 Codex 内置工具，不把“计划已生成”或“图片已导入”当成片完成。
+
+先配音、分幕，再读取 `growth.video.whiteboard.lineart.plan`（MCP `workloom_growth_video_whiteboard_lineart_plan`），或让 CLI 导出计划。先固定全片主参考图和反复出现的核心元素；每幕引用同一组实际图片，明确哪些不变、哪些可随本幕变化。不要仅复制文字提示词，也不要不断用重新生成的上一幕替换主参考。看每张原图并记录检查，填真实 planHash/sceneHash/图片和参考摘要，然后从原有导入入口接回标注、预览、G8 渲染、轮询及交付。需要像素级不变的元素复用同一素材；模型参考生成不提供百分之百一致性保证。
+
+无产物时 CLI 返回 pending 和 exit=3，保存 filmId 与计划路径；Codex 应继续调用内置工具并续跑，不把缺图当成工具不支持。画错、审核拒绝、损坏、超时或状态不明不跨供应商重试，已有成功资产先复用。备选 Seedream 也使用固定主参考，来源与备选理由写进原有线稿记录。
+
+完整 JSON 合同、最短命令与错误边界见 [白板引擎 §七](whiteboard-engine.md)。白板的 `--duration-sec 30` 在分幕阶段显式给末幕留停留：配音超出目标会拒绝，须先精简稿子，不能截断或加速配音；这不扩大其它视频链的时长策略。默认配音/渲染/交付机制、租户权限与业务围栏继续适用。
 
 ## 所有 AI 工作台共用的交付技术检查（2026-10-14）
 

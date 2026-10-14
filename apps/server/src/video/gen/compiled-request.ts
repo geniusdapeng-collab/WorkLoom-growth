@@ -86,6 +86,7 @@ export function compileProviderRequest(provider: string, req: GenRequest, option
   } else if (provider === "seedream") {
     endpoint = `${(options.baseUrl ?? "https://ark.cn-beijing.volces.com/api/v3").replace(/\/$/, "")}/images/generations`;
     body = { model, prompt: req.prompt, response_format: "url", ...(p.resolution ? { size: p.resolution } : {}),
+      ...(p.referenceImageUrls?.length ? { image: p.referenceImageUrls } : {}),
       ...(p.seed === undefined ? {} : { seed: p.seed }), ...(p.extra ?? {}) };
   } else if (provider === "higgsfield" || provider === "muapi") {
     if (!/^[a-zA-Z0-9][a-zA-Z0-9._/-]*$/.test(model) || model.split("/").includes("..")) throw new SubmissionError("REQUEST_INVALID", "供应商模型路径非法");

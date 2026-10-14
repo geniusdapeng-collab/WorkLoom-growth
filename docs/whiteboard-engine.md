@@ -78,7 +78,7 @@ UHD 的 `render_stream_whiteboard.py` 仍逐帧构建完整 4K 画布。只有�
 见 `.env.example` 末节（11 个变量，逐条带注释）。要点：
 
 - `WHITEBOARD_ENABLED=0|1` 是**总开关**，也是回滚开关：置 0 后媒体目录里不再出现 `whiteboard-stream`；
-- `WHITEBOARD_LINEART=seedream|sketch|upload`（`seedream` 需 `VOLCENGINE_ARK_API_KEY`；`sketch` 零模型成本）；
+- CLI 的 `WHITEBOARD_LINEART=imagegen|seedream|sketch|upload` 默认优先 `imagegen`；内置工具由 Codex 会话调用，生成文件从现有图片入口导入。`seedream` 需 `VOLCENGINE_ARK_API_KEY`；`sketch` 零图像模型调用；
 - `WHITEBOARD_NARRATION_PROFILE` 指定配音工位音色档案（本仓销售片用 `chen-zhuo-film`）。
 
 ## 四、验收对照（规格 §2.10 八项）
@@ -173,4 +173,104 @@ UHD 的 `render_stream_whiteboard.py` 仍逐帧构建完整 4K 画布。只有�
 | 配音 `path_not_allowed` | 直接往仓库目录写配音（工位有路径监狱） | 已修：先写 `os.tmpdir()` 再复制进任务目录（不放宽工位白名单） |
 | 同步调 `narrate` 报 `fetch failed` | 配音是几十分钟的长任务，撞 HTTP 头超时 | 用 `whiteboard.narrate` 投递 + `whiteboard.narrateStatus` 看进度（不要同步等） |
 | 渲染极慢（分钟级/秒画面） | 未打包围盒补丁（或补丁被上游覆盖） | 核对 `whiteboard-capability.test.ts` 的补丁断言；确认 `_reveal_ink_segment` 用 `pad = thick + 1` |
-| 成片没声音 | 直接用了白板引擎产物（无音轨） | 走 `whiteboard.deliver` 混流；`mux.ts` 会自动两遍 loudnorm + `apad` |
+| 成片没声音 | 直接用了白板引擎产物（无音轨） | 走 `whiteboard.deliver` 混流；`mux.ts` 按视频时长补齐旁白尾部；响度处理仅在明确请求时应用 |
+
+## 七、Codex imagegen 优先出图（2026-10-15）
+
+本项服务内容制作人员：由 Codex 读取实际分幕，用内置 imagegen 生成线稿，导入后继续原有标注、预览、渲染、轮询和交付。后台服务没有调用 Codex 内置工具的接口，因此不登记一个虚假的模型 provider，也不需要 OpenAI API key。现有数据库 `lineart_mode/lineart_source` 继续表示 `upload` 文件传输；`lineart_check.provenance.generator=codex-imagegen` 单独记录生成来源。旧服务端 create 的省略参数仍为 seedream，兼容旧客户端；升级 CLI 会明确选择来源。
+
+方案对比：直接增加服务端 imagegen provider 需要一个实际可调用的后台接口与鉴权，当前内置工具不提供这种接缝；工作台出图后复用既有导入，只增加逐幕计划、来源校验和 CLI 编排，采用后者。主生产链和渲染 provider 不变，不新增数据库表或迁移。
+
+### 三个使用场景
+
+| 场景 | 行为 | 不执行会怎样 |
+|---|---|---|
+| Codex 从稿子自动做多幕白板片 | 默认 imagegen，先冻结主参考图，每幕引用同一套参考，导入后接回原链 | 独立纯文生图容易换画风或重新设计核心元素 |
+| 客户端没有内置生图工具 | 工作台明确记录 tool-unavailable / unsupported-client，再自动选 Seedream；传同一套主参考图 | 把缺图、超时误判为不可用会重复花钱，切换来源也容易漂移 |
+| 会话断了，只缺最后一幕 | 读既有幕与内容摘要，只补明确缺失的产物；既有文件缺失/摘要变了则报错 | 每次重跑可能把全部幕重新生成，并把新图误配到旧内容 |
+
+### 最短工作流
+
+```bash
+# ① 建片、配音、分幕并导出计划；imagegen 是 CLI 默认项。
+# duration-sec 只在 plan 生效：配音短于目标时给末幕留结束停留，长于目标则拒绝，不截断、不加速。
+pnpm exec tsx --env-file=.env scripts/tools/whiteboard-film.mts \
+  --script work/film/script.md --lineart imagegen --duration-sec 30 \
+  --target-sec 9 --min-sec 6 --max-sec 12 --imagegen-plan work/film/plan.json
+# 到出图步骤会返回 status=pending、filmId、计划路径，exit=3；这是等待工具产物，不是已完成成片。
+
+# ② 生成/选定全片主参考，写 continuity.json，再重新读取计划。
+pnpm exec tsx --env-file=.env scripts/tools/whiteboard-film.mts \
+  --film WF-实际编号 --only lineart --lineart imagegen \
+  --imagegen-contract work/film/continuity.json --imagegen-plan work/film/plan.json
+
+# ③ Codex 根据计划逐幕调用内置 image_gen：每幕传入相同固定参考图。
+# 保存产物到项目内，逐幕目视检查后写 results.json，再从原链继续。
+pnpm exec tsx --env-file=.env scripts/tools/whiteboard-film.mts \
+  --film WF-实际编号 --only lineart,annotate,preview,render,poll,deliver \
+  --lineart imagegen --imagegen-contract work/film/continuity.json \
+  --imagegen-results work/film/results.json --strict
+```
+
+`continuity.json`（图片路径相对本文件，可用绝对路径；最多 5 张参考）：
+
+```json
+{
+  "schemaVersion": "workloom.whiteboard-continuity/v1",
+  "references": [
+    { "id": "master", "role": "style", "description": "全片固定纸底、深灰线条、核心项目图标和三种分支点缀色", "path": "master.png" }
+  ],
+  "lockedElements": [
+    { "id": "project", "referenceId": "master", "description": "复用主参考中的项目图标外形、比例和线条；仅改变本幕说明的分支关系" }
+  ]
+}
+```
+
+参考文件可附 `sha256` 固定预期摘要。CLI 读取当前字节、核对摘要，把纯描述和摘要送到 `video.whiteboard.lineartPlan`；计划的 `localReferences` 是调用工具时的实际文件路径。不要把主参考换成不断重新生成的上一幕图，避免误差累积。图中不画文字；标题、字幕由制作链另行处理。需要核心元素像素级不变时复用同一素材，不承诺参考生成必然完全一致。
+
+`results.json`（多幕时 scenes 增加对应条目；所有哈希用当前计划/实际图片的完整值）：
+
+```json
+{
+  "schemaVersion": "workloom.whiteboard-imagegen-results/v1",
+  "planHash": "当前计划的64位摘要",
+  "scenes": [{
+    "sceneNo": 1,
+    "sceneHash": "当前第1幕的64位摘要",
+    "path": "scene-01.png",
+    "imageSha256": "实际PNG的64位摘要",
+    "referencedHashes": ["实际传给工具的主参考图64位摘要"],
+    "visualReview": { "status": "passed", "reviewer": "Codex", "note": "已看原图，纸底/线条与主参考相符，核心图标未重新设计" }
+  }]
+}
+```
+
+这些摘要字段是说明性示例，必须填真实值；伪值、缺图、重复幕号、错项目、旧提示词/旧参考或未完成目视检查均拒收。CLI 先核对所请求批次，之后将图片和参考非覆盖式暂存到该片 inputs 目录；服务端再次核对当前计划、参考与图片实际字节。只允许该片暂存目录或本工作区媒体参考；同机/共享文件系统是当前导入方式的前提，不能对远端返回的任意目录写文件。
+
+来源记录证明内容绑定与文件摘要；内置工具调用、引用参考和视觉检查由工作台声明，`modelIdentityVerified=false`，不是模型提供商的密码学签章。原有风格检查只覆盖纸底、深色占比和连通域，不证明语义或人物身份一致；目视检查必须真实执行。
+
+### 明确不可用时的备选
+
+工作台先检查当前会话工具菜单，确实没有内置生图工具或客户端不支持时，保留原因再调用：
+
+```bash
+pnpm exec tsx --env-file=.env scripts/tools/whiteboard-film.mts \
+  --film WF-实际编号 --only lineart,annotate,preview,render,poll,deliver \
+  --lineart imagegen --imagegen-unavailable unsupported-client \
+  --imagegen-unavailable-detail "当前工作台不提供内置 image_gen" \
+  --imagegen-contract work/film/continuity.json --strict
+```
+
+只有 `tool-unavailable` / `unsupported-client` 可选择备选。Seedream 使用同一合同的参考图（官方 image 字段）与核心元素描述；没有既定参考时，首个成功线稿成为固定风格参考，续跑优先复用既有成功幕。超时、状态不明、审核拒绝、图片画错、文件损坏或摘要不符不能伪装为“不支持”，不跨供应商盲重试。显式 `--lineart seedream|sketch|upload` 仍可使用。
+
+### 接口与优先级
+
+- P0：优先选项、当前分幕计划、固定参考/元素、逐幕内容与字节绑定、明确不可用备选。
+- P1：成功线稿复用、备选原因与来源记录、CLI/MCP 只读发现、请求总时长的末幕停留。
+- P2：后台自主调用其它 API 提供器另立任务；本项不把 Codex 内置能力包装成无人值守 HTTP 服务。
+
+`video.whiteboard.lineartPlan` 是受当前身份与工作区约束的 query，输入 filmId 和 continuity，返回 planHash、sceneHash、prompt、参考摘要及该片暂存目录。CLI/MCP 能力为 `growth.video.whiteboard.lineart.plan` / `workloom_growth_video_whiteboard_lineart_plan`。计划不调用模型、不创建片子、不导入资产，不证明当前客户端工具可用。
+
+`video.whiteboard.lineart` 原 mutation 增加可选 mode、continuity、referencePaths、imagegenReceipt 和 imagegenUnavailable。imagegen 逐幕导入，数据库 source 保持 upload；备选直接沿用 Seedream 接缝。未认证为 UNAUTHORIZED，越权为 FORBIDDEN，缺分幕/文件为 PRECONDITION_FAILED，参数不合约为 BAD_REQUEST，当前计划/摘要漂移为 CONFLICT。批次中有失败会保留成功幕并将 film 标为 failed，CLI 非零退出，不继续渲染。
+
+不改配音音色、不绕过 G8、不自动社交外发；退出的 CLI 不代表成片成功。生成品质不能作百分之百一致保证，最终仍须看原图和实际成片。回滚可 revert 本项提交；旧来源和现有生产主流程保留。

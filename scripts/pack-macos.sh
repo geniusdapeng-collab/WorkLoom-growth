@@ -76,6 +76,7 @@ cp .env.example "$R/.env.defaults"
 # Do not copy the docs tree or customer work/outputs into an installed payload.
 WORKBENCH_ASSET_PATHS=(
   docs/ai-video-workbench-guide.md
+  docs/whiteboard-engine.md
   scripts/workloom-agent.mjs scripts/workloom-agent-mcp.mjs
   scripts/agent-capabilities.mjs scripts/agent-capabilities.core.json
 )
@@ -107,7 +108,7 @@ mkdir -p "$R/scripts"
 cp scripts/migrate.ts scripts/desktop-bootstrap-db.mjs scripts/product-runtime.mjs scripts/vite-product.mjs "$R/scripts/"
 mkdir -p "$R/scripts/tools"
 cp scripts/tools/full-chain-film.mts scripts/tools/film-voice-artifact.ts scripts/tools/compose-film.mts scripts/tools/explainer-run.mts \
-   scripts/tools/whiteboard-film.mts scripts/tools/whiteboard-env-install.mts \
+   scripts/tools/whiteboard-film.mts scripts/tools/whiteboard-imagegen.mts scripts/tools/whiteboard-env-install.mts \
    scripts/tools/enhance-engine-install.mjs "$R/scripts/tools/"
 # Whiteboard source and example inputs are portable; the machine-specific Python
 # venv and FFmpeg binaries are installed separately and never copied into this payload.
@@ -149,7 +150,7 @@ find "$R/node_modules" -mindepth 2 -maxdepth 4 -type d -name node_modules -prune
 for f in node_modules/tsx/package.json node_modules/hono/package.json scripts/migrate.ts \
          scripts/product-runtime.mjs scripts/vite-product.mjs scripts/skill-bindings.mts product.manifest.json apps/web/vite.config.ts \
          scripts/tools/full-chain-film.mts scripts/tools/film-voice-artifact.ts scripts/tools/compose-film.mts scripts/tools/explainer-run.mts \
-         scripts/tools/whiteboard-film.mts scripts/tools/whiteboard-env-install.mts \
+         scripts/tools/whiteboard-film.mts scripts/tools/whiteboard-imagegen.mts scripts/tools/whiteboard-env-install.mts \
          scripts/tools/enhance-engine-install.mjs scripts/whiteboard/lineart_tools.py \
          assets/whiteboard/drawing-hand-workloom.png vendor/srt-whiteboard/LICENSE \
          vendor/srt-whiteboard/requirements.txt vendor/srt-whiteboard/scripts/prepare_env.py \

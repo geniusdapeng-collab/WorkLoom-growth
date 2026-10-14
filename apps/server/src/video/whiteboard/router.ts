@@ -29,23 +29,26 @@ import { judge, loadActiveRulesInTx, type RuntimeRule } from "@workloom/base/fen
 import { create as createRenderScript } from "@workloom/base/asset-cms";
 import { newId } from "@workloom/shared";
 import { renderSubmitAutoAllowed } from "../gate-policy.js";
-import { writeFileSync } from "node:fs";
+import { lstatSync, readFileSync, realpathSync, statSync, writeFileSync } from "node:fs";
+import { isAbsolute, join, resolve, sep } from "node:path";
 import { protectedProcedure, router, scopeOf, writeProcedure } from "../../trpc/context.js";
 import { scopedQuery, type Scope } from "../gen/db.js";
 import { submitGenJob, type RenderScriptLike } from "../gen/submit.js";
 import { pollRenderJobs } from "../render-poller.js";
-import { downloadToMediaStore, mediaUrl, registerRenderedClip, resolveMediaPath } from "../gen/ingest.js";
+import { downloadToMediaStore, mediaRoot, mediaUrl, registerRenderedClip, resolveMediaPath, workspaceIdFromMediaPath } from "../gen/ingest.js";
 import {
   WHITEBOARD_UHD_SIZE, WhiteboardEngineError, projectedWhiteboardSize, readImageSize,
   probeWhiteboardVideoSize, renderAnnotationPreview, renderWhiteboardScene, runLineartTool, whiteboardEngineHint,
   whiteboardEngineReady, whiteboardEnv, whiteboardQualityOf,
 } from "./engine.js";
-import { buildSrt, groupScenes, parseSrt, tileScenes } from "./srt.js";
+import { buildSrt, groupScenes, parseSrt, tileScenes, whiteboardTimelineMs } from "./srt.js";
 import { narrationConfig, splitSentences, synthesizeNarration, verifyNarration } from "./narration.js";
 import { buildSceneLineart } from "./lineart.js";
 import { AnnotationSchema, buildAnnotation, validateAnnotation, writeAnnotation, type WhiteboardAnnotation } from "./annotate.js";
 import { muxWhiteboardFilm } from "./mux.js";
 import { jobDir } from "./store.js";
+import { buildImagegenPlan, ContinuitySchema, ImagegenReceiptSchema, ImagegenUnavailableSchema,
+  lineartSha256, validateImagegenReceipt, type Continuity } from "./imagegen-contract.js";
 
 /** 白板模型目录 id（媒体目录里 provider=whiteboard-local 的那一条） */
 const WHITEBOARD_MODEL_ID = "whiteboard-stream";
@@ -121,12 +124,68 @@ function cuesOf(subtitleSrt: string): string[] {
     .filter((line) => line.length > 0 && !/^\d+$/.test(line) && !line.includes("-->"));
 }
 
+/** New external-image imports only read this film's staging directory or its own media. */
+function stagedWhiteboardInput(path: string, film: FilmRow, scope: Scope): string {
+  if (!isAbsolute(path)) {
+    if (workspaceIdFromMediaPath(path) !== scope.workspaceId) throw new TRPCError({ code: "FORBIDDEN", message: "白板参考图不属于当前工作区" });
+    const parts = path.split("/");
+    if (parts.some(part => part === "." || part === ".." || !part)) throw new TRPCError({ code: "FORBIDDEN", message: "白板参考路径不能含目录穿越" });
+    const absolute = resolveMediaPath(path);
+    const ownDirectory = join(realpathSync(mediaRoot()), parts[0]!, scope.workspaceId);
+    if (!realpathSync(absolute).startsWith(ownDirectory + sep)) throw new TRPCError({ code: "FORBIDDEN", message: "白板参考图实际路径越过当前工作区" });
+    return absolute;
+  }
+  const directory = resolve(filmDir(film.project_id), "inputs");
+  const file = resolve(path);
+  const approved = join(realpathSync(whiteboardEnv().jobsDir), `film-${film.project_id}`, "inputs");
+  if (realpathSync(directory) !== approved || !file.startsWith(directory + sep) || !realpathSync(file).startsWith(approved + sep)
+    || lstatSync(file).isSymbolicLink()) {
+    throw new TRPCError({ code: "FORBIDDEN", message: "imagegen 图片/参考图须先放入当前白板片 inputs 目录" });
+  }
+  return file;
+}
+
+function referenceImages(input: {
+  continuity: Continuity; paths: Array<{ id: string; path: string }>;
+  film: FilmRow; scope: Scope;
+}): string[] {
+  if (input.paths.length !== input.continuity.references.length) {
+    throw new TRPCError({ code: "BAD_REQUEST", message: "主参考资产路径与一致性合同数量不一致" });
+  }
+  return input.continuity.references.map(ref => {
+    const matches = input.paths.filter(item => item.id === ref.id);
+    if (matches.length !== 1) throw new TRPCError({ code: "BAD_REQUEST", message: "主参考资产路径缺失或重复" });
+    const file = stagedWhiteboardInput(matches[0]!.path, input.film, input.scope);
+    if (!statSync(file).isFile() || statSync(file).size > 30 * 1024 * 1024) throw new TRPCError({ code: "BAD_REQUEST", message: "主参考图须为不超过 30 MiB 的 PNG/JPEG" });
+    const bytes = readFileSync(file);
+    if (lineartSha256(bytes) !== ref.sha256) throw new TRPCError({ code: "CONFLICT", message: "主参考图字节变化：重新读取一致性合同，禁止盲重出" });
+    const png = bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+    const jpeg = bytes[0] === 255 && bytes[1] === 216;
+    if (!png && !jpeg) throw new TRPCError({ code: "BAD_REQUEST", message: "主参考图不是 PNG/JPEG" });
+    return `data:image/${png ? "png" : "jpeg"};base64,${bytes.toString("base64")}`;
+  });
+}
+
 export const whiteboardRouter = router({
   /** 引擎可用性自检（UI 与出片工具据此决定是否显示白板入口） */
   health: protectedProcedure.query(() => {
     const ready = whiteboardEngineReady();
     return { ready, hint: whiteboardEngineHint(), engineDir: whiteboardEnv().engineDir };
   }),
+
+  /** Read-only briefs: model execution belongs to the active Codex workbench. */
+  lineartPlan: protectedProcedure
+    .input(z.object({ filmId: z.string().min(1), continuity: ContinuitySchema.optional() }).strict())
+    .query(async ({ ctx, input }) => {
+      const scope = scopeOf(ctx.identity);
+      const app = getAppPool();
+      const film = await loadFilm(app, scope, input.filmId);
+      const scenes = await loadScenes(app, scope, film);
+      if (scenes.length === 0) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "白板片还未分幕：先执行 whiteboard.plan" });
+      return { ...buildImagegenPlan({ workspaceId: scope.workspaceId, filmId: film.id,
+        projectId: film.project_id, scenes, continuity: input.continuity }),
+        inputDirectory: join(filmDir(film.project_id), "inputs") };
+    }),
 
   /** 片子全景：film + 幕 + 渲染任务（工作室页与出片工具的数据源） */
   status: protectedProcedure
@@ -267,6 +326,7 @@ export const whiteboardRouter = router({
       targetSec: z.number().min(8).max(120).default(30),
       minSec: z.number().min(4).max(120).default(25),
       maxSec: z.number().min(6).max(180).default(35),
+      durationSec: z.number().min(1).max(600).optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       const scope = scopeOf(ctx.identity);
@@ -276,7 +336,10 @@ export const whiteboardRouter = router({
       if (cues.length === 0) {
         throw new TRPCError({ code: "PRECONDITION_FAILED", message: "片子还没有 SRT：请先跑 whiteboard.narrate" });
       }
-      const totalMs = cues[cues.length - 1]!.endMs;
+      const narrationMs = cues[cues.length - 1]!.endMs;
+      let totalMs: number;
+      try { totalMs = whiteboardTimelineMs(narrationMs, input.durationSec); }
+      catch (error) { throw new TRPCError({ code: "PRECONDITION_FAILED", message: (error as Error).message }); }
       const scenes = tileScenes(groupScenes(cues, {
         targetSec: input.targetSec, minSec: input.minSec, maxSec: input.maxSec,
       }), totalMs);
@@ -316,6 +379,7 @@ export const whiteboardRouter = router({
       }
       return {
         totalMs,
+        narrationMs, endingHoldMs: totalMs - narrationMs,
         cueCount: cues.length,
         scenes: scenes.map((s) => ({
           sceneIndex: s.sceneIndex, startMs: s.startMs, endMs: s.endMs,
@@ -331,6 +395,12 @@ export const whiteboardRouter = router({
       sceneNo: z.number().int().min(1).optional(),
       /** sketch / upload 路径的输入图（媒体仓相对路径，或仓库内绝对路径） */
       sourcePath: z.string().min(1).optional(),
+      /** Optional per-scene source; old clients retain the film's original mode. */
+      mode: z.enum(["imagegen", "seedream", "sketch", "upload"]).optional(),
+      continuity: ContinuitySchema.optional(),
+      referencePaths: z.array(z.object({ id: z.string().min(1).max(64), path: z.string().min(1).max(1200) }).strict()).max(5).optional(),
+      imagegenReceipt: ImagegenReceiptSchema.optional(),
+      imagegenUnavailable: ImagegenUnavailableSchema.optional(),
       /**
        * 重出已有线稿。
        *
@@ -348,19 +418,46 @@ export const whiteboardRouter = router({
       if (targets.length === 0) {
         throw new TRPCError({ code: "NOT_FOUND", message: "没有匹配的幕（先跑 whiteboard.plan）" });
       }
+      const mode = input.mode ?? film.lineart_mode;
+      if (mode === "imagegen" && (!input.sceneNo || !input.imagegenReceipt || !input.sourcePath)) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "imagegen 必须逐幕导入图片及其来源记录" });
+      }
+      if ((input.imagegenReceipt && mode !== "imagegen") || (input.imagegenUnavailable && mode !== "seedream")
+        || (input.imagegenReceipt && input.imagegenUnavailable)) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "imagegen 来源记录与备选声明不能混用" });
+      }
+      const continuity = ContinuitySchema.parse(input.continuity ?? {});
+      const plan = buildImagegenPlan({ workspaceId: scope.workspaceId, filmId: film.id,
+        projectId: film.project_id, scenes, continuity });
+      if (mode === "imagegen") {
+        try { validateImagegenReceipt(plan, input.sceneNo!, input.imagegenReceipt!); }
+        catch (error) { throw new TRPCError({ code: "CONFLICT", message: (error as Error).message }); }
+      }
+      // Verify the same master assets for both sources; no implicit provider switching.
+      const references = referenceImages({ continuity, paths: input.referencePaths ?? [], film, scope });
       const source = input.sourcePath
-        ? (input.sourcePath.startsWith("/") ? input.sourcePath : resolveMediaPath(input.sourcePath))
+        ? mode === "imagegen" ? stagedWhiteboardInput(input.sourcePath, film, scope)
+          : (isAbsolute(input.sourcePath) ? input.sourcePath : resolveMediaPath(input.sourcePath))
         : undefined;
       const results: Array<Record<string, unknown>> = [];
       for (const scene of targets) {
         if (scene.lineart_path && !input.force) {
-          results.push({ sceneNo: scene.scene_no, ok: true, skipped: true, path: scene.lineart_path });
+          const existing = resolveMediaPath(scene.lineart_path);
+          if (!readImageSize(existing)) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "既有线稿文件缺失或不可读：恢复原资产，不自动重出" });
+          const sha256 = lineartSha256(readFileSync(existing));
+          const provenance = scene.lineart_check.provenance as { imageSha256?: string; generator?: string } | undefined;
+          if (provenance?.imageSha256 && sha256 !== provenance.imageSha256) throw new TRPCError({ code: "CONFLICT", message: "既有 imagegen 线稿摘要变化：禁止自动重出" });
+          results.push({ sceneNo: scene.scene_no, ok: true, skipped: true, path: scene.lineart_path,
+            sha256, generator: provenance?.generator ?? scene.lineart_source ?? "unverified" });
           continue;
         }
         try {
           const lineart = await buildSceneLineart({
-            mode: film.lineart_mode,
+            mode,
             sourcePath: source,
+            imagegenReceipt: input.imagegenReceipt,
+            referenceImageUrls: references,
+            generationPrompt: input.continuity ? plan.scenes.find(item => item.sceneNo === scene.scene_no)!.prompt : undefined,
             workspaceId: scope.workspaceId,
             sceneNo: scene.scene_no,
             jobDir: filmDir(film.project_id),
@@ -368,6 +465,10 @@ export const whiteboardRouter = router({
             elements: cuesOf(scene.subtitle_srt),
             env: process.env,
           });
+          if (input.imagegenUnavailable) Object.assign(lineart.check, { provenance: {
+            generator: "seedream", preferred: "codex-imagegen", fallback: input.imagegenUnavailable,
+            referencedHashes: continuity.references.map(ref => ref.sha256), imageSha256: lineart.sha256,
+          } });
           const stored = await storeLocal(lineart.absPath, scope.workspaceId);
           await scopedQuery(
             app, scope,
@@ -380,6 +481,7 @@ export const whiteboardRouter = router({
           );
           results.push({
             sceneNo: scene.scene_no, ok: true, source: lineart.source, attempts: lineart.attempts,
+            generator: lineart.generator, sha256: lineart.sha256,
             check: lineart.check, path: stored.relPath, url: mediaUrl(stored.relPath),
           });
         } catch (err) {
@@ -392,10 +494,12 @@ export const whiteboardRouter = router({
           results.push({ sceneNo: scene.scene_no, ok: false, error: (err as Error).message });
         }
       }
+      const failed = results.filter(item => item.ok === false);
       await scopedQuery(
         app, scope,
-        `UPDATE whiteboard_films SET status='lineart', error_msg=NULL WHERE workspace_id=$1 AND id=$2`,
-        [scope.workspaceId, film.id],
+        `UPDATE whiteboard_films SET status=$3, error_msg=$4 WHERE workspace_id=$1 AND id=$2`,
+        [scope.workspaceId, film.id, failed.length ? "failed" : "lineart",
+          failed.length ? `${failed.length} 幕线稿失败；已有成功图片保留` : null],
       );
       return { results };
     }),

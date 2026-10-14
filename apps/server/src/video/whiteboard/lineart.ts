@@ -16,23 +16,15 @@
  * 因此元素方位不在出图阶段索取，而是出图后由 `lineart_tools.py analyze` 从**像素**反推
  * （连通域 + 确定性聚合），这也让两条路径共用同一套区域来源，标注阶段不再分叉。
  */
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { downloadToMediaStore } from "../gen/ingest.js";
 import { getModel, resolveProviderModel } from "../gen/catalog.js";
 import { videoGenPool } from "../gen/providers.js";
 import { WhiteboardEngineError, readImageSize, runLineartTool, whiteboardEnv } from "./engine.js";
-
-/** 上游 SKILL.md 的「统一出图视觉规范」逐条固化（禁止改动措辞：风格漂移会直接毁掉系列一致性） */
-export const LINEART_STYLE_PROMPT = [
-  "极简手绘线稿插画，纯素描草图风格，类似 Notion 的克制涂鸦美学。",
-  "暖米黄色旧纸张背景（#F5EBD7），深灰色素描线条（#3A3E46），干净背景、大量留白。",
-  "对象以简洁轮廓与少量线条表达，强调关系、变化与核心概念，不追求写实比例与细节。",
-  "红、橙、蓝仅允许极少量概念性点缀。",
-  "禁止：画面中的任何文字、词语、字母、数字、标签；写实感、摄影细节、3D 效果、绘画质感；",
-  "复杂场景、密集背景、繁复装饰、高饱和度配色。",
-  "画面主体之间必须互不重叠、彼此留出清晰空隙，便于后续分区绘制。",
-].join("");
+import { buildLineartPrompt } from "./lineart-prompts.js";
+import { lineartSha256, type ImagegenReceipt } from "./imagegen-contract.js";
+export { buildLineartPrompt, LINEART_STYLE_PROMPT } from "./lineart-prompts.js";
 
 export interface LineartCheck {
   ok: boolean;
@@ -49,6 +41,8 @@ export interface LineartResult {
   check: LineartCheck;
   /** 出图重试次数（0 = 一次过） */
   attempts: number;
+  sha256: string;
+  generator: "codex-imagegen" | "seedream" | "sketch" | "upload";
 }
 
 export interface LineartOptions {
@@ -61,17 +55,8 @@ export interface LineartOptions {
   elements: string[];
   env?: NodeJS.ProcessEnv;
   fetchImpl?: typeof fetch;
-}
-
-/** 出图提示词：规范 + 本幕内容 + 本幕元素（元素清单是"看得见什么"的唯一来源） */
-export function buildLineartPrompt(coreIdea: string, elements: string[]): string {
-  const items = elements.map((e) => e.trim()).filter(Boolean);
-  return [
-    LINEART_STYLE_PROMPT,
-    `画面内容：${coreIdea.trim()}。`,
-    items.length > 0 ? `必须出现的元素：${items.join("、")}。` : "",
-    "16:9 横向构图，主体居中偏上，四边保留充足留白。",
-  ].filter(Boolean).join("\n");
+  referenceImageUrls?: string[];
+  generationPrompt?: string;
 }
 
 /** 风格机检（调 lineart_tools.py check；非 0 退出码代表"不过"，其 JSON 仍要读出来做重出依据） */
@@ -114,7 +99,8 @@ async function generateSeedream(opts: LineartOptions): Promise<{ bytes: Buffer; 
   const providerModel = resolveProviderModel(model, env);
   const maxAttempts = Math.max(1, Number(env.WHITEBOARD_LINEART_RETRY ?? "3"));
   let lastCheck: LineartCheck = { ok: false, checks: [], metrics: {} };
-  let prompt = buildLineartPrompt(opts.coreIdea, opts.elements);
+  const basePrompt = opts.generationPrompt ?? buildLineartPrompt(opts.coreIdea, opts.elements);
+  let prompt = basePrompt;
   let bytes: Buffer | null = null;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
@@ -122,7 +108,8 @@ async function generateSeedream(opts: LineartOptions): Promise<{ bytes: Buffer; 
       prompt,
       estimatedUnits: 1,
       refId: `whiteboard-scene-${opts.sceneNo}`,
-      params: { providerModel, resolution: env.WHITEBOARD_LINEART_SIZE?.trim() || "2K" },
+      params: { providerModel, resolution: env.WHITEBOARD_LINEART_SIZE?.trim() || "2K",
+        ...(opts.referenceImageUrls?.length ? { referenceImageUrls: opts.referenceImageUrls } : {}) },
     });
     const snapshot = await provider.poll(taskId);
     if (snapshot.status !== "succeeded" || !snapshot.uri) {
@@ -143,7 +130,7 @@ async function generateSeedream(opts: LineartOptions): Promise<{ bytes: Buffer; 
     const failed = lastCheck.checks.filter((c) => !c.pass)
       .map((c) => `${c.detail}`).join("；");
     prompt = [
-      buildLineartPrompt(opts.coreIdea, opts.elements),
+      basePrompt,
       `【上一版被机检打回，本轮必须修复】${failed}`,
       "特别注意：背景必须是干净的暖米黄旧纸色，不要出现大面积深色块；画面不要杂乱，主体控制在 2–8 个。",
     ].join("\n");
@@ -162,7 +149,8 @@ function pad(n: number): string {
  * @param sourcePath 路径 B 的输入实拍图（`sketch` 时必填；`upload` 时即该图本身）
  */
 export async function buildSceneLineart(
-  input: LineartOptions & { mode: "seedream" | "sketch" | "upload"; sourcePath?: string },
+  input: LineartOptions & { mode: "seedream" | "sketch" | "upload" | "imagegen"; sourcePath?: string;
+    imagegenReceipt?: ImagegenReceipt },
 ): Promise<LineartResult> {
   const env = input.env ?? process.env;
   mkdirSync(input.jobDir, { recursive: true });
@@ -172,7 +160,8 @@ export async function buildSceneLineart(
   if (input.mode === "seedream") {
     const { bytes, prompt, attempts, check } = await generateSeedream(input);
     writeFileSync(outPath, bytes);
-    return { relPath: outPath, absPath: outPath, source: "seedream", prompt, check, attempts };
+    return { relPath: outPath, absPath: outPath, source: "seedream", generator: "seedream",
+      prompt, check, attempts, sha256: lineartSha256(bytes) };
   }
 
   if (!input.sourcePath) {
@@ -181,8 +170,13 @@ export async function buildSceneLineart(
       "在 whiteboard.lineart 调用里显式传 sourcePath，或把 WHITEBOARD_LINEART 改回 seedream",
     );
   }
-  if (input.mode === "upload") {
-    const buf = (await import("node:fs")).readFileSync(input.sourcePath);
+  if (input.mode === "upload" || input.mode === "imagegen") {
+    if (input.mode === "imagegen" && !input.imagegenReceipt) throw new WhiteboardEngineError("imagegen 导入缺少逐幕来源记录");
+    if (input.mode === "imagegen" && statSync(input.sourcePath).size > 30 * 1024 * 1024) throw new WhiteboardEngineError("imagegen 线稿超过 30 MiB");
+    const buf = readFileSync(input.sourcePath);
+    if (input.mode === "imagegen" && lineartSha256(buf) !== input.imagegenReceipt!.imageSha256) {
+      throw new WhiteboardEngineError("imagegen 线稿字节已变化：禁止导入与来源记录不符的图片");
+    }
     writeFileSync(outPath, buf);
   } else {
     const res = await runLineartTool<{ output: string }>(
@@ -193,7 +187,16 @@ export async function buildSceneLineart(
   }
   if (!existsSync(outPath)) throw new WhiteboardEngineError(`线稿未产出：${outPath}`);
   const check = await checkLineart(outPath, env);
-  return { relPath: outPath, absPath: outPath, source: input.mode, prompt: null, check, attempts: 1 };
+  if (input.mode === "imagegen") {
+    if (!readImageSize(outPath) || !check.ok || check.checks.some(item => !item.pass)) {
+      throw new WhiteboardEngineError("imagegen 线稿未过图片/风格检查", check.checks.filter(item => !item.pass).map(item => item.detail).join("；"));
+    }
+    Object.assign(check, { provenance: { generator: "codex-imagegen", ...input.imagegenReceipt,
+      verification: "file-hash-and-plan-binding", modelIdentityVerified: false } });
+  }
+  return { relPath: outPath, absPath: outPath, source: input.mode === "imagegen" ? "upload" : input.mode,
+    generator: input.mode === "imagegen" ? "codex-imagegen" : input.mode,
+    prompt: input.generationPrompt ?? null, check, attempts: 1, sha256: lineartSha256(readFileSync(outPath)) };
 }
 
 /**
