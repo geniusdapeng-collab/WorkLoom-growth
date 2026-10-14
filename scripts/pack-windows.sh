@@ -78,6 +78,7 @@ copy "$PRODUCT_MANIFEST_PATH" "$R/product.manifest.json"
 # Do not copy the docs tree or customer work/outputs into an installed payload.
 WORKBENCH_ASSET_PATHS=(
   docs/ai-video-workbench-guide.md
+  docs/whiteboard-engine.md
   scripts/workloom-agent.mjs scripts/workloom-agent-mcp.mjs
   scripts/agent-capabilities.mjs scripts/agent-capabilities.core.json
 )
@@ -116,7 +117,7 @@ copy scripts/skill-bindings.mts "$R/scripts/"
 mkdir -p "$R/scripts/tools" "$R/scripts/whiteboard" "$R/assets/whiteboard" \
   "$R/vendor/srt-whiteboard/scripts" "$R/vendor/srt-whiteboard/assets" "$R/vendor/srt-whiteboard/examples"
 for sf in scripts/tools/full-chain-film.mts scripts/tools/film-voice-artifact.ts scripts/tools/compose-film.mts \
-  scripts/tools/explainer-run.mts scripts/tools/whiteboard-film.mts scripts/tools/whiteboard-env-install.mts \
+  scripts/tools/explainer-run.mts scripts/tools/whiteboard-film.mts scripts/tools/whiteboard-imagegen.mts scripts/tools/whiteboard-env-install.mts \
   scripts/tools/enhance-engine-install.mjs; do copy "$sf" "$R/scripts/tools/"; done
 copy scripts/whiteboard/lineart_tools.py "$R/scripts/whiteboard/"
 copy assets/whiteboard/drawing-hand-workloom.png "$R/assets/whiteboard/"
@@ -215,7 +216,7 @@ copy apps/desktop/electron/bootstrap.cjs "$PKG/bootstrap.cjs"
 for f in node_modules/tsx/package.json node_modules/hono/package.json scripts/migrate.ts \
          scripts/product-runtime.mjs scripts/vite-product.mjs scripts/skill-bindings.mts product.manifest.json apps/web/vite.config.ts \
          scripts/tools/full-chain-film.mts scripts/tools/film-voice-artifact.ts scripts/tools/compose-film.mts \
-         scripts/tools/explainer-run.mts scripts/tools/whiteboard-film.mts scripts/tools/whiteboard-env-install.mts \
+         scripts/tools/explainer-run.mts scripts/tools/whiteboard-film.mts scripts/tools/whiteboard-imagegen.mts scripts/tools/whiteboard-env-install.mts \
          scripts/tools/enhance-engine-install.mjs scripts/whiteboard/lineart_tools.py \
          assets/whiteboard/drawing-hand-workloom.png vendor/srt-whiteboard/requirements.txt \
          vendor/srt-whiteboard/scripts/prepare_env.py vendor/srt-whiteboard/scripts/render_stream_whiteboard.py \

@@ -8,6 +8,18 @@ const script = { id: "RS-1", project_id: "P-1", shot_id: "S-1", script_key: "qua
 afterEach(() => vi.unstubAllGlobals());
 
 describe("完整最终请求编译", () => {
+  it("Seedream 将固定多参考图按原顺序发到官方 image 字段", async () => {
+    const references = ["data:image/png;base64,first", "https://cdn.example.test/master.png"];
+    const req = { prompt: "保持同一核心图形", estimatedUnits: 1,
+      params: { providerModel: "image-model", referenceImageUrls: references } };
+    const compiled = compileProviderRequest("seedream", req);
+    expect(compiled.body.image).toEqual(references);
+    const send = vi.fn(async (_url: string | URL | Request, _init?: RequestInit) => new Response(JSON.stringify({ data: [{ url: "https://cdn.example.test/result.png" }] })));
+    vi.stubGlobal("fetch", send);
+    await new ArkImageProvider({ apiKey: "fixture" }).submit(req);
+    expect(send.mock.calls[0]![1]!.body).toBe(compiled.bodyJson);
+    expect(() => validateProductionParams({ extra: { image: references } })).toThrow("REQUEST_INVALID");
+  });
   it.each([
     ["seedance", new ArkVideoProvider({ apiKey: "test", baseUrl: "https://ark.example.test/api" }), { baseUrl: "https://ark.example.test/api" }],
     ["seedream", new ArkImageProvider({ apiKey: "test", baseUrl: "https://ark.example.test/api" }), { baseUrl: "https://ark.example.test/api" }],

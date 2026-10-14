@@ -5,7 +5,7 @@
  "repository": "workloom-ai/WorkLoom-growth",
  "displayName": "WorkLoom 获客增长系统（实验车道）",
  "description": "企业获客与内容运营工作系统：工作台、行业包声明、内容生产工位与共享治理组件。",
- "generatedAt": "2026-10-14T02:02:19.157Z",
+ "generatedAt": "2026-10-14T16:47:54.565Z",
  "evidenceNotice": "本导览检查 manifest、脚本和文件入口。目录可发现、实际可调用、结果已验证分别记录；缺少同提交独立运行证据时后两项为未验证。岗位、技能与管线数是声明资产数，不是生产实测通过数。",
  "bundleDeclarations": [
   {
@@ -746,9 +746,10 @@
     {
      "name": "白板与口播解释片",
      "how": "CLI / 服务端接口",
-     "desc": "白板和口播制作链已提供代码入口；当前没有独立 React 编辑页，需要对应引擎与后期工具",
+     "desc": "白板 CLI 优先 Codex imagegen，固定主参考与逐幕摘要导入；明确工具不支持才选 Seedream。当前没有独立 React 编辑页，需要对应引擎与后期工具",
      "sourcePaths": [
       "apps/server/src/video/whiteboard/router.ts",
+      "scripts/tools/whiteboard-imagegen.mts",
       "apps/server/src/video/explainer/router.ts"
      ],
      "id": "cap:be40a8ce9c681c13",

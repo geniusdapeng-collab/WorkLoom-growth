@@ -125,10 +125,11 @@ test("every packaging download is wired through the verified fetch boundary", as
   assert.match(files.electron, /verify-windows-pg-provenance vendor\/pg-win\/WORKLOOM-PROVENANCE\.txt/);
   for (const tool of [
     "full-chain-film.mts", "compose-film.mts", "explainer-run.mts", "whiteboard-film.mts",
-    "whiteboard-env-install.mts", "enhance-engine-install.mjs",
+    "whiteboard-imagegen.mts", "whiteboard-env-install.mts", "enhance-engine-install.mjs",
   ]) {
     assert.match(files.electron, new RegExp(`scripts/tools/${tool.replaceAll(".", "\\.")}`));
     assert.match(files.mac, new RegExp(`scripts/tools/${tool.replaceAll(".", "\\.")}`));
+    assert.match(files.win, new RegExp(`scripts/tools/${tool.replaceAll(".", "\\.")}`));
   }
   for (const relativePath of [
     "scripts/whiteboard/lineart_tools.py",

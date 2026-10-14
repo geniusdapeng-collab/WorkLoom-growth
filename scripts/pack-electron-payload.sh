@@ -79,6 +79,7 @@ cp "$PRODUCT_MANIFEST_PATH" "$R/product.manifest.json"
 # Do not copy the docs tree or customer work/outputs into an installed payload.
 WORKBENCH_ASSET_PATHS=(
   docs/ai-video-workbench-guide.md
+  docs/whiteboard-engine.md
   scripts/workloom-agent.mjs scripts/workloom-agent-mcp.mjs
   scripts/agent-capabilities.mjs scripts/agent-capabilities.core.json
 )
@@ -112,7 +113,7 @@ mkdir -p "$R/scripts/tools"
 # Film CLIs keep their repo-relative paths in the installed runtime. Native
 # enhancer, Python venv, and FFmpeg binaries remain workstation prerequisites.
 cp scripts/tools/full-chain-film.mts scripts/tools/film-voice-artifact.ts scripts/tools/compose-film.mts scripts/tools/explainer-run.mts \
-   scripts/tools/whiteboard-film.mts scripts/tools/whiteboard-env-install.mts \
+   scripts/tools/whiteboard-film.mts scripts/tools/whiteboard-imagegen.mts scripts/tools/whiteboard-env-install.mts \
    scripts/tools/enhance-engine-install.mjs "$R/scripts/tools/"
 mkdir -p "$R/scripts/whiteboard" "$R/assets/whiteboard" \
   "$R/vendor/srt-whiteboard/scripts" "$R/vendor/srt-whiteboard/assets" "$R/vendor/srt-whiteboard/examples"
@@ -231,7 +232,7 @@ fi
 for f in runtime/node_modules/tsx/package.json runtime/node_modules/hono/package.json \
          runtime/scripts/migrate.ts runtime/scripts/product-runtime.mjs runtime/scripts/vite-product.mjs \
          runtime/scripts/tools/full-chain-film.mts runtime/scripts/tools/film-voice-artifact.ts runtime/scripts/tools/compose-film.mts \
-         runtime/scripts/tools/explainer-run.mts runtime/scripts/tools/whiteboard-film.mts \
+         runtime/scripts/tools/explainer-run.mts runtime/scripts/tools/whiteboard-film.mts runtime/scripts/tools/whiteboard-imagegen.mts \
          runtime/scripts/tools/whiteboard-env-install.mts runtime/scripts/tools/enhance-engine-install.mjs \
          runtime/scripts/whiteboard/lineart_tools.py runtime/assets/whiteboard/drawing-hand-workloom.png \
          runtime/vendor/srt-whiteboard/LICENSE runtime/vendor/srt-whiteboard/requirements.txt \

@@ -79,7 +79,7 @@ test("本仓固定指南返回全文、版本、产品身份及原始字节摘�
   assert.equal(result.markdown, GUIDE_BYTES.toString("utf8"));
   assert.equal(result.sha256, hash(GUIDE_BYTES));
   assert.equal(result.byteCount, GUIDE_BYTES.length);
-  assert.equal(result.guideVersion, "2026-10-14.1");
+  assert.equal(result.guideVersion, "2026-10-15.1");
   assert.equal(result.repository, "workloom-ai/WorkLoom-growth");
   assert.match(result.markdown, /rawIntent/u);
   assert.match(result.markdown, /没有 Growthtest 的 nativeaudio 专用契约/u);
@@ -90,6 +90,8 @@ test("本仓固定指南返回全文、版本、产品身份及原始字节摘�
   assert.match(result.markdown, /有失败时 CLI 非零退出/u);
   assert.match(result.markdown, /真实加工、来源\/权限、版本和请求导出/u);
   assert.match(result.markdown, /高完成度\/时长策略属于后续独立阶段/u);
+  assert.match(result.markdown, /优先 Codex 内置 imagegen/u);
+  assert.match(result.markdown, /缺图当成工具不支持/u);
 });
 
 test("指南锚定模块所在产品根，不被cwd或产物根替换", (t) => {

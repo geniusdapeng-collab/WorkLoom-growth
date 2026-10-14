@@ -448,6 +448,44 @@
       "dataMode": "unverified"
     },
     {
+      "id": "growth.video.whiteboard.lineart.plan",
+      "version": "1.0.0",
+      "title": "读取白板 imagegen 逐幕出图计划",
+      "description": "按当前工作区白板片读取逐幕提示词、固定风格/核心元素参考摘要与内容绑定；优先由 Codex 内置 imagegen 出图，再经现有 CLI 导入。只读、不出图、不调用 Seedream；计划并不证明当前客户端支持 imagegen。",
+      "operation": "read",
+      "risk": "low",
+      "dataMode": "unverified",
+      "transport": { "kind": "trpc", "path": "video.whiteboard.lineartPlan", "method": "query" },
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filmId": { "type": "string", "minLength": 1, "maxLength": 200 },
+          "continuity": {
+            "type": "object",
+            "properties": {
+              "references": { "type": "array", "maxItems": 5, "items": {
+                "type": "object", "properties": {
+                  "id": { "type": "string", "pattern": "^[a-zA-Z0-9_-]{1,64}$" },
+                  "role": { "type": "string", "enum": ["style", "core"] },
+                  "description": { "type": "string", "minLength": 1, "maxLength": 400 },
+                  "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+                }, "required": ["id", "role", "description", "sha256"], "additionalProperties": false
+              } },
+              "lockedElements": { "type": "array", "maxItems": 12, "items": {
+                "type": "object", "properties": {
+                  "id": { "type": "string", "pattern": "^[a-zA-Z0-9_-]{1,64}$" },
+                  "description": { "type": "string", "minLength": 1, "maxLength": 600 },
+                  "referenceId": { "type": "string", "pattern": "^[a-zA-Z0-9_-]{1,64}$" }
+                }, "required": ["id", "description", "referenceId"], "additionalProperties": false
+              } }
+            }, "additionalProperties": false
+          }
+        },
+        "required": ["filmId"],
+        "additionalProperties": false
+      }
+    },
+    {
       "id": "growth.video.post.quality",
       "version": "1.0.0",
       "title": "验收当前后期交付质量",

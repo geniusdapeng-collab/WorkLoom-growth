@@ -24,6 +24,8 @@
  */
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
+import { checkedWhiteboardResult, runImagegenLineart, selectLineartMode } from "./whiteboard-imagegen.mts";
+import { ImagegenUnavailableSchema, type ImagegenUnavailable } from "../../apps/server/src/video/whiteboard/imagegen-contract.js";
 
 const API = (process.env.WORKLOOM_API ?? "http://127.0.0.1:8787").replace(/\/$/, "");
 const REPO_ROOT = resolve(import.meta.dirname ?? process.cwd(), "../..");
@@ -62,6 +64,7 @@ interface Evidence {
   artifacts?: Record<string, unknown>;
   finishedAt?: string;
   totalMs?: number;
+  status?: "pending" | "completed" | "failed";
 }
 
 const evidence: Evidence = {
@@ -85,7 +88,7 @@ async function call<T>(path: string, body: unknown, method: "POST" | "GET" = "PO
   const json = text ? (JSON.parse(text) as { error?: { message?: string }; result?: { data?: T } }) : {};
   if (json.error) throw new Error(`${path}：${json.error.message}`);
   if (!res.ok) throw new Error(`${path}：HTTP ${res.status}`);
-  return json.result?.data as T;
+  return checkedWhiteboardResult(json.result?.data as T);
 }
 
 let token = process.env.WORKLOOM_TOKEN ?? "";
@@ -130,7 +133,20 @@ function summarize(value: unknown): unknown {
 }
 
 async function main(): Promise<void> {
+  const preferredLineart = arg("--lineart", process.env.WHITEBOARD_LINEART ?? "imagegen");
+  const unavailableReason = arg("--imagegen-unavailable");
+  const unavailable: ImagegenUnavailable | undefined = unavailableReason
+    ? ImagegenUnavailableSchema.parse({ reason: unavailableReason, detail: arg("--imagegen-unavailable-detail") }) : undefined;
+  const selectedLineart = selectLineartMode(preferredLineart, unavailable);
+  if (arg("--imagegen-results") && preferredLineart !== "imagegen") throw new Error("--imagegen-results 只适用于 --lineart imagegen");
+  if (unavailable && arg("--imagegen-results")) throw new Error("imagegen 产物和不可用声明不能同时使用");
   const quality = requestedQuality();
+  const sceneNo = flag("--scene") ? Number(arg("--scene", "NaN")) : undefined;
+  if (sceneNo !== undefined && (!Number.isSafeInteger(sceneNo) || sceneNo < 1)) throw new Error("--scene 须为正整数");
+  const durationSec = flag("--duration-sec") ? Number(arg("--duration-sec", "NaN")) : undefined;
+  if (durationSec !== undefined && (!Number.isFinite(durationSec) || durationSec < 1 || durationSec > 600)) {
+    throw new Error("--duration-sec 须为 1–600 秒；先修正参数，再创建或配音");
+  }
   if (quality === "uhd" && flag("--cap-long-edge")) {
     throw new Error("UHD 固定为 3840×2160，请移除 --cap-long-edge");
   }
@@ -156,7 +172,8 @@ async function main(): Promise<void> {
       {
         title: arg("--title", "手绘白板解说片"),
         script,
-        lineartMode: (arg("--lineart", process.env.WHITEBOARD_LINEART ?? "seedream") as "seedream" | "sketch" | "upload"),
+        // imagegen runs in Codex; database transport remains the existing upload path.
+        lineartMode: selectedLineart === "imagegen" ? "upload" : selectedLineart,
         narrationProfile: arg("--profile", process.env.WHITEBOARD_NARRATION_PROFILE ?? undefined) || undefined,
         fps: num("--fps", Number(process.env.WHITEBOARD_FPS ?? 30)),
         quality: quality ?? "hd",
@@ -214,12 +231,32 @@ async function main(): Promise<void> {
       targetSec: num("--target-sec", 30),
       minSec: num("--min-sec", 25),
       maxSec: num("--max-sec", 35),
+      ...(durationSec !== undefined ? { durationSec } : {}),
     }));
     evidence.artifacts = { ...(evidence.artifacts ?? {}), plan };
     console.log(`  分幕 ${(plan as { scenes?: unknown[] }).scenes?.length ?? "?"} 幕，总时长 ${((plan as { totalMs?: number }).totalMs ?? 0) / 1000}s`);
   }
 
   if (wants("lineart")) {
+    if (preferredLineart === "imagegen") {
+      const result = await runImagegenLineart({
+        filmId, call, unavailable,
+        contractPath: arg("--imagegen-contract") || undefined,
+        resultsPath: arg("--imagegen-results") || undefined,
+        planPath: arg("--imagegen-plan", `${REPO_ROOT}/var/whiteboard-jobs/imagegen-${filmId}.json`),
+        ...(sceneNo !== undefined ? { sceneNo } : {}),
+        force: flag("--force-lineart"), onStep: (name, fn) => step(name, fn),
+      });
+      evidence.artifacts = { ...(evidence.artifacts ?? {}), lineart: result };
+      if (result.status === "pending") {
+        evidence.status = "pending";
+        console.log(`等待 Codex 内置 imagegen：film=${filmId}，逐幕计划=${result.planPath}`);
+        console.log("先选定固定风格/核心元素主参考图；按计划出图并审阅，再用 --film、--imagegen-contract、--imagegen-results 接着执行。缺图不自动启用 Seedream。");
+        saveEvidence(filmId);
+        process.exitCode = 3;
+        return;
+      }
+    } else {
     /**
      * **逐幕调用**，不是一次 onSubmit 全部。
      *
@@ -246,6 +283,7 @@ async function main(): Promise<void> {
       )));
     }
     evidence.artifacts = { ...(evidence.artifacts ?? {}), lineart: linearts };
+    }
   }
 
   if (wants("annotate")) {
@@ -332,6 +370,11 @@ async function main(): Promise<void> {
     console.log(`  成片：${(delivery as { url?: string }).url}`);
   }
 
+  evidence.status = "completed";
+  saveEvidence(filmId);
+}
+
+function saveEvidence(filmId: string): void {
   evidence.finishedAt = new Date().toISOString();
   evidence.totalMs = Date.now() - started;
   const evidencePath = resolve(arg("--evidence", `${REPO_ROOT}/var/whiteboard-jobs/evidence-${filmId}.json`));
@@ -346,6 +389,7 @@ main().catch((err) => {
   const evidencePath = resolve(arg("--evidence", `${REPO_ROOT}/var/whiteboard-jobs/evidence-failed.json`));
   mkdirSync(dirname(evidencePath), { recursive: true });
   evidence.finishedAt = new Date().toISOString();
+  evidence.status = "failed";
   evidence.totalMs = Date.now() - started;
   writeFileSync(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`, "utf8");
   console.error(`失败证据：${evidencePath}`);
