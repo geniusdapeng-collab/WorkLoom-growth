@@ -20,6 +20,7 @@ vi.mock("../gen/submit.js", () => ({ submitGenJob: mocks.submit }));
 import { whiteboardRouter } from "./router.js";
 import { lineartSha256 } from "./imagegen-contract.js";
 import { submissionRequestHash } from "../gen/submission-ledger.js";
+import { buildSceneLineart } from "./lineart.js";
 
 const owner: Identity = { kind: "member", memberId: "owner", memberNo: "MEM-OWNER", name: "Owner", role: "owner", plan: "pro", tenantId: "tenant-router", workspaceId: "ws-router" };
 const caller = (identity: Identity | null = owner) => whiteboardRouter.createCaller({ identity, session: identity, partnerIdentity: null, headers: new Headers() });
@@ -60,6 +61,23 @@ async function request() {
       visualReview: { status: "passed" as const, reviewer: "fixture", note: "test declaration, no live provider claim" } } };
 }
 describe("whiteboard imagegen route boundaries", () => {
+  it("concurrent approved images for one scene keep each byte set paired with its own receipt", async () => {
+    const input = await request();
+    const changed = join(root, "jobs/film-VP-ONE/inputs/another.png");
+    const otherBytes = Buffer.concat([bytes, Buffer.from("different approved file bytes")]); writeFileSync(changed, otherBytes);
+    const base = { workspaceId: owner.workspaceId, sceneNo: 1, jobDir: join(root, "jobs/film-VP-ONE"), coreIdea: "compare", elements: [], mode: "imagegen" as const };
+    const receipts = [input.imagegenReceipt, { ...input.imagegenReceipt, imageSha256: lineartSha256(otherBytes) }];
+    const results = await Promise.all([source, changed].map((path, i) => buildSceneLineart({ ...base, sourcePath: path, imagegenReceipt: receipts[i]! })));
+    expect(results[0]!.absPath).not.toBe(results[1]!.absPath);
+    for (const [i, result] of results.entries()) {
+      expect(result.sha256).toBe(receipts[i]!.imageSha256);
+      expect(lineartSha256(readFileSync(result.absPath))).toBe(receipts[i]!.imageSha256);
+      expect(result.check).toMatchObject({ provenance: { imageSha256: receipts[i]!.imageSha256 } });
+    }
+    writeFileSync(results[0]!.absPath, "tampered original");
+    await expect(buildSceneLineart({ ...base, sourcePath: source, imagegenReceipt: receipts[0]! })).rejects.toThrow("不覆盖");
+    expect(readFileSync(results[0]!.absPath, "utf8")).toBe("tampered original");
+  });
   it("a real PG row's timestamp metadata cannot invalidate the exact approved render script JSON", async () => {
     vi.stubEnv("WHITEBOARD_ENABLED", "1");
     const previous = mocks.query.getMockImplementation()!;

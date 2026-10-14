@@ -154,7 +154,11 @@ export async function buildSceneLineart(
 ): Promise<LineartResult> {
   const env = input.env ?? process.env;
   mkdirSync(input.jobDir, { recursive: true });
-  const name = `scene-${pad(input.sceneNo)}.lineart.png`;
+  // Two validated images for the same scene must not overwrite each other's
+  // check input while async pixel checks run. Each imported byte set is immutable.
+  const name = input.mode === "imagegen" && input.imagegenReceipt
+    ? `scene-${pad(input.sceneNo)}.lineart.${input.imagegenReceipt.imageSha256}.png`
+    : `scene-${pad(input.sceneNo)}.lineart.png`;
   const outPath = join(input.jobDir, name);
 
   if (input.mode === "seedream") {
@@ -177,7 +181,15 @@ export async function buildSceneLineart(
     if (input.mode === "imagegen" && lineartSha256(buf) !== input.imagegenReceipt!.imageSha256) {
       throw new WhiteboardEngineError("imagegen 线稿字节已变化：禁止导入与来源记录不符的图片");
     }
-    writeFileSync(outPath, buf);
+    if (input.mode === "imagegen") {
+      try { writeFileSync(outPath, buf, { flag: "wx" }); }
+      catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+        if (lineartSha256(readFileSync(outPath)) !== input.imagegenReceipt!.imageSha256) {
+          throw new WhiteboardEngineError("已有 imagegen 工作资产摘要变化：不覆盖原文件");
+        }
+      }
+    } else writeFileSync(outPath, buf);
   } else {
     const res = await runLineartTool<{ output: string }>(
       ["sketch", "--in", input.sourcePath, "--out", outPath],
