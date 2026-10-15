@@ -29,6 +29,8 @@
  * 阶段日志：`<work-dir>/logs/stages.jsonl`（逐条：stage/shotId/invoked/ok/degraded/cached/verdict）
  * 阶段汇总：`<work-dir>/logs/stages.json`
  */
+import { AI_COLOR_POLICY_VERSION, type ContentColorDecision } from "../../packages/video-studio/src/ai-color-policy.js";
+import { resolveDeliveryVariants } from "../../packages/video-studio/src/deliver.js";
 import { auditRhythmPlan, rhythmSfxPlacements, type RhythmPlanInput } from "../../packages/video-studio/src/rhythm-plan.js";
 import { appendCinematicContract, auditCinematicContracts, buildCinematicContract, cinematicStyleRequested } from "../../packages/video-studio/src/cinematic-contract.js";
 import { executeRhythmEdit, executeRhythmSound, rhythmMediaFacts, rhythmFileSha256 } from "./rhythm-edit.mjs";
@@ -492,6 +494,13 @@ async function pickRequestedBed(
     reasons: [...best.reasons, "按请求曲风与曲库元数据选择；未解码音乐打分或复核源片声音"] };
 
 }
+const COLOR_MODE = arg("--color-mode", "preserve");
+if (!["preserve", "grade", "best"].includes(COLOR_MODE)) throw new Error("COLOR_MODE_INVALID: preserve|grade|best");
+if (COLOR_MODE === "preserve" && ["--color-profile", "--color-intensity", "--color-recipe"].some(key => process.argv.includes(key)))
+  throw new Error("COLOR_OPTIONS_CONFLICT: explicit creative controls require --color-mode grade or best");
+const AI_VARIANTS = resolveDeliveryVariants({ ...sourceDocument,
+  shots: sourceDocument.shots?.filter(shot => !ONLY.length || ONLY.includes(String(shot.shotId))) },
+  arg("--variants", "").split(",").map(id => id.trim()).filter(Boolean));
 const RESUME = !flag("--no-resume");
 const DRY_RUN = flag("--dry-run");
 const ALLOW_FALLBACK_APPROVE = flag("--allow-fallback-approve");
@@ -585,25 +594,28 @@ function pinGenerationSources(files: string[], ids: string[]): void {
   if (!sameAspect && !reframe) throw new Error("GENERATION_NATIVE_REFRAME_REQUIRES_REASON");
   if (!flag("--allow-downscale") && (native[0] > OUTPUT_SIZE.width || native[1] > OUTPUT_SIZE.height)) throw new Error("GENERATION_NATIVE_DOWNSCALE_REQUIRES_EXPLICIT_APPROVAL");
 }
-function generationRequirements(hasVariants = false): Array<Record<string, unknown>> {
+function generationRequirements(hasVariants = false, hasGradedVariants = false): Array<Record<string, unknown>> {
   const requested: Record<string, boolean> = {
     cover: STAGES.has("cover"), bgm: !flag("--no-bgm") && !flag("--no-music") && (bgmManifestInfo?.layer === "on" || hasVariants),
     subtitles: STAGES.has("subtitle") || STAGES.has("mux"), danmaku: DANMAKU_ENABLED && STAGES.has("danmaku"),
-    transitions: true, color: STAGES.has("color") || hasVariants, resolution: true,
+    transitions: true, color: (STAGES.has("color") && COLOR_MODE !== "preserve") || hasGradedVariants, resolution: true,
   };
   return Object.entries(requested).map(([name, required]) => required ? { name, requirement: "required" }
     : { name, requirement: "not_applicable", reason: `本次明确请求的阶段及开关未启用 ${name}` });
 }
 function generationArtifacts(scope: "master" | "delivery", masterFile: string,
-  variants: Array<{ id: string; path: string; gradeProfile: string | null; cover?: { path: string; sha256: string } | null; bgm?: unknown }> = [],
+  variants: Array<{ id: string; path: string; gradeProfile: string | null; gradeIntensity?: number; gradeLut?: string | null; colorSourceSha256?: string; colorDecision?: ContentColorDecision; cover?: { path: string; sha256: string } | null; bgm?: unknown }> = [],
   sidecars: string[] = []): Array<Record<string, any>> {
-  const requested = ["transitions", ...(STAGES.has("color") ? ["color"] : []),
+  const requested = ["transitions", ...(STAGES.has("color") && COLOR_MODE !== "preserve" ? ["color"] : []),
     ...(STAGES.has("subtitle") && SUBTITLE_MODE !== "sidecar" ? ["subtitles"] : []),
     ...(DANMAKU_ENABLED && STAGES.has("danmaku") ? ["danmaku"] : []), ...(bgmManifestInfo?.layer === "on" ? ["bgm"] : [])];
-  const artifacts: Array<Record<string, any>> = [{ id: "master", path: masterFile, media: "video", role: "master", requiredStages: requested, fps: FPS, durationSeconds: expectedMasterSeconds }];
+  const artifacts: Array<Record<string, any>> = [{ id: "master", path: masterFile, media: "video", role: "master", requiredStages: requested, ...(COLOR_MODE === "preserve" ? { expectedColorCount: 0 } : {}), fps: FPS, durationSeconds: expectedMasterSeconds }];
   for (const variant of variants) {
     artifacts.push({ id: `variant:${variant.id}`, path: variant.path, media: "video", role: "variant",
-      requiredStages: ["transitions", "color", ...(variant.bgm ? ["bgm"] : [])], expectedColorProfile: variant.gradeProfile, fps: FPS });
+      requiredStages: ["transitions", ...(variant.gradeProfile === null ? [] : ["color"]), ...(variant.bgm ? ["bgm"] : [])],
+      expectedColorCount: variant.gradeProfile === null ? 0 : 1,
+      ...(variant.gradeProfile === null ? {} : { expectedColorProfile: variant.gradeProfile, expectedColorLut: variant.gradeLut ?? null,
+        expectedColorIntensity: variant.gradeIntensity, expectedColorInputSha256: variant.colorSourceSha256 }), fps: FPS });
     if (variant.cover) artifacts.push({ id: `cover:${variant.id}`, path: variant.cover.path, media: "image", role: "cover" });
   }
   const cover = join(OUT_DIR, `${PROJECT}-cover.png`);
@@ -622,7 +634,7 @@ async function inspectCurrentGeneration(phase: string, scope: "master" | "delive
   variants: Parameters<typeof generationArtifacts>[2] = [], sidecars: string[] = []) {
   if (!generationNativeResolution) throw new Error("GENERATION_NATIVE_SOURCES_UNVERIFIED");
   const artifacts = generationArtifacts(scope, masterFile, variants, sidecars);
-  return generationQuality.inspect({ phase, scope, artifacts, requirements: generationRequirements(variants.length > 0),
+  return generationQuality.inspect({ phase, scope, artifacts, requirements: generationRequirements(variants.length > 0, variants.some(variant => variant.gradeProfile !== null)),
     resolution: [OUTPUT_SIZE.width, OUTPUT_SIZE.height], sourceResolution: generationNativeResolution,
     variantIds: variants.map(row => row.id), requiredOutputIds: artifacts.map(row => row.id), minimumVariantCount: variants.length === 1 ? 1 : 2,
     allowDownscale: flag("--allow-downscale"), allowReframe: flag("--allow-reframe"), reframeReason: arg("--reframe-reason", "") || null });
@@ -835,7 +847,7 @@ function lineageRecipe(stage: string): Record<string, unknown> {
     : stage === "danmaku" ? ["--danmaku", "--no-danmaku"] : [];
   const args = process.argv.slice(2), options: Record<string, string | boolean> = {};
   for (let i = 0; i < args.length; i++) if (prefixes.some((prefix) => args[i]!.startsWith(prefix))) options[args[i]!] = args[i + 1] && !args[i + 1]!.startsWith("--") ? args[i + 1]! : true;
-  return { component: lineageComponentHash, stage, platform: arg("--platform", "抖音/快手"), subtitleMode: SUBTITLE_MODE, options,
+  return { component: lineageComponentHash, colorPolicyVersion: AI_COLOR_POLICY_VERSION, colorMode: COLOR_MODE, variants: AI_VARIANTS, stage, platform: arg("--platform", "抖音/快手"), subtitleMode: SUBTITLE_MODE, options,
     ...(uhdDeliveryStage(stage) ? { quality: QUALITY, shotlistSha256: sourceFileHash } : {}) };
 }
 function lineageRecords(rows: StageRecord[], stage: string): StageRecord[] {
@@ -4608,62 +4620,8 @@ if (STAGES.has("compose") && !DRY_RUN && existsSync(master)) {
     verdict: null, note: "成功渲染素材默认接受，不再抽帧比较身份、衣着或造型" });
 }
 
-/** 未重跑调色时：磁盘上若已有"不早于 raw"的调色版就沿用它（只重跑后段的场景） */
-let colored = STAGES.has("color") ? master : preferDownstream(join(POST_DIR, "master-graded.mp4"), master, "color");
-if (STAGES.has("color") && existsSync(master)) {
-  rememberInputs("color", [master]);
-  const started = Date.now();
-  const graded = join(POST_DIR, "master-graded.mp4");
-  const recipe = arg("--color-recipe", "outdoor-travel");
-  /**
-   * 两种调色口径（2026-09-24 真机）：
-   *   `best`（默认）= 择优：候选池打分 + 允许"不调"；真机两次被监制打回（题材不符/无效调整），
-   *                   说明择优池在江南实景+口播这类题材上会挑出风格不符的候选（vintage-fade）；
-   *   `grade`      = 显式配方 + 强度（监制给定风格时用）：`--color-profile natural --color-intensity 0.3`。
-   */
-  const colorMode = arg("--color-mode", "best");
-  const profile = arg("--color-profile", "natural");
-  const intensity = arg("--color-intensity", "0.3");
-  const result = colorMode === "grade"
-    ? runCli(COLOR_CLI, ["grade", "--in", master, "--out", graded, "--profile", profile, "--intensity", intensity])
-    : runCli(COLOR_CLI, ["best", "--in", master, "--out", graded, "--recipe", recipe, "--min-improvement", "1.5"]);
-  const produced = existsSync(graded);
-  const info = produced ? probe(graded) : probe(master);
-  const verdict = await reviewStage({
-    stage: "color", projectId: PROJECT,
-    artifacts: [{ path: produced ? graded : master, kind: "video", probe: info }],
-    deterministic: [
-      { id: "grade-produced", pass: produced, detail: produced ? "调色母版已产出" : "调色未产出（择优判定无需调色或工位失败）" },
-      { id: "color-tool-exit", pass: result.ok, detail: result.ok ? "调色工位退出码 0" : `调色工位失败：${result.out.slice(-200)}`, hard: !result.ok }
-    ],
-    context: {
-      mode: colorMode,
-      ...(colorMode === "grade" ? { profile, intensity } : { recipe }),
-      toolOutput: result.out.slice(-800)
-    },
-    env: ENV, allowFallbackApprove: ALLOW_FALLBACK_APPROVE, log
-  });
-  let acceptedVerdict = verdict;
-  const useGraded = produced && verdict.approved && !verdict.degraded;
-  if (useGraded) colored = graded;
-  else if (result.ok && produced) {
-    acceptedVerdict = await reviewStage({
-      stage: "color", projectId: PROJECT,
-      artifacts: [{ path: master, kind: "video", probe: probe(master), note: "调色候选被拒后独立复审原始母版；不能沿用候选裁决" }],
-      deterministic: [{ id: "original-present", pass: existsSync(master), hard: true, detail: "原始母版在场且作为本次独立评审对象" }],
-      context: { mode: "original-passthrough", rejectedCandidate: verdict.reason }, env: ENV, allowFallbackApprove: false, log
-    });
-  }
-  const accepted = result.ok && acceptedVerdict.approved && !acceptedVerdict.degraded;
-  record({
-    stage: "color", shotId: null, invoked: true, ok: accepted, cached: false, degraded: acceptedVerdict.degraded, attempt: 1,
-    ms: Date.now() - started, artifact: accepted ? colored : produced ? graded : master,
-    evidence: { mode: colorMode, ...(colorMode === "grade" ? { profile, intensity } : { recipe }),
-      tool: `color-bridge ${colorMode}`, selected: useGraded ? "graded" : "original",
-      candidateVerdict: verdict, ...(useGraded ? {} : { originalVerdict: acceptedVerdict }) }, verdict: acceptedVerdict
-  });
-  if (!accepted) throw new Error("COLOR_UNVERIFIED: 调色候选和实际选用的原片均未获得有效裁决");
-}
+/** Subtitles/danmaku share the ungraded source. Creative master grading runs afterwards. */
+let colored = master;
 
 /* ---------- ⑥ 字幕（subtitle-bridge：选型 + 版式 + 旁挂文件；烧录按需） ---------- */
 /**
@@ -4854,6 +4812,70 @@ if (DANMAKU_ENABLED && STAGES.has("danmaku") && existsSync(subtitled)) {
 }
 
 /* ---------- ⑧ 配乐（bgm-bridge：按请求混音一次） ---------- */
+/** Capture the common source before any master look or background music. */
+const variantColorSource = danmakuOut;
+{
+  const master = variantColorSource;
+/** 未重跑调色时：磁盘上若已有"不早于 raw"的调色版就沿用它（只重跑后段的场景） */
+colored = COLOR_MODE === "preserve" || STAGES.has("color") ? master : preferDownstream(join(POST_DIR, "master-graded.mp4"), master, "color");
+if (STAGES.has("color") && COLOR_MODE !== "preserve" && existsSync(master)) {
+  rememberInputs("color", [master]);
+  const started = Date.now();
+  const graded = join(POST_DIR, "master-graded.mp4");
+  const recipe = arg("--color-recipe", "outdoor-travel");
+  /** Explicit master-only look; variants keep their own ungraded common parent. */
+  const colorMode = COLOR_MODE;
+  const profile = arg("--color-profile", "natural");
+  const intensity = arg("--color-intensity", "0.3");
+  const result = colorMode === "grade"
+    ? runCli(COLOR_CLI, ["grade", "--in", master, "--out", graded, "--profile", profile, "--intensity", intensity])
+    : runCli(COLOR_CLI, ["best", "--in", master, "--out", graded, "--recipe", recipe, "--min-improvement", "1.5"]);
+  const produced = existsSync(graded);
+  const info = produced ? probe(graded) : probe(master);
+  const verdict = await reviewStage({
+    stage: "color", projectId: PROJECT,
+    artifacts: [{ path: produced ? graded : master, kind: "video", probe: info }],
+    deterministic: [
+      { id: "grade-produced", pass: produced, detail: produced ? "调色母版已产出" : "调色未产出（择优判定无需调色或工位失败）" },
+      { id: "color-tool-exit", pass: result.ok, detail: result.ok ? "调色工位退出码 0" : `调色工位失败：${result.out.slice(-200)}`, hard: !result.ok }
+    ],
+    context: {
+      mode: colorMode,
+      ...(colorMode === "grade" ? { profile, intensity } : { recipe }),
+      toolOutput: result.out.slice(-800)
+    },
+    env: ENV, allowFallbackApprove: ALLOW_FALLBACK_APPROVE, log
+  });
+  let acceptedVerdict = verdict;
+  const useGraded = produced && verdict.approved && !verdict.degraded;
+  if (useGraded) colored = graded;
+  else if (result.ok && produced) {
+    acceptedVerdict = await reviewStage({
+      stage: "color", projectId: PROJECT,
+      artifacts: [{ path: master, kind: "video", probe: probe(master), note: "调色候选被拒后独立复审原始母版；不能沿用候选裁决" }],
+      deterministic: [{ id: "original-present", pass: existsSync(master), hard: true, detail: "原始母版在场且作为本次独立评审对象" }],
+      context: { mode: "original-passthrough", rejectedCandidate: verdict.reason }, env: ENV, allowFallbackApprove: false, log
+    });
+  }
+  const accepted = result.ok && acceptedVerdict.approved && !acceptedVerdict.degraded;
+  record({
+    stage: "color", shotId: null, invoked: true, ok: accepted, cached: false, degraded: acceptedVerdict.degraded, attempt: 1,
+    ms: Date.now() - started, artifact: accepted ? colored : produced ? graded : master,
+    evidence: { mode: colorMode, ...(colorMode === "grade" ? { profile, intensity } : { recipe }),
+      tool: `color-bridge ${colorMode}`, selected: useGraded ? "graded" : "original",
+      candidateVerdict: verdict, ...(useGraded ? {} : { originalVerdict: acceptedVerdict }) }, verdict: acceptedVerdict
+  });
+  if (!accepted) throw new Error("COLOR_UNVERIFIED: 调色候选和实际选用的原片均未获得有效裁决");
+}
+
+  if (COLOR_MODE === "preserve" && STAGES.has("color") && existsSync(master)) {
+    record({ stage: "color", shotId: null, invoked: false, ok: true, cached: false, degraded: false, attempt: 0, ms: 0,
+      artifact: master, evidence: { applicable: false, mode: "preserve", policyVersion: AI_COLOR_POLICY_VERSION,
+        sourceSha256: sha256FileSync(master), outputSha256: sha256FileSync(master) }, verdict: null,
+      note: "保留渲染色彩：不调用调色工位，不复用旧调色母版" });
+  }
+  danmakuOut = colored;
+}
 let scored = STAGES.has("bgm") ? danmakuOut : preferDownstream(join(POST_DIR, "master-scored.mp4"), danmakuOut, "bgm");
 if (STAGES.has("bgm") && existsSync(danmakuOut)) {
   rememberInputs("bgm", [danmakuOut]);
@@ -5833,16 +5855,17 @@ if (STAGES.has("deliver") && !DRY_RUN && (QUALITY !== "uhd" || masterApprovedFor
    * 工位的 `music_audible` 复检直接判红（实测：配乐可闻度 -13~-15dB < 3dB）→ 三支变体全缺配乐 → G-DLV1 误红。
    * 用旁挂字幕版（`master-subtitled`，画面与交付母版逐帧一致、无配乐）作为派生源。
    */
-  const variantSource = danmakuOut;
+  const variantSource = variantColorSource;
   if (!existsSync(variantSource)) throw new Error("VARIANT_CLEAN_SOURCE_MISSING");
-  const variantPlans = buildVariantPlan({ master: variantSource, outDir: OUT_DIR, projectId: PROJECT, coverHook: arg("--cover-hook", shotlist.title ?? "") });
+  const variantColorSourceSha256 = sha256FileSync(variantSource);
+  const variantPlans = buildVariantPlan({ master: variantSource, outDir: OUT_DIR, projectId: PROJECT, coverHook: arg("--cover-hook", shotlist.title ?? ""), variants: AI_VARIANTS });
   /**
    * 配乐层是否可用：见 bgm 环节的"声明关闭"记录（无签章分轨引用 → bgm_layer=false）。
    * 关掉时变体不再尝试混音（工位必然拒收），三轴判据降为"调色+封面"两轴（证据仍留痕）。
    */
   const bgmLayerOff = records.some((row) => row.stage === "bgm" && (row.evidence as { applicable?: unknown }).applicable === false);
   const variantManifest: Array<{
-    id: string; label: string; path: string; sha256: string; note: string; gradeProfile: string | null;
+    id: string; label: string; path: string; sha256: string; note: string; gradeProfile: string | null; gradeIntensity?: number; gradeLut?: string | null; colorSourceSha256?: string; colorDecision?: ContentColorDecision;
     width: number; height: number;
     cover?: { path: string; sha256: string } | null;
     bgm?: { track: string; sha256: string; measuredBpm?: number; gridErrorMs?: number } | null;
@@ -5869,6 +5892,9 @@ if (STAGES.has("deliver") && !DRY_RUN && (QUALITY !== "uhd" || masterApprovedFor
    */
   const STYLE_COVER_FALLBACK: Record<string, { label: string; audienceTag: string; fontId: CoverFontId; second: string;
     keywords: string[]; accent: string }> = {
+    "original": { label: "原色", audienceTag: "精彩片段", fontId: "source-han-heavy", second: "值得记住的片刻", keywords: [], accent: "#E8E2D5" },
+    "warm-story": { label: "暖调故事", audienceTag: "故事时光", fontId: "noto-serif", second: "把这一刻留下", keywords: ["人", "家", "暖"], accent: "#E8B44A" },
+    "content-auto": { label: "内容调色", audienceTag: "另一种视角", fontId: "smiley-sans", second: "发现更多细节", keywords: [], accent: "#6FA8A4" },
     "warm-film": { label: "暖调胶片", audienceTag: "城市漫游", fontId: "noto-serif", second: "黄昏再看一遍",
       keywords: ["黄昏", "夕", "落日", "灯", "夜", "暖", "运河"], accent: "#FFB86B" },
     "cool-tech": { label: "冷调技术", audienceTag: "城市夜景", fontId: "source-han-heavy", second: "夜色另一面",
@@ -5877,6 +5903,7 @@ if (STAGES.has("deliver") && !DRY_RUN && (QUALITY !== "uhd" || masterApprovedFor
       keywords: ["雪", "市井", "街", "吃", "人", "集市", "烟火"], accent: "#FF5A5F" }
   };
   const styleCoverGrade: Record<string, string> = {
+    "original": "null", "warm-story": "null", "content-auto": "null",
     "warm-film": "colorbalance=rs=0.07:gs=0.015:bs=-0.06,eq=saturation=1.04:contrast=1.05",
     "cool-tech": "colorbalance=rs=-0.05:gs=-0.01:bs=0.08,eq=saturation=0.90:contrast=1.07",
     "punchy-social": "eq=saturation=1.16:contrast=1.12"
@@ -5904,7 +5931,7 @@ if (STAGES.has("deliver") && !DRY_RUN && (QUALITY !== "uhd" || masterApprovedFor
     return { styleId, headline: `${mainTitle}\n${def.second}`, subline: `${def.audienceTag} · ${seconds ? `${seconds} 秒` : "全片"}`,
       badge: def.audienceTag, shotId: hero.shotId, atSec: hero.atSec, fontId: def.fontId, accent: def.accent, via: "deterministic" };
   };
-  for (const styleId of Object.keys(STYLE_COVER_FALLBACK)) styleCoverPlans.set(styleId, fallbackStylePlan(styleId));
+  for (const styleId of variantPlans.map(plan => plan.variant.id)) styleCoverPlans.set(styleId, fallbackStylePlan(styleId));
   const styleDesignMode = arg("--cover-design", "agent");
   const styleDesignLlm = styleDesignMode === "agent" ? resolveProducerLlm(ENV) : null;
   if (styleDesignMode === "agent" && styleDesignLlm) {
@@ -5925,10 +5952,10 @@ ${shotLines}
 ${styleKbLines ? `封面知识库要点：\n${styleKbLines}` : ""}
 ${styleAccountLines ? `账号视觉锤（必须遵守）：\n${styleAccountLines}` : ""}
 可选字体 fontId：${Object.keys(COVER_FONTS).join(" / ")}
-风格定位：warm-film=黄昏暖光（书卷气）；cool-tech=夜景冷色（现代感）；punchy-social=高饱和短促（快剪节奏）
+请求风格：${variantPlans.map(plan => `${plan.variant.id}=${plan.variant.label}（${plan.variant.note}）`).join("；")}
 硬约束：标题 ≤14 视觉字符且最多两行（用 \\n 断行）、副标题 ≤24 字、角标 ≤10 字；不得出现真人姓名（如「${lead?.name ?? "—"}」）；
 **不得出现任何内部风格/工序标签**（如"暖调胶片""冷调技术""高对比社交"）——封面默认对外投放，角标只写面向观众的题材词（城市漫游/城市夜景/城市快剪这类）；不得虚构镜头或字体。
-只输出 JSON：{"variants":[{"style":"warm-film","headline":"杭州\\n黄昏再看一遍","subline":"...","badge":"...","backgroundShotId":"HZ-12","backgroundAtSec":1.2,"fontId":"noto-serif","accentColor":"#FFB86B"},{"style":"cool-tech",...},{"style":"punchy-social",...}]}`;
+只输出 JSON：{"variants":[{"style":"${variantPlans[0]!.variant.id}","headline":"片子主题\\n具体看点","subline":"...","badge":"...","backgroundShotId":"${shots[0]!.shotId}","backgroundAtSec":1.2,"fontId":"noto-serif","accentColor":"#FFB86B"},${variantPlans.slice(1).map(plan => `{"style":"${plan.variant.id}",...}`).join(",")}]}`;
       const raw = await requestCoverDesign(styleDesignLlm, prompt);
       const parsed = JSON.parse(raw.replace(/^```(?:json)?/m, "").replace(/```\s*$/m, "").trim()) as { variants?: Array<Record<string, unknown>> };
       const variants = Array.isArray(parsed.variants) ? parsed.variants : [];
@@ -5937,7 +5964,7 @@ ${styleAccountLines ? `账号视觉锤（必须遵守）：\n${styleAccountLines
         atSec: number; fontId: CoverFontId; accent: string; via: string }> = [];
       for (const entry of variants) {
         const styleId = String(entry.style ?? "").trim();
-        if (!STYLE_COVER_FALLBACK[styleId]) continue;
+        if (!variantPlans.some(plan => plan.variant.id === styleId)) continue;
         /** 字段别名归一（真机实测：设计师写 title/subtitle/cornerTag，只认 headline/subline/badge 会把合法稿误判非法）。 */
         const pick = (...keys: string[]): string => {
           for (const key of keys) {
@@ -6059,8 +6086,9 @@ ${styleAccountLines ? `账号视觉锤（必须遵守）：\n${styleAccountLines
   for (const plan of variantPlans) {
     try {
       if (plan.passthrough) {
-        const technical = runCli(COLOR_CLI, ["grade", "--in", variantSource, "--out", plan.output, "--no-auto", "--no-verify", "--no-defects"]);
-        if (!technical.ok) throw new Error(`VARIANT_TECHNICAL_COLOR_FAILED: ${technical.out}`);
+        copyFileSync(variantSource, plan.output);
+        if (sha256FileSync(plan.output) !== variantColorSourceSha256 || sha256FileSync(variantSource) !== variantColorSourceSha256)
+          throw new Error("VARIANT_ORIGINAL_COPY_CHANGED");
       } else {
         /** 调色变体走同一个调色工位（与母版一致的口径，避免"变体用了另一套引擎"） */
         const grade = runCli(COLOR_CLI, [...plan.gradeArgs, "--out", plan.output]);
@@ -6116,6 +6144,8 @@ ${styleAccountLines ? `账号视觉锤（必须遵守）：\n${styleAccountLines
         id: plan.variant.id, label: plan.variant.label, path: plan.output,
         sha256: sha256FileSync(plan.output),
         note: plan.variant.note, gradeProfile: plan.variant.gradeProfile,
+        gradeIntensity: plan.variant.gradeIntensity, gradeLut: plan.variant.gradeLut ?? null,
+        colorSourceSha256: variantColorSourceSha256, colorDecision: plan.variant.colorDecision,
         width: Number(info.width), height: Number(info.height),
         cover: variantCover, bgm: variantBgm,
         coverDesign: styleCoverPlans.get(plan.variant.id) ?? null,
@@ -6130,6 +6160,7 @@ ${styleAccountLines ? `账号视觉锤（必须遵守）：\n${styleAccountLines
       throw err;
     }
   }
+  if (sha256FileSync(variantSource) !== variantColorSourceSha256) throw new Error("VARIANT_COMMON_SOURCE_CHANGED");
   const gate = recordGate({
     stepKey: "deliver",
     sourceStage: "deliver",
@@ -6151,7 +6182,7 @@ ${styleAccountLines ? `账号视觉锤（必须遵守）：\n${styleAccountLines
     evidence: {
       variants: variantManifest.map((v) => ({
         id: v.id, sha256: v.sha256.slice(0, 16),
-        gradeProfile: v.gradeProfile,
+        gradeProfile: v.gradeProfile, gradeIntensity: v.gradeIntensity, gradeLut: v.gradeLut,
         cover: v.cover ? { path: v.cover.path, sha256: v.cover.sha256.slice(0, 16) } : null,
         bgm: v.bgm ? { track: v.bgm.track, sha256: v.bgm.sha256.slice(0, 16), measuredBpm: v.bgm.measuredBpm, gridErrorMs: v.bgm.gridErrorMs } : null,
       })),
@@ -6223,6 +6254,8 @@ ${styleAccountLines ? `账号视觉锤（必须遵守）：\n${styleAccountLines
     samples: [],
     at: stamp()
   }), assets: assetHashes, generationQuality: deliveryGenerationQuality.manifest,
+  colorPolicy: { version: AI_COLOR_POLICY_VERSION, masterMode: COLOR_MODE,
+    commonSourceSha256: variantColorSourceSha256, independentVariants: true },
   qualityReport: { path: relative(OUT_DIR, deliveryGenerationQuality.qualityFile.path), sha256: deliveryGenerationQuality.qualityFile.sha256 }, quality: {
     tier: QUALITY, sourceResolution: SOURCE_RESOLUTION, outputResolution: OUTPUT_RESOLUTION,
     width: OUTPUT_SIZE.width, height: OUTPUT_SIZE.height,
