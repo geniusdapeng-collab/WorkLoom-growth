@@ -155,6 +155,11 @@ test('真实CLI原声镜头复用保留，后期仅compose/master也能正式产
   const f = fixture(t, { audio: true }); const result = run(f);
   preserve(f, result, 'native-audio'); assert.equal(result.status, 0, result.stdout + result.stderr); assertOriginal(f);
   const actual = rows(f).findLast((entry) => entry.stage === 'master'); assert.ok(actual?.ok);
+  const pointer = JSON.parse(readFileSync(join(f.out, 'current.json')));
+  const manifest = JSON.parse(readFileSync(pointer.manifest));
+  assert.equal(manifest.masterOnly, true);
+  assert.deepEqual(manifest.variants, []);
+  assert.equal(rows(f).some((entry) => entry.stage === 'deliver'), false);
   const streams = JSON.parse(spawnSync(FFPROBE, ['-v', 'error', '-show_streams', '-of', 'json', actual.artifact], { encoding: 'utf8' }).stdout);
   assert.ok(streams.streams.some((stream) => stream.codec_type === 'audio'));
 });
