@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "workloom.repository/v1",
+  "logicalId": "WorkLoom-growth",
+  "productId": "workloom-ai-growth",
+  "lane": "experiment",
+  "primaryPlatform": "github",
+  "github": {
+    "repository": "geniusdapeng-collab/WorkLoom-growth",
+    "url": "https://github.com/geniusdapeng-collab/WorkLoom-growth",
+    "branch": "main"
+  },
+  "cnb": {
+    "repository": "workloom-ai/WorkLoom-growth",
+    "url": "https://cnb.cool/workloom-ai/WorkLoom-growth",
+    "branch": "main"
+  },
+  "mirrorPolicy": {
+    "platform": "cnb",
+    "mode": "deferred",
+    "automaticProductSync": false,
+    "configBackupBranchPrefix": "workloom/config-backup/"
+  },
+  "baseSync": {
+    "receive": "subscribed",
+    "reflux": "none",
+    "pathPrefix": "",
+    "extraExclude": [],
+    "uiRolloutWave": "W3B",
+    "industryExtensionPaths": [
+      "apps/*/src/audio/**",
+      "apps/*/src/components/AgentAvatar.tsx",
+      "apps/*/src/components/Floor3D.tsx",
+      "apps/*/src/components/SimBanner.tsx",
+      "apps/*/src/components/ValueCounters.tsx",
+      "apps/*/src/components/hud/**",
+      "apps/*/src/components/loomball/**",
+      "apps/*/src/components/mate-guide/**",
+      "apps/*/src/components/star-ring/**",
+      "apps/*/src/components/welcomeScripts.ts",
+      "apps/*/src/lib/**",
+      "apps/*/src/onboarding/**",
+      "apps/*/src/pages/**",
+      "apps/*/src/pages/p0/**",
+      "apps/*/src/shell/**",
+      "apps/*/vite.config.ts",
+      "apps/*/vitest.config.ts",
+      "apps/web/src/App.tsx",
+      "apps/web/src/components/MateWelcome.tsx",
+      "apps/web/src/components/SkillDistBanner.tsx",
+      "apps/web/src/components/Stage3D.tsx",
+      "apps/web/src/components/WelcomeCeremony.tsx",
+      "apps/web/src/components/loommate/**",
+      "apps/web/src/lib/display.test.ts",
+      "apps/web/src/lib/display.ts",
+      "apps/web/src/pages/accounts/**",
+      "apps/web/src/pages/dev/**",
+      "apps/web/src/pages/p1/**",
+      "apps/web/src/pages/p2/**",
+      "apps/web/src/pages/p21/**",
+      "apps/web/src/pages/p26/**",
+      "apps/web/src/pages/p3/**",
+      "apps/web/src/pages/p5/**",
+      "apps/web/src/pages/p6/**",
+      "apps/web/src/pages/p8/**",
+      "apps/web/src/shell/IndustryRoutes.test.tsx",
+      "apps/web/src/voice/**",
+      "apps/webb/src/App.tsx",
+      "apps/webb/src/Auth.tsx"
+    ],
+    "tolerateExtensionSnapshotOverlap": true,
+    "adoptBaseClientPaths": [
+      "apps/*/package.json"
+    ],
+    "rolloutResumeNote": "2026-09-30 解除挂起（恢复 W3B）：协议 §10.3「实验车道受管文件分叉容差」已落地，本仓 lane=experiment 默认开启；本会话把 industryExtensionPaths 由 23 条补齐到 39 条（2026-09-20 之后长出的 lib/audio/loomball/mate-guide/onboarding/pages/shell/vite|vitest 配置等），并显式声明 apps/*/package.json 为「采纳基座版」。实测升级计划 ready=true：退管 71 条、更新 4 文件 + 新建 styles/subtitle.css。"
+  },
+  "registry": {
+    "repository": "geniusdapeng-collab/workloom-im",
+    "path": "sync/repository-registry.json"
+  }
+}
