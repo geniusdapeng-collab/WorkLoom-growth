@@ -13,12 +13,14 @@ describe("DeepSeek token budget", () => {
     expect(deepSeekInputTokenBudget(16_384)).toBe(1_032_192);
     expect(deepSeekInputTokenBudget(393_216)).toBe(655_360);
   });
-  it("uses documented text ratios and a conservative symbol estimate", () => {
+
+  it("uses the documented text ratios and a conservative symbol estimate", () => {
     expect(estimateDeepSeekTokens("你好")).toBe(2);
     expect(estimateDeepSeekTokens("abcd")).toBe(2);
     expect(estimateDeepSeekTokens("{")).toBe(1);
     expect(estimateDeepSeekTokens("a\n中{}")).toBe(4);
   });
+
   it("rejects output budgets outside the official range", () => {
     expect(() => deepSeekInputTokenBudget(-1)).toThrow("DEEPSEEK_OUTPUT_BUDGET_INVALID");
     expect(() => deepSeekInputTokenBudget(393_217)).toThrow("DEEPSEEK_OUTPUT_BUDGET_INVALID");

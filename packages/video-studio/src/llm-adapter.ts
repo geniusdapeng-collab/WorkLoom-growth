@@ -13,10 +13,13 @@
  * 真实计量 + model.call 事件留痕 + 降级链），vendor 只读纪律不破。
  */
 import {
-  deepSeekInputTokenBudget,
-  estimateDeepSeekTokens,
-  isDeepSeekFlashModel,
-  routeSmart, type EventSink, type ModelPolicy, type ModelProvider, type PlanId,
+  canonicalDeepSeekModel,
+  OpenAiCompatibleProvider,
+  routeSmart,
+  type EventSink,
+  type ModelPolicy,
+  type ModelProvider,
+  type PlanId,
 } from "@workloom/base/model-router";
 import { existsSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -26,7 +29,6 @@ import {
   resolveOpenAiCompatibleBaseUrl,
   resolveVideoApiKey,
   resolveVideoModel,
-  resolveVideoNonThinking,
 } from "./llm-config.js";
 
 export interface LLMReasonOptions {
@@ -38,6 +40,9 @@ export interface LLMReasonOptions {
   forceJson?: boolean;
   responseFormat?: { type: string };
   thinking?: Record<string, unknown>;
+  signal?: AbortSignal;
+  /** Optional registered scene. Vendor callers may leave this unset. */
+  scene?: string;
 }
 
 export interface LLMReasonResult {
@@ -57,8 +62,9 @@ export interface WorkloomLLMEngineConfig {
   fastModel?: string;
   timeoutMs?: number;
   maxTokens?: number;
-  /** Video text-pipeline reasoning policy; Flash defaults to non-thinking. */
-  nonThinking?: boolean;
+  /** Default scene for bridged vendor calls. */
+  scene?: string;
+  fetchImpl?: typeof fetch;
   /**
    * v3.0 收口：注入路由配置后，全部 LLM 调用经 routeSmart
    * （场景 preproduction；opts.model===fastModel 的快速调用强制 L1 轻量档）——
@@ -73,15 +79,9 @@ export interface WorkloomLLMEngineConfig {
     scene?: string;
     /** Deployment-level model pin. It bypasses tier substitution and fallback. */
     forceModel?: string;
-    /** Deployment policy for OpenAI-compatible reasoning models. */
+    /** @deprecated Thinking is owned by scene policy. */
     nonThinking?: boolean;
   };
-}
-
-interface ChatCompletionResponse {
-  choices?: Array<{ message?: { content?: string } }>;
-  usage?: { prompt_tokens?: number; completion_tokens?: number };
-  error?: { message?: string };
 }
 
 export class WorkloomLLMEngine {
@@ -100,10 +100,12 @@ export class WorkloomLLMEngine {
     this.cfg = {
       fastModel: config.model,
       timeoutMs: 180_000,
-      maxTokens: 8192,
-      nonThinking: config.nonThinking ?? resolveVideoNonThinking(config.model),
+      maxTokens: config.maxTokens ?? 0,
+      scene: config.scene ?? "video.preproduction.plan",
+      fetchImpl: config.fetchImpl ?? fetch,
       ...config
     };
+    this.cfg.model = canonicalDeepSeekModel(this.cfg.model);
   }
 
   /** v3.0 收口：装配后注入路由配置（宿主侧 seam；vendor 无感） */
@@ -121,151 +123,94 @@ export class WorkloomLLMEngine {
       baseUrl,
       apiKey,
       model,
-      nonThinking: resolveVideoNonThinking(model, env),
     });
   }
 
   private async callChat(prompt: string, opts: LLMReasonOptions): Promise<LLMReasonResult> {
-    const activeModel = opts.model ?? this.cfg.model;
-    if (isDeepSeekFlashModel(activeModel)) {
-      const outputTokens = opts.maxTokens ?? this.cfg.maxTokens;
-      const inputTokens = estimateDeepSeekTokens([opts.systemPrompt ?? "", prompt].join("\n"));
-      try {
-        if (inputTokens > deepSeekInputTokenBudget(outputTokens)) {
-          return {
-            success: false,
-            error: `DEEPSEEK_CONTEXT_EXCEEDED: estimated ${inputTokens} input tokens + ${outputTokens} output tokens`,
-            retryable: false,
-          };
-        }
-      } catch (error) {
-        return { success: false, error: error instanceof Error ? error.message : String(error), retryable: false };
-      }
-    }
-    // v3.0 收口：router 注入 → 经 routeSmart（场景 preproduction；fastModel 快速调用强制 L1）
-    if (this.cfg.router) {
-      const scene = this.cfg.router.scene ?? "preproduction";
-      const isFast = !!opts.model && opts.model === this.cfg.fastModel && opts.model !== this.cfg.model;
-      try {
-        const r = await routeSmart(
-          {
-            action: scene, scene, plan: this.cfg.router.plan,
-            forceTier: isFast ? "L1" : undefined,
-            ...(this.cfg.router.forceModel ? { forceModel: this.cfg.router.forceModel } : {}),
-            generation: {
-              temperature: opts.temperature ?? 1,
-              topP: opts.topP ?? 0.95,
-              maxTokens: opts.maxTokens ?? this.cfg.maxTokens,
-              responseFormat: opts.forceJson ? { type: "json_object" } : opts.responseFormat,
-              thinking: (this.cfg.router.nonThinking ?? this.cfg.nonThinking)
-                ? { type: "disabled" }
-                : opts.thinking && typeof opts.thinking === "object" ? opts.thinking : undefined,
-            },
-            messages: [
-              {
-                role: "system",
-                content: opts.systemPrompt
-                  ?? (opts.forceJson
-                    ? "你是一个严格输出 JSON 的助手。除合法 JSON 外不要输出任何额外文字。"
-                    : "你是一个可靠的助手。"),
-              },
-              { role: "user", content: prompt },
-            ],
-          },
-          this.cfg.router.providers,
-          this.cfg.router.sink,
-          { policy: this.cfg.router.policy },
-        );
-        if ((r.kind === "answered" || r.kind === "circuit_broken" || r.kind === "reused") && r.text) {
-          return {
-            success: true,
-            content: r.text,
-            usage: r.modelTrace
-              ? { promptTokens: undefined, completionTokens: undefined }
-              : undefined,
-          };
-        }
-        // 全链不可用/排队 → vendor 熔断纪律接管（retryable 让其按既有策略降级/重试）
-        return { success: false, error: `模型路由不可用（${r.kind}）`, retryable: true };
-      } catch (err) {
-        return { success: false, error: err instanceof Error ? err.message : String(err), retryable: true };
-      }
-    }
-    const body: Record<string, unknown> = {
-      model: opts.model ?? this.cfg.model,
-      messages: [
-        {
-          role: "system",
-          content:
-            opts.systemPrompt ??
-            (opts.forceJson
-              ? "你是一个严格输出 JSON 的助手。除合法 JSON 外不要输出任何额外文字。"
-              : "你是一个可靠的助手。")
-        },
-        { role: "user", content: prompt }
-      ],
-      temperature: opts.temperature ?? 1,
-      top_p: opts.topP ?? 0.95,
-      max_tokens: opts.maxTokens ?? this.cfg.maxTokens
-    };
-    if (opts.forceJson) body.response_format = { type: "json_object" };
-    else if (opts.responseFormat) body.response_format = opts.responseFormat;
-    if (opts.thinking && typeof opts.thinking === "object") body.thinking = opts.thinking;
-    else if (this.cfg.nonThinking) body.thinking = { type: "disabled" };
+    return this.requestChat(prompt, opts);
+  }
 
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), this.cfg.timeoutMs);
+  private async requestChat(prompt: string, opts: LLMReasonOptions): Promise<LLMReasonResult> {
+    const activeModel = canonicalDeepSeekModel(opts.model ?? this.cfg.model);
+    const scene = opts.scene
+      ?? this.cfg.router?.scene
+      ?? this.cfg.scene;
+    const providers = this.cfg.router?.providers ?? new Map<string, ModelProvider>([[
+      activeModel,
+      new OpenAiCompatibleProvider(activeModel, {
+        baseUrl: this.cfg.baseUrl,
+        apiKey: this.cfg.apiKey,
+        fetchImpl: this.cfg.fetchImpl,
+      }),
+    ]]);
+    const sink: EventSink = this.cfg.router?.sink ?? {
+      recordModelTrace: async () => undefined,
+      recordDegradation: async () => undefined,
+      recordCircuitBreak: async () => undefined,
+    };
     try {
-      const resp = await fetch(`${this.cfg.baseUrl.replace(/\/$/, "")}/chat/completions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.cfg.apiKey}`
+      const result = await routeSmart(
+        {
+          action: scene,
+          scene,
+          plan: this.cfg.router?.plan,
+          ...(this.cfg.router?.forceModel
+            ? { forceModel: canonicalDeepSeekModel(this.cfg.router.forceModel) }
+            : {}),
+          timeoutMs: this.cfg.timeoutMs,
+          signal: opts.signal,
+          // Vendor max-token values are historical product guesses. The
+          // dispatcher calculates the complete legal window instead.
+          generation: {
+            temperature: opts.temperature,
+            topP: opts.topP,
+          },
+          messages: [
+            {
+              role: "system",
+              content: opts.systemPrompt
+                ?? (opts.forceJson
+                  ? "你是一个严格输出 JSON 的助手。除合法 JSON 外不要输出任何额外文字。"
+                  : "你是一个可靠的助手。"),
+            },
+            { role: "user", content: prompt },
+          ],
         },
-        body: JSON.stringify(body),
-        signal: controller.signal
-      });
-      if (!resp.ok) {
+        providers,
+        sink,
+        { policy: this.cfg.router?.policy },
+      );
+      if ((result.kind === "answered" || result.kind === "circuit_broken" || result.kind === "reused")
+        && result.text) {
         return {
-          success: false,
-          error: `LLM HTTP ${resp.status}`,
-          retryable: resp.status >= 500 || resp.status === 429
+          success: true,
+          content: result.text,
+          usage: result.providerResult
+            ? {
+                promptTokens: result.providerResult.promptTokens,
+                completionTokens: result.providerResult.completionTokens,
+              }
+            : undefined,
         };
       }
-      const json = (await resp.json()) as ChatCompletionResponse;
-      const content = json.choices?.[0]?.message?.content ?? "";
-      if (!content) return { success: false, error: "LLM 返回 content 为空", retryable: true };
       return {
-        success: true,
-        content,
-        usage: {
-          promptTokens: json.usage?.prompt_tokens,
-          completionTokens: json.usage?.completion_tokens
-        }
+        success: false,
+        error: result.failure?.reason
+          ?? result.degraded?.at(-1)?.reason
+          ?? `模型路由不可用（${result.kind}）`,
+        retryable: false,
       };
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      return { success: false, error: msg, retryable: true };
-    } finally {
-      clearTimeout(timer);
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+        retryable: false,
+      };
     }
   }
 
   private static extractJson(text: string): unknown {
-    const trimmed = text.trim();
-    const fence = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/);
-    const candidate = fence?.[1] ?? trimmed;
-    const start = candidate.search(/[{[]/);
-    if (start === -1) throw new Error("响应中未找到 JSON");
-    const slice = candidate.slice(start);
-    // 从最外层括号尝试整体解析，失败则回退到第一个完整对象
-    try {
-      return JSON.parse(slice);
-    } catch {
-      const end = slice.lastIndexOf(slice.startsWith("[") ? "]" : "}");
-      if (end > 0) return JSON.parse(slice.slice(0, end + 1));
-      throw new Error("JSON 提取失败");
-    }
+    return JSON.parse(text.trim());
   }
 
   async reason(prompt: string, options: LLMReasonOptions = {}): Promise<LLMReasonResult> {
@@ -281,7 +226,7 @@ export class WorkloomLLMEngine {
           ...result,
           success: false,
           error: `JSON 解析失败: ${err instanceof Error ? err.message : String(err)}`,
-          retryable: true
+          retryable: false
         };
       }
     }
@@ -307,10 +252,35 @@ export class WorkloomLLMEngine {
 
   async reasonStructured(
     prompt: string,
-    _schema: unknown,
+    schema: unknown,
     options: LLMReasonOptions = {}
   ): Promise<LLMReasonResult> {
-    return this.reason(prompt, { ...options, forceJson: true });
+    let schemaText: string | undefined;
+    try {
+      schemaText = JSON.stringify(schema, null, 2);
+    } catch (error) {
+      return {
+        success: false,
+        error: `结构化输出结构不可序列化: ${error instanceof Error ? error.message : String(error)}`,
+        retryable: false,
+      };
+    }
+    // Match the vendor interface: its caller supplies the actual IDs and field
+    // template here, independently of any illustrative examples in the prompt.
+    const structuredPrompt = [
+      prompt,
+      "",
+      "【硬性输出要求】",
+      "1. 只输出合法 JSON",
+      "2. 不要输出 markdown 代码块",
+      "3. 不要输出解释、前言、结尾",
+      "4. 所有字段必须存在",
+      "5. 输出必须能被 JSON.parse 直接解析",
+      "",
+      "【目标JSON结构示例】",
+      schemaText,
+    ].join("\n");
+    return this.reason(structuredPrompt, { ...options, forceJson: true });
   }
 
   /**
@@ -416,7 +386,7 @@ export class WorkloomLLMEngine {
  * vendor 自建 LLMEngine 的「原型桥」（2026-09-21 真机修复）
  *
  * 问题：vendor 多条链路（剧本引擎、需求洞察子引擎、提示词/微动作…）会**自己** `new LLMEngine({...})`，
- * 读的是 vendor 自己的环境变量（LLM_ENDPOINT / KIMI_API_KEY …）与模型名（kimi-k2p6）。
+ * 读的是 vendor 自己的旧环境变量与历史模型名。
  * 宿主注入的适配器只在主流水线生效，于是这些环节全部失败：
  *   `[ScriptGenerator] LLM引擎返回失败: API Key 未配置` → 剧本生成重试 3 次 → 预生产 pipeline.failed。
  *
@@ -447,9 +417,11 @@ export function installVendorEngineBridge(engine: WorkloomLLMEngine): () => void
     redirect("reasonRaw", (prompt: unknown, options: unknown = {}) =>
       engine.reasonRaw(String(prompt ?? ""), options as LLMReasonOptions));
     redirect("reasonStructured", (prompt: unknown, schema: unknown, options: unknown = {}) =>
-      engine.reasonStructured(String(prompt ?? ""), { ...(options as LLMReasonOptions), ...(schema ? { responseFormat: { type: "json_object" } } : {}) }));
-    redirect("chat", (systemPrompt: unknown, userPrompt: unknown, temperature: unknown = 1) =>
-      engine.chat(String(systemPrompt ?? ""), String(userPrompt ?? ""), Number(temperature) || 1));
+      engine.reasonStructured(String(prompt ?? ""), schema, options as LLMReasonOptions));
+    redirect("chat", (systemPrompt: unknown, userPrompt: unknown, temperature: unknown = 1) => {
+      const parsedTemperature = Number(temperature);
+      return engine.chat(String(systemPrompt ?? ""), String(userPrompt ?? ""), Number.isFinite(parsedTemperature) ? parsedTemperature : 1);
+    });
     redirect("generate", (prompt: unknown, options: unknown = {}) =>
       engine.generate(String(prompt ?? ""), options as LLMReasonOptions));
     return () => {

@@ -50,6 +50,7 @@ import { acceptRenderedShot, findRenderedShotAcceptance, RENDERED_SHOT_ACCEPTANC
 import { buildProducerReviewContract, type ProducerGateOptions } from "../../packages/video-studio/src/producer-gate.js";
 import { assessPortraitDecision, selectPortraitDecisionRecord } from "../../packages/video-studio/src/portrait-decision.js";
 import { executeRevision } from "../../packages/video-studio/src/revision-executor.js";
+import { OpenAiCompatibleProvider } from "../../packages/base/model-router/providers.js";
 import { assessVoiceArtifact, fingerprintFile, fingerprintText, promoteDubCandidate, type VoiceArtifactRecord } from "./film-voice-artifact.js";
 import {
   assertSelectedShotStageScope, captureLineageInputs, createLineageReceipt, fingerprintArtifact, latestLineageRecord, productionHash,
@@ -5131,33 +5132,19 @@ async function requestCoverDesign(
   prompt: string,
   timeoutMs = 45_000
 ): Promise<string> {
-  const body: Record<string, unknown> = {
-    model: config.model,
-    messages: [
-      { role: "system", content: "你是 WorkLoom 的封面设计师，只输出符合 schema 的 JSON 设计稿，不写解释文字。" },
-      { role: "user", content: prompt }
-    ],
-    temperature: 0,
-    response_format: { type: "json_object" }
-  };
-  if (/api\.deepseek\.com/i.test(config.baseUrl)) body.thinking = { type: "disabled" };
-  const response = await fetch(`${config.baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: { "content-type": "application/json", authorization: `Bearer ${config.apiKey}` },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(timeoutMs)
+  const provider = new OpenAiCompatibleProvider(config.model, {
+    baseUrl: config.baseUrl,
+    apiKey: config.apiKey,
   });
-  const text = await response.text();
-  if (!response.ok) throw new Error(`封面设计师调用失败 HTTP ${response.status}：${text.slice(0, 200)}`);
-  let parsed: { choices?: Array<{ message?: { content?: string } }> };
-  try {
-    parsed = JSON.parse(text) as typeof parsed;
-  } catch {
-    throw new Error(`封面设计师响应不是 JSON：${text.slice(0, 160)}`);
-  }
-  const content = parsed.choices?.[0]?.message?.content ?? "";
-  if (!content.trim()) throw new Error("封面设计师返回空稿件");
-  return content;
+  const result = await provider.chat([
+    { role: "system", content: "你是 WorkLoom 的封面设计师，只输出符合 schema 的 JSON 设计稿，不写解释文字。" },
+    { role: "user", content: prompt },
+  ], {
+    scene: "video.cover.design",
+    timeoutMs,
+    retries: 0,
+  });
+  return result.text;
 }
 
 /* ---------- ⑨ 封面（请求设计稿 → 单次本地合成 → 输出回执） ---------- */
