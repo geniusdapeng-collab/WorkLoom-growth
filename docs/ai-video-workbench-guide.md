@@ -1,7 +1,7 @@
 # WorkLoom Growth 视频调用指南：AI 工作台先读，再执行
 
 > guideVersion: 2026-10-15.2
-> 适用仓库：`workloom-ai/WorkLoom-growth`；本版范围：成功原片默认接受和本仓正式后期；实际源码 SHA 以本次冻结交付记录为准。
+> 适用仓库：`geniusdapeng-collab/WorkLoom-growth`；本版范围：成功原片默认接受和本仓正式后期；实际源码 SHA 以本次冻结交付记录为准。
 > 读者：Codex、DeepSeek Harness 及能调用本仓 CLI / stdio MCP 的 AI 工作台。
 
 本指南把已成功视频作业的经验固化为调用纪律，帮助工作台从用户原话走到系统前期、渲染、后期和交付核验。先读取本仓能力，冻结人、商品、平台、时长、账号调性、声音与特殊要求，再走现有官方流程。不能把另一个仓库的功能、成片或测试结果算成本仓能力。
