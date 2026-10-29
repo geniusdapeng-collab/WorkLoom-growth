@@ -7,7 +7,7 @@ import { CapabilityError } from "../../../scripts/agent-capabilities.mjs";
 export const GUIDE_CAPABILITY_ID = "growth.video.workbench.guide";
 export const GUIDE_PATH = "docs/ai-video-workbench-guide.md";
 export const MAX_GUIDE_BYTES = 128 * 1024;
-const REPOSITORY = "workloom-ai/WorkLoom-growth";
+const REPOSITORY = "geniusdapeng-collab/WorkLoom-growth";
 const PRODUCT_ROOT = resolve(import.meta.dirname, "..", "..", "..");
 
 function within(root, candidate) {
