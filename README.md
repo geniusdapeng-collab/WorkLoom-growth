@@ -1,25 +1,3 @@
-# WorkLoom Growth · 获客工作台实验车道
-
-**把增长目标交给具体岗位，从一个选题组织社媒、GEO 和视频交付。**
-
-Growth 面向内容运营和增长团队。项目负责人可以分派任务和核对交接记录。内容团队可沿视频工位推进脚本、渲染、后期和交付。渠道团队可以用行业包组织选题、生成式搜索能见度、线索和复盘，再按部署情况连接渠道和数据源。
-
-## 一项内容任务怎样推进
-
-| 环节 | 看什么 |
-| --- | --- |
-| 发现机会 | [情报融合流程](bundles/geo-growth/pipelines/intel-fusion.yml)组织社媒与 GEO 线索 |
-| 共用选题 | [双域内容流程](bundles/geo-growth/pipelines/dual-content-factory.yml)组织两类内容作业，同一个主题可以进入视频工位 |
-| 推进制作 | [视频工作台指南](docs/ai-video-workbench-guide.md)说明如何保留需求和素材约束，按阶段确认实际产物 |
-| 跟踪与复盘 | [能见度监测流程](bundles/geo-growth/pipelines/visibility-watch.yml)是作业定义。实际跟踪需要数据源、工具和回执 |
-
-Growth 是 WorkLoom 的独立实验车道，默认使用 `geo-growth` 行业包。有真实任务时按本仓入口和实际实例核对产品身份、成员权限及供应商配置。 [产品清单](product.manifest.json) · [能力导览](docs/capabilities.auto.md) · [Agent 接入](docs/AGENT-CLIENTS.md)
-
-## 原版说明与 Agent 指引
-
-<details>
-<summary>展开原版 README、运行和开发说明</summary>
-
 # WorkLoom Growth · 获客增长系统（实验车道）
 
 WorkLoom Growth 面向企业增长与内容运营团队，把目标、数字员工岗位、内容生产、任务协作和过程记录放进同一个工作空间。产品目标是连接意图洞察、社媒与 GEO 触达、线索承接、转化和复盘；当前代码中，**视频生产与交付有专用执行链，通用工作台和行业包提供组织与治理机制，部分增长工具仍处于声明或接入阶段**。
@@ -297,5 +275,3 @@ git diff --check
 ## 许可证
 
 主仓许可证见 [Apache-2.0 LICENSE](LICENSE)。第三方组件与 vendor 资产分别遵循其许可证和使用条件；清单见 [OPEN_SOURCE_COMPONENTS.md](docs/OPEN_SOURCE_COMPONENTS.md) 与 [oss-components.json](oss-components.json)。
-
-</details>
