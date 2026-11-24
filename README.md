@@ -1,8 +1,10 @@
 # WorkLoom Growth · 获客增长系统（实验车道）
 
-WorkLoom Growth 面向企业增长与内容运营团队，把目标、数字员工岗位、内容生产、任务协作和过程记录放进同一个工作空间。产品目标是连接意图洞察、社媒与 GEO 触达、线索承接、转化和复盘；当前代码中，**视频生产与交付有专用执行链，通用工作台和行业包提供组织与治理机制，部分增长工具仍处于声明或接入阶段**。
+给内容、渠道和增长团队试验获客作业的工作区。围绕一个经营目标，团队可以交给数字员工分工，先在视频 Studio 做出短片，再设计社媒与 GEO 触达、线索承接及复盘。
 
-[CNB 仓库](https://cnb.cool/workloom-ai/WorkLoom-growth) · [产品身份](product.manifest.json) · [代码入口导览](docs/capabilities.auto.md) · [开发指引](AGENTS.md) · [Apache-2.0](LICENSE)
+工作台可回看任务交接、视频制作阶段和交付记录。增长包配置了岗位、流程和围栏。生成式搜索监测、真实平台分发与成交归因需要各自的数据、连接器和授权。
+
+[GitHub 源码](https://github.com/geniusdapeng-collab/WorkLoom-growth) · [产品身份](product.manifest.json) · [代码入口导览](docs/capabilities.auto.md) · [开发指引](AGENTS.md) · [Apache-2.0](LICENSE)
 
 > 本页按当前源码说明“有什么、从哪里进入、还依赖什么”，不把岗位或技能数量当作已交付能力数，也不把模拟结果当作生产效果。旧方案、截图和演示 PPT 可帮助理解背景；发生差异时，以 manifest、当前路由和实际执行代码为准。
 
@@ -20,7 +22,7 @@ WorkLoom Growth 面向企业增长与内容运营团队，把目标、数字员�
 | 企业负责人、项目负责人 | 看清任务交给谁、交付什么、哪里待决定 | 工作台、任务线程、协作契约与组合看板组织交接和状态 | 看板和事件存在不等于营收归因已接通；演示订单不能当实际收入 |
 | 增长策略与渠道运营人员 | 同一选题用于社媒内容与 GEO，并积累可复用作业规范 | `geo-growth` 声明岗位、技能、围栏和管线，复用视频与视觉制作能力 | query 采集、能见度监测、线索评分和分发等专用工具仍需逐项接线与验收 |
 
-本仓身份是 `workloom-ai-growth`，角色为 `industry`，默认行业包为 `geo-growth`，属于 WorkLoom 的实验车道。它与 `workloom-growthtest`、`workloom-growthmatrix` 两个隔离副本是不同实例；不把其它仓库的实验能力合并算入本仓。酒店包是组合依赖和垂直业务样例，不代表这里已经接通真实 PMS、OTA、支付或所有酒店经营数据。来源：[product.manifest.json](product.manifest.json)、[主包 manifest](bundles/geo-growth/bundle.json)。
+这是 WorkLoom 的获客增长实验车道，产品标识为 `workloom-ai-growth`，默认行业包为 `geo-growth`。酒店行业包提供可组合的行业能力和业务样例。真实 PMS、OTA、支付和经营数据需按运行实例接入。 [产品清单](product.manifest.json) · [GEO 行业包](bundles/geo-growth/bundle.json)
 
 ## 功能状态：代码做到哪里
 
@@ -146,7 +148,7 @@ NATS/Redis 的事件总线库可在源码中找到，但当前主业务入口未
 ### 1. 克隆、依赖与专用数据库
 
 ```bash
-git clone https://cnb.cool/workloom-ai/WorkLoom-growth.git
+git clone https://github.com/geniusdapeng-collab/WorkLoom-growth.git
 cd WorkLoom-growth
 pnpm install --frozen-lockfile
 test -f .env || cp .env.example .env
